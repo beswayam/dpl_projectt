@@ -3,6 +3,7 @@
 # $ git help gitignore
 
 .metadata/
+data/
 bin/
 doc/
 
