@@ -93,14 +93,9 @@ public class BlastInterface extends JFrame {
 		gbc_lblEnterSeqeuence.gridy = 1;
 		contentPane.add(lblEnterSeqeuence, gbc_lblEnterSeqeuence);
 		
-<<<<<<< HEAD
-		// Adding logic to handle file selection for query sequence
+
 		final JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
-		btnInputSequenceUpload.setBackground(new Color(255, 255, 255));
-=======
-		JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
 		btnInputSequenceUpload.setBackground(Color.WHITE);
->>>>>>> fd56626ebd0980bf94845d983dec821b8ac6cdd3
 		btnInputSequenceUpload.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnInputSequenceUpload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -131,10 +126,8 @@ public class BlastInterface extends JFrame {
 		gbc_btnInputSequenceUpload.gridy = 3;
 		contentPane.add(btnInputSequenceUpload, gbc_btnInputSequenceUpload);
 		
-<<<<<<< HEAD
-		// Adding logic to handle file selection for database
-		final JButton btnUploadDatabase = new JButton("Upload Database (FASTA file)");
-=======
+
+		
 		JLabel lblUploadInputFastaFile = new JLabel("");
 		GridBagConstraints gbc_lblUploadInputFastaFile = new GridBagConstraints();
 		gbc_lblUploadInputFastaFile.insets = new Insets(0, 0, 5, 5);
@@ -142,9 +135,9 @@ public class BlastInterface extends JFrame {
 		gbc_lblUploadInputFastaFile.gridy = 3;
 		contentPane.add(lblUploadInputFastaFile, gbc_lblUploadInputFastaFile);
 		
-		JButton btnUploadDatabase = new JButton("Upload Database (FASTA file)");
+		// Adding logic to handle file selection for database
+		final JButton btnUploadDatabase = new JButton("Upload Database (FASTA file)");
 		btnUploadDatabase.setBackground(Color.WHITE);
->>>>>>> fd56626ebd0980bf94845d983dec821b8ac6cdd3
 		btnUploadDatabase.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnUploadDatabase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -179,14 +172,9 @@ public class BlastInterface extends JFrame {
 		gbc_lblEvalue.gridy = 5;
 		contentPane.add(lblEvalue, gbc_lblEvalue);
 		
-<<<<<<< HEAD
 		JComboBox<String> Evalue = new JComboBox<String>();
 		Evalue.setModel(new DefaultComboBoxModel<String>(new String[] {"1e-50", "1e-10", "1e-5", "1e-2", "1e-1", "1"}));
-=======
-		JComboBox Evalue = new JComboBox();
 		Evalue.setBackground(Color.WHITE);
-		Evalue.setModel(new DefaultComboBoxModel(new String[] {"1e-50", "1e-10", "1e-5", "1e-2", "1e-1", "1"}));
->>>>>>> fd56626ebd0980bf94845d983dec821b8ac6cdd3
 		Evalue.setSelectedIndex(3);
 		GridBagConstraints gbc_Evalue = new GridBagConstraints();
 		gbc_Evalue.anchor = GridBagConstraints.WEST;
@@ -204,14 +192,9 @@ public class BlastInterface extends JFrame {
 		gbc_lblMaxSeqs.gridy = 6;
 		contentPane.add(lblMaxSeqs, gbc_lblMaxSeqs);
 		
-<<<<<<< HEAD
 		JComboBox<String> MaxSeqs = new JComboBox<String>();
 		MaxSeqs.setModel(new DefaultComboBoxModel<String>(new String[] {"10", "50", "100", "250", "500", "1000", "5000"}));
-=======
-		JComboBox MaxSeqs = new JComboBox();
 		MaxSeqs.setBackground(Color.WHITE);
-		MaxSeqs.setModel(new DefaultComboBoxModel(new String[] {"10", "50", "100", "250", "500", "1000", "5000"}));
->>>>>>> fd56626ebd0980bf94845d983dec821b8ac6cdd3
 		MaxSeqs.setSelectedIndex(2);
 		GridBagConstraints gbc_MaxSeqs = new GridBagConstraints();
 		gbc_MaxSeqs.anchor = GridBagConstraints.WEST;
@@ -238,14 +221,10 @@ public class BlastInterface extends JFrame {
 			}
 		});
 		
-<<<<<<< HEAD
+
 		JComboBox<String> ScoringMatrix = new JComboBox<String>();
 		ScoringMatrix.setModel(new DefaultComboBoxModel<String>(new String[] {"BLOSUM45", "BLOSUM50", "BLOSUM62", "BLOSUM80", "BLOSUM90", "PAM30", "PAM70", "PAM250"}));
-=======
-		JComboBox ScoringMatrix = new JComboBox();
 		ScoringMatrix.setBackground(Color.WHITE);
-		ScoringMatrix.setModel(new DefaultComboBoxModel(new String[] {"BLOSUM45", "BLOSUM50", "BLOSUM62", "BLOSUM80", "BLOSUM90", "PAM30", "PAM70", "PAM250"}));
->>>>>>> fd56626ebd0980bf94845d983dec821b8ac6cdd3
 		ScoringMatrix.setSelectedIndex(2);
 		GridBagConstraints gbc_ScoringMatrix = new GridBagConstraints();
 		gbc_ScoringMatrix.fill = GridBagConstraints.BOTH;
