@@ -53,14 +53,14 @@ public class BlastInterface extends JFrame {
 	 */
 	public BlastInterface() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 998, 596);
+		setBounds(100, 100, 943, 676);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{102, 80, 80, 80, 80, 80, 80, 0};
+		gbl_contentPane.columnWidths = new int[]{102, 92, 80, 80, 80, 80, 201, 0};
 		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 27, 0, 0, 0, 0, 39, 0};
-		gbl_contentPane.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
@@ -68,6 +68,7 @@ public class BlastInterface extends JFrame {
 		txtBlastpAlgorithm.setFont(new Font("Tahoma", Font.BOLD, 18));
 		txtBlastpAlgorithm.setText("BLASTP ALGORITHM");
 		GridBagConstraints gbc_txtBlastpAlgorithm = new GridBagConstraints();
+		gbc_txtBlastpAlgorithm.gridwidth = 2;
 		gbc_txtBlastpAlgorithm.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
 		gbc_txtBlastpAlgorithm.insets = new Insets(5, 5, 5, 5);
 		gbc_txtBlastpAlgorithm.gridx = 2;
@@ -75,6 +76,7 @@ public class BlastInterface extends JFrame {
 		contentPane.add(txtBlastpAlgorithm, gbc_txtBlastpAlgorithm);
 		
 		JButton btnHelp = new JButton("Help");
+		btnHelp.setBackground(Color.WHITE);
 		GridBagConstraints gbc_btnHelp = new GridBagConstraints();
 		gbc_btnHelp.anchor = GridBagConstraints.EAST;
 		gbc_btnHelp.insets = new Insets(0, 0, 5, 0);
@@ -91,9 +93,14 @@ public class BlastInterface extends JFrame {
 		gbc_lblEnterSeqeuence.gridy = 1;
 		contentPane.add(lblEnterSeqeuence, gbc_lblEnterSeqeuence);
 		
+<<<<<<< HEAD
 		// Adding logic to handle file selection for query sequence
 		final JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
 		btnInputSequenceUpload.setBackground(new Color(255, 255, 255));
+=======
+		JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
+		btnInputSequenceUpload.setBackground(Color.WHITE);
+>>>>>>> fd56626ebd0980bf94845d983dec821b8ac6cdd3
 		btnInputSequenceUpload.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnInputSequenceUpload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -119,14 +126,25 @@ public class BlastInterface extends JFrame {
 		scrollPane.setViewportView(txtrInputsequence);
 		GridBagConstraints gbc_btnInputSequenceUpload = new GridBagConstraints();
 		gbc_btnInputSequenceUpload.fill = GridBagConstraints.BOTH;
-		gbc_btnInputSequenceUpload.anchor = GridBagConstraints.WEST;
 		gbc_btnInputSequenceUpload.insets = new Insets(5, 5, 10, 5);
 		gbc_btnInputSequenceUpload.gridx = 0;
 		gbc_btnInputSequenceUpload.gridy = 3;
 		contentPane.add(btnInputSequenceUpload, gbc_btnInputSequenceUpload);
 		
+<<<<<<< HEAD
 		// Adding logic to handle file selection for database
 		final JButton btnUploadDatabase = new JButton("Upload Database (FASTA file)");
+=======
+		JLabel lblUploadInputFastaFile = new JLabel("");
+		GridBagConstraints gbc_lblUploadInputFastaFile = new GridBagConstraints();
+		gbc_lblUploadInputFastaFile.insets = new Insets(0, 0, 5, 5);
+		gbc_lblUploadInputFastaFile.gridx = 1;
+		gbc_lblUploadInputFastaFile.gridy = 3;
+		contentPane.add(lblUploadInputFastaFile, gbc_lblUploadInputFastaFile);
+		
+		JButton btnUploadDatabase = new JButton("Upload Database (FASTA file)");
+		btnUploadDatabase.setBackground(Color.WHITE);
+>>>>>>> fd56626ebd0980bf94845d983dec821b8ac6cdd3
 		btnUploadDatabase.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnUploadDatabase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -140,11 +158,17 @@ public class BlastInterface extends JFrame {
 		});
 		GridBagConstraints gbc_btnUploadDatabase = new GridBagConstraints();
 		gbc_btnUploadDatabase.fill = GridBagConstraints.BOTH;
-		gbc_btnUploadDatabase.anchor = GridBagConstraints.WEST;
 		gbc_btnUploadDatabase.insets = new Insets(0, 5, 5, 5);
 		gbc_btnUploadDatabase.gridx = 0;
 		gbc_btnUploadDatabase.gridy = 4;
 		contentPane.add(btnUploadDatabase, gbc_btnUploadDatabase);
+		
+		JLabel lblUploadDatabaseFastaFile = new JLabel("");
+		GridBagConstraints gbc_lblUploadDatabaseFastaFile = new GridBagConstraints();
+		gbc_lblUploadDatabaseFastaFile.insets = new Insets(0, 0, 5, 5);
+		gbc_lblUploadDatabaseFastaFile.gridx = 1;
+		gbc_lblUploadDatabaseFastaFile.gridy = 4;
+		contentPane.add(lblUploadDatabaseFastaFile, gbc_lblUploadDatabaseFastaFile);
 		
 		JLabel lblEvalue = new JLabel("E-value Threshold:");
 		lblEvalue.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -155,8 +179,14 @@ public class BlastInterface extends JFrame {
 		gbc_lblEvalue.gridy = 5;
 		contentPane.add(lblEvalue, gbc_lblEvalue);
 		
+<<<<<<< HEAD
 		JComboBox<String> Evalue = new JComboBox<String>();
 		Evalue.setModel(new DefaultComboBoxModel<String>(new String[] {"1e-50", "1e-10", "1e-5", "1e-2", "1e-1", "1"}));
+=======
+		JComboBox Evalue = new JComboBox();
+		Evalue.setBackground(Color.WHITE);
+		Evalue.setModel(new DefaultComboBoxModel(new String[] {"1e-50", "1e-10", "1e-5", "1e-2", "1e-1", "1"}));
+>>>>>>> fd56626ebd0980bf94845d983dec821b8ac6cdd3
 		Evalue.setSelectedIndex(3);
 		GridBagConstraints gbc_Evalue = new GridBagConstraints();
 		gbc_Evalue.anchor = GridBagConstraints.WEST;
@@ -174,8 +204,14 @@ public class BlastInterface extends JFrame {
 		gbc_lblMaxSeqs.gridy = 6;
 		contentPane.add(lblMaxSeqs, gbc_lblMaxSeqs);
 		
+<<<<<<< HEAD
 		JComboBox<String> MaxSeqs = new JComboBox<String>();
 		MaxSeqs.setModel(new DefaultComboBoxModel<String>(new String[] {"10", "50", "100", "250", "500", "1000", "5000"}));
+=======
+		JComboBox MaxSeqs = new JComboBox();
+		MaxSeqs.setBackground(Color.WHITE);
+		MaxSeqs.setModel(new DefaultComboBoxModel(new String[] {"10", "50", "100", "250", "500", "1000", "5000"}));
+>>>>>>> fd56626ebd0980bf94845d983dec821b8ac6cdd3
 		MaxSeqs.setSelectedIndex(2);
 		GridBagConstraints gbc_MaxSeqs = new GridBagConstraints();
 		gbc_MaxSeqs.anchor = GridBagConstraints.WEST;
@@ -195,17 +231,24 @@ public class BlastInterface extends JFrame {
 		
 		JButton btnBLAST = new JButton("BLAST");
 		btnBLAST.setForeground(new Color(0, 0, 0));
-		btnBLAST.setBackground(new Color(255, 255, 255));
+		btnBLAST.setBackground(Color.WHITE);
 		btnBLAST.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		
+<<<<<<< HEAD
 		JComboBox<String> ScoringMatrix = new JComboBox<String>();
 		ScoringMatrix.setModel(new DefaultComboBoxModel<String>(new String[] {"BLOSUM45", "BLOSUM50", "BLOSUM62", "BLOSUM80", "BLOSUM90", "PAM30", "PAM70", "PAM250"}));
+=======
+		JComboBox ScoringMatrix = new JComboBox();
+		ScoringMatrix.setBackground(Color.WHITE);
+		ScoringMatrix.setModel(new DefaultComboBoxModel(new String[] {"BLOSUM45", "BLOSUM50", "BLOSUM62", "BLOSUM80", "BLOSUM90", "PAM30", "PAM70", "PAM250"}));
+>>>>>>> fd56626ebd0980bf94845d983dec821b8ac6cdd3
 		ScoringMatrix.setSelectedIndex(2);
 		GridBagConstraints gbc_ScoringMatrix = new GridBagConstraints();
+		gbc_ScoringMatrix.fill = GridBagConstraints.BOTH;
 		gbc_ScoringMatrix.anchor = GridBagConstraints.WEST;
 		gbc_ScoringMatrix.insets = new Insets(0, 0, 5, 5);
 		gbc_ScoringMatrix.gridx = 1;
