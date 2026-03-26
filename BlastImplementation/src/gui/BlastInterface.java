@@ -131,7 +131,7 @@ public class BlastInterface extends JFrame {
 		gbc_btnUploadDatabase.gridy = 4;
 		contentPane.add(btnUploadDatabase, gbc_btnUploadDatabase);
 		
-		JLabel lblUploadDatabaseFastaFile = new JLabel("");
+		JLabel lblUploadDatabaseFastaFile = new JLabel("New label");
 		GridBagConstraints gbc_lblUploadDatabaseFastaFile = new GridBagConstraints();
 		gbc_lblUploadDatabaseFastaFile.insets = new Insets(0, 0, 5, 5);
 		gbc_lblUploadDatabaseFastaFile.gridx = 1;
