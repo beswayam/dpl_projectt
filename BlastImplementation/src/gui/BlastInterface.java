@@ -21,6 +21,8 @@ import java.awt.Color;
 //Imports to handle file selection and windows file explorer
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import utilities.SequenceValidator;
 
 public class BlastInterface extends JFrame {
 	
@@ -100,10 +102,13 @@ public class BlastInterface extends JFrame {
 		btnInputSequenceUpload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser fileChooser = new JFileChooser();
+				FileNameExtensionFilter fasta_filter = new FileNameExtensionFilter("Fasta file", "fasta"); //Only shows files with .fasta extension in the file chooser
 				fileChooser.setDialogTitle("Select Query FASTA File");
+				fileChooser.setFileFilter(fasta_filter); //Applies extension filter;
 				if (fileChooser.showOpenDialog(BlastInterface.this)==JFileChooser.APPROVE_OPTION) {
 					queryFile = fileChooser.getSelectedFile();
 					btnInputSequenceUpload.setText("Selected: " + queryFile.getName());
+					//SequenceValidator path = new SequenceValidator(queryFile.getPath()); // checks the the sequence and gives the path 
 				}
 			}
 		});
@@ -117,7 +122,7 @@ public class BlastInterface extends JFrame {
 		gbc_scrollPane.gridy = 2;
 		contentPane.add(scrollPane, gbc_scrollPane);
 		
-		JTextArea txtrInputsequence = new JTextArea();
+		JTextArea txtrInputsequence = new JTextArea(); //  comment 
 		scrollPane.setViewportView(txtrInputsequence);
 		GridBagConstraints gbc_btnInputSequenceUpload = new GridBagConstraints();
 		gbc_btnInputSequenceUpload.fill = GridBagConstraints.BOTH;
@@ -218,6 +223,9 @@ public class BlastInterface extends JFrame {
 		btnBLAST.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String userInput = txtrInputsequence.getText(); 
+			    SequenceValidator sv = new SequenceValidator(userInput);
+			    System.out.println(sv.getSequence()); // tests the results in the console 
 			}
 		});
 		
