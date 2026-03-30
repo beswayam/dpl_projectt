@@ -64,6 +64,7 @@ public class BlastInterface extends JFrame {
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
+		// Header of the BLASTP tool 
 		txtBlastpAlgorithm = new JLabel();
 		txtBlastpAlgorithm.setFont(new Font("Tahoma", Font.BOLD, 18));
 		txtBlastpAlgorithm.setText("BLASTP ALGORITHM");
@@ -75,6 +76,7 @@ public class BlastInterface extends JFrame {
 		gbc_txtBlastpAlgorithm.gridy = 0;
 		contentPane.add(txtBlastpAlgorithm, gbc_txtBlastpAlgorithm);
 		
+		// Help button 
 		JButton btnHelp = new JButton("Help");
 		btnHelp.setBackground(Color.WHITE);
 		GridBagConstraints gbc_btnHelp = new GridBagConstraints();
@@ -83,7 +85,31 @@ public class BlastInterface extends JFrame {
 		gbc_btnHelp.gridx = 6;
 		gbc_btnHelp.gridy = 0;
 		contentPane.add(btnHelp, gbc_btnHelp);
+		btnHelp.addActionListener(e -> {
+		    JFrame helpFrame = new JFrame("BLASTP Help");
+		    helpFrame.setSize(400, 300);
+
+		    JTextArea textArea = new JTextArea();
+		    textArea.setText(
+		        "BLASTP Instructions:\n\n" +
+		        "1. Enter your sequence(s) in FASTA format in the text box or click the 'Upload Input Sequence (FASTA file)' button to upload your own file.\n" +
+		        "2. Click the upload database button if you want to upload your own database, or ignore to use UNIPROT-SWISSPROT databases.\n" +
+		        "3. Adjust the e-value threshold, maximum number of sequences, and scoring matrix if necessary, tool uses default otherwise.\n" +
+		        "4. Click 'BLAST'\n\n" +
+		        "Results will show similar protein sequences to your input sequence in your Downloads folder."
+		    );
+		    textArea.setEditable(false);
+		    textArea.setLineWrap(true);
+		    textArea.setWrapStyleWord(true);
+
+		    JScrollPane scrollPane = new JScrollPane(textArea);
+		    helpFrame.add(scrollPane);
+
+		    helpFrame.setLocationRelativeTo(null);
+		    helpFrame.setVisible(true);
+		});
 		
+		// Label for text box 
 		JLabel lblEnterSeqeuence = new JLabel("Enter sequence in FASTA format:");
 		lblEnterSeqeuence.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		GridBagConstraints gbc_lblEnterSeqeuence = new GridBagConstraints();
@@ -93,7 +119,7 @@ public class BlastInterface extends JFrame {
 		gbc_lblEnterSeqeuence.gridy = 1;
 		contentPane.add(lblEnterSeqeuence, gbc_lblEnterSeqeuence);
 		
-
+		// Button for upload input sequence (FASTA file) 
 		final JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
 		btnInputSequenceUpload.setBackground(Color.WHITE);
 		btnInputSequenceUpload.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -108,6 +134,7 @@ public class BlastInterface extends JFrame {
 			}
 		});
 		
+		// Scroll pane of the interface 
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
@@ -117,6 +144,7 @@ public class BlastInterface extends JFrame {
 		gbc_scrollPane.gridy = 2;
 		contentPane.add(scrollPane, gbc_scrollPane);
 		
+		// Text area to input sequence 
 		JTextArea txtrInputsequence = new JTextArea();
 		scrollPane.setViewportView(txtrInputsequence);
 		GridBagConstraints gbc_btnInputSequenceUpload = new GridBagConstraints();
@@ -127,7 +155,7 @@ public class BlastInterface extends JFrame {
 		contentPane.add(btnInputSequenceUpload, gbc_btnInputSequenceUpload);
 		
 
-		
+		// Label to show if file is actually FASTA
 		JLabel lblUploadInputFastaFile = new JLabel("");
 		GridBagConstraints gbc_lblUploadInputFastaFile = new GridBagConstraints();
 		gbc_lblUploadInputFastaFile.insets = new Insets(0, 0, 5, 5);
@@ -149,6 +177,8 @@ public class BlastInterface extends JFrame {
 				}
 			}
 		});
+		
+		// Upload Database button 
 		GridBagConstraints gbc_btnUploadDatabase = new GridBagConstraints();
 		gbc_btnUploadDatabase.fill = GridBagConstraints.BOTH;
 		gbc_btnUploadDatabase.insets = new Insets(0, 5, 5, 5);
@@ -156,6 +186,7 @@ public class BlastInterface extends JFrame {
 		gbc_btnUploadDatabase.gridy = 4;
 		contentPane.add(btnUploadDatabase, gbc_btnUploadDatabase);
 		
+		// Label for Database button 
 		JLabel lblUploadDatabaseFastaFile = new JLabel("New label");
 		GridBagConstraints gbc_lblUploadDatabaseFastaFile = new GridBagConstraints();
 		gbc_lblUploadDatabaseFastaFile.insets = new Insets(0, 0, 5, 5);
@@ -163,6 +194,7 @@ public class BlastInterface extends JFrame {
 		gbc_lblUploadDatabaseFastaFile.gridy = 4;
 		contentPane.add(lblUploadDatabaseFastaFile, gbc_lblUploadDatabaseFastaFile);
 		
+		// Label for E-value thresholds
 		JLabel lblEvalue = new JLabel("E-value Threshold:");
 		lblEvalue.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_lblEvalue = new GridBagConstraints();
@@ -172,6 +204,7 @@ public class BlastInterface extends JFrame {
 		gbc_lblEvalue.gridy = 5;
 		contentPane.add(lblEvalue, gbc_lblEvalue);
 		
+		// Drop-down box for E-value thresholds 
 		JComboBox<String> Evalue = new JComboBox<String>();
 		Evalue.setModel(new DefaultComboBoxModel<String>(new String[] {"1e-50", "1e-10", "1e-5", "1e-2", "1e-1", "1"}));
 		Evalue.setBackground(Color.WHITE);
@@ -183,6 +216,7 @@ public class BlastInterface extends JFrame {
 		gbc_Evalue.gridy = 5;
 		contentPane.add(Evalue, gbc_Evalue);
 		
+		// Label for maximum number of sequences
 		JLabel lblMaxSeqs = new JLabel("Maximum Number of Sequences:");
 		lblMaxSeqs.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_lblMaxSeqs = new GridBagConstraints();
@@ -192,6 +226,7 @@ public class BlastInterface extends JFrame {
 		gbc_lblMaxSeqs.gridy = 6;
 		contentPane.add(lblMaxSeqs, gbc_lblMaxSeqs);
 		
+		// Drop-down box for maximum number of sequences
 		JComboBox<String> MaxSeqs = new JComboBox<String>();
 		MaxSeqs.setModel(new DefaultComboBoxModel<String>(new String[] {"10", "50", "100", "250", "500", "1000", "5000"}));
 		MaxSeqs.setBackground(Color.WHITE);
@@ -203,6 +238,7 @@ public class BlastInterface extends JFrame {
 		gbc_MaxSeqs.gridy = 6;
 		contentPane.add(MaxSeqs, gbc_MaxSeqs);
 		
+		// Label for scoring matrix 
 		JLabel lblScoringMatric = new JLabel("Scoring Matrix:");
 		lblScoringMatric.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagConstraints gbc_lblScoringMatric = new GridBagConstraints();
@@ -212,6 +248,7 @@ public class BlastInterface extends JFrame {
 		gbc_lblScoringMatric.gridy = 7;
 		contentPane.add(lblScoringMatric, gbc_lblScoringMatric);
 		
+		// Blast button 
 		JButton btnBLAST = new JButton("BLAST");
 		btnBLAST.setForeground(new Color(0, 0, 0));
 		btnBLAST.setBackground(Color.WHITE);
@@ -221,7 +258,7 @@ public class BlastInterface extends JFrame {
 			}
 		});
 		
-
+		// Drop-down for scoring matrix 
 		JComboBox<String> ScoringMatrix = new JComboBox<String>();
 		ScoringMatrix.setModel(new DefaultComboBoxModel<String>(new String[] {"BLOSUM45", "BLOSUM50", "BLOSUM62", "BLOSUM80", "BLOSUM90", "PAM30", "PAM70", "PAM250"}));
 		ScoringMatrix.setBackground(Color.WHITE);

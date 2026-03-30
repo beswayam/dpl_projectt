@@ -52,6 +52,7 @@ public class MainInterface extends JFrame {
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
+		// Header of the main interface
 		JLabel lblPageHeader = new JLabel("Welcome! Please Pick a tool to use:");
 		lblPageHeader.setFont(new Font("Tahoma", Font.BOLD, 18));
 		GridBagConstraints gbc_lblPageHeader = new GridBagConstraints();
@@ -60,6 +61,7 @@ public class MainInterface extends JFrame {
 		gbc_lblPageHeader.gridy = 1;
 		contentPane.add(lblPageHeader, gbc_lblPageHeader);
 		
+		// BLASTP button 
 		JButton btnBlastInterface = new JButton("BLASTP");
 		btnBlastInterface.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
