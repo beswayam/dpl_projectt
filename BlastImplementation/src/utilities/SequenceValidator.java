@@ -1,6 +1,9 @@
 package utilities;
 import java.io.File;                  // File class
-import java.util.Scanner; 
+import java.util.Scanner;
+
+import javax.swing.JLabel;
+
 import java.io.FileNotFoundException; // Import this class to handle errors
 import java.nio.file.Path;
 import java.io.BufferedReader;
@@ -52,18 +55,22 @@ public class SequenceValidator {
 		this.sequence = header + this.sequence;
 	}
 	
+	
+	
 	public void residuCheck(){
 		int start = this.sequence.indexOf('\n') + 1;
-		int end = this.sequence.length();
+		String residues = this.sequence.substring(start).replaceAll("\\n", "").trim();
 		
-		for (int i = start; i < end; i++) {
-
-			if (this.sequence.charAt(i) != 'A' && this.sequence.charAt(i) != 'T' &&
-				this.sequence.charAt(i) != 'C' && this.sequence.charAt(i) != 'G' ) {
-				throw new IllegalArgumentException("Invalid input");
-			}
+		if (residues.matches("[ATGC]+")) {
+	        System.out.println("Valid DNA sequence — Length: " + residues.length());
+	    } else if (residues.matches("[ACDEFGHIKLMNPQRSTVWY]+")) {
+	        System.out.println("Valid protein sequence — Length: " + residues.length());
+	    } else {
+	        throw new IllegalArgumentException("Invalid input");
+	    }
+			
 		}
 	}
-}
+
 		
 	 

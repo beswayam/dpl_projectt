@@ -46,13 +46,22 @@ public class SequenceValidatorTest extends TestCase {
 	}
 	
 	public void testresiduCheck() {
-		// Wrong residus
-		String wrong_res1 = ">mysequence\nATwCATCG";
+//		 Wrong residus
+		String wrong_res1 = ">mysequence\nATzCATCG";
 		try {
 			SequenceValidator check1 = new SequenceValidator(wrong_res1);
 			fail();
 			} 
 		catch (IllegalArgumentException e) {
 		 	}
+		
+		String wrong_res2 = ">mysequence\nMRzkM";
+		try {
+			SequenceValidator check2 = new SequenceValidator(wrong_res2);
+			fail();
+			} 
+		catch (IllegalArgumentException e) {
+		 	}
 	}
+	
 }
