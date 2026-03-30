@@ -22,6 +22,10 @@ import java.awt.Color;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.BlastResult;
+import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.UniProtHit;
+import utilities.BlastpSearch;
 import utilities.SequenceValidator;
 
 public class BlastInterface extends JFrame {
@@ -260,9 +264,10 @@ public class BlastInterface extends JFrame {
 		btnBLAST.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String userInput = txtrInputsequence.getText(); 
-			    SequenceValidator sv = new SequenceValidator(userInput);
-			    System.out.println(sv.getSequence()); // tests the results in the console 
+				//String userInput = txtrInputsequence.getText(); 
+			    //SequenceValidator sv = new SequenceValidator(userInput);
+			    //System.out.println(sv.getSequence()); // tests the results in the console 
+			    performBlastP(txtrInputsequence.getText(),Float.valueOf(Evalue.getSelectedItem().toString())/10,Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
 			}
 		});
 		
@@ -285,5 +290,13 @@ public class BlastInterface extends JFrame {
 		gbc_btnBLAST.gridy = 8;
 		contentPane.add(btnBLAST, gbc_btnBLAST);
 
+	}
+	private static void performBlastP(String sequence,float mineval, int maxseq) {
+
+		BlastResult<UniProtHit> uniprotblastResult = BlastpSearch.runUniprotBlast(sequence);
+		String filename = "temp_output.tsv";
+		BlastpSearch.writeUniprotBlastOutput(uniprotblastResult,mineval,maxseq,filename);
+		
+		
 	}
 }
