@@ -28,7 +28,7 @@ import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.UniProtHit;
 import utilities.BlastpSearch;
 import utilities.SequenceValidator;
 
-public class BlastInterface extends JFrame {
+public class BlastGui extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -45,7 +45,7 @@ public class BlastInterface extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BlastInterface frame = new BlastInterface();
+					BlastGui frame = new BlastGui();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,7 +57,7 @@ public class BlastInterface extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public BlastInterface() {
+	public BlastGui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 943, 676);
 		contentPane = new JPanel();
@@ -135,7 +135,7 @@ public class BlastInterface extends JFrame {
 				FileNameExtensionFilter fasta_filter = new FileNameExtensionFilter("Fasta file", "fasta"); //Only shows files with .fasta extension in the file chooser
 				fileChooser.setDialogTitle("Select Query FASTA File");
 				fileChooser.setFileFilter(fasta_filter); //Applies extension filter;
-				if (fileChooser.showOpenDialog(BlastInterface.this)==JFileChooser.APPROVE_OPTION) {
+				if (fileChooser.showOpenDialog(BlastGui.this)==JFileChooser.APPROVE_OPTION) {
 					queryFile = fileChooser.getSelectedFile();
 					btnInputSequenceUpload.setText("Selected: " + queryFile.getName());
 					//SequenceValidator path = new SequenceValidator(queryFile.getPath()); // checks the the sequence and gives the path 
@@ -180,7 +180,7 @@ public class BlastInterface extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setDialogTitle("Select Database FASTA File");
-				if (fileChooser.showOpenDialog(BlastInterface.this) == JFileChooser.APPROVE_OPTION) {
+				if (fileChooser.showOpenDialog(BlastGui.this) == JFileChooser.APPROVE_OPTION) {
 					dbFile = fileChooser.getSelectedFile();
 					btnUploadDatabase.setText("Database: " + dbFile.getName());
 				}

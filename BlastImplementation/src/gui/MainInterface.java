@@ -65,7 +65,7 @@ public class MainInterface extends JFrame {
 		JButton btnBlastInterface = new JButton("BLASTP");
 		btnBlastInterface.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				BlastInterface blastp = new BlastInterface();
+				BlastGui blastp = new BlastGui();
 				blastp.setLocationRelativeTo(null);
 			    blastp.setVisible(true);
 			}
