@@ -84,5 +84,16 @@ public class StatisticsTest extends TestCase {
 		assertEquals(gcProportion, 0.5);
 	}
 				
-	
+	public void testReadingFrame() {
+		// initiate a Statistics variable
+		String initialSeq = "aattcggg";
+		Statistics seq = new Statistics(initialSeq);
+		int[] k = {1, 2, 3};
+		
+		for (int i : k) {
+			String protSeq = seq.ReadingFrame(i);
+			System.out.printf("Protein sequence of %s is: %s", seq.getSeq(), protSeq);
+		}
+		
+	}
 }

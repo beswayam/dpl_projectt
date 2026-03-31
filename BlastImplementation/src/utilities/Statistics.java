@@ -86,7 +86,7 @@ public class Statistics {
 	}
 	
 	// get all codons within the specified reading frame
-	public String ReadingFrame() {
+	public String ReadingFrame(int kframe) {
 		return null;
 	}
 	
