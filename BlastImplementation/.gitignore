@@ -1,7 +1,7 @@
 # don't use  in patterns unless absolutely necessary
 # for more information
 # $ git help gitignore
-
+.classpath/
 .metadata
 data
 bin
@@ -11,3 +11,4 @@ doc
 .DS_Store
 
 
+/target/
