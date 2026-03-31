@@ -15,7 +15,7 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class MainInterface extends JFrame {
+public class MainGui extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -27,7 +27,7 @@ public class MainInterface extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainInterface frame = new MainInterface();
+					MainGui frame = new MainGui();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,7 +39,7 @@ public class MainInterface extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MainInterface() {
+	public MainGui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 592, 429);
 		contentPane = new JPanel();
