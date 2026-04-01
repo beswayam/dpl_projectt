@@ -280,6 +280,9 @@ public class BlastGui extends JFrame {
 		BlastResult<UniProtHit> uniprotblastResult = BlastpSearch.runUniprotBlast(sequence);
 		String filename = "temp_output.tsv";
 		BlastpSearch.writeUniprotBlastOutput(uniprotblastResult,mineval,maxseq,filename);
+		BlastOutputGui blastpout = new BlastOutputGui(filename);
+		blastpout.setLocationRelativeTo(null);
+	    blastpout.setVisible(true);
 		
 		
 	}
