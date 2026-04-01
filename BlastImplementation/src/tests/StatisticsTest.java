@@ -15,7 +15,7 @@ public class StatisticsTest extends TestCase {
 		Statistics seq = new Statistics(initialSeq);
 		
 		// check whether the sequence can be retrieved
-		assertEquals(seq.getSeq(), initialSeq);
+		assertEquals(seq.getSeq(), initialSeq.toUpperCase());
 	}
 	
 	public void testSetSeq() {
@@ -28,7 +28,7 @@ public class StatisticsTest extends TestCase {
 		seq.setSeq(newSeq);
 		
 		// check whether the sequence was successfully changed
-		assertEquals(seq.getSeq(), newSeq);
+		assertEquals(seq.getSeq(), newSeq.toUpperCase());
 	}
 	
 	public void testSeqLength() {
@@ -47,11 +47,11 @@ public class StatisticsTest extends TestCase {
 		Statistics seq = new Statistics(initialSeq);
 		
 		// choose base to search
-		char nuc = 'c'; 
+		char nuc = 'C'; 
 		
 		// count instances of base in sequence
 		int count = seq.countNuc(nuc, seq.getSeq());
-		System.out.printf("Sequence: %s%nNumber of %s in sequence: %d%n%n", seq.getSeq(), nuc, count);
+		//System.out.printf("Sequence: %s%nNumber of %s in sequence: %d%n%n", seq.getSeq(), nuc, count);
 		assertEquals(5, count);
 	}
 	
@@ -60,7 +60,7 @@ public class StatisticsTest extends TestCase {
 		String initialSeq = "aattcggg";
 		Statistics seq = new Statistics(initialSeq);
 		
-		System.out.println("Sequence base counts are: ");
+		//System.out.println("Sequence base counts are: ");
 		
 		// isolate the bases from the map
 		Set<Character> allBases = seq.SeqContents().keySet();
@@ -68,7 +68,7 @@ public class StatisticsTest extends TestCase {
 		// check per base how many there are in the sequence
 		for (Character base : allBases) {
 			int count = seq.SeqContents().get(base);
-			System.out.printf("%s : %d%n", base, count);
+			//System.out.printf("%s : %d%n", base, count);
 			assertEquals(seq.countNuc(base, seq.getSeq()), count);
 		}
 	}
@@ -80,19 +80,20 @@ public class StatisticsTest extends TestCase {
 		
 		// calculate the GC content
 		double gcProportion = seq.GCContent();
-		System.out.printf("GC content in sequence: %.1f%%%n%n", (double) Math.round(gcProportion * 100));
+		//System.out.printf("GC content in sequence: %.1f%%%n%n", (double) Math.round(gcProportion * 100));
 		assertEquals(gcProportion, 0.5);
 	}
 				
 	public void testReadingFrame() {
 		// initiate a Statistics variable
-		String initialSeq = "aattcggg";
+		String initialSeq = "GCGTACGTTAGCATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAACGTACGATGCTA";
 		Statistics seq = new Statistics(initialSeq);
-		int[] k = {1, 2, 3};
+		int[] k = {1};
 		
 		for (int i : k) {
-			String protSeq = seq.ReadingFrame(i);
-			System.out.printf("Protein sequence of %s is: %s", seq.getSeq(), protSeq);
+			String rFrame = seq.ReadingFrame(i);
+			//System.out.printf("Protein sequence of %s is: %s", seq.getSeq(), rFrame);
+			assertEquals(rFrame, "ATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAA");
 		}
 		
 	}

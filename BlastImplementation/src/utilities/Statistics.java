@@ -3,6 +3,11 @@ package utilities;
 
 import java.util.HashMap;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
+
+import java.util.Arrays;
+
+
 // define the Statistics class
 public class Statistics {
 
@@ -21,7 +26,7 @@ public class Statistics {
 	
 	// method to set the (global) sequence
 	public void setSeq(String seq) {
-		this.seq = seq.toLowerCase();
+		this.seq = seq.toUpperCase();
 	}
 	
 	// method to calculate and retrieve the sequence length
@@ -49,10 +54,10 @@ public class Statistics {
 	public HashMap<Character, Integer> SeqContents() {
 		// initiate a map (dictionary in Python)
 		HashMap<Character, Integer> baseCounts = new HashMap<>();
-		baseCounts.put('c', 0);
-		baseCounts.put('a', 0);
-		baseCounts.put('g', 0);
-		baseCounts.put('t', 0);
+		baseCounts.put('C', 0);
+		baseCounts.put('A', 0);
+		baseCounts.put('G', 0);
+		baseCounts.put('T', 0);
 		
 		// add a value of one each time you strike a base to that
 		// corresponding base count
@@ -76,7 +81,7 @@ public class Statistics {
 		for (int i = 0; i < seqLength(); i++) { 
 			char base = seq.charAt(i);
 			
-			if (base == 'c' || base == 'g') {
+			if (base == 'C' || base == 'G') {
 				gc++;
 			} 	
 		}
@@ -87,7 +92,54 @@ public class Statistics {
 	
 	// get all codons within the specified reading frame
 	public String ReadingFrame(int kframe) {
-		return null;
+		//System.out.printf("frame: %d%n", kframe);
+		
+		String seq = getSeq();
+		StringBuilder codon = new StringBuilder();
+		StringBuilder codingSeq = new StringBuilder();
+		String[] stopCodon = {"TAA", "TAG", "TGA"};
+		
+		int seqLen = seqLength();
+		int count = 0;
+		boolean endSequence = false;
+		
+		for (int i = kframe - 1; i < seqLen ; i++ ) {
+			
+			char nuc = seq.charAt(i);	
+			codon.append(nuc);
+			
+			// check whether a full codon was formed
+			if (codon.length() % 3 == 0 && endSequence == false) {
+				
+				
+				// check whether a start codon is found
+				if (codon.toString().contains("ATG")) {
+					codingSeq.append(codon);
+					
+				} 
+			
+				// check whether the coding sequence was initiated before appending
+				else if (codingSeq.length() != 0) {
+					codingSeq.append(codon);
+				}
+				
+				// check whether the codon is a stop codon
+				else if (Arrays.asList(stopCodon).contains(codon.toString())) {
+					codingSeq.append(codon);
+					
+					endSequence = true;
+				}
+				
+				System.out.println(codon);
+				// reset the codon
+				codon.setLength(0);
+				
+			}
+			
+		}
+		
+		
+		return codingSeq.toString();
 	}
 	
 	// transform dna sequence to amino acid sequence
