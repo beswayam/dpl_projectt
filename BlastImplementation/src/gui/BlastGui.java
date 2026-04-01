@@ -26,7 +26,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.BlastResult;
 import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.UniProtHit;
 import utilities.BlastpSearch;
-import utilities.SequenceValidator;
+import utilities.Sequence;
 
 public class BlastGui extends JFrame {
 	

@@ -8,13 +8,13 @@ import java.io.FileNotFoundException; // Import this class to handle errors
 import java.nio.file.Path;
 import java.io.BufferedReader;
 
-public class SequenceValidator {
+public class Sequence {
   
 	private String sequence;
 	private File fasta_file;
 	
 	
-	public SequenceValidator (String input) { // constructor for sting input 
+	public Sequence (String input) { // constructor for sting input 
 		this.sequence = input;
 		prepareSequence();
 		residuCheck();
