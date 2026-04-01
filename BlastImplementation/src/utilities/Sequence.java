@@ -16,38 +16,46 @@ public class Sequence {
 	
 	public Sequence (String input) { // constructor for sting input 
 		this.sequence = input;
-		prepareSequence();
-		residuCheck();
+		isNotEmpty();
+		checkHeader();
+		checkSequence();
+		sequenceToUpperCase();
+		checkSequenceElements();
 	}
 	
 	//public SequneceValidator (File input) { //constructor for file input 
 	// check file
 	//}
 	
+	//accessor method for Sequence
 	public String getSequence() {
 	    return this.sequence;
 	}
-
-	// Checks input sequence and returns string in fasta format uppercase 
-	public void prepareSequence() {
-		
-		//no input check 
+	
+	//Check if entry is not empty
+	private void isNotEmpty() {
 		if (this.sequence.isEmpty()) {
-			 throw new IllegalArgumentException("Invalid input");
+			throw new IllegalArgumentException("Invalid input");
 		}
-		
-		// add fasta header
+	}
+	
+	//Check if FASTA entry has a header
+	private void checkHeader() {
 		char first_char = this.sequence.charAt(0);
 		if (first_char != '>') {
-			this.sequence = ">sequence\n" + this.sequence;
+			this.sequence = ">sequence\n" + this.sequence; //add header if no header present
 		}
-		
-		// Checks for header without a sequence 
-		else if (!this.sequence.contains("\n")) {
+	}
+	
+	//Check if FASTA entry has a sequence
+	private void checkSequence() {
+		if (!this.sequence.contains("\n")) {
 		    throw new IllegalArgumentException("Invalid input");
 		}
-		
-		// only sequence to upper case 
+	}
+	
+	//Convert sequence to upper case 
+	private void sequenceToUpperCase() {
 		int start = this.sequence.indexOf('\n') + 1; //turn into separate  method 
 		int end = this.sequence.length();
 		String header = this.sequence.substring(0, start);
@@ -55,20 +63,15 @@ public class Sequence {
 		this.sequence = header + this.sequence;
 	}
 	
-	
-	
-	public void residuCheck(){
+	//Check if all amino acids in sequence have valid letter
+	public void checkSequenceElements() {
 		int start = this.sequence.indexOf('\n') + 1;
-		String residues = this.sequence.substring(start).replaceAll("\\n", "").trim();
-		
-		if (residues.matches("[ATGC]+")) {
-	        System.out.println("Valid DNA sequence — Length: " + residues.length());
-	    } else if (residues.matches("[ACDEFGHIKLMNPQRSTVWY]+")) {
-	        System.out.println("Valid protein sequence — Length: " + residues.length());
-	    } else {
-	        throw new IllegalArgumentException("Invalid input");
-	    }
-			
+		String residues = this.sequence.substring(start).replaceAll("\\n", "").trim(); //remove \n in sequence
+		for (char residue : residues.toCharArray()) {
+			if ("ACDEFGHIKLMNPQRSTVWY".indexOf(residue) == -1) {
+				throw new IllegalArgumentException("Invalid input");
+			}
+		}	
 		}
 	}
 
