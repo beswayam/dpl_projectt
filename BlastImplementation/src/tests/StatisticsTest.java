@@ -4,6 +4,8 @@ package tests;
 // libraries to import contain JDunit code and our Statistics package
 import junit.framework.TestCase;
 import utilities.Statistics;
+
+import java.util.ArrayList;
 import java.util.Set;
 
 
@@ -84,17 +86,54 @@ public class StatisticsTest extends TestCase {
 		assertEquals(gcProportion, 0.5);
 	}
 				
+	// note: introns are not taken into account
 	public void testReadingFrame() {
 		// initiate a Statistics variable
 		String initialSeq = "GCGTACGTTAGCATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAACGTACGATGCTA";
 		Statistics seq = new Statistics(initialSeq);
-		int[] k = {1};
+		int k = 1;
 		
-		for (int i : k) {
-			String rFrame = seq.ReadingFrame(i);
-			//System.out.printf("Protein sequence of %s is: %s", seq.getSeq(), rFrame);
-			assertEquals(rFrame, "ATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAA");
+		//get the readingframe k
+		String rFrame = seq.ReadingFrame(k);
+		assertEquals(rFrame, "ATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAA");
 		}
+	
+	public void testReverseCompliment() {
+		String initialSeq = "GGTCCA";
+		Statistics seq = new Statistics(initialSeq);
 		
+		// get the reverse compliment sequence
+		String revCompSeq = seq.ReverseCompliment();
+		assertEquals(revCompSeq, "TGGACC");
+	}
+	
+	// note: introns are not taken into account
+	public void testAllReadingFrames() {
+		String initialSeq = "GCGTACGTTAGCATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAACGTACGATGCTA";
+		Statistics seq = new Statistics(initialSeq);
+		
+		// make an array of all reading frames you want to find
+		int[] k = {1,2,3};
+		
+		ArrayList<String> readingFrames = seq.AllReadingFrames(k);
+		for (String rFrame : readingFrames) {
+			
+			// check whether a reading frame has successfully retrieved coding sequence
+			if (!rFrame.isEmpty()) {
+				System.out.println(rFrame);
+				assertEquals(rFrame, "ATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAA");
+			}
+		}	
+	}
+	
+	public void testMolecularWeightt() {
+		String initialSeq = "ACDEFGHIKL";
+		Statistics seq = new Statistics(initialSeq);
+		
+		double protWeight = seq.ProteinWeight();
+		assertEquals(protWeight, 1294.45);
 	}
 }
+
+	
+
