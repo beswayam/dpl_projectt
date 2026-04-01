@@ -120,7 +120,6 @@ public class StatisticsTest extends TestCase {
 			
 			// check whether a reading frame has successfully retrieved coding sequence
 			if (!rFrame.isEmpty()) {
-				System.out.println(rFrame);
 				assertEquals(rFrame, "ATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAA");
 			}
 		}	

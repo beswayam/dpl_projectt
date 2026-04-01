@@ -53,18 +53,17 @@ public class Statistics {
 	public HashMap<Character, Integer> SeqContents() {
 		// initiate a map (dictionary in Python)
 		HashMap<Character, Integer> baseCounts = new HashMap<>();
-		baseCounts.put('C', 0);
-		baseCounts.put('A', 0);
-		baseCounts.put('G', 0);
-		baseCounts.put('T', 0);
 		
 		// add a value of one each time you strike a base to that
 		// corresponding base count
 		for (int i = 0; i < seqLength(); i++) { 
 			char base = seq.charAt(i);
 			
-			int count = baseCounts.get(base);
-			baseCounts.put(base, ++count);
+			if (!baseCounts.containsKey(base)) {
+				baseCounts.put(base, 0);
+			}
+			
+			baseCounts.put(base, baseCounts.get(base) + 1);
 		}
 		
 		// return the base - count map. 
