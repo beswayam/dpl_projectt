@@ -44,6 +44,7 @@ public class MainGui extends JFrame {
 		setBounds(100, 100, 592, 429);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBackground(new Color(15, 17, 26));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{44, 101, 0, 0};
@@ -51,10 +52,12 @@ public class MainGui extends JFrame {
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
+//		getContentPane().setBackground(new Color(15, 17, 26));
 		
 		// Header of the main interface
 		JLabel lblPageHeader = new JLabel("Welcome! Please Pick a tool to use:");
 		lblPageHeader.setFont(new Font("Tahoma", Font.BOLD, 18));
+//		lblPageHeader.setForeground(new Color(140, 180, 255));
 		GridBagConstraints gbc_lblPageHeader = new GridBagConstraints();
 		gbc_lblPageHeader.insets = new Insets(0, 0, 5, 0);
 		gbc_lblPageHeader.gridx = 2;
@@ -63,6 +66,9 @@ public class MainGui extends JFrame {
 		
 		// BLASTP button 
 		JButton btnBlastInterface = new JButton("BLASTP");
+//		btnBlastInterface.setBackground(new Color(28, 33, 52));
+//        btnBlastInterface.setForeground(new Color(60, 210, 140));
+		btnBlastInterface.setFocusPainted(false);
 		btnBlastInterface.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				BlastGui blastp = new BlastGui();
