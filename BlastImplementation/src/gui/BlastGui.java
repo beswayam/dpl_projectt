@@ -93,7 +93,7 @@ public class BlastGui extends JFrame {
 		    textArea.setWrapStyleWord(true);
 
 		    JScrollPane scrollPane = new JScrollPane(textArea);
-		    helpFrame.add(scrollPane);
+		    helpFrame.getContentPane().add(scrollPane);
 
 		    helpFrame.setLocationRelativeTo(null);
 		    helpFrame.setVisible(true);
@@ -170,6 +170,17 @@ public class BlastGui extends JFrame {
 				}
 			}
 		});
+		
+		JButton Statistic = new JButton("Statistics");
+		Statistic.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		GridBagConstraints gbc_Statistic = new GridBagConstraints();
+		gbc_Statistic.insets = new Insets(0, 0, 5, 0);
+		gbc_Statistic.gridx = 6;
+		gbc_Statistic.gridy = 3;
+		contentPane.add(Statistic, gbc_Statistic);
 		
 		// Upload Database button 
 		GridBagConstraints gbc_btnUploadDatabase = new GridBagConstraints();

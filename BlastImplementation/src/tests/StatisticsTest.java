@@ -82,7 +82,7 @@ public class StatisticsTest extends TestCase {
 		
 		// calculate the GC content
 		double gcProportion = seq.GCContent();
-		//System.out.printf("GC content in sequence: %.1f%%%n%n", (double) Math.round(gcProportion * 100));
+		System.out.printf("GC content in sequence: %.1f%%%n%n", (double) Math.round(gcProportion * 100));
 		assertEquals(gcProportion, 0.5);
 	}
 				
