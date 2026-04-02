@@ -1,17 +1,21 @@
 package tests;
 
 import junit.framework.TestCase;
+import java.io.File;
+
 import utilities.Sequence;
 
 public class SequenceTest extends TestCase {
 	
 	
-	public void testInstantiateSequence() {
+	public void testInstantiateSequenceString() {
 		
 		//Input without fasta header
 		String without_header = "atcgatcg";
 		Sequence check1 = new Sequence(without_header);
 		assertEquals(">sequence\nATCGATCG", check1.getSequence());
+		assertEquals("data" + File.separator + "blast_input.fa", check1.getFastaFile().getPath());
+		
 		
 		//Input with fasta header
 		String with_header = ">sequence\natcgatcg";
@@ -53,5 +57,21 @@ public class SequenceTest extends TestCase {
 			} 
 		catch (IllegalArgumentException e) {
 		 	}
+		
+	}
+	
+	public void testInstantiateSequenceFile() {
+		
+		//Check constructor that takes a File argument
+		File fileName = new File("Data/test_fa.txt");
+		Sequence check8 = new Sequence(fileName);
+		assertNotNull(check8);
+		
+		//Check fileToSequence() method
+		assertEquals(">tr|A0A222AH43|A0A222AH43_9HYST Hemoglobine alpha globin subunit (Fragment) OS=Ctenomys rionegrensis OX=88126 GN=HBA PE=3 SV=1\r\n"
+				+ "MVLSPADKTNVKAAWDKIGSHGAEYGAEALFRMFLSFPTTKTYFHHFDLSPGSAQVKAHG\r\n"
+				+ "KKVSDALTTAVGHLDDLPSALSALSDLHAHKLRVDPVNFKLLSHCLLVTLSLHHPAEFTP\r\n"
+				+ "AVHASLDKFLATVSTVLTS", check8.getSequence());
+		
 	}
 }

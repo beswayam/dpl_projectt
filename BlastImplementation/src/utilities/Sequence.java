@@ -1,35 +1,70 @@
 package utilities;
 import java.io.File;                  // File class
-import java.util.Scanner;
-
-import javax.swing.JLabel;
 
 import java.io.FileNotFoundException; // Import this class to handle errors
-import java.nio.file.Path;
-import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
 
 public class Sequence {
   
 	private String sequence;
-	private File fasta_file;
+	private File fastaFile;
 	
-	
-	public Sequence (String input) { // constructor for sting input 
-		this.sequence = input;
+	// constructor for sting input 
+	public Sequence (String sequence) {
+		this.sequence = sequence;
 		isNotEmpty();
 		checkHeader();
 		checkSequence();
 		sequenceToUpperCase();
 		checkSequenceElements();
+		sequenceToFile();
+	}
+
+	//constructor for FASTA file input 
+	public Sequence (File fastaFile) {
+		this.fastaFile = fastaFile;
+		fileToSequence();
 	}
 	
-	//public SequneceValidator (File input) { //constructor for file input 
-	// check file
-	//}
+	//Writes the sequence instance variable to fastaFile instance variable
+	private void sequenceToFile() {
+		File file = new File("data" + File.separator + "blast_input.fa");
+		
+		try (FileWriter writer = new FileWriter(file)) {
+			writer.write(this.sequence);
+			this.fastaFile = file;
+		}
+		catch (IOException e) {
+			throw new IllegalArgumentException("Invalid input");
+		}	
+	}
+	
+	//Writes the fastaFile instance variable to sequence instance variable
+	private void fileToSequence() {
+		String sequence;
+		try {
+			sequence = Files.readString(this.fastaFile.toPath());
+		} catch (IOException e) {
+			throw new IllegalArgumentException("Invalid input");
+		}
+		this.sequence = sequence;
+		isNotEmpty();
+		checkHeader();
+		checkSequence();
+		sequenceToUpperCase();
+		checkSequenceElements();
+		sequenceToFile();
+	}
 	
 	//accessor method for Sequence
 	public String getSequence() {
 	    return this.sequence;
+	}
+	
+	public File getFastaFile() {
+		return this.fastaFile;
 	}
 	
 	//Check if entry is not empty
@@ -64,15 +99,19 @@ public class Sequence {
 	}
 	
 	//Check if all amino acids in sequence have valid letter
-	public void checkSequenceElements() {
+	private void checkSequenceElements() {
 		int start = this.sequence.indexOf('\n') + 1;
-		String residues = this.sequence.substring(start).replaceAll("\\n", "").trim(); //remove \n in sequence
+		String residues = this.sequence.substring(start).replaceAll("\\r|\\n", "").trim(); //remove \n in sequence
 		for (char residue : residues.toCharArray()) {
 			if ("ACDEFGHIKLMNPQRSTVWY".indexOf(residue) == -1) {
 				throw new IllegalArgumentException("Invalid input");
 			}
 		}	
 		}
+	
+	//private void verifyFile() {
+		
+	//}
 	}
 
 		
