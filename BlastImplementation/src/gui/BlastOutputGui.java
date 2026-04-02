@@ -10,13 +10,18 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BlastOutputGui extends JFrame {
 
@@ -63,7 +68,12 @@ public class BlastOutputGui extends JFrame {
 		gbc_BlastHitLabel.gridy = 5;
 		getContentPane().add(BlastHitLabel, gbc_BlastHitLabel);
 
-		JComboBox comboBox = new JComboBox();
+		JComboBox<String> comboBox = new JComboBox<>();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 //		comboBox.setBackground(new Color(28, 33, 52));
 //		comboBox.setForeground(new Color(210, 220, 245));
 		comboBox.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -73,6 +83,7 @@ public class BlastOutputGui extends JFrame {
 		gbc_comboBox.gridx = 2;
 		gbc_comboBox.gridy = 5;
 		getContentPane().add(comboBox, gbc_comboBox);
+
 
 		JButton HitLoadButton = new JButton("Load Hit");
 		HitLoadButton.setFont(new Font("Monospaced", Font.BOLD, 11));
@@ -251,7 +262,15 @@ public class BlastOutputGui extends JFrame {
 	        @Override
 	        public void windowOpened(WindowEvent e) {
 	        	ArrayList<String[]> hits=readBlastTsv(filename);
-	        	System.out.println(hits.get(4)[1]);
+	        	int hitnum = hits.size();
+	        	int[] hitnumrange = IntStream.range(1,hitnum+1).toArray();
+	        	String[] hitrange=Arrays.toString(hitnumrange).split("[\\[\\]]")[1].split(", ");
+	        	DefaultComboBoxModel<String> hitsModel = new DefaultComboBoxModel<String>(hitrange) ;
+	        	comboBox.setModel(hitsModel);
+	        	System.out.println(
+	    				hits.get(0).toString()
+	    				);
+	        	
 	        }
 
 			@Override
