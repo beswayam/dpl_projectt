@@ -4,6 +4,7 @@ import java.io.File;                  // File class
 import java.io.FileNotFoundException; // Import this class to handle errors
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 
 public class Sequence {
   
@@ -20,6 +21,12 @@ public class Sequence {
 		checkSequenceElements();
 		sequenceToFile();
 	}
+
+	//constructor for FASTA file input 
+	public Sequence (File fastaFile) {
+		this.fastaFile = fastaFile;
+		fileToSequence();
+	}
 	
 	//Writes the sequence instance variable to fastaFile instance variable
 	private void sequenceToFile() {
@@ -31,14 +38,24 @@ public class Sequence {
 		}
 		catch (IOException e) {
 			throw new IllegalArgumentException("Invalid input");
-		}
-		
+		}	
 	}
-
-	//constructor for FASTA file input 
-	public Sequence (File fastaFile) {
-		this.fastaFile = fastaFile;
-		//verifyFile();
+	
+	//Writes the fastaFile instance variable to sequence instance variable
+	private void fileToSequence() {
+		String sequence;
+		try {
+			sequence = Files.readString(this.fastaFile.toPath());
+		} catch (IOException e) {
+			throw new IllegalArgumentException("Invalid input");
+		}
+		this.sequence = sequence;
+		isNotEmpty();
+		checkHeader();
+		checkSequence();
+		sequenceToUpperCase();
+		checkSequenceElements();
+		sequenceToFile();
 	}
 	
 	//accessor method for Sequence
@@ -84,7 +101,7 @@ public class Sequence {
 	//Check if all amino acids in sequence have valid letter
 	private void checkSequenceElements() {
 		int start = this.sequence.indexOf('\n') + 1;
-		String residues = this.sequence.substring(start).replaceAll("\\n", "").trim(); //remove \n in sequence
+		String residues = this.sequence.substring(start).replaceAll("\\r|\\n", "").trim(); //remove \n in sequence
 		for (char residue : residues.toCharArray()) {
 			if ("ACDEFGHIKLMNPQRSTVWY".indexOf(residue) == -1) {
 				throw new IllegalArgumentException("Invalid input");

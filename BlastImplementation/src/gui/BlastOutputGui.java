@@ -106,21 +106,6 @@ public class BlastOutputGui extends JFrame {
 		gbc_BlastHitLabel.gridy = 5;
 		getContentPane().add(BlastHitLabel, gbc_BlastHitLabel);
 
-		JComboBox<String> comboBox = new JComboBox<>();
-		comboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-//		comboBox.setBackground(new Color(28, 33, 52));
-//		comboBox.setForeground(new Color(210, 220, 245));
-		comboBox.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(0, 0, 15, 10); // ── CHANGED
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 2;
-		gbc_comboBox.gridy = 5;
-		getContentPane().add(comboBox, gbc_comboBox);
 
 		JLabel UniprotIDLabel = new JLabel("UniProt ID");
 		UniprotIDLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -283,6 +268,35 @@ public class BlastOutputGui extends JFrame {
 		gbc_IdentityValueLabel.gridy = 18;
 		getContentPane().add(IdentityValueLabel, gbc_IdentityValueLabel);
 
+		JComboBox<String> comboBox = new JComboBox<>();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<String[]> hits = readBlastTsv(filename);
+				ArrayList<JLabel> labelList = new ArrayList<JLabel>();
+				labelList.add(UniprotIDValueLabel);
+				labelList.add(QuerySeqValueLabel);
+				labelList.add(QuerySeqAlignLenLabel);
+				labelList.add(MatchSeqValueLabel);
+				labelList.add(MatchSeqAlignLenLabel);
+				labelList.add(EvalueAnnotLabel);
+				labelList.add(BitScoreAnnotLabel);
+				labelList.add(IdentityValueLabel);
+				parseHit(hits.get(comboBox.getSelectedIndex()),labelList);
+			}
+		});
+//		comboBox.setBackground(new Color(28, 33, 52));
+//		comboBox.setForeground(new Color(210, 220, 245));
+		comboBox.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.insets = new Insets(0, 0, 15, 10); // ── CHANGED
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridx = 2;
+		gbc_comboBox.gridy = 5;
+		getContentPane().add(comboBox, gbc_comboBox);
+
+		
+		
+		
 		setSize(660, 480);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
@@ -297,9 +311,16 @@ public class BlastOutputGui extends JFrame {
 	        	String[] hitrange=Arrays.toString(hitnumrange).split("[\\[\\]]")[1].split(", ");
 	        	DefaultComboBoxModel<String> hitsModel = new DefaultComboBoxModel<String>(hitrange) ;
 	        	comboBox.setModel(hitsModel);
-	        	System.out.println(
-	    				hits.get(0).toString()
-	    				);
+	        	ArrayList<JLabel> labelList = new ArrayList<JLabel>();
+	        	labelList.add(UniprotIDValueLabel);
+				labelList.add(QuerySeqValueLabel);
+				labelList.add(QuerySeqAlignLenLabel);
+				labelList.add(MatchSeqValueLabel);
+				labelList.add(MatchSeqAlignLenLabel);
+				labelList.add(EvalueAnnotLabel);
+				labelList.add(BitScoreAnnotLabel);
+				labelList.add(IdentityValueLabel);
+	        	parseHit(hits.get(0),labelList);
 	        	
 	        }
 
@@ -350,6 +371,29 @@ public class BlastOutputGui extends JFrame {
 		new BlastOutputGui("temp_output.tsv");
 	}
 	
+	private void parseHit(String[] hitdata,ArrayList<JLabel> labelList) {
+	String hitnum = hitdata[0];
+	String id = hitdata[1];
+	String description = hitdata[2];
+	String match_seq = hitdata[3];
+	String eval= hitdata[4];
+	String bitscore = hitdata[5];
+	String identity = hitdata[6];
+	String query_seq = hitdata[7];
+	String query_start = hitdata[8];
+	String query_end = hitdata[9];
+	String match_start = hitdata[10];
+	String match_end = hitdata[11];
+	labelList.get(0).setText(id);
+	labelList.get(1).setText(query_seq);
+	labelList.get(2).setText("("+query_start+ ":"+ query_end+ ")");
+	labelList.get(3).setText(match_seq);
+	labelList.get(4).setText("("+match_start+ ":"+ match_end+ ")");
+	labelList.get(5).setText(eval);
+	labelList.get(6).setText(bitscore);
+	labelList.get(7).setText(identity + "%");
+	}
+
 	private ArrayList<String[]> readBlastTsv(String filename) {
 	    ArrayList<String[]> hits = new ArrayList<String[]>();
 	    File file = new File(filename);
