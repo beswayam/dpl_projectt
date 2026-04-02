@@ -14,7 +14,7 @@ public class SequenceTest extends TestCase {
 		String without_header = "atcgatcg";
 		Sequence check1 = new Sequence(without_header);
 		assertEquals(">sequence\nATCGATCG", check1.getSequence());
-		assertEquals("data" + File.separator + "blast_input.fa", check1.getFastaFile().getPath());
+		assertEquals("project_data" + File.separator + "blast_input.fa", check1.getFastaFile().getPath());
 		
 		
 		//Input with fasta header
@@ -63,14 +63,14 @@ public class SequenceTest extends TestCase {
 	public void testInstantiateSequenceFile() {
 		
 		//Check constructor that takes a File argument
-		File fileName = new File("Data/test_fa.txt");
+		File fileName = new File("project_data/test_fa.txt");
 		Sequence check8 = new Sequence(fileName);
 		assertNotNull(check8);
 		
 		//Check fileToSequence() method
-		assertEquals(">tr|A0A222AH43|A0A222AH43_9HYST Hemoglobine alpha globin subunit (Fragment) OS=Ctenomys rionegrensis OX=88126 GN=HBA PE=3 SV=1\r\n"
-				+ "MVLSPADKTNVKAAWDKIGSHGAEYGAEALFRMFLSFPTTKTYFHHFDLSPGSAQVKAHG\r\n"
-				+ "KKVSDALTTAVGHLDDLPSALSALSDLHAHKLRVDPVNFKLLSHCLLVTLSLHHPAEFTP\r\n"
+		assertEquals(">tr|A0A222AH43|A0A222AH43_9HYST Hemoglobine alpha globin subunit (Fragment) OS=Ctenomys rionegrensis OX=88126 GN=HBA PE=3 SV=1\n"
+				+ "MVLSPADKTNVKAAWDKIGSHGAEYGAEALFRMFLSFPTTKTYFHHFDLSPGSAQVKAHG\n"
+				+ "KKVSDALTTAVGHLDDLPSALSALSDLHAHKLRVDPVNFKLLSHCLLVTLSLHHPAEFTP\n"
 				+ "AVHASLDKFLATVSTVLTS", check8.getSequence());
 		
 	}
