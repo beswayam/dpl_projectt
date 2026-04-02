@@ -1,12 +1,9 @@
 package utilities;
 import java.io.File;                  // File class
-import java.util.Scanner;
-
-import javax.swing.JLabel;
 
 import java.io.FileNotFoundException; // Import this class to handle errors
-import java.nio.file.Path;
-import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Sequence {
   
@@ -21,8 +18,23 @@ public class Sequence {
 		checkSequence();
 		sequenceToUpperCase();
 		checkSequenceElements();
+		sequenceToFile();
 	}
 	
+	//Writes the sequence instance variable to fastaFile instance variable
+	private void sequenceToFile() {
+		File file = new File("data" + File.separator + "blast_input.fa");
+		
+		try (FileWriter writer = new FileWriter(file)) {
+			writer.write(this.sequence);
+			this.fastaFile = file;
+		}
+		catch (IOException e) {
+			throw new IllegalArgumentException("Invalid input");
+		}
+		
+	}
+
 	//constructor for FASTA file input 
 	public Sequence (File fastaFile) {
 		this.fastaFile = fastaFile;
