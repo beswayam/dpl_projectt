@@ -3,6 +3,9 @@ package gui;
 import javax.swing.JFrame;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.WindowEvent;
@@ -53,6 +56,41 @@ public class BlastOutputGui extends JFrame {
 //		OutHelpButton.setBackground(new Color(30, 32, 48));
 //		OutHelpButton.setForeground(new Color(140, 180, 255));
 		OutHelpButton.setFocusPainted(false);
+		OutHelpButton.addActionListener(e -> {
+		    JFrame helpFrame = new JFrame("BLASTP Output Help");
+		    helpFrame.setSize(600, 600);
+
+		    JTextArea textArea = new JTextArea();
+		    textArea.setText(
+		        "BLASTP Output Interpretation:\n\n" +
+		        "1. Select the number of the BLAST hit you wanna visualize.\n" +
+		        "2. After selection, automatically it will load the respective fields in front of the label.\n" +
+		        "3. E-value: Expectation value is a parameter that describes the number of hits one can expect \n"
+		          + "to see by chance when searching a database of a particular size.\n" + 
+		           "A very low E-value (close to zero): This means the match is so good that it’s almost impossible to be an accident. It’s likely a real connection (homology) between the sequences.\n"
+		         + "A high E-value (1 or higher): This means you could easily find a similar match just by searching through a pile of random gibberish. The match is likely meaningless noise.\n" +
+		         "4. Bit-Score: The Bit Score is a log-scaled, normalized version of the raw alignment score.\n"
+		           + "High Bit Score Explanation (e.g.,(>200)):Significance: Represents a very strong alignment with high sequence similarity.\n"
+		           + "Advantage: Because it is normalized, a high bit score is comparable across different searches and different databases.\n"
+		           + "Low Bit Score Explanation (e.g.,(<50):Significance: Indicates a weak alignment.Note: Because bit scores are length-dependent,\n"
+		           + "a low score on a very short sequence might still be biologically relevant, whereas a low score on a long sequence is usually a sign of a poor match.\n" + 
+		         "5. Identity: The Identity Score is the percentage of characters (nucleotides or amino acids) that are identical between the query and the\n"
+		           + "subject sequence within the aligned region. It is calculated by dividing the number of identical matches by the total length of the alignment.\n"
+		           + "High Value Explanation (e.g., 90%–100%): Significance: This indicates a very high degree of sequence conservation.\n"
+		           + "Inference: In protein searches, 100% identity usually indicates the same protein from the same or a very closely related species. In DNA, high identity is often used for species identification.\n"
+		           + "Low Value Explanation (e.g., <25% for proteins or <70% for DNA):Significance: This indicates a weak or distant relationship.\n"
+		           + "Inference: For proteins, values below 20-25% fall into the \"Twilight Zone,\" where it becomes difficult to tell if the sequences are related (homologs) or just similar by accident, unless the Bit Score and E-value remain strong."
+		    );
+		    textArea.setEditable(false);
+		    textArea.setLineWrap(true);
+		    textArea.setWrapStyleWord(true);
+
+		    JScrollPane scrollPane = new JScrollPane(textArea);
+		    helpFrame.getContentPane().add(scrollPane);
+
+		    helpFrame.setLocationRelativeTo(null);
+		    helpFrame.setVisible(true);
+		});
 		GridBagConstraints gbc_OutHelpButton = new GridBagConstraints();
 		gbc_OutHelpButton.insets = new Insets(20, 0, 20, 10); // ── CHANGED
 		gbc_OutHelpButton.gridx = 9;
@@ -69,20 +107,6 @@ public class BlastOutputGui extends JFrame {
 		getContentPane().add(BlastHitLabel, gbc_BlastHitLabel);
 
 
-
-		JButton HitLoadButton = new JButton("Load Hit");
-		HitLoadButton.setFont(new Font("Monospaced", Font.BOLD, 11));
-//		HitLoadButton.setBackground(new Color(30, 32, 48));
-//		HitLoadButton.setForeground(new Color(60, 210, 140));
-		HitLoadButton.setFocusPainted(false);
-		HitLoadButton.setHorizontalAlignment(SwingConstants.LEFT);
-		GridBagConstraints gbc_HitLoadButton = new GridBagConstraints();
-		gbc_HitLoadButton.anchor = GridBagConstraints.WEST;
-		gbc_HitLoadButton.insets = new Insets(0, 0, 15, 5); // ── CHANGED
-		gbc_HitLoadButton.gridx = 3;
-		gbc_HitLoadButton.gridy = 5;
-		getContentPane().add(HitLoadButton, gbc_HitLoadButton);
-
 		JLabel UniprotIDLabel = new JLabel("UniProt ID");
 		UniprotIDLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
 //		UniprotIDLabel.setForeground(new Color(100, 115, 150));
@@ -96,6 +120,7 @@ public class BlastOutputGui extends JFrame {
 		UniprotIDValueLabel.setFont(new Font("Monospaced", Font.BOLD, 12));
 //		UniprotIDValueLabel.setForeground(new Color(60, 210, 140));
 		GridBagConstraints gbc_UniprotIDValueLabel = new GridBagConstraints();
+		gbc_UniprotIDValueLabel.anchor = GridBagConstraints.WEST;
 		gbc_UniprotIDValueLabel.insets = new Insets(0, 0, 12, 5); // ── CHANGED
 		gbc_UniprotIDValueLabel.gridx = 2;
 		gbc_UniprotIDValueLabel.gridy = 7;
@@ -114,6 +139,7 @@ public class BlastOutputGui extends JFrame {
 		QuerySeqValueLabel.setFont(new Font("Monospaced", Font.BOLD, 12));
 //		QuerySeqValueLabel.setForeground(new Color(60, 210, 140));
 		GridBagConstraints gbc_QuerySeqValueLabel = new GridBagConstraints();
+		gbc_QuerySeqValueLabel.anchor = GridBagConstraints.WEST;
 		gbc_QuerySeqValueLabel.insets = new Insets(0, 0, 12, 5); // ── CHANGED
 		gbc_QuerySeqValueLabel.gridx = 2;
 		gbc_QuerySeqValueLabel.gridy = 9;
@@ -142,6 +168,7 @@ public class BlastOutputGui extends JFrame {
 		MatchSeqValueLabel.setFont(new Font("Monospaced", Font.BOLD, 12));
 //		MatchSeqValueLabel.setForeground(new Color(60, 210, 140));
 		GridBagConstraints gbc_MatchSeqValueLabel = new GridBagConstraints();
+		gbc_MatchSeqValueLabel.anchor = GridBagConstraints.WEST;
 		gbc_MatchSeqValueLabel.insets = new Insets(0, 0, 12, 5); // ── CHANGED
 		gbc_MatchSeqValueLabel.gridx = 2;
 		gbc_MatchSeqValueLabel.gridy = 11;
@@ -170,6 +197,7 @@ public class BlastOutputGui extends JFrame {
 		EvalueAnnotLabel.setFont(new Font("Monospaced", Font.BOLD, 12));
 //		EvalueAnnotLabel.setForeground(new Color(60, 210, 140));
 		GridBagConstraints gbc_EvalueAnnotLabel = new GridBagConstraints();
+		gbc_EvalueAnnotLabel.anchor = GridBagConstraints.WEST;
 		gbc_EvalueAnnotLabel.insets = new Insets(0, 0, 12, 5); // ── CHANGED
 		gbc_EvalueAnnotLabel.gridx = 2;
 		gbc_EvalueAnnotLabel.gridy = 13;
@@ -188,6 +216,7 @@ public class BlastOutputGui extends JFrame {
 		BitScoreAnnotLabel.setFont(new Font("Monospaced", Font.BOLD, 12));
 //		BitScoreAnnotLabel.setForeground(new Color(60, 210, 140));
 		GridBagConstraints gbc_BitScoreAnnotLabel = new GridBagConstraints();
+		gbc_BitScoreAnnotLabel.anchor = GridBagConstraints.WEST;
 		gbc_BitScoreAnnotLabel.insets = new Insets(0, 0, 12, 5);
 		gbc_BitScoreAnnotLabel.gridx = 2;
 		gbc_BitScoreAnnotLabel.gridy = 15;
@@ -233,6 +262,7 @@ public class BlastOutputGui extends JFrame {
 		IdentityValueLabel.setFont(new Font("Monospaced", Font.BOLD, 12));
 //		IdentityValueLabel.setForeground(new Color(60, 210, 140));
 		GridBagConstraints gbc_IdentityValueLabel = new GridBagConstraints();
+		gbc_IdentityValueLabel.anchor = GridBagConstraints.WEST;
 		gbc_IdentityValueLabel.insets = new Insets(0, 0, 12, 5); // ── CHANGED
 		gbc_IdentityValueLabel.gridx = 2;
 		gbc_IdentityValueLabel.gridy = 18;
