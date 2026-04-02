@@ -1,7 +1,5 @@
 package utilities;
 import java.io.File;                  // File class
-
-import java.io.FileNotFoundException; // Import this class to handle errors
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,11 +12,7 @@ public class Sequence {
 	// constructor for sting input 
 	public Sequence (String sequence) {
 		this.sequence = sequence;
-		isNotEmpty();
-		checkHeader();
-		checkSequence();
-		sequenceToUpperCase();
-		checkSequenceElements();
+		verifySequence();
 		sequenceToFile();
 	}
 
@@ -26,11 +20,21 @@ public class Sequence {
 	public Sequence (File fastaFile) {
 		this.fastaFile = fastaFile;
 		fileToSequence();
+		verifySequence();
+	}
+	
+	//accessor method for Sequence
+	public String getSequence() {
+	    return this.sequence;
+	}
+	
+	public File getFastaFile() {
+		return this.fastaFile;
 	}
 	
 	//Writes the sequence instance variable to fastaFile instance variable
 	private void sequenceToFile() {
-		File file = new File("data" + File.separator + "blast_input.fa");
+		File file = new File("project_data" + File.separator + "blast_input.fa");
 		
 		try (FileWriter writer = new FileWriter(file)) {
 			writer.write(this.sequence);
@@ -50,22 +54,8 @@ public class Sequence {
 			throw new IllegalArgumentException("Invalid input");
 		}
 		this.sequence = sequence;
-		isNotEmpty();
-		checkHeader();
-		checkSequence();
-		sequenceToUpperCase();
-		checkSequenceElements();
-		sequenceToFile();
 	}
 	
-	//accessor method for Sequence
-	public String getSequence() {
-	    return this.sequence;
-	}
-	
-	public File getFastaFile() {
-		return this.fastaFile;
-	}
 	
 	//Check if entry is not empty
 	private void isNotEmpty() {
@@ -109,9 +99,13 @@ public class Sequence {
 		}	
 		}
 	
-	//private void verifyFile() {
-		
-	//}
+	private void verifySequence() {
+		isNotEmpty();
+		checkHeader();
+		checkSequence();
+		sequenceToUpperCase();
+		checkSequenceElements();
+		}
 	}
 
 		
