@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -18,6 +19,7 @@ import java.awt.Font;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.awt.Color;
+import java.awt.Dimension;
 //Imports to handle file selection and windows file explorer
 import java.io.File;
 import javax.swing.JFileChooser;
@@ -27,6 +29,7 @@ import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.BlastResult;
 import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.UniProtHit;
 import utilities.BlastpSearch;
 import utilities.Sequence;
+import utilities.Statistics;
 
 public class BlastGui extends JFrame {
 	
@@ -93,7 +96,7 @@ public class BlastGui extends JFrame {
 		    textArea.setWrapStyleWord(true);
 
 		    JScrollPane scrollPane = new JScrollPane(textArea);
-		    helpFrame.add(scrollPane);
+		    helpFrame.getContentPane().add(scrollPane);
 
 		    helpFrame.setLocationRelativeTo(null);
 		    helpFrame.setVisible(true);
@@ -170,6 +173,63 @@ public class BlastGui extends JFrame {
 				}
 			}
 		});
+		
+		// Button for statistics
+		JButton btnStatistics = new JButton("Statistics");
+		btnStatistics.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				String sequence = txtrInputsequence.getText();
+		        
+				char a ='A';
+		        char c = 'C';
+		        char g = 'G';
+		        char t = 'T';
+
+		        Statistics stats = new Statistics(sequence);
+		        
+		        int length = stats.seqLength();
+		        
+		        int nucCountA = stats.countNuc(a, sequence);
+		        int nucCountC = stats.countNuc(c, sequence);
+		        int nucCountG = stats.countNuc(g, sequence);
+		        int nucCountT = stats.countNuc(t, sequence);
+		        
+		        double gcContent = stats.GCContent();
+		        
+		        
+
+		        // output string
+		        String output = String.format(
+		            "Sequence Length:   %d bp%n" +
+		            "%nNucleotide Counts: %dA %dC %dG %dT %n" +
+		            "%nGC Content:        %.2f%%%n",
+		            length,
+		            nucCountA, nucCountC, nucCountG, nucCountT,
+		            gcContent * 100);
+		        
+		        
+	            // output in text area
+		        JTextArea textArea = new JTextArea(output);
+		        textArea.setEditable(false);
+		        textArea.setFont(new Font("Monospaced", Font.PLAIN, 13));
+		        JScrollPane scrollPane = new JScrollPane(textArea);
+		        scrollPane.setPreferredSize(new Dimension(450, 300));
+		        
+		        JOptionPane.showMessageDialog(null, scrollPane, "Sequence Statistics", JOptionPane.PLAIN_MESSAGE);
+		        
+
+		        
+
+			}
+		});
+		GridBagConstraints gbc_btnStatistics = new GridBagConstraints();
+		gbc_btnStatistics.insets = new Insets(0, 0, 5, 0);
+		gbc_btnStatistics.gridx = 6;
+		gbc_btnStatistics.gridy = 3;
+		contentPane.add(btnStatistics, gbc_btnStatistics);
+		
 		
 		// Upload Database button 
 		GridBagConstraints gbc_btnUploadDatabase = new GridBagConstraints();
@@ -273,6 +333,10 @@ public class BlastGui extends JFrame {
 		gbc_btnBLAST.gridx = 0;
 		gbc_btnBLAST.gridy = 8;
 		contentPane.add(btnBLAST, gbc_btnBLAST);
+		
+		
+		
+		
 
 	}
 	private static void performBlastP(String sequence,float mineval, int maxseq) {
