@@ -2,10 +2,9 @@
 package utilities;
 
 import java.util.HashMap;
-
-import ch.qos.logback.core.net.SyslogOutputStream;
-
+import java.util.ArrayList;
 import java.util.Arrays;
+
 
 
 // define the Statistics class
@@ -54,18 +53,17 @@ public class Statistics {
 	public HashMap<Character, Integer> SeqContents() {
 		// initiate a map (dictionary in Python)
 		HashMap<Character, Integer> baseCounts = new HashMap<>();
-		baseCounts.put('C', 0);
-		baseCounts.put('A', 0);
-		baseCounts.put('G', 0);
-		baseCounts.put('T', 0);
 		
 		// add a value of one each time you strike a base to that
 		// corresponding base count
 		for (int i = 0; i < seqLength(); i++) { 
 			char base = seq.charAt(i);
 			
-			int count = baseCounts.get(base);
-			baseCounts.put(base, ++count);
+			if (!baseCounts.containsKey(base)) {
+				baseCounts.put(base, 0);
+			}
+			
+			baseCounts.put(base, baseCounts.get(base) + 1);
 		}
 		
 		// return the base - count map. 
@@ -121,50 +119,93 @@ public class Statistics {
 				// check whether the coding sequence was initiated before appending
 				else if (codingSeq.length() != 0) {
 					codingSeq.append(codon);
-				}
-				
-				// check whether the codon is a stop codon
-				else if (Arrays.asList(stopCodon).contains(codon.toString())) {
-					codingSeq.append(codon);
 					
-					endSequence = true;
-				}
+					// check whether the codon is a stop codon
+					if (Arrays.asList(stopCodon).contains(codon.toString())) {
+						endSequence = true;
+					}					
+				}	
 				
-				System.out.println(codon);
 				// reset the codon
 				codon.setLength(0);
-				
 			}
-			
 		}
-		
 		
 		return codingSeq.toString();
 	}
 	
-	// transform dna sequence to amino acid sequence
-	public String ProteinSeq() {
-		return null;
-	}
 	
-	// transform protein sequence to dna sequence
-	public String DNASeq() {
-		return null;
-	}
 	
 	// make a reverse compliment sequence of the dna sequence
 	public String ReverseCompliment() {
-		return null;
+		String seq = getSeq();
+		StringBuilder revComp = new StringBuilder(seq);
+		revComp.reverse();
+		
+		HashMap<Character, Character> nucMap = new HashMap<>();
+		nucMap.put('A', 'T');
+		nucMap.put('C', 'G');
+		nucMap.put('T','A');
+		nucMap.put('G', 'C');
+		
+		for (int i = 0 ; i < revComp.length() ; i++) {
+			char revNuc = nucMap.get(revComp.charAt(i));
+			revComp.setCharAt(i, revNuc);
+		}
+		
+		return revComp.toString();
+	}
+
+	public ArrayList<String> AllReadingFrames(int[] readingFrames) {
+		String seq = getSeq();
+		ArrayList<String> rFrames = new ArrayList<>();
+		
+		for (int k : readingFrames) {
+			rFrames.add(ReadingFrame(k));
+		}
+		return rFrames;
+	}
+
+	public double ProteinWeight() {
+		
+		String seq = getSeq();
+		
+        // Create a HashMap to store amino acid weights
+        HashMap<Character, Double> protWeights = new HashMap<>();
+
+        // Assign molecular weights in Daltons (average values)
+        protWeights.put('A', 89.09);   // Alanine
+        protWeights.put('R', 174.20);  // Arginine
+        protWeights.put('N', 132.12);  // Asparagine
+        protWeights.put('D', 133.10);  // Aspartic acid
+        protWeights.put('C', 121.16);  // Cysteine
+        protWeights.put('E', 147.13);  // Glutamic acid
+        protWeights.put('Q', 146.15);  // Glutamine
+        protWeights.put('G', 75.07);   // Glycine
+        protWeights.put('H', 155.16);  // Histidine
+        protWeights.put('I', 131.18);  // Isoleucine
+        protWeights.put('L', 131.18);  // Leucine
+        protWeights.put('K', 146.19);  // Lysine
+        protWeights.put('M', 149.21);  // Methionine
+        protWeights.put('F', 165.19);  // Phenylalanine
+        protWeights.put('P', 115.13);  // Proline
+        protWeights.put('S', 105.09);  // Serine
+        protWeights.put('T', 119.12);  // Threonine
+        protWeights.put('W', 204.23);  // Tryptophan
+        protWeights.put('Y', 181.19);  // Tyrosine
+        protWeights.put('V', 117.15);  // Valine
+
+        // Example usage: get the weight of Methionine
+        double totalWeight = 0;
+        for (char aa : seq.toCharArray()) {
+        	if (protWeights.containsKey(aa)) {
+        		totalWeight += protWeights.get(aa);
+        	} else {
+        		System.out.println("Invalid protein sequence used");
+        	}	
+        }
+   
+		return totalWeight;
 	}
 	
-	// find and count all repeated patters, with their indices
-	public String RepeatedPatterns() {
-		return null;
-	}
-	
-	// find all K-mer substrings within the sequence,
-	// K is the number of nucleotides per substring
-	public String KMerSubStrings() {
-		return null;
-	}
 }

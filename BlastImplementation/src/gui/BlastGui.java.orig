@@ -324,7 +324,7 @@ public class BlastGui extends JFrame {
 				//String userInput = txtrInputsequence.getText(); 
 			    //SequenceValidator sv = new SequenceValidator(userInput);
 			    //System.out.println(sv.getSequence()); // tests the results in the console 
-			    performBlastP(txtrInputsequence.getText(),Float.valueOf(Evalue.getSelectedItem().toString()),Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
+			    performBlastP(txtrInputsequence.getText(),Float.valueOf(Evalue.getSelectedItem().toString())/10,Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
 			}
 		});
 		
