@@ -1,12 +1,14 @@
 package tests;
 
 import junit.framework.TestCase;
+import java.io.File;
+
 import utilities.Sequence;
 
 public class SequenceTest extends TestCase {
 	
 	
-	public void testInstantiateSequence() {
+	public void testInstantiateSequenceString() {
 		
 		//Input without fasta header
 		String without_header = "atcgatcg";
@@ -53,5 +55,11 @@ public class SequenceTest extends TestCase {
 			} 
 		catch (IllegalArgumentException e) {
 		 	}
+	}
+	
+	public void testInstantiateSequenceFile() {
+		File fileName = new File("BlastImplementation/Data/test_fa.txt");
+		Sequence check8 = new Sequence(fileName);
+		assertNotNull(check8);
 	}
 }

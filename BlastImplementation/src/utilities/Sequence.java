@@ -11,11 +11,11 @@ import java.io.BufferedReader;
 public class Sequence {
   
 	private String sequence;
-	private File fasta_file;
+	private File fastaFile;
 	
-	
-	public Sequence (String input) { // constructor for sting input 
-		this.sequence = input;
+	// constructor for sting input 
+	public Sequence (String sequence) {
+		this.sequence = sequence;
 		isNotEmpty();
 		checkHeader();
 		checkSequence();
@@ -23,13 +23,19 @@ public class Sequence {
 		checkSequenceElements();
 	}
 	
-	//public SequneceValidator (File input) { //constructor for file input 
-	// check file
-	//}
+	//constructor for FASTA file input 
+	public Sequence (File fastaFile) {
+		this.fastaFile = fastaFile;
+		//verifyFile();
+	}
 	
 	//accessor method for Sequence
 	public String getSequence() {
 	    return this.sequence;
+	}
+	
+	public File getFastaFile() {
+		return this.fastaFile;
 	}
 	
 	//Check if entry is not empty
@@ -64,7 +70,7 @@ public class Sequence {
 	}
 	
 	//Check if all amino acids in sequence have valid letter
-	public void checkSequenceElements() {
+	private void checkSequenceElements() {
 		int start = this.sequence.indexOf('\n') + 1;
 		String residues = this.sequence.substring(start).replaceAll("\\n", "").trim(); //remove \n in sequence
 		for (char residue : residues.toCharArray()) {
@@ -73,6 +79,10 @@ public class Sequence {
 			}
 		}	
 		}
+	
+	//private void verifyFile() {
+		
+	//}
 	}
 
 		
