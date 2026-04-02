@@ -44,7 +44,7 @@ public class MainGui extends JFrame {
 		setBounds(100, 100, 592, 429);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setBackground(new Color(15, 17, 26));
+//		contentPane.setBackground(new Color(15, 17, 26));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{44, 101, 0, 0};
