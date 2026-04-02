@@ -174,61 +174,11 @@ public class BlastGui extends JFrame {
 			}
 		});
 		
-		// Button for statistics
-		JButton btnStatistics = new JButton("Statistics");
-		btnStatistics.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-				String sequence = txtrInputsequence.getText();
-		        
-				char a ='A';
-		        char c = 'C';
-		        char g = 'G';
-		        char t = 'T';
-
-		        Statistics stats = new Statistics(sequence);
-		        
-		        int length = stats.seqLength();
-		        
-		        int nucCountA = stats.countNuc(a, sequence);
-		        int nucCountC = stats.countNuc(c, sequence);
-		        int nucCountG = stats.countNuc(g, sequence);
-		        int nucCountT = stats.countNuc(t, sequence);
-		        
-		        double gcContent = stats.GCContent();
-		        
-		        
-
-		        // output string
-		        String output = String.format(
-		            "Sequence Length:   %d bp%n" +
-		            "%nNucleotide Counts: %dA %dC %dG %dT %n" +
-		            "%nGC Content:        %.2f%%%n",
-		            length,
-		            nucCountA, nucCountC, nucCountG, nucCountT,
-		            gcContent * 100);
-		        
-		        
-	            // output in text area
-		        JTextArea textArea = new JTextArea(output);
-		        textArea.setEditable(false);
-		        textArea.setFont(new Font("Monospaced", Font.PLAIN, 13));
-		        JScrollPane scrollPane = new JScrollPane(textArea);
-		        scrollPane.setPreferredSize(new Dimension(450, 300));
-		        
-		        JOptionPane.showMessageDialog(null, scrollPane, "Sequence Statistics", JOptionPane.PLAIN_MESSAGE);
-		        
-
-		        
-
-			}
-		});
 		GridBagConstraints gbc_btnStatistics = new GridBagConstraints();
 		gbc_btnStatistics.insets = new Insets(0, 0, 5, 0);
 		gbc_btnStatistics.gridx = 6;
 		gbc_btnStatistics.gridy = 3;
-		contentPane.add(btnStatistics, gbc_btnStatistics);
+//		contentPane.add(btnStatistics, gbc_btnStatistics);
 		
 		
 		// Upload Database button 
