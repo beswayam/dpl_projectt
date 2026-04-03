@@ -174,7 +174,7 @@ public class BlastGui extends JFrame {
 			}
 		});
 		
-<<<<<<< HEAD
+
 		JButton Statistic = new JButton("Statistics");
 		Statistic.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -185,7 +185,7 @@ public class BlastGui extends JFrame {
 		gbc_Statistic.gridx = 6;
 		gbc_Statistic.gridy = 3;
 		contentPane.add(Statistic, gbc_Statistic);
-=======
+
 		// Button for statistics
 		JButton btnStatistics = new JButton("Statistics");
 		btnStatistics.addActionListener(new ActionListener() {
@@ -242,7 +242,7 @@ public class BlastGui extends JFrame {
 		gbc_btnStatistics.gridy = 3;
 		contentPane.add(btnStatistics, gbc_btnStatistics);
 		
->>>>>>> 663b09adf5b77199861fb9939f07ad4e0f6551f8
+
 		
 		// Upload Database button 
 		GridBagConstraints gbc_btnUploadDatabase = new GridBagConstraints();
