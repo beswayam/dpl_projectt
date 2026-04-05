@@ -12,12 +12,14 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.awt.Color;
+import utilities.Ssearch36Search;
 //Imports to handle file selection and windows file explorer
 import java.io.File;
 import javax.swing.JFileChooser;
@@ -240,22 +242,6 @@ public class BlastGui extends JFrame {
 		gbc_lblScoringMatric.gridx = 0;
 		gbc_lblScoringMatric.gridy = 7;
 		contentPane.add(lblScoringMatric, gbc_lblScoringMatric);
-		
-		// Blast button 
-		JButton btnBLAST = new JButton("BLAST");
-		btnBLAST.setForeground(new Color(0, 0, 0));
-		btnBLAST.setBackground(Color.WHITE);
-		btnBLAST.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnBLAST.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//String userInput = txtrInputsequence.getText(); 
-			    //SequenceValidator sv = new SequenceValidator(userInput);
-			    //System.out.println(sv.getSequence()); // tests the results in the console 
-			    performBlastP(txtrInputsequence.getText(),Float.valueOf(Evalue.getSelectedItem().toString())/10,Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
-			}
-		});
-		
-		// Drop-down for scoring matrix 
 		JComboBox<String> ScoringMatrix = new JComboBox<String>();
 		ScoringMatrix.setModel(new DefaultComboBoxModel<String>(new String[] {"BLOSUM45", "BLOSUM50", "BLOSUM62", "BLOSUM80", "BLOSUM90", "PAM30", "PAM70", "PAM250"}));
 		ScoringMatrix.setBackground(Color.WHITE);
@@ -267,6 +253,47 @@ public class BlastGui extends JFrame {
 		gbc_ScoringMatrix.gridx = 1;
 		gbc_ScoringMatrix.gridy = 7;
 		contentPane.add(ScoringMatrix, gbc_ScoringMatrix);
+		
+		// Blast button 
+		JButton btnBLAST = new JButton("BLAST");
+		btnBLAST.setForeground(new Color(0, 0, 0));
+		btnBLAST.setBackground(Color.WHITE);
+		btnBLAST.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnBLAST.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//String userInput = txtrInputsequence.getText(); 
+			    //SequenceValidator sv = new SequenceValidator(userInput);
+			    //System.out.println(sv.getSequence()); // tests the results in the console 
+				try {
+					// Build the output file path in the same folder as the database
+					String outPath = dbFile.getParent() + File.separator + "ssearch_results.txt";
+					// Hand off to Ssearch36Search utility — keeps GUI clean of search logic
+					int exitCode = Ssearch36Search.run(
+					    queryFile,
+					    dbFile,
+					    Evalue.getSelectedItem().toString(),
+					    MaxSeqs.getSelectedItem().toString(),
+					    ScoringMatrix.getSelectedItem().toString(),
+					    outPath
+					);
+					// Show the user whether the search succeeded or failed
+					if (exitCode == 0) {
+					    JOptionPane.showMessageDialog(BlastGui.this,
+					        "Search complete!\nResults saved to:\n" + outPath);
+					} else {
+					    JOptionPane.showMessageDialog(BlastGui.this,
+					        "SSEARCH36 failed (exit code " + exitCode + ").\n"
+					        + "Check that ssearch36.exe exists in the tools folder.",
+					        "Search Error", JOptionPane.ERROR_MESSAGE);
+					}
+				} catch (Exception ex) {
+					// show a simple error message if the search cannot start
+					JOptionPane.showMessageDialog(BlastGui.this,
+					    "SSEARCH36 failed: " + ex.getMessage(),
+					    "Search Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		GridBagConstraints gbc_btnBLAST = new GridBagConstraints();
 		gbc_btnBLAST.fill = GridBagConstraints.BOTH;
 		gbc_btnBLAST.insets = new Insets(0, 5, 0, 5);
