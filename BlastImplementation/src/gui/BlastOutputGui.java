@@ -179,6 +179,16 @@ public class BlastOutputGui extends JFrame {
 		gbc_QuerySeqAlignLenLabel.gridy = 11;
 		getContentPane().add(QuerySeqAlignLenLabel, gbc_QuerySeqAlignLenLabel);
 
+		JLabel matchIdentityLabel = new JLabel("-");
+		matchIdentityLabel.setFont(new Font("Monospaced", Font.BOLD, 12));
+//		matchIdentityLabel.setForeground(new Color(60, 210, 140));
+		GridBagConstraints gbc_matchIdentityLabel = new GridBagConstraints();
+		gbc_matchIdentityLabel.anchor = GridBagConstraints.WEST;
+		gbc_matchIdentityLabel.insets = new Insets(0, 0, 12, 5); 
+		gbc_matchIdentityLabel.gridx = 2;
+		gbc_matchIdentityLabel.gridy = 12;
+		getContentPane().add(matchIdentityLabel, gbc_matchIdentityLabel);
+		
 		JLabel MatchSeqLabel = new JLabel("Match Sequence");
 		MatchSeqLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
 //		MatchSeqLabel.setForeground(new Color(100, 115, 150));
@@ -299,6 +309,7 @@ public class BlastOutputGui extends JFrame {
 				labelList.add(EvalueAnnotLabel);
 				labelList.add(BitScoreAnnotLabel);
 				labelList.add(IdentityValueLabel);
+				labelList.add(matchIdentityLabel);
 				parseHit(hits.get(comboBox.getSelectedIndex()),labelList);
 			}
 		});
@@ -330,18 +341,7 @@ public class BlastOutputGui extends JFrame {
 	        	String[] hitrange=Arrays.toString(hitnumrange).split("[\\[\\]]")[1].split(", ");
 	        	DefaultComboBoxModel<String> hitsModel = new DefaultComboBoxModel<String>(hitrange) ;
 	        	comboBox.setModel(hitsModel);
-	        	ArrayList<JLabel> labelList = new ArrayList<JLabel>();
-	        	labelList.add(UniprotIDValueLabel);
-	        	labelList.add(ProteinDescValueLabel);
-				labelList.add(QuerySeqValueLabel);
-				labelList.add(QuerySeqAlignLenLabel);
-				labelList.add(MatchSeqValueLabel);
-				labelList.add(MatchSeqAlignLenLabel);
-				labelList.add(EvalueAnnotLabel);
-				labelList.add(BitScoreAnnotLabel);
-				labelList.add(IdentityValueLabel);
-	        	parseHit(hits.get(0),labelList);
-	        	
+	        	comboBox.setSelectedIndex(0);
 	        }
 
 			@Override
@@ -404,6 +404,7 @@ public class BlastOutputGui extends JFrame {
 	String query_end = hitdata[9];
 	String match_start = hitdata[10];
 	String match_end = hitdata[11];
+	String matches = findMatches(query_seq,match_seq);
 	labelList.get(0).setText(id);
 	labelList.get(1).setText(description);
 	labelList.get(2).setText(query_seq);
@@ -413,8 +414,22 @@ public class BlastOutputGui extends JFrame {
 	labelList.get(6).setText(eval);
 	labelList.get(7).setText(bitscore);
 	labelList.get(8).setText(identity + "%");
+	labelList.get(9).setText(matches);
 	}
-
+	private String findMatches(String seq1, String seq2) {
+	int seqlen =seq1.length();
+	String matches = "";
+	for(int i =0;i < seqlen; i++){
+	if(seq1.charAt(i)==seq2.charAt(i)) {
+	matches+="|";
+	}
+	else {
+	matches+=" ";
+	}
+	}
+	return matches;
+	}
+	
 	private ArrayList<String[]> readBlastTsv(String filename) {
 	    ArrayList<String[]> hits = new ArrayList<String[]>();
 	    File file = new File(filename);
@@ -429,7 +444,7 @@ public class BlastOutputGui extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    
+	   
 		return hits;
 	}
 }
