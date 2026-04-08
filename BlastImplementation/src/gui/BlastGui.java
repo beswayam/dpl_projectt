@@ -261,14 +261,32 @@ public class BlastGui extends JFrame {
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Sequence sequence = null;
-				if (txtrInputsequence.getText().isEmpty()){
-					sequence = new Sequence(queryFile);
-				}
-				else {
+				if (txtrInputsequence.getText().isEmpty() == false){
 					sequence = new Sequence(txtrInputsequence.getText());
+					
+				}
+				if(queryFile!=null) {
+						sequence = new Sequence(queryFile);
+					
 				}
 				
-			    performBlastP(sequence,Float.valueOf(Evalue.getSelectedItem().toString()),Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
+				if(sequence == null) {
+					JFrame inputFrame = new JFrame("Error");
+					inputFrame.setSize(500, 100);
+					inputFrame.setLocationRelativeTo(null);
+					JTextArea textArea = new JTextArea();
+				    textArea.setText("Please provide a sequence via textbox or file");
+				    textArea.setEditable(false);
+					textArea.setLineWrap(true);
+				    textArea.setWrapStyleWord(true);
+					inputFrame.setVisible(true);
+				    JScrollPane scrollPane = new JScrollPane(textArea);
+				    inputFrame.getContentPane().add(scrollPane);
+				}
+				else {
+					performBlastP(sequence,Float.valueOf(Evalue.getSelectedItem().toString()),Integer.parseInt(MaxSeqs.getSelectedItem().toString()));	
+				}
+			    
 			}
 		});
 		

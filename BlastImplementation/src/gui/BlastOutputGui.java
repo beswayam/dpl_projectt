@@ -418,7 +418,6 @@ public class BlastOutputGui extends JFrame {
 			textArea.setLineWrap(true);
 		    textArea.setWrapStyleWord(true);
 			exportFrame.setVisible(true);	
-
 		    JScrollPane scrollPane = new JScrollPane(textArea);
 		    exportFrame.getContentPane().add(scrollPane);
 
@@ -432,6 +431,8 @@ public class BlastOutputGui extends JFrame {
 			textArea.setLineWrap(true);
 		    textArea.setWrapStyleWord(true);
 			exportFrame.setVisible(true);	
+		    JScrollPane scrollPane = new JScrollPane(textArea);
+		    exportFrame.getContentPane().add(scrollPane);
 			e.printStackTrace();
 		}
 	}
