@@ -271,17 +271,10 @@ public class BlastGui extends JFrame {
 				}
 				
 				if(sequence == null) {
-					JFrame inputFrame = new JFrame("Error");
-					inputFrame.setSize(500, 100);
-					inputFrame.setLocationRelativeTo(null);
-					JTextArea textArea = new JTextArea();
-				    textArea.setText("Please provide a sequence via textbox or file");
-				    textArea.setEditable(false);
-					textArea.setLineWrap(true);
-				    textArea.setWrapStyleWord(true);
-					inputFrame.setVisible(true);
-				    JScrollPane scrollPane = new JScrollPane(textArea);
-				    inputFrame.getContentPane().add(scrollPane);
+				    JOptionPane.showMessageDialog(BlastGui.this, 
+				    		"Please provide a sequence via textbox or file", 
+			                "Input Error", 
+			                JOptionPane.WARNING_MESSAGE);
 				}
 				else {
 					performBlastP(sequence,Float.valueOf(Evalue.getSelectedItem().toString()),Integer.parseInt(MaxSeqs.getSelectedItem().toString()));	
