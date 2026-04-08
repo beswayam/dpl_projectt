@@ -174,23 +174,6 @@ public class BlastGui extends JFrame {
 			}
 		});
 
-		JButton Statistic = new JButton("Statistics");
-		Statistic.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		GridBagConstraints gbc_Statistic = new GridBagConstraints();
-		gbc_Statistic.insets = new Insets(0, 0, 5, 0);
-		gbc_Statistic.gridx = 6;
-		gbc_Statistic.gridy = 3;
-		contentPane.add(Statistic, gbc_Statistic);
-
-		
-		GridBagConstraints gbc_btnStatistics = new GridBagConstraints();
-		gbc_btnStatistics.insets = new Insets(0, 0, 5, 0);
-		gbc_btnStatistics.gridx = 6;
-		gbc_btnStatistics.gridy = 3;
-//		contentPane.add(btnStatistics, gbc_btnStatistics);
 		
 		// Upload Database button 
 		GridBagConstraints gbc_btnUploadDatabase = new GridBagConstraints();
