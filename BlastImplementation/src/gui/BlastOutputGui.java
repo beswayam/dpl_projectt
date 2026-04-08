@@ -400,6 +400,8 @@ public class BlastOutputGui extends JFrame {
 	private void exportResults(File infile,String header) {
 		String outfilename = System.getProperty("user.home")+ File.separator + "downloads"+ File.separator + header+"_blastoutput.tsv";
 		File outfile = new File(outfilename);
+		System.out.println(infile.toString());
+		System.out.println(outfile.toString());
 		try {
 			FileUtils.copyFile(infile, outfile);
 			JFrame exportFrame = new JFrame("Export successful");
@@ -417,11 +419,14 @@ public class BlastOutputGui extends JFrame {
 
 		} catch (IOException e) {
 			JFrame exportFrame = new JFrame("Error");
+			exportFrame.setSize(500, 100);
 			exportFrame.setLocationRelativeTo(null);
 			JTextArea textArea = new JTextArea();
 		    textArea.setText("Failed to save results");
 		    textArea.setEditable(false);
-			exportFrame.setVisible(true);
+			textArea.setLineWrap(true);
+		    textArea.setWrapStyleWord(true);
+			exportFrame.setVisible(true);	
 			e.printStackTrace();
 		}
 	}

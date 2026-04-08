@@ -252,18 +252,15 @@ public class BlastGui extends JFrame {
 		btnBLAST.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String seqstring= "";
+				Sequence sequence = null;
 				if (txtrInputsequence.getText().isEmpty()){
-					Sequence sequence = new Sequence(queryFile);
-					seqstring = sequence.getSequence();
+					sequence = new Sequence(queryFile);
 				}
 				else {
-					Sequence sequence = new Sequence(txtrInputsequence.getText());
-					seqstring = sequence.getSequence();
+					sequence = new Sequence(txtrInputsequence.getText());
 				}
 				
-				System.out.println(seqstring);
-			    performBlastP(seqstring,Float.valueOf(Evalue.getSelectedItem().toString()),Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
+			    performBlastP(sequence,Float.valueOf(Evalue.getSelectedItem().toString()),Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
 			}
 		});
 		
@@ -291,13 +288,13 @@ public class BlastGui extends JFrame {
 		
 
 	}
-	private static void performBlastP(String sequence,float mineval, int maxseq) {
-
-		BlastResult<UniProtHit> uniprotblastResult = BlastpSearch.runUniprotBlast(sequence);
+	private static void performBlastP(Sequence sequence,float mineval, int maxseq) {
+		String seqstring = sequence.getSequence();
+		BlastResult<UniProtHit> uniprotblastResult = BlastpSearch.runUniprotBlast(seqstring);
 		String filename = "temp_output.tsv";
 		BlastpSearch.writeUniprotBlastOutput(uniprotblastResult,mineval,maxseq,filename);
 		File file = new File(filename);
-		String header=sequence.split("\\r?\\n")[0].split(" ")[0].substring(1);
+		String header=seqstring.split("\\r?\\n")[0].split(" ")[0].substring(1);
 		BlastOutputGui blastpout = new BlastOutputGui(file,header);
 		blastpout.setLocationRelativeTo(null);
 	    blastpout.setVisible(true);
