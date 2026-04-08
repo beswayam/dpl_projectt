@@ -252,10 +252,18 @@ public class BlastGui extends JFrame {
 		btnBLAST.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//String userInput = txtrInputsequence.getText(); 
-			    //SequenceValidator sv = new SequenceValidator(userInput);
-			    //System.out.println(sv.getSequence()); // tests the results in the console 
-			    performBlastP(txtrInputsequence.getText(),Float.valueOf(Evalue.getSelectedItem().toString()),Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
+				String seqstring= "";
+				if (txtrInputsequence.getText().isEmpty()){
+					Sequence sequence = new Sequence(queryFile);
+					seqstring = sequence.getSequence();
+				}
+				else {
+					Sequence sequence = new Sequence(txtrInputsequence.getText());
+					seqstring = sequence.getSequence();
+				}
+				
+				System.out.println(seqstring);
+			    performBlastP(seqstring,Float.valueOf(Evalue.getSelectedItem().toString()),Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
 			}
 		});
 		

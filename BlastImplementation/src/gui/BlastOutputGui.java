@@ -257,15 +257,15 @@ public class BlastOutputGui extends JFrame {
 		gbc_ExportButton.gridy = 21; 
 		getContentPane().add(ExportButton, gbc_ExportButton);
 		
-		JButton RecommendationButton = new JButton("Future Recommendations");
+//		JButton RecommendationButton = new JButton("Future Recommendations");
 //		RecommendationButton.setBackground(new Color(30, 32, 48));
 //		RecommendationButton.setForeground(new Color(60, 210, 140));
-		GridBagConstraints gbc_RecommendationButton = new GridBagConstraints();
+//		GridBagConstraints gbc_RecommendationButton = new GridBagConstraints();
 //		gbc_RecommendationButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_RecommendationButton.insets = new Insets(5, 5, 5, 5);
-		gbc_RecommendationButton.gridx = 2; 
-		gbc_RecommendationButton.gridy = 21; 
-		getContentPane().add(RecommendationButton, gbc_RecommendationButton);
+//		gbc_RecommendationButton.insets = new Insets(5, 5, 5, 5);
+//		gbc_RecommendationButton.gridx = 2; 
+//		gbc_RecommendationButton.gridy = 21; 
+//		getContentPane().add(RecommendationButton, gbc_RecommendationButton);
 
 		JComboBox<String> comboBox = new JComboBox<>();
 		comboBox.addActionListener(new ActionListener() {
@@ -398,7 +398,7 @@ public class BlastOutputGui extends JFrame {
 	}
 	
 	private void exportResults(File infile,String header) {
-		String outfilename = System.getProperty("user.home")+"\\Downloads\\"+header+"_blastoutput.tsv";
+		String outfilename = System.getProperty("user.home")+ File.separator + "downloads"+ File.separator + header+"_blastoutput.tsv";
 		File outfile = new File(outfilename);
 		try {
 			FileUtils.copyFile(infile, outfile);
