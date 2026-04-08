@@ -400,8 +400,13 @@ public class BlastOutputGui extends JFrame {
 	private void exportResults(File infile,String header) {
 		String outfilename = System.getProperty("user.home")+ File.separator + "downloads"+ File.separator + header+"_blastoutput.tsv";
 		File outfile = new File(outfilename);
-		System.out.println(infile.toString());
-		System.out.println(outfile.toString());
+		int fileid=2;
+		while(outfile.isFile()) {
+			outfilename = System.getProperty("user.home")+ File.separator + "downloads"+ File.separator + header+"_blastoutput_"+fileid+"_.tsv";
+			outfile = new File(outfilename);
+			fileid++;
+		}
+		
 		try {
 			FileUtils.copyFile(infile, outfile);
 			JFrame exportFrame = new JFrame("Export successful");
