@@ -3,6 +3,7 @@ package gui;
 import javax.swing.JFrame;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -24,6 +25,7 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.ArrayUtils;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -306,12 +308,21 @@ public class BlastOutputGui extends JFrame {
 	        public void windowOpened(WindowEvent e) {
 	        	ArrayList<String[]> hits=readBlastTsv(file);
 	        	int hitnum = hits.size();
+	        	if(hitnum==0) {
+				    JOptionPane.showMessageDialog(BlastOutputGui.this, 
+				    		"No BLAST results found", 
+			                "Input Error", 
+			                JOptionPane.WARNING_MESSAGE);
+	        	}
+	        	else {
 	        	int[] hitnumrange = IntStream.range(1,hitnum+1).toArray();
 	        	String[] hitrange=Arrays.toString(hitnumrange).split("[\\[\\]]")[1].split(", ");
 	        	DefaultComboBoxModel<String> hitsModel = new DefaultComboBoxModel<String>(hitrange) ;
 	        	comboBox.setModel(hitsModel);
 	        	comboBox.setSelectedIndex(0);
+	        	}
 	        }
+	        
 
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -400,6 +411,13 @@ public class BlastOutputGui extends JFrame {
 	private void exportResults(File infile,String header) {
 		String outfilename = System.getProperty("user.home")+ File.separator + "downloads"+ File.separator + header+"_blastoutput.tsv";
 		File outfile = new File(outfilename);
+		int fileid=2;
+		while(outfile.isFile()) {
+			outfilename = System.getProperty("user.home")+ File.separator + "downloads"+ File.separator + header+"_blastoutput_"+fileid+"_.tsv";
+			outfile = new File(outfilename);
+			fileid++;
+		}
+		
 		try {
 			FileUtils.copyFile(infile, outfile);
 			JFrame exportFrame = new JFrame("Export successful");
@@ -411,17 +429,14 @@ public class BlastOutputGui extends JFrame {
 			textArea.setLineWrap(true);
 		    textArea.setWrapStyleWord(true);
 			exportFrame.setVisible(true);	
-
 		    JScrollPane scrollPane = new JScrollPane(textArea);
 		    exportFrame.getContentPane().add(scrollPane);
 
 		} catch (IOException e) {
-			JFrame exportFrame = new JFrame("Error");
-			exportFrame.setLocationRelativeTo(null);
-			JTextArea textArea = new JTextArea();
-		    textArea.setText("Failed to save results");
-		    textArea.setEditable(false);
-			exportFrame.setVisible(true);
+		    JOptionPane.showMessageDialog(BlastOutputGui.this, 
+		    		"Failed to save file", 
+	                "Output Error", 
+	                JOptionPane.WARNING_MESSAGE);
 			e.printStackTrace();
 		}
 	}
