@@ -20,8 +20,10 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.awt.Color;
 import java.awt.Dimension;
+import utilities.Ssearch36Search;
 //Imports to handle file selection and windows file explorer
 import java.io.File;
+import java.io.FileWriter;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -244,30 +246,9 @@ public class BlastGui extends JFrame {
 		gbc_lblScoringMatric.gridx = 0;
 		gbc_lblScoringMatric.gridy = 7;
 		contentPane.add(lblScoringMatric, gbc_lblScoringMatric);
-		
-		// Blast button 
-		JButton btnBLAST = new JButton("BLAST");
-		btnBLAST.setForeground(new Color(0, 0, 0));
-		btnBLAST.setBackground(Color.WHITE);
-		btnBLAST.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnBLAST.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String seqstring= "";
-				if (txtrInputsequence.getText().isEmpty()){
-					Sequence sequence = new Sequence(queryFile);
-					seqstring = sequence.getSequence();
-				}
-				else {
-					Sequence sequence = new Sequence(txtrInputsequence.getText());
-					seqstring = sequence.getSequence();
-				}
-				
-				System.out.println(seqstring);
-			    performBlastP(seqstring,Float.valueOf(Evalue.getSelectedItem().toString()),Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
-			}
-		});
-		
-		// Drop-down for scoring matrix 
+
+		// Drop-down for scoring matrix
+		// moved above btnBLAST so the button listener can see it
 		JComboBox<String> ScoringMatrix = new JComboBox<String>();
 		ScoringMatrix.setModel(new DefaultComboBoxModel<String>(new String[] {"BLOSUM45", "BLOSUM50", "BLOSUM62", "BLOSUM80", "BLOSUM90", "PAM30", "PAM70", "PAM250"}));
 		ScoringMatrix.setBackground(Color.WHITE);
@@ -279,6 +260,64 @@ public class BlastGui extends JFrame {
 		gbc_ScoringMatrix.gridx = 1;
 		gbc_ScoringMatrix.gridy = 7;
 		contentPane.add(ScoringMatrix, gbc_ScoringMatrix);
+		
+		// Blast button 
+		JButton btnBLAST = new JButton("BLAST");
+		btnBLAST.setForeground(new Color(0, 0, 0));
+		btnBLAST.setBackground(Color.WHITE);
+		btnBLAST.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnBLAST.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				// run ssearch36 if user uploaded their own database
+				if (dbFile != null) {
+					try {
+						if (queryFile == null) {
+							File tempQueryFile = File.createTempFile("ssearch_query_", ".fasta");
+							tempQueryFile.deleteOnExit();
+							FileWriter fw = new FileWriter(tempQueryFile);
+							fw.write(txtrInputsequence.getText().trim());
+							fw.close();
+							queryFile = tempQueryFile;
+						}
+						String outPath = dbFile.getParent() + File.separator + "ssearch_results.txt";
+						int exitCode = Ssearch36Search.run(
+							queryFile,
+							dbFile,
+							Evalue.getSelectedItem().toString(),
+							MaxSeqs.getSelectedItem().toString(),
+							ScoringMatrix.getSelectedItem().toString(),
+							outPath
+						);
+						if (exitCode == 0) {
+							JOptionPane.showMessageDialog(BlastGui.this,
+								"Search complete!\nResults saved to:\n" + outPath);
+						} else {
+							JOptionPane.showMessageDialog(BlastGui.this,
+								"SSEARCH36 failed (exit code " + exitCode + ").\n"
+								+ "Check that ssearch36.exe exists in the tools folder.",
+								"Search Error", JOptionPane.ERROR_MESSAGE);
+						}
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(BlastGui.this,
+							"SSEARCH36 failed: " + ex.getMessage(),
+							"Search Error", JOptionPane.ERROR_MESSAGE);
+					}
+					return;
+				}
+
+				// only create Sequence object when going to UniProt — not needed for ssearch36
+				Sequence sequence = null;
+				if (txtrInputsequence.getText().isEmpty()){
+					sequence = new Sequence(queryFile);
+				}
+				else {
+					sequence = new Sequence(txtrInputsequence.getText());
+				}
+			    performBlastP(sequence,Float.valueOf(Evalue.getSelectedItem().toString()),Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
+			}
+		});
+
 		GridBagConstraints gbc_btnBLAST = new GridBagConstraints();
 		gbc_btnBLAST.fill = GridBagConstraints.BOTH;
 		gbc_btnBLAST.insets = new Insets(0, 5, 0, 5);
@@ -287,17 +326,15 @@ public class BlastGui extends JFrame {
 		contentPane.add(btnBLAST, gbc_btnBLAST);
 		
 		
-		
-		
 
 	}
-	private static void performBlastP(String sequence,float mineval, int maxseq) {
-
-		BlastResult<UniProtHit> uniprotblastResult = BlastpSearch.runUniprotBlast(sequence);
+	private static void performBlastP(Sequence sequence,float mineval, int maxseq) {
+		String seqstring = sequence.getSequence();
+		BlastResult<UniProtHit> uniprotblastResult = BlastpSearch.runUniprotBlast(seqstring);
 		String filename = "temp_output.tsv";
 		BlastpSearch.writeUniprotBlastOutput(uniprotblastResult,mineval,maxseq,filename);
 		File file = new File(filename);
-		String header=sequence.split("\\r?\\n")[0].split(" ")[0].substring(1);
+		String header=seqstring.split("\\r?\\n")[0].split(" ")[0].substring(1);
 		BlastOutputGui blastpout = new BlastOutputGui(file,header);
 		blastpout.setLocationRelativeTo(null);
 	    blastpout.setVisible(true);
