@@ -64,45 +64,6 @@ public class MainGui extends JFrame {
 		gbl_contentPane.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
-		
-		
-		// input statistics button start
-		JButton btnInputStatistics = new JButton("Upload file");
-		btnInputStatistics.setBackground(Color.WHITE);
-		btnInputStatistics.setFocusPainted(false);
-		btnInputStatistics.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// open file explorer
-				JFileChooser fileChooser = new JFileChooser();
-				
-				// only shows files with .fasta extension in the file chooser
-				FileNameExtensionFilter fasta_filter = new FileNameExtensionFilter(".fasta", "fasta"); 
-				fileChooser.setDialogTitle("Select Query FASTA File");
-				fileChooser.setFileFilter(fasta_filter); //Applies extension filter;
-				
-				// choose file in file explorer
-				int file = fileChooser.showOpenDialog(MainGui.this);
-				
-				// if the file is a valid file, pass the file to the FileStatistics GUI
-				if (file == JFileChooser.APPROVE_OPTION) {
-					inputFile = fileChooser.getSelectedFile();
-					
-					// pass file to second GUI
-				    FileStatistics stats = new FileStatistics(inputFile);
-				    stats.setLocationRelativeTo(null);
-				    stats.setVisible(true);
-				}
-			}
-		});
-		// input statistics button end
-		
-		btnInputStatistics.setForeground(SystemColor.infoText);
-		GridBagConstraints gbc_btnInputStatistics = new GridBagConstraints();
-		gbc_btnInputStatistics.fill = GridBagConstraints.BOTH;
-		gbc_btnInputStatistics.insets = new Insets(0, 0, 5, 5);
-		gbc_btnInputStatistics.gridx = 0;
-		gbc_btnInputStatistics.gridy = 0;
-		contentPane.add(btnInputStatistics, gbc_btnInputStatistics);
 				
 				// BLASTP button 
 				JButton btnBlastInterface = new JButton("BLASTP");
@@ -135,6 +96,45 @@ public class MainGui extends JFrame {
 						gbc_btnBlastInterface.gridx = 1;
 						gbc_btnBlastInterface.gridy = 2;
 						contentPane.add(btnBlastInterface, gbc_btnBlastInterface);
+						
+						
+						// input statistics button start
+						JButton btnInputStatistics = new JButton("File statistics");
+						btnInputStatistics.setBackground(Color.WHITE);
+						btnInputStatistics.setFocusPainted(false);
+						btnInputStatistics.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								// open file explorer
+								JFileChooser fileChooser = new JFileChooser();
+								
+								// only shows files with .fasta extension in the file chooser
+								FileNameExtensionFilter fasta_filter = new FileNameExtensionFilter(".fasta", "fasta"); 
+								fileChooser.setDialogTitle("Select Query FASTA File");
+								fileChooser.setFileFilter(fasta_filter); //Applies extension filter;
+								
+								// choose file in file explorer
+								int file = fileChooser.showOpenDialog(MainGui.this);
+								
+								// if the file is a valid file, pass the file to the FileStatistics GUI
+								if (file == JFileChooser.APPROVE_OPTION) {
+									inputFile = fileChooser.getSelectedFile();
+									
+									// pass file to second GUI
+								    FileStatistics stats = new FileStatistics(inputFile);
+								    stats.setLocationRelativeTo(null);
+								    stats.setVisible(true);
+								}
+							}
+						});
+						// input statistics button end
+						
+						btnInputStatistics.setForeground(SystemColor.infoText);
+						GridBagConstraints gbc_btnInputStatistics = new GridBagConstraints();
+						gbc_btnInputStatistics.fill = GridBagConstraints.BOTH;
+						gbc_btnInputStatistics.insets = new Insets(0, 0, 5, 5);
+						gbc_btnInputStatistics.gridx = 1;
+						gbc_btnInputStatistics.gridy = 3;
+						contentPane.add(btnInputStatistics, gbc_btnInputStatistics);
 
 	}
 
