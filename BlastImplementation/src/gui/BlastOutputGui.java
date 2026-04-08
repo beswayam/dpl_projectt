@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -21,6 +22,9 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+
+import org.apache.commons.io.FileUtils;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -33,7 +37,7 @@ public class BlastOutputGui extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public BlastOutputGui(String filename) {
+	public BlastOutputGui(File file,String header) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -150,7 +154,7 @@ public class BlastOutputGui extends JFrame {
 		gbc_ProteinDescValueLabel.gridwidth = 2;
 		getContentPane().add(ProteinDescValueLabel, gbc_ProteinDescValueLabel);
 		
-		JLabel QuerySeqLabel = new JLabel("Query Sequence");
+		JLabel QuerySeqLabel = new JLabel("<html>Query Sequence<br><br>Match Sequence</html>");
 		QuerySeqLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
 //		QuerySeqLabel.setForeground(new Color(100, 115, 150));
 		GridBagConstraints gbc_QuerySeqLabel = new GridBagConstraints();
@@ -159,72 +163,35 @@ public class BlastOutputGui extends JFrame {
 		gbc_QuerySeqLabel.gridy = 11;
 		getContentPane().add(QuerySeqLabel, gbc_QuerySeqLabel);
 
-		JLabel QuerySeqValueLabel = new JLabel("-");
-		QuerySeqValueLabel.setFont(new Font("Monospaced", Font.BOLD, 12));
+		JLabel SeqValueLabel = new JLabel("-");
+		SeqValueLabel.setFont(new Font("Monospaced", Font.BOLD, 12));
 //		QuerySeqValueLabel.setForeground(new Color(60, 210, 140));
 		GridBagConstraints gbc_QuerySeqValueLabel = new GridBagConstraints();
 		gbc_QuerySeqValueLabel.anchor = GridBagConstraints.WEST;
 		gbc_QuerySeqValueLabel.insets = new Insets(0, 0, 12, 5); 
 		gbc_QuerySeqValueLabel.gridx = 2;
 		gbc_QuerySeqValueLabel.gridy = 11;
-		getContentPane().add(QuerySeqValueLabel, gbc_QuerySeqValueLabel);
+		getContentPane().add(SeqValueLabel, gbc_QuerySeqValueLabel);
 
-		JLabel QuerySeqAlignLenLabel = new JLabel("(-:-)");
-		QuerySeqAlignLenLabel.setFont(new Font("Monospaced", Font.PLAIN, 11));
-//		QuerySeqAlignLenLabel.setForeground(new Color(100, 115, 150));
-		GridBagConstraints gbc_QuerySeqAlignLenLabel = new GridBagConstraints();
-		gbc_QuerySeqAlignLenLabel.anchor = GridBagConstraints.LINE_END;
-		gbc_QuerySeqAlignLenLabel.insets = new Insets(0, 0, 12, 5);
-		gbc_QuerySeqAlignLenLabel.gridx = 3;
-		gbc_QuerySeqAlignLenLabel.gridy = 11;
-		getContentPane().add(QuerySeqAlignLenLabel, gbc_QuerySeqAlignLenLabel);
+		JLabel SeqAlignLenLabel = new JLabel("<html>(-:-)<br><br>(-:-)</html>");
+		SeqAlignLenLabel.setFont(new Font("Monospaced", Font.PLAIN, 11));
+//		SeqAlignLenLabel.setForeground(new Color(100, 115, 150));
+		GridBagConstraints gbc_SeqAlignLenLabel = new GridBagConstraints();
+		gbc_SeqAlignLenLabel.anchor = GridBagConstraints.LINE_END;
+		gbc_SeqAlignLenLabel.insets = new Insets(0, 0, 12, 5);
+		gbc_SeqAlignLenLabel.gridx = 3;
+		gbc_SeqAlignLenLabel.gridy = 11;
+		getContentPane().add(SeqAlignLenLabel, gbc_SeqAlignLenLabel);
 
-		JLabel matchIdentityLabel = new JLabel("-");
-		matchIdentityLabel.setFont(new Font("Monospaced", Font.BOLD, 12));
-//		matchIdentityLabel.setForeground(new Color(60, 210, 140));
-		GridBagConstraints gbc_matchIdentityLabel = new GridBagConstraints();
-		gbc_matchIdentityLabel.anchor = GridBagConstraints.WEST;
-		gbc_matchIdentityLabel.insets = new Insets(0, 0, 12, 5); 
-		gbc_matchIdentityLabel.gridx = 2;
-		gbc_matchIdentityLabel.gridy = 12;
-		getContentPane().add(matchIdentityLabel, gbc_matchIdentityLabel);
+
 		
-		JLabel MatchSeqLabel = new JLabel("Match Sequence");
-		MatchSeqLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
-//		MatchSeqLabel.setForeground(new Color(100, 115, 150));
-		GridBagConstraints gbc_MatchSeqLabel = new GridBagConstraints();
-		gbc_MatchSeqLabel.insets = new Insets(0, 10, 12, 5); 
-		gbc_MatchSeqLabel.gridx = 1;
-		gbc_MatchSeqLabel.gridy = 13;
-		getContentPane().add(MatchSeqLabel, gbc_MatchSeqLabel);
-
-		JLabel MatchSeqValueLabel = new JLabel("-");
-		MatchSeqValueLabel.setFont(new Font("Monospaced", Font.BOLD, 12));
-//		MatchSeqValueLabel.setForeground(new Color(60, 210, 140));
-		GridBagConstraints gbc_MatchSeqValueLabel = new GridBagConstraints();
-		gbc_MatchSeqValueLabel.anchor = GridBagConstraints.WEST;
-		gbc_MatchSeqValueLabel.insets = new Insets(0, 0, 12, 5); 
-		gbc_MatchSeqValueLabel.gridx = 2;
-		gbc_MatchSeqValueLabel.gridy = 13;
-		getContentPane().add(MatchSeqValueLabel, gbc_MatchSeqValueLabel);
-
-		JLabel MatchSeqAlignLenLabel = new JLabel("(-:-)");
-		MatchSeqAlignLenLabel.setFont(new Font("Monospaced", Font.PLAIN, 11));
-//		MatchSeqAlignLenLabel.setForeground(new Color(100, 115, 150));
-		GridBagConstraints gbc_MatchSeqAlignLenLabel = new GridBagConstraints();
-		gbc_MatchSeqAlignLenLabel.anchor = GridBagConstraints.LINE_END;
-		gbc_MatchSeqAlignLenLabel.insets = new Insets(0, 0, 12, 5); 
-		gbc_MatchSeqAlignLenLabel.gridx = 3;
-		gbc_MatchSeqAlignLenLabel.gridy = 13;
-		getContentPane().add(MatchSeqAlignLenLabel, gbc_MatchSeqAlignLenLabel);
-
 		JLabel EvalueLabel = new JLabel("E-value");
 		EvalueLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
 //		EvalueLabel.setForeground(new Color(100, 115, 150));
 		GridBagConstraints gbc_EvalueLabel = new GridBagConstraints();
 		gbc_EvalueLabel.insets = new Insets(0, 10, 12, 5); 
 		gbc_EvalueLabel.gridx = 1;
-		gbc_EvalueLabel.gridy = 15;
+		gbc_EvalueLabel.gridy = 14;
 		getContentPane().add(EvalueLabel, gbc_EvalueLabel);
 
 		JLabel EvalueAnnotLabel = new JLabel("-");
@@ -234,7 +201,7 @@ public class BlastOutputGui extends JFrame {
 		gbc_EvalueAnnotLabel.anchor = GridBagConstraints.WEST;
 		gbc_EvalueAnnotLabel.insets = new Insets(0, 0, 12, 5);
 		gbc_EvalueAnnotLabel.gridx = 2;
-		gbc_EvalueAnnotLabel.gridy = 15;
+		gbc_EvalueAnnotLabel.gridy = 14;
 		getContentPane().add(EvalueAnnotLabel, gbc_EvalueAnnotLabel);
 
 		JLabel BitScoreLabel = new JLabel("Bit Score");
@@ -243,7 +210,7 @@ public class BlastOutputGui extends JFrame {
 		GridBagConstraints gbc_BitScoreLabel = new GridBagConstraints();
 		gbc_BitScoreLabel.insets = new Insets(0, 10, 12, 5); 
 		gbc_BitScoreLabel.gridx = 1;
-		gbc_BitScoreLabel.gridy = 17;
+		gbc_BitScoreLabel.gridy = 16;
 		getContentPane().add(BitScoreLabel, gbc_BitScoreLabel);
 
 		JLabel BitScoreAnnotLabel = new JLabel("-");
@@ -253,7 +220,7 @@ public class BlastOutputGui extends JFrame {
 		gbc_BitScoreAnnotLabel.anchor = GridBagConstraints.WEST;
 		gbc_BitScoreAnnotLabel.insets = new Insets(0, 0, 12, 5);
 		gbc_BitScoreAnnotLabel.gridx = 2;
-		gbc_BitScoreAnnotLabel.gridy = 17;
+		gbc_BitScoreAnnotLabel.gridy = 16;
 		getContentPane().add(BitScoreAnnotLabel, gbc_BitScoreAnnotLabel);
 		
 		JLabel IdentityLabel = new JLabel("Identity");
@@ -262,7 +229,7 @@ public class BlastOutputGui extends JFrame {
 		GridBagConstraints gbc_IdentityLabel = new GridBagConstraints();
 		gbc_IdentityLabel.insets = new Insets(0, 10, 12, 5); 
 		gbc_IdentityLabel.gridx = 1;
-		gbc_IdentityLabel.gridy = 19;
+		gbc_IdentityLabel.gridy = 18;
 		getContentPane().add(IdentityLabel, gbc_IdentityLabel);
 
 		JLabel IdentityValueLabel = new JLabel("-");
@@ -272,10 +239,15 @@ public class BlastOutputGui extends JFrame {
 		gbc_IdentityValueLabel.anchor = GridBagConstraints.WEST;
 		gbc_IdentityValueLabel.insets = new Insets(0, 0, 12, 5); 
 		gbc_IdentityValueLabel.gridx = 2;
-		gbc_IdentityValueLabel.gridy = 19;
+		gbc_IdentityValueLabel.gridy = 18;
 		getContentPane().add(IdentityValueLabel, gbc_IdentityValueLabel);
 		
 		JButton ExportButton = new JButton("Export Results");
+		ExportButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exportResults(file,header);
+			}
+		});
 //		ExportButton.setBackground(new Color(30, 32, 48));
 //		ExportButton.setForeground(new Color(60, 210, 140));
 		GridBagConstraints gbc_ExportButton = new GridBagConstraints();
@@ -298,18 +270,15 @@ public class BlastOutputGui extends JFrame {
 		JComboBox<String> comboBox = new JComboBox<>();
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ArrayList<String[]> hits = readBlastTsv(filename);
+				ArrayList<String[]> hits = readBlastTsv(file);
 				ArrayList<JLabel> labelList = new ArrayList<JLabel>();
 				labelList.add(UniprotIDValueLabel);
 				labelList.add(ProteinDescValueLabel);
-				labelList.add(QuerySeqValueLabel);
-				labelList.add(QuerySeqAlignLenLabel);
-				labelList.add(MatchSeqValueLabel);
-				labelList.add(MatchSeqAlignLenLabel);
+				labelList.add(SeqValueLabel);
+				labelList.add(SeqAlignLenLabel);
 				labelList.add(EvalueAnnotLabel);
 				labelList.add(BitScoreAnnotLabel);
 				labelList.add(IdentityValueLabel);
-				labelList.add(matchIdentityLabel);
 				parseHit(hits.get(comboBox.getSelectedIndex()),labelList);
 			}
 		});
@@ -335,7 +304,7 @@ public class BlastOutputGui extends JFrame {
 		WindowListener taskStarterWindowListener = new WindowListener() {
 	        @Override
 	        public void windowOpened(WindowEvent e) {
-	        	ArrayList<String[]> hits=readBlastTsv(filename);
+	        	ArrayList<String[]> hits=readBlastTsv(file);
 	        	int hitnum = hits.size();
 	        	int[] hitnumrange = IntStream.range(1,hitnum+1).toArray();
 	        	String[] hitrange=Arrays.toString(hitnumrange).split("[\\[\\]]")[1].split(", ");
@@ -388,7 +357,7 @@ public class BlastOutputGui extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new BlastOutputGui("temp_output.tsv");
+		new BlastOutputGui(new File("temp_output.tsv"),"testheader");
 	}
 	
 	private void parseHit(String[] hitdata,ArrayList<JLabel> labelList) {
@@ -407,34 +376,60 @@ public class BlastOutputGui extends JFrame {
 	String matches = findMatches(query_seq,match_seq);
 	labelList.get(0).setText(id);
 	labelList.get(1).setText(description);
-	labelList.get(2).setText(query_seq);
-	labelList.get(3).setText("("+query_start+ ":"+ query_end+ ")");
-	labelList.get(4).setText(match_seq);
-	labelList.get(5).setText("("+match_start+ ":"+ match_end+ ")");
-	labelList.get(6).setText(eval);
-	labelList.get(7).setText(bitscore);
-	labelList.get(8).setText(identity + "%");
-	labelList.get(9).setText(matches);
+	labelList.get(2).setText("<html>"+query_seq+"<br>"+matches+"<br>"+match_seq+"</html>");
+	labelList.get(3).setText("<html>("+query_start+ ":"+ query_end+ ")<br><br>("+match_start+ ":"+ match_end+ ")</html>");
+	labelList.get(4).setText(eval);
+	labelList.get(5).setText(bitscore);
+	labelList.get(6).setText(identity + "%");
 	}
+	
 	private String findMatches(String seq1, String seq2) {
-	int seqlen =seq1.length();
+	int seqlen = seq1.length();
 	String matches = "";
 	for(int i =0;i < seqlen; i++){
 	if(seq1.charAt(i)==seq2.charAt(i)) {
 	matches+="|";
 	}
 	else {
-	matches+=" ";
+	matches+="&nbsp";
 	}
 	}
 	return matches;
 	}
 	
-	private ArrayList<String[]> readBlastTsv(String filename) {
+	private void exportResults(File infile,String header) {
+		String outfilename = System.getProperty("user.home")+"\\Downloads\\"+header+"_blastoutput.tsv";
+		File outfile = new File(outfilename);
+		try {
+			FileUtils.copyFile(infile, outfile);
+			JFrame exportFrame = new JFrame("Export successful");
+			exportFrame.setSize(500, 100);
+			exportFrame.setLocationRelativeTo(null);
+			JTextArea textArea = new JTextArea();
+		    textArea.setText("Result saved to " + outfilename);
+		    textArea.setEditable(false);
+			textArea.setLineWrap(true);
+		    textArea.setWrapStyleWord(true);
+			exportFrame.setVisible(true);	
+
+		    JScrollPane scrollPane = new JScrollPane(textArea);
+		    exportFrame.getContentPane().add(scrollPane);
+
+		} catch (IOException e) {
+			JFrame exportFrame = new JFrame("Error");
+			exportFrame.setLocationRelativeTo(null);
+			JTextArea textArea = new JTextArea();
+		    textArea.setText("Failed to save results");
+		    textArea.setEditable(false);
+			exportFrame.setVisible(true);
+			e.printStackTrace();
+		}
+	}
+	
+	private ArrayList<String[]> readBlastTsv(File file) {
 	    ArrayList<String[]> hits = new ArrayList<String[]>();
-	    File file = new File(filename);
 		try (Scanner myReader = new Scanner(file)) {
-			String header = myReader.nextLine();
+			String fileheader = myReader.nextLine();
 	        while (myReader.hasNextLine()) {
 	        String data = myReader.nextLine();
 	        String[] dataArray = data.split("\t");

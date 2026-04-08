@@ -305,7 +305,9 @@ public class BlastGui extends JFrame {
 		BlastResult<UniProtHit> uniprotblastResult = BlastpSearch.runUniprotBlast(sequence);
 		String filename = "temp_output.tsv";
 		BlastpSearch.writeUniprotBlastOutput(uniprotblastResult,mineval,maxseq,filename);
-		BlastOutputGui blastpout = new BlastOutputGui(filename);
+		File file = new File(filename);
+		String header=sequence.split("\\r?\\n")[0].split(" ")[0].substring(1);
+		BlastOutputGui blastpout = new BlastOutputGui(file,header);
 		blastpout.setLocationRelativeTo(null);
 	    blastpout.setVisible(true);
 		
