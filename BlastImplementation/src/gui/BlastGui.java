@@ -309,7 +309,7 @@ public class BlastGui extends JFrame {
 		gbc_btnBLAST.gridy = 8;
 		contentPane.add(btnBLAST, gbc_btnBLAST);
 		
-		
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
 		
 		
 
