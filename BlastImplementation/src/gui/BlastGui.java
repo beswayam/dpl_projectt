@@ -112,24 +112,6 @@ public class BlastGui extends JFrame {
 		gbc_lblEnterSeqeuence.gridy = 1;
 		contentPane.add(lblEnterSeqeuence, gbc_lblEnterSeqeuence);
 		
-		// Button for upload input sequence (FASTA file) 
-		final JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
-		btnInputSequenceUpload.setBackground(Color.WHITE);
-		btnInputSequenceUpload.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnInputSequenceUpload.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser fileChooser = new JFileChooser();
-				FileNameExtensionFilter fasta_filter = new FileNameExtensionFilter("Fasta file", "fasta"); //Only shows files with .fasta extension in the file chooser
-				fileChooser.setDialogTitle("Select Query FASTA File");
-				fileChooser.setFileFilter(fasta_filter); //Applies extension filter;
-				if (fileChooser.showOpenDialog(BlastGui.this)==JFileChooser.APPROVE_OPTION) {
-					queryFile = fileChooser.getSelectedFile();
-					btnInputSequenceUpload.setText("Selected: " + queryFile.getName());
-					//SequenceValidator path = new SequenceValidator(queryFile.getPath()); // checks the the sequence and gives the path 
-				}
-			}
-		});
-		
 		// Scroll pane of the interface 
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -148,6 +130,32 @@ public class BlastGui extends JFrame {
 		gbc_btnInputSequenceUpload.insets = new Insets(5, 5, 10, 5);
 		gbc_btnInputSequenceUpload.gridx = 0;
 		gbc_btnInputSequenceUpload.gridy = 3;
+		// Button for upload input sequence (FASTA file) 
+				final JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
+				btnInputSequenceUpload.setBackground(Color.WHITE);
+				btnInputSequenceUpload.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				btnInputSequenceUpload.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						if (!txtrInputsequence.getText().trim().isEmpty()) {
+				            JOptionPane.showMessageDialog(BlastGui.this, 
+				                "Please clear the text area before uploading a file.", 
+				                "Input Error", 
+				                JOptionPane.WARNING_MESSAGE);
+				            return;
+				        }
+						
+						JFileChooser fileChooser = new JFileChooser();
+						FileNameExtensionFilter fasta_filter = new FileNameExtensionFilter("Fasta file", "fasta"); //Only shows files with .fasta extension in the file chooser
+						fileChooser.setDialogTitle("Select Query FASTA File");
+						fileChooser.setFileFilter(fasta_filter); //Applies extension filter;
+						if (fileChooser.showOpenDialog(BlastGui.this)==JFileChooser.APPROVE_OPTION) {
+							queryFile = fileChooser.getSelectedFile();
+							btnInputSequenceUpload.setText("Selected: " + queryFile.getName());
+							//SequenceValidator path = new SequenceValidator(queryFile.getPath()); // checks the the sequence and gives the path 
+						}
+					}
+				});
 		contentPane.add(btnInputSequenceUpload, gbc_btnInputSequenceUpload);
 		
 
