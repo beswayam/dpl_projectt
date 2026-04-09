@@ -436,7 +436,7 @@ public class BlastOutputGui extends JFrame {
 		    JOptionPane.showMessageDialog(BlastOutputGui.this, 
 		    		"Failed to save file", 
 	                "Output Error", 
-	                JOptionPane.WARNING_MESSAGE);
+	                JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
@@ -451,7 +451,10 @@ public class BlastOutputGui extends JFrame {
 	        hits.add(dataArray);
 	        }
 	      } catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			    JOptionPane.showMessageDialog(BlastOutputGui.this, 
+			    		"Temporary BLAST output tsv " +file+ " not found", 
+		                "File Error", 
+		                JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	   

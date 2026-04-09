@@ -328,11 +328,7 @@ public class BlastGui extends JFrame {
 				try {
 					String raw = txtrInputsequence.getText();
 					if (raw != null && !raw.trim().isEmpty()) {
-						String cleaned = raw
-							.replaceAll("(?m)^>.*$", "")  // remove FASTA headers
-							.replaceAll("\\s+", "")        // remove spaces/newlines/tabs
-							.toUpperCase();
-						sequence = new Sequence(cleaned);
+						sequence = new Sequence(raw);
 					}
 					if (queryFile != null) {
 						sequence = new Sequence(queryFile);
