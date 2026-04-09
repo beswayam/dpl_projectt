@@ -81,23 +81,38 @@ public class Sequence {
 	
 	//Convert sequence to upper case 
 	private void sequenceToUpperCase() {
-		int start = this.sequence.indexOf('\n') + 1; //turn into separate  method 
-		int end = this.sequence.length();
-		String header = this.sequence.substring(0, start);
-		this.sequence = this.sequence.substring(start, end).toUpperCase();
-		this.sequence = header + this.sequence;
+		this.sequence = this.sequence.toUpperCase();
 	}
 	
-	//Check if all amino acids in sequence have valid letter
+	// Check if residues are valid for either protein or DNA alphabets
 	private void checkSequenceElements() {
 		int start = this.sequence.indexOf('\n') + 1;
-		String residues = this.sequence.substring(start).replaceAll("\\r|\\n", "").trim(); //remove \n in sequence
+		String residues = this.sequence.substring(start)
+				.replaceAll("(?m)^>.*$", "")   // remove additional FASTA headers
+				.replaceAll("\\s+", "");       // remove all whitespace
+
+		if (residues.isEmpty()) {
+			throw new IllegalArgumentException("Invalid input");
+		}
+
+		final String dnaAlphabet = "ACGTN";
+		final String proteinAlphabet = "ACDEFGHIKLMNPQRSTVWYBXZJUO*";
+
+		boolean isProtein = true;
+		boolean isDna = true;
+
 		for (char residue : residues.toCharArray()) {
-			if ("ACDEFGHIKLMNPQRSTVWY".indexOf(residue) == -1) {
+			if (proteinAlphabet.indexOf(residue) == -1) {
+				isProtein = false;
+			}
+			if (dnaAlphabet.indexOf(residue) == -1) {
+				isDna = false;
+			}
+			if (!isProtein && !isDna) {
 				throw new IllegalArgumentException("Invalid input");
 			}
-		}	
 		}
+	}
 	
 	private void verifySequence() {
 		isNotEmpty();
@@ -109,4 +124,3 @@ public class Sequence {
 	}
 
 		
-	 
