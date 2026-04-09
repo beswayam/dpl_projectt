@@ -277,26 +277,33 @@ public class BlastGui extends JFrame {
 		btnBLAST.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Sequence sequence = null;
+				try {
+					String raw = txtrInputsequence.getText();
+					if (raw != null && !raw.trim().isEmpty()) {
+						sequence = new Sequence(raw);
+					}
+					if (queryFile != null) {
+						sequence = new Sequence(queryFile);
+					}
+				} catch (IllegalArgumentException ex) {
+					JOptionPane.showMessageDialog(BlastGui.this,
+						"Invalid sequence: " + ex.getMessage(),
+						"Input Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 
+				if (sequence == null) {
+				    JOptionPane.showMessageDialog(BlastGui.this, 
+				    		"Please provide a sequence via textbox or file", 
+			                "Input Error", 
+			                JOptionPane.WARNING_MESSAGE);
+				}
+				else {
 				// database uploaded → always use ssearch36 local search
 				if (dbFile != null) {
 					try {
-						// resolve query: uploaded file takes priority over text area
-						if (queryFile == null) {
-							String textContent = txtrInputsequence.getText().trim();
-							if (textContent.isEmpty()) {
-								JOptionPane.showMessageDialog(BlastGui.this,
-									"Please upload a query file or paste a sequence in the text area.",
-									"Missing Query", JOptionPane.ERROR_MESSAGE);
-								return;
-							}
-							File tempQueryFile = File.createTempFile("ssearch_query_", ".fasta");
-							tempQueryFile.deleteOnExit();
-							FileWriter fw = new FileWriter(tempQueryFile);
-							fw.write(textContent);
-							fw.close();
-							queryFile = tempQueryFile;
-						}
+						File queryFile = sequence.getFastaFile();
 						String outPath = dbFile.getParent() + File.separator + "ssearch_results.txt";
 						int exitCode = Ssearch36Search.run(
 							queryFile,
@@ -324,31 +331,8 @@ public class BlastGui extends JFrame {
 				}
 
 				// no database uploaded → search against UniProt online
-				Sequence sequence = null;
-				try {
-					String raw = txtrInputsequence.getText();
-					if (raw != null && !raw.trim().isEmpty()) {
-						sequence = new Sequence(raw);
-					}
-					if (queryFile != null) {
-						sequence = new Sequence(queryFile);
-					}
-				} catch (IllegalArgumentException ex) {
-					JOptionPane.showMessageDialog(BlastGui.this,
-						"Invalid sequence: " + ex.getMessage(),
-						"Input Error", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-
-				if (sequence == null) {
-				    JOptionPane.showMessageDialog(BlastGui.this, 
-				    		"Please provide a sequence via textbox or file", 
-			                "Input Error", 
-			                JOptionPane.WARNING_MESSAGE);
-				} else {
 					performBlastP(sequence, Float.valueOf(Evalue.getSelectedItem().toString()), Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
-				}
-			}
+			}}
 		});
 
 		GridBagConstraints gbc_btnBLAST = new GridBagConstraints();
