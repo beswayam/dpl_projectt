@@ -366,13 +366,16 @@ public class BlastGui extends JFrame {
 		String seqstring = sequence.getSequence();
 		BlastResult<UniProtHit> uniprotblastResult = BlastpSearch.runUniprotBlast(seqstring);
 
+		//MV: i believe this error is redundant, the sequence class will already gives an error if the sequence is invalid
+		//Blast gives an error if the blast is interrupted and an error if the output is empty
+		
 		// null means the server rejected the request
-		if (uniprotblastResult == null) {
-			JOptionPane.showMessageDialog(null,
-				"BLAST search failed. The server rejected the request.\nCheck your sequence is valid.",
-				"Search Error", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
+		//if (uniprotblastResult == null) {
+		//	JOptionPane.showMessageDialog(null,
+		//		"BLAST search failed. The server rejected the request.\nCheck your sequence is valid.",
+		//		"Search Error", JOptionPane.ERROR_MESSAGE);
+		//	return;
+		//}
 
 		String filename = "temp_output.tsv";
 		BlastpSearch.writeUniprotBlastOutput(uniprotblastResult, mineval, maxseq, filename);
