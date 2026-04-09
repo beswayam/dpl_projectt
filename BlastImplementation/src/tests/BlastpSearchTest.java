@@ -6,6 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
+import gui.BlastGui;
+import gui.BlastOutputGui;
 import utilities.BlastpSearch;
 import junit.framework.TestCase;
 import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.BlastResult;
@@ -45,17 +49,29 @@ public class BlastpSearchTest extends TestCase {
         }
         catch (FileNotFoundException fe)
         {
-            System.out.println("File not found");
+		    JOptionPane.showMessageDialog(new JOptionPane(), 
+		    		"Failed to open output file", 
+	                "Output Error", 
+	                JOptionPane.ERROR_MESSAGE);
+		    fe.printStackTrace();
         }
         try {
 			System.out.println(fileReader.read());
 		} catch (IOException e) {
+		    JOptionPane.showMessageDialog(new JOptionPane(), 
+		    		"Failed to open output file", 
+	                "Output Error", 
+	                JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 		
         try {
 			assertNotNull(fileReader.read());
 		} catch (IOException e) {
+		    JOptionPane.showMessageDialog(new JOptionPane(), 
+		    		"Failed to open output file", 
+	                "Output Error", 
+	                JOptionPane.ERROR_MESSAGE);			
 			e.printStackTrace();
 		}
 	}
