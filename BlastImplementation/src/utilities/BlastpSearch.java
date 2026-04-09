@@ -26,7 +26,7 @@ public class BlastpSearch {
 
 	        } catch (ExecutionException e) {
 			    JOptionPane.showMessageDialog(new JOptionPane(), 
-			    		"BLAST aborted", 
+			    		"BLAST aborted, please check your internet connection", 
 		                "BLAST Error", 
 		                JOptionPane.ERROR_MESSAGE);
 			    e.printStackTrace();
