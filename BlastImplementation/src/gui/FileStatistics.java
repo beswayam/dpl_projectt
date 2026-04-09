@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import utilities.ProteinStatistics;
 import utilities.Statistics;
 
 import java.awt.GridBagLayout;
@@ -153,45 +154,7 @@ public class FileStatistics extends JFrame {
 		gbc_textStatistics.fill = GridBagConstraints.BOTH;
 		textStatistics.setEditable(false);
 		
-		
-		String sequence = FastaParser(this.file);
-		Statistics stats = new Statistics(sequence);
-		
-		char a ='A';
-        char c = 'C';
-        char g = 'G';
-        char t = 'T';
-        
-        int length = stats.seqLength();
-        
-        int nucCountA = stats.countNuc(a, sequence);
-        int nucCountC = stats.countNuc(c, sequence);
-        int nucCountG = stats.countNuc(g, sequence);
-        int nucCountT = stats.countNuc(t, sequence);
-		
-		double gcContent = stats.GCContent();
-		
-		textStatistics.append("GC content of the sequence is " + Math.round(gcContent * 1000)*0.1 + "%\n\n");
-		textStatistics.append("Length of the sequence is " + length + " nucleotides\n\n");
-		textStatistics.append("Sequence contents\n");
-		
-		HashMap<Character, Integer> moleculedict = stats.SeqContents();
-//			ArrayList<String> nucString = new ArrayList<> ();
-//			 nucString.add
-		for (Entry<Character, Integer> mol : moleculedict.entrySet()) {
-			Character key = mol.getKey();
-			Integer value = mol.getValue();
-			
-			textStatistics.append(key + " : " + value.toString() + "\n");
-			
-		}
-
-				
-//		textStatistics.append("A " +  "C " + "G " + "T ");
-//			textStatistics.append(nucCountA + "A " + nucCountC + "C " + nucCountG + "G " + nucCountT + "T ");
-		
-		
-		contentPane.add(new JScrollPane(textStatistics), gbc_textStatistics);
+		textForStatistics(textStatistics, gbc_textStatistics);
 		// statistics text area stop
 		
 		// tools text area start
@@ -229,5 +192,30 @@ public class FileStatistics extends JFrame {
             e.printStackTrace();
             return null;
         }	
+	}
+	
+	private void textForStatistics(JTextArea textStatistics, GridBagConstraints gbc_textStatistics) {
+		String rawSeq = FastaParser(this.file);
+		ProteinStatistics protSeq = new ProteinStatistics(rawSeq);
+		      
+		// protein length
+        int length = protSeq.seqLength();
+		textStatistics.append("Length of the protein is " + length + " amino acids\n\n");
+		
+		// protein base counts
+		textStatistics.append("Protein contents\n");
+		HashMap<Character, Integer> moleculeDict = protSeq.SeqContents();
+
+		for (Entry<Character, Integer> mol : moleculeDict.entrySet()) {
+			Character key = mol.getKey();
+			Integer value = mol.getValue();
+			
+			textStatistics.append(key + " : " + value.toString() + "\n");
+		}
+		
+		// protein weight
+		textStatistics.append("\nProtein weight: " + protSeq.ProteinWeight() + " Da");
+		
+		contentPane.add(new JScrollPane(textStatistics), gbc_textStatistics);		
 	}
 }

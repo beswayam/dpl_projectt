@@ -10,6 +10,4 @@ public class ProteinStatisticsTest extends TestCase {
 		double protWeight = seq.ProteinWeight();
 		assertEquals(protWeight, 1294.42);
 	}
-	
-
 }

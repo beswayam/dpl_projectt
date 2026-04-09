@@ -7,17 +7,13 @@ public class ProteinStatistics extends Statistics{
 	
 	public double ProteinWeight() {
 		String seq = getSeq();
+		CodonUtils utils = new CodonUtils();
 		double totalWeight = 0;
 		
 		for (char aa : seq.toCharArray()) {
-			if (CodonUtils.AMINO_MASS.get(aa) != null) {
-				totalWeight += CodonUtils.AMINO_MASS.get(aa);
-			} else {
-				throw new IllegalArgumentException("Invalid protein sequence used");
-			}
-		}
-
+			totalWeight += utils.baseWeight(aa);
+			} 
+		
 		return totalWeight;
 	}
-	
 }

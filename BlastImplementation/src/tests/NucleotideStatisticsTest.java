@@ -1,6 +1,7 @@
 package tests;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import junit.framework.TestCase;
 import utilities.NucleotideStatistics;
@@ -21,7 +22,7 @@ public class NucleotideStatisticsTest extends TestCase {
 	}
 	
 	// note: introns are not taken into account
-	public String testReadingFrame() {
+	public void testReadingFrame() {
 		// initiate a Statistics variable
 		seq.setSeq("GCGTACGTTAGCATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAACGTACGATGCTA");
 		int k = 0;
@@ -29,7 +30,6 @@ public class NucleotideStatisticsTest extends TestCase {
 		//get the readingframe k
 		String rFrame = seq.ReadingFrame(k);
 		assertEquals(rFrame, "ATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAA");
-		return rFrame;
 		}
 	
 	// note: introns are not taken into account
@@ -43,7 +43,7 @@ public class NucleotideStatisticsTest extends TestCase {
 		k.add(2);
 		
 		ArrayList<String> readingFrames = seq.AllReadingFrames(k);
-		
+		int count = 0;
 		for (String rFrame : readingFrames) {
 			
 			// check whether a reading frame has successfully retrieved coding sequence
@@ -53,41 +53,28 @@ public class NucleotideStatisticsTest extends TestCase {
 		}	
 	}
 	
-	
 	// Test DNA translation using full codons.
 	public void testTranslate() {
 		seq.setSeq("ATGTTTTAA");
-		//seq.setSeq(testReadingFrame());
 		String protein = seq.Translate();
-		//assertEquals(protein, "MEFRFGNPGSS*");
 		assertEquals(protein, "MF*");
 	}
 	
-	/*
+	// get the reverse compliment sequence
+	public void testReverseCompliment() {
+		seq.setSeq("GGTCCA");
+		
+		String revCompSeq = seq.ReverseCompliment();
+		assertEquals(revCompSeq, "TGGACC");
+	}
+	
 	// Test codon frequency counting.
 	public void testGetCodonFrequency() {
-		Statistics seq = new Statistics("ATGATGTTTTAA");
+		seq.setSeq("ATGATGTTTTAA");
 		HashMap<String, Integer> codonFreq = seq.getCodonFrequency();
 
 		assertEquals((int) codonFreq.get("ATG"), 2);
 		assertEquals((int) codonFreq.get("TTT"), 1);
 		assertEquals((int) codonFreq.get("TAA"), 1);
 	}
-	
-
-	
-	public void testReverseCompliment() {
-		String initialSeq = "GGTCCA";
-		Statistics seq = new Statistics(initialSeq);
-		
-		// get the reverse compliment sequence
-		String revCompSeq = seq.ReverseCompliment();
-		assertEquals(revCompSeq, "TGGACC");
-	}
-	
-
-	
-	
-	*/
-
 }

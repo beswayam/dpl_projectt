@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class CodonUtils {
 
-    public static final Map<String, Character> CODON_TABLE = new HashMap<>();
-    public static final Map<Character, Double> AMINO_MASS = new HashMap<>();
+    private static final Map<String, Character> CODON_TABLE = new HashMap<>();
+    private static final Map<Character, Double> AMINO_MASS = new HashMap<>();
     
     static {
         // --- codon table ---
@@ -73,14 +73,36 @@ public class CodonUtils {
     public CodonUtils() {
     }
 	
-	public static double baseWeight(char amino_acid){
-		double molar_weight = AMINO_MASS.get(amino_acid); 		
+	public double baseWeight(char amino_acid){
+		double molar_weight;
+		if (AMINO_MASS.get(amino_acid) != null){
+			molar_weight = AMINO_MASS.get(amino_acid); 		
+			
+		} else {
+			throw new IllegalArgumentException("Invalid base used, try again");
+		}
 		return molar_weight;
 	}
 	
-	public static char getBase(String codon) {
-		char amino_acid = CODON_TABLE.get(codon); 
+	public char getBase(String codon) {
+		char amino_acid;
+		if (CODON_TABLE.get(codon) != null){
+			amino_acid = CODON_TABLE.get(codon); 		
+		} else {
+			throw new IllegalArgumentException("Invalid codon used, try again");
+		}
+		
 		return amino_acid;
 	}
 	
+	public boolean checkCodon(String codon) {
+		boolean valid;
+		if (CODON_TABLE.containsKey(codon)){
+			valid = true;
+		} else {
+			valid = false;
+		}
+		
+		return valid;
+	}
 }
