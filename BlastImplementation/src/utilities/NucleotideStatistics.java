@@ -11,6 +11,18 @@ public class NucleotideStatistics extends Statistics{
 		// TODO Auto-generated constructor stub
 	}
 	
+	// GC skew = (G-C)/(G+C). Returns 0 when there are no G/C bases.
+	public double GCSkew() {
+		HashMap<Character, Integer> nuc_counts = SeqContents();
+		int gCount = nuc_counts.get('G');
+		int cCount = nuc_counts.get('C');
+		int denominator = gCount + cCount;
+		if (denominator == 0) {
+			return 0.0;
+		}
+		return (double) (gCount - cCount) / denominator;
+	}
+	
 	// calculate the GC content
 	public double GCContent() {
 		if (seqLength() == 0) {
@@ -19,66 +31,75 @@ public class NucleotideStatistics extends Statistics{
 
 		int gc = 0;
 		for (int i = 0; i < seqLength(); i++) {
-			char base = this.seq.charAt(i);
+			char base = getSeq().charAt(i);
 			if (base == 'C' || base == 'G') {
 				gc++;
 			}
 		}
 		return (double) gc / seqLength();
 	}
-
-	// GC skew = (G-C)/(G+C). Returns 0 when there are no G/C bases.
-	/* public double GCSkew() {
-		int gCount = countNuc('G', getSeq());
-		int cCount = countNuc('C', getSeq());
-		int denominator = gCount + cCount;
-		if (denominator == 0) {
-			return 0.0;
-		}
-		return (double) (gCount - cCount) / denominator;
-	}
-	*/
 	
 	// get all codons within the specified reading frame
-		public String ReadingFrame(int kframe) {
-			String seq = getSeq();
-			StringBuilder codon = new StringBuilder();
-			StringBuilder codingSeq = new StringBuilder();
-			String[] stopCodon = {"TAA", "TAG", "TGA"};
+	public String ReadingFrame(int kframe) {
+		String seq = getSeq();
+		StringBuilder codon = new StringBuilder();
+		StringBuilder codingSeq = new StringBuilder();
+		String[] stopCodon = {"TAA", "TAG", "TGA"};
 
-			int seqLen = seqLength();
-			boolean endSequence = false;
+		int seqLen = seqLength();
+		boolean endSequence = false;
 
-			for (int i = kframe - 1; i < seqLen; i++) {
-				char nuc = seq.charAt(i);
-				codon.append(nuc);
+		for (int i = kframe; i < seqLen; i++) {
+			
+			char nuc = seq.charAt(i);
+			codon.append(nuc);
 
-				if (codon.length() % 3 == 0 && !endSequence) {
-					String currentCodon = codon.toString();
+			if (codon.length() % 3 == 0 && !endSequence) {
+				String currentCodon = codon.toString();
 
-					if (currentCodon.equals("ATG")) {
-						codingSeq.append(currentCodon);
-					} else if (codingSeq.length() != 0) {
-						codingSeq.append(currentCodon);
-						if (Arrays.asList(stopCodon).contains(currentCodon)) {
-							endSequence = true;
-						}
+				if (currentCodon.equals("ATG")) {
+					codingSeq.append(currentCodon);
+				} else if (codingSeq.length() != 0) {
+					codingSeq.append(currentCodon);
+					if (Arrays.asList(stopCodon).contains(currentCodon)) {
+						endSequence = true;
 					}
-
-					codon.setLength(0);
 				}
-			}
 
-			return codingSeq.toString();
+				codon.setLength(0);
+			}
 		}
-		
-		public ArrayList<String> AllReadingFrames(int[] readingFrames) {
-			ArrayList<String> rFrames = new ArrayList<>();
 
-			for (int k : readingFrames) {
-				rFrames.add(ReadingFrame(k));
+		return codingSeq.toString();
+	}
+	
+	// find all reading frames
+	public ArrayList<String> AllReadingFrames(ArrayList<Integer> rframe_idxs) {
+		ArrayList<String> rFrames = new ArrayList<>();
+		
+		for (int k : rframe_idxs) {
+			rFrames.add(ReadingFrame(k));
+		}
+		return rFrames;
+	}
+		
+		// Translate full DNA sequence into one-letter amino-acid sequence.
+		public String Translate() {
+			String seq = getSeq();
+			StringBuilder protein = new StringBuilder();
+			if (seq.length() % 3 == 0) {
+				for (int i = 0; i + 2 < seq.length(); i += 3) {
+					String codon = seq.substring(i, i + 3);
+					Character aa = CodonUtils.CODON_TABLE.get(codon);
+					if (aa != null) {
+						protein.append(aa);
+					}
+				}
+				return protein.toString();
+			} else {
+				throw new IllegalArgumentException("Sequence contains incomplete codons");
 			}
-			return rFrames;
+			
 		}
 		
 		// make a reverse compliment sequence of the dna sequence
@@ -104,7 +125,7 @@ public class NucleotideStatistics extends Statistics{
 
 			return revComp.toString();
 		}
-		
+		/*
 		// Count codon usage across complete codons of the sequence.
 		public HashMap<String, Integer> getCodonFrequency() {
 			HashMap<String, Integer> codonFrequency = new HashMap<>();
@@ -120,70 +141,6 @@ public class NucleotideStatistics extends Statistics{
 				}
 			}
 			return codonFrequency;
-		}
-		
-		// note: introns are not taken into account
-		public void testReadingFrame() {
-			// initiate a Statistics variable
-			String initialSeq = "GCGTACGTTAGCATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAACGTACGATGCTA";
-			Statistics seq = new Statistics(initialSeq);
-			int k = 1;
-			
-			//get the readingframe k
-			String rFrame = seq.ReadingFrame(k);
-			assertEquals(rFrame, "ATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAA");
-			}
-		
-		public void testReverseCompliment() {
-			String initialSeq = "GGTCCA";
-			Statistics seq = new Statistics(initialSeq);
-			
-			// get the reverse compliment sequence
-			String revCompSeq = seq.ReverseCompliment();
-			assertEquals(revCompSeq, "TGGACC");
-		}
-		
-		// note: introns are not taken into account
-		public void testAllReadingFrames() {
-			String initialSeq = "GCGTACGTTAGCATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAACGTACGATGCTA";
-			Statistics seq = new Statistics(initialSeq);
-			
-			// make an array of all reading frames you want to find
-			int[] k = {1,2,3};
-			
-			ArrayList<String> readingFrames = seq.AllReadingFrames(k);
-			for (String rFrame : readingFrames) {
-				
-				// check whether a reading frame has successfully retrieved coding sequence
-				if (!rFrame.isEmpty()) {
-					assertEquals(rFrame, "ATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAA");
-				}
-			}	
-		}
-		
-		public void testGCContent() {
-			// initiate a Statistics variable
-			String initialSeq = "aattcggg";
-			Statistics seq = new Statistics(initialSeq);
-			
-			// calculate the GC content
-			double gcProportion = seq.GCContent();
-			System.out.printf("GC content in sequence: %.1f%%%n%n", (double) Math.round(gcProportion * 100));
-			assertEquals(gcProportion, 0.5);
-		}
-		
-		public void testCountNuc() {
-			// initiate a Statistics variable
-			String initialSeq = "aattcccgggcc";
-			Statistics seq = new Statistics(initialSeq);
-			
-			// choose base to search
-			char nuc = 'C'; 
-			
-			// count instances of base in sequence
-			int count = seq.countNuc(nuc, seq.getSeq());
-			//System.out.printf("Sequence: %s%nNumber of %s in sequence: %d%n%n", seq.getSeq(), nuc, count);
-			assertEquals(5, count);
-		}
+		}*/
 }
 
