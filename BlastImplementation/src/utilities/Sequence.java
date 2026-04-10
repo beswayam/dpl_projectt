@@ -37,8 +37,8 @@ public class Sequence {
 		int filenum=2;
 		File file = new File("project_data" + File.separator + "blast_input.fa");
 		while(file.isFile()) {
-		file = new File("project_data" + File.separator + "blast_input_" + filenum + ".fa");
-		filenum++;
+			file = new File("project_data" + File.separator + "blast_input_" + filenum + ".fa");
+			filenum++;
 		}
 		try (FileWriter writer = new FileWriter(file)) {
 			writer.write(this.sequence);
