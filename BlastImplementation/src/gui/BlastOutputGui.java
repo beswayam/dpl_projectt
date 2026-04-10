@@ -33,13 +33,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class BlastOutputGui extends JFrame {
-
+	int sequenceIndex;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public BlastOutputGui(File file,String header) {
+	public BlastOutputGui(ArrayList<File> fileList,ArrayList<String> headerList) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -247,6 +247,8 @@ public class BlastOutputGui extends JFrame {
 		JButton ExportButton = new JButton("Export Results");
 		ExportButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+	        	File file = fileList.get(sequenceIndex); 
+	        	String header = headerList.get(sequenceIndex);
 				exportResults(file,header);
 			}
 		});
@@ -270,8 +272,19 @@ public class BlastOutputGui extends JFrame {
 //		getContentPane().add(RecommendationButton, gbc_RecommendationButton);
 
 		JComboBox<String> comboBox = new JComboBox<>();
+		comboBox.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.insets = new Insets(0, 0, 15, 10); 
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridx = 2;
+		gbc_comboBox.gridy = 5;
+//		comboBox.setBackground(new Color(28, 33, 52));
+//		comboBox.setForeground(new Color(210, 220, 245));
+		getContentPane().add(comboBox, gbc_comboBox);
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int oldSequenceIndex = sequenceIndex;
+				File file = fileList.get(sequenceIndex);
 				ArrayList<String[]> hits = readBlastTsv(file);
 				ArrayList<JLabel> labelList = new ArrayList<JLabel>();
 				labelList.add(UniprotIDValueLabel);
@@ -284,19 +297,60 @@ public class BlastOutputGui extends JFrame {
 				parseHit(hits.get(comboBox.getSelectedIndex()),labelList);
 			}
 		});
-//		comboBox.setBackground(new Color(28, 33, 52));
-//		comboBox.setForeground(new Color(210, 220, 245));
-		comboBox.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(0, 0, 15, 10); 
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 2;
-		gbc_comboBox.gridy = 5;
-		getContentPane().add(comboBox, gbc_comboBox);
+		
 		JScrollPane mainScroll = new JScrollPane(getContentPane());
+		
+		JLabel SeqSelectLabel = new JLabel("Select sequence");
+		SeqSelectLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
+//		SeqSelectLabel.setForeground(new Color(60, 210, 140));
+		GridBagConstraints gbc_SeqSelectLabel = new GridBagConstraints();
+		gbc_SeqSelectLabel.anchor = GridBagConstraints.WEST;
+		
+		gbc_SeqSelectLabel.insets = new Insets(0, 10, 12, 10);
+		gbc_SeqSelectLabel.gridx = 8;
+		gbc_SeqSelectLabel.gridy = 21;
+		getContentPane().add(SeqSelectLabel, gbc_SeqSelectLabel);
+		
+		
+		JComboBox<String> sequenceBox = new JComboBox<>();
+		sequenceBox.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		GridBagConstraints gbc_sequenceBox = new GridBagConstraints();
+		gbc_sequenceBox.insets = new Insets(5, 10, 5, 5); 
+		gbc_sequenceBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_sequenceBox.gridx = 9;
+		gbc_sequenceBox.gridy = 21;
+		getContentPane().add(sequenceBox, gbc_sequenceBox);
+		sequenceBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			sequenceIndex = sequenceBox.getSelectedIndex();
+			File file = fileList.get(sequenceIndex); 
+        	String header = headerList.get(sequenceIndex);
+        	ArrayList<String[]> hits=readBlastTsv(file);
+        	int hitnum = hits.size();
+        	if(hitnum==0) {
+					    JOptionPane.showMessageDialog(BlastOutputGui.this, 
+					    		"No BLAST results found", 
+				                "Output Error", 
+				                JOptionPane.WARNING_MESSAGE);
+        	}
+        	else {
+        	int[] hitnumrange = IntStream.range(1,hitnum+1).toArray();
+        	String[] hitrange=Arrays.toString(hitnumrange).split("[\\[\\]]")[1].split(", ");
+        	DefaultComboBoxModel<String> hitsModel = new DefaultComboBoxModel<String>(hitrange) ;
+        	comboBox.setModel(hitsModel);
+        	comboBox.setSelectedIndex(0);
+        	}
+        	if(header!="sequence") {
+        	QuerySeqLabel.setText("<html> "+ header + "<br><br>Match Sequence</html>");
+        		}
+        	
+					}});
 		mainScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		mainScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		setContentPane(mainScroll);
+		
+
+
 		
 		setSize(660, 480);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -306,25 +360,12 @@ public class BlastOutputGui extends JFrame {
 		WindowListener taskStarterWindowListener = new WindowListener() {
 	        @Override
 	        public void windowOpened(WindowEvent e) {
-	        	ArrayList<String[]> hits=readBlastTsv(file);
-	        	int hitnum = hits.size();
-	        	if(hitnum==0) {
-				    JOptionPane.showMessageDialog(BlastOutputGui.this, 
-				    		"No BLAST results found", 
-			                "Input Error", 
-			                JOptionPane.WARNING_MESSAGE);
-	        	}
-	        	else {
-	        	int[] hitnumrange = IntStream.range(1,hitnum+1).toArray();
+	        	int seqAmount = fileList.size();
+	        	int[] hitnumrange = IntStream.range(1,seqAmount+1).toArray();
 	        	String[] hitrange=Arrays.toString(hitnumrange).split("[\\[\\]]")[1].split(", ");
 	        	DefaultComboBoxModel<String> hitsModel = new DefaultComboBoxModel<String>(hitrange) ;
-	        	comboBox.setModel(hitsModel);
-	        	comboBox.setSelectedIndex(0);
-	        	}
-	        	if(header!="sequence") {
-	        	QuerySeqLabel.setText("<html> "+ header + "<br><br>Match Sequence</html>");
-	        		}
-	        	
+	        	sequenceBox.setModel(hitsModel);
+	        	sequenceBox.setSelectedIndex(0);		
 	        }
 	        
 
@@ -369,10 +410,6 @@ public class BlastOutputGui extends JFrame {
 	this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
 	this.addWindowListener(taskStarterWindowListener);
 	
-	}
-
-	public static void main(String[] args) {
-		new BlastOutputGui(new File("temp_output.tsv"),"testheader");
 	}
 	
 	private void parseHit(String[] hitdata,ArrayList<JLabel> labelList) {
