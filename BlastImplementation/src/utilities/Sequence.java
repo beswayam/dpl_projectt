@@ -39,7 +39,6 @@ public class Sequence {
 		while(file.isFile()) {
 		file = new File("project_data" + File.separator + "blast_input_" + filenum + ".fa");
 		filenum++;
-		System.out.println(file.toString());
 		}
 		try (FileWriter writer = new FileWriter(file)) {
 			writer.write(this.sequence);

@@ -66,7 +66,6 @@ public class SequenceTest extends TestCase {
 		File fileName = new File("project_data/test_fa.txt");
 		Sequence check8 = new Sequence(fileName);
 		assertNotNull(check8);
-		
 		//Check fileToSequence() method
 		assertEquals(">tr|A0A222AH43|A0A222AH43_9HYST Hemoglobine alpha globin subunit (Fragment) OS=Ctenomys rionegrensis OX=88126 GN=HBA PE=3 SV=1\n"
 				+ "MVLSPADKTNVKAAWDKIGSHGAEYGAEALFRMFLSFPTTKTYFHHFDLSPGSAQVKAHG\n"
