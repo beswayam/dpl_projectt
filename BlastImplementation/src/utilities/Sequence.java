@@ -34,8 +34,12 @@ public class Sequence {
 	
 	//Writes the sequence instance variable to fastaFile instance variable
 	private void sequenceToFile() {
+		int filenum=2;
 		File file = new File("project_data" + File.separator + "blast_input.fa");
-		
+		while(file.isFile()) {
+		file = new File("project_data" + File.separator + "blast_input_" + filenum + ".fa");
+		filenum++;
+		}
 		try (FileWriter writer = new FileWriter(file)) {
 			writer.write(this.sequence);
 			this.fastaFile = file;
@@ -81,7 +85,12 @@ public class Sequence {
 	
 	//Convert sequence to upper case 
 	private void sequenceToUpperCase() {
-		this.sequence = this.sequence.toUpperCase();
+		int start = this.sequence.indexOf('\n') + 1; //turn into separate  method 
+		int end = this.sequence.length();
+		String header = this.sequence.substring(0, start);
+		this.sequence = this.sequence.substring(start, end).toUpperCase();
+		this.sequence = header + this.sequence;
+
 	}
 	
 	// Check if residues are valid for either protein or DNA alphabets

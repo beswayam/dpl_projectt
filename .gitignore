@@ -7,6 +7,6 @@ data
 bin
 doc
 BlastImplementation/temp_output.tsv
-
+BlastImplementation/project_data/blast_input*
 # for Mac users
 .DS_Store
