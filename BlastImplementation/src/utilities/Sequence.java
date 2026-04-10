@@ -11,14 +11,14 @@ public class Sequence {
 	
 	// constructor for sting input 
 	public Sequence (String sequence) {
-		this.sequence = sequence;
+		setSequence(sequence);
 		verifySequence();
 		sequenceToFile();
 	}
 
 	//constructor for FASTA file input 
 	public Sequence (File fastaFile) {
-		this.fastaFile = fastaFile;
+		setFastaFile(fastaFile);
 		fileToSequence();
 		verifySequence();
 	}
@@ -30,6 +30,14 @@ public class Sequence {
 	
 	public File getFastaFile() {
 		return this.fastaFile;
+	}
+	
+	public void setSequence(String sequence) {
+		this.sequence = sequence;
+	}
+	
+	public void setFastaFile(File fastaFile) {
+		this.fastaFile = fastaFile;
 	}
 	
 	//Writes the sequence instance variable to fastaFile instance variable
