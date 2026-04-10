@@ -62,7 +62,7 @@ public class FileStatistics extends JFrame {
 	 */
 	public FileStatistics(File inputFile) {	
 		this.file = inputFile;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 779, 506);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -145,15 +145,7 @@ public class FileStatistics extends JFrame {
 		
 		// statistics text area start
 		JTextArea textStatistics = new JTextArea();
-		GridBagConstraints gbc_textStatistics = new GridBagConstraints();
-		gbc_textStatistics.insets = new Insets(0, 0, 0, 5);
-		gbc_textStatistics.gridx = 1;
-		gbc_textStatistics.gridy = 1;
-		gbc_textStatistics.weightx = 1.0;
-		gbc_textStatistics.weighty = 1.0;
-		gbc_textStatistics.fill = GridBagConstraints.BOTH;
-		textStatistics.setEditable(false);
-		
+		GridBagConstraints gbc_textStatistics = new GridBagConstraints();		
 		textForStatistics(textStatistics, gbc_textStatistics);
 		// statistics text area stop
 		
@@ -197,6 +189,14 @@ public class FileStatistics extends JFrame {
 	private void textForStatistics(JTextArea textStatistics, GridBagConstraints gbc_textStatistics) {
 		String rawSeq = FastaParser(this.file);
 		ProteinStatistics protSeq = new ProteinStatistics(rawSeq);
+		
+		gbc_textStatistics.insets = new Insets(0, 0, 0, 5);
+		gbc_textStatistics.gridx = 1;
+		gbc_textStatistics.gridy = 1;
+		gbc_textStatistics.weightx = 1.0;
+		gbc_textStatistics.weighty = 1.0;
+		gbc_textStatistics.fill = GridBagConstraints.BOTH;
+		textStatistics.setEditable(false);
 		      
 		// protein length
         int length = protSeq.seqLength();
