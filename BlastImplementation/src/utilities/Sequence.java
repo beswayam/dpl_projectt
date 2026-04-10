@@ -23,7 +23,7 @@ public class Sequence {
 		verifySequence();
 	}
 	
-	//accessor method for Sequence
+	// Accessor method for Sequence
 	public String getSequence() {
 	    return this.sequence;
 	}
@@ -99,7 +99,8 @@ public class Sequence {
 		this.sequence = this.sequence.substring(start, end).toUpperCase();
 		this.sequence = header + this.sequence;
 
-	}
+		}
+
 	
 	// Check if residues are valid for either protein or DNA alphabets
 	private void checkSequenceElements() {
@@ -113,7 +114,7 @@ public class Sequence {
 		}
 
 		final String dnaAlphabet = "ACGTN";
-		final String proteinAlphabet = "ACDEFGHIKLMNPQRSTVWYBXZJUO*";
+		final String proteinAlphabet = "ACDEFGHIKLMNPQRSTVWY";
 
 		boolean isProtein = true;
 		boolean isDna = true;

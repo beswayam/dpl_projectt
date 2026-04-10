@@ -2,10 +2,17 @@ package tests;
 
 import junit.framework.TestCase;
 import java.io.File;
+import java.util.Arrays;
 
 import utilities.Sequence;
 
 public class SequenceTest extends TestCase {
+	
+	public void setUp() {
+        new File("project_data/blast_input.fa").delete();
+        for (int i = 1; i <= 10; i++) {
+            new File("project_data/blast_input_" + i + ".fa").delete(); }
+        }
 	
 	
 	public void testInstantiateSequenceString() {
@@ -13,6 +20,7 @@ public class SequenceTest extends TestCase {
 		//Input without fasta header
 		String without_header = "atcgatcg";
 		Sequence check1 = new Sequence(without_header);
+		String path = check1.getFastaFile().getPath();
 		assertEquals(">sequence\nATCGATCG", check1.getSequence());
 		assertEquals("project_data" + File.separator + "blast_input.fa", check1.getFastaFile().getPath());
 		
@@ -61,16 +69,18 @@ public class SequenceTest extends TestCase {
 	}
 	
 	public void testInstantiateSequenceFile() {
-		
 		//Check constructor that takes a File argument
 		File fileName = new File("project_data/test_fa.txt");
 		Sequence check8 = new Sequence(fileName);
-		assertNotNull(check8);
-		//Check fileToSequence() method
-		assertEquals(">tr|A0A222AH43|A0A222AH43_9HYST Hemoglobine alpha globin subunit (Fragment) OS=Ctenomys rionegrensis OX=88126 GN=HBA PE=3 SV=1\n"
+		String expected = ">tr|A0A222AH43|A0A222AH43_9HYST Hemoglobine alpha globin subunit (Fragment) OS=Ctenomys rionegrensis OX=88126 GN=HBA PE=3 SV=1\n"
 				+ "MVLSPADKTNVKAAWDKIGSHGAEYGAEALFRMFLSFPTTKTYFHHFDLSPGSAQVKAHG\n"
 				+ "KKVSDALTTAVGHLDDLPSALSALSDLHAHKLRVDPVNFKLLSHCLLVTLSLHHPAEFTP\n"
-				+ "AVHASLDKFLATVSTVLTS", check8.getSequence());
+				+ "AVHASLDKFLATVSTVLTS";
+		assertNotNull(check8);
+		assertEquals(
+			    expected.replace("\r\n", "\n"),
+			    check8.getSequence().replace("\r\n", "\n")
+			);
 		
 	}
 }
