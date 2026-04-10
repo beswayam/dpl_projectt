@@ -321,8 +321,8 @@ public class BlastOutputGui extends JFrame {
 	        	comboBox.setModel(hitsModel);
 	        	comboBox.setSelectedIndex(0);
 	        	}
-	        	if(header.toLowerCase()!="sequence") {
-	        	QuerySeqLabel.setText("<html> "+ header.toLowerCase() + "<br><br>Match Sequence</html>");
+	        	if(header!="sequence") {
+	        	QuerySeqLabel.setText("<html> "+ header + "<br><br>Match Sequence</html>");
 	        		}
 	        	
 	        }
