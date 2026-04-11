@@ -39,6 +39,12 @@ public class Sequence {
 	public void setFastaFile(File fastaFile) {
 		this.fastaFile = fastaFile;
 	}
+
+	public String getSequenceNoHeader() {
+		int start = this.sequence.indexOf('\n') + 1; 
+		int end = this.sequence.length();
+		return this.sequence.substring(start, end);
+	}
 	
 	//Writes the sequence instance variable to fastaFile instance variable
 	private void sequenceToFile() {
@@ -93,7 +99,7 @@ public class Sequence {
 	
 	//Convert sequence to upper case 
 	private void sequenceToUpperCase() {
-		int start = this.sequence.indexOf('\n') + 1; //turn into separate  method 
+		int start = this.sequence.indexOf('\n') + 1; 
 		int end = this.sequence.length();
 		String header = this.sequence.substring(0, start);
 		this.sequence = this.sequence.substring(start, end).toUpperCase();
@@ -131,6 +137,8 @@ public class Sequence {
 			}
 		}
 	}
+	
+	
 	
 	private void verifySequence() {
 		isNotEmpty();
