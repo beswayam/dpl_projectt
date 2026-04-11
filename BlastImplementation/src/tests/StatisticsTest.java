@@ -3,35 +3,33 @@ package tests;
 
 // libraries to import contain JDunit code and our Statistics package
 import junit.framework.TestCase;
+import utilities.Sequence;
 import utilities.Statistics;
-
-import java.util.ArrayList;
 import java.util.Set;
-import java.util.HashMap;
 
 
 // test all methods within Statistics
 public class StatisticsTest extends TestCase {
 	// initiate an input sequence
-	private String initialSeq = "aattcggg".toUpperCase();
+	private Sequence initialSeq = new Sequence("aattcggg");
 	private Statistics seq = new Statistics(initialSeq);
 	
 	// check whether the sequence can be retrieved
 	public void testGetSeq() {		
-		assertEquals(seq.getSeq(), initialSeq);
+		assertEquals(seq.getSeq(), initialSeq.getSequenceNoHeader());
 	}
 	
 	// check whether the sequence can be changed
 	public void testSetSeq() {
-		String newSeq = "ttgccaaa".toUpperCase();
+		Sequence newSeq = new Sequence("ttgccaaa");
 		seq.setSeq(newSeq);
-		assertEquals(seq.getSeq(), newSeq);
+		assertEquals(seq.getSeq(), newSeq.getSequenceNoHeader());
 	}
 	
 	public void testSeqLength() {
 		// calculate the sequence's length
 		int seqLength = seq.seqLength();
-		assertEquals(initialSeq.length(), seqLength);
+		assertEquals(8, seqLength);
 	}
 	
 	public void testSeqContents() {

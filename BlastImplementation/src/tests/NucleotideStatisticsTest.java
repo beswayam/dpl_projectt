@@ -1,13 +1,12 @@
 package tests;
-
+import utilities.Sequence;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import junit.framework.TestCase;
 import utilities.NucleotideStatistics;
 
 public class NucleotideStatisticsTest extends TestCase {
-	NucleotideStatistics seq = new NucleotideStatistics("GGCCGA");
+	NucleotideStatistics seq = new NucleotideStatistics(new Sequence("GGCCGA"));
 	
 	// Test GC skew calculation.
 	public void testGCSkew() {
@@ -24,7 +23,7 @@ public class NucleotideStatisticsTest extends TestCase {
 	// note: introns are not taken into account
 	public void testReadingFrame() {
 		// initiate a Statistics variable
-		seq.setSeq("GCGTACGTTAGCATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAACGTACGATGCTA");
+		seq.setSeq(new Sequence("GCGTACGTTAGCATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAACGTACGATGCTA"));
 		int k = 0;
 		
 		//get the readingframe k
@@ -34,7 +33,7 @@ public class NucleotideStatisticsTest extends TestCase {
 	
 	// note: introns are not taken into account
 	public void testAllReadingFrames() {
-		seq.setSeq("GCGTACGTTAGCATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAACGTACGATGCTA");
+		seq.setSeq(new Sequence("GCGTACGTTAGCATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAACGTACGATGCTA"));
 		
 		// make an array of all reading frames you want to find
 		ArrayList<Integer> k = new ArrayList<>();
@@ -55,14 +54,14 @@ public class NucleotideStatisticsTest extends TestCase {
 	
 	// Test DNA translation using full codons.
 	public void testTranslate() {
-		seq.setSeq("ATGTTTTAA");
+		seq.setSeq(new Sequence("ATGTTTTAA"));
 		String protein = seq.Translate();
 		assertEquals(protein, "MF*");
 	}
 	
 	// get the reverse compliment sequence
 	public void testReverseCompliment() {
-		seq.setSeq("GGTCCA");
+		seq.setSeq(new Sequence("GGTCCA"));
 		
 		String revCompSeq = seq.ReverseCompliment();
 		assertEquals(revCompSeq, "TGGACC");
@@ -70,7 +69,7 @@ public class NucleotideStatisticsTest extends TestCase {
 	
 	// Test codon frequency counting.
 	public void testGetCodonFrequency() {
-		seq.setSeq("ATGATGTTTTAA");
+		seq.setSeq(new Sequence("ATGATGTTTTAA"));
 		HashMap<String, Integer> codonFreq = seq.getCodonFrequency();
 
 		assertEquals((int) codonFreq.get("ATG"), 2);

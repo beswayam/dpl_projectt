@@ -1,40 +1,28 @@
 package gui;
 
-import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Font;
-
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-
 import utilities.ProteinStatistics;
-import utilities.Statistics;
-
 import java.awt.GridBagLayout;
 import javax.swing.JTextArea;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
-
 import javax.swing.JLabel;
-import utilities.Statistics;
 import java.awt.Rectangle;
 import javax.swing.SwingConstants;
+import utilities.Sequence;
 
 
-public class FileStatistics extends JFrame {
+public class StatisticsGui extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -47,7 +35,7 @@ public class FileStatistics extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FileStatistics frame = new FileStatistics(null);
+					StatisticsGui frame = new StatisticsGui(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,7 +48,7 @@ public class FileStatistics extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FileStatistics(File inputFile) {	
+	public StatisticsGui(File inputFile) {	
 		this.file = inputFile;
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 779, 506);
@@ -161,33 +149,10 @@ public class FileStatistics extends JFrame {
 		contentPane.add(new JScrollPane(textTools), gbc_textTools);
 		// tools text area end
 	
-
-	}
-	
-	private String FastaParser(File file) {
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            String header = null;
-            StringBuilder sequence = new StringBuilder();
-
-            while ((line = br.readLine()) != null) {
-                if (line.startsWith(">")) {
-                    header = line.substring(1); // remove '>'
-                } else {
-                    sequence.append(line.trim());
-                }
-            }
-
-    		return sequence.toString();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }	
 	}
 	
 	private void textForStatistics(JTextArea textStatistics, GridBagConstraints gbc_textStatistics) {
-		String rawSeq = FastaParser(this.file);
+		String rawSeq = new Sequence(this.file).getSequence();
 		ProteinStatistics protSeq = new ProteinStatistics(rawSeq);
 		
 		gbc_textStatistics.insets = new Insets(0, 0, 0, 5);

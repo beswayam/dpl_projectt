@@ -23,14 +23,15 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 
 import java.awt.SystemColor;
-
+import utilities.Sequence;
 
 
 public class MainGui extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	public File inputFile = null;
+	public File inputFile;
+	public Sequence inputSeq;
 
 	/**
 	 * Launch the application.
@@ -118,9 +119,10 @@ public class MainGui extends JFrame {
 								// if the file is a valid file, pass the file to the FileStatistics GUI
 								if (file == JFileChooser.APPROVE_OPTION) {
 									inputFile = fileChooser.getSelectedFile();
+									inputSeq = new Sequence(inputFile);
 									
 									// pass file to second GUI
-								    FileStatistics stats = new FileStatistics(inputFile);
+								    StatisticsGui stats = new StatisticsGui(inputFile);
 								    stats.setLocationRelativeTo(null);
 								    stats.setVisible(true);
 								}
