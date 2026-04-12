@@ -290,9 +290,12 @@ public class BlastGui extends JFrame {
 						sequencelist = MultipleSequenceParser.parseMultipleSeqs(queryFile);
 					}
 				} catch (IllegalArgumentException ex) {
-					JOptionPane.showMessageDialog(BlastGui.this,
-						"Invalid sequence: " + ex.getMessage(),
-						"Input Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(
+					        BlastGui.this,
+					        ex.getMessage(),
+					        "Input Error",
+					        JOptionPane.WARNING_MESSAGE
+					    );
 					return;
 				}
 				if (sequencelist == null) {
@@ -309,7 +312,7 @@ public class BlastGui extends JFrame {
 					try {
 							Sequence sequence = sequencelist.get(0);	
 							File queryFile = sequence.getFastaFile();
-							String outPath = dbFile.getParent() + File.separator + "ssearch_results.txt";
+							String outPath =  dbFile.getParent() + File.separator + "ssearch_results.txt";
 							int exitCode = Ssearch36Search.run(
 								queryFile,
 								dbFile,
@@ -388,4 +391,6 @@ public class BlastGui extends JFrame {
 		Object[] fileData = {file,header};
 		return fileData;
 	}
+	
+	
 }
