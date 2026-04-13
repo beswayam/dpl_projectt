@@ -9,7 +9,7 @@ public class ProteinStatistics extends Statistics{
 	}
 	
 	public double ProteinWeight() {
-		String seq = initialValue.getSequenceNoHeader();
+		String seq = this.initialValue.getSequenceNoHeader();
 		CodonUtils utils = new CodonUtils();
 		double totalWeight = 0;
 		
