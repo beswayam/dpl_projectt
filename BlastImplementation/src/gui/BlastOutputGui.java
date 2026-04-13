@@ -108,6 +108,19 @@ public class BlastOutputGui extends JFrame {
 		gbc_OutHelpButton.gridx = 9;
 		gbc_OutHelpButton.gridy = 3;
 		getContentPane().add(OutHelpButton, gbc_OutHelpButton);
+		
+		JLabel SeqSelectLabel = new JLabel("Select sequence");
+		SeqSelectLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		//		SeqSelectLabel.setForeground(new Color(60, 210, 140));
+				GridBagConstraints gbc_SeqSelectLabel = new GridBagConstraints();
+				
+				gbc_SeqSelectLabel.insets = new Insets(0, 10, 12, 10);
+				gbc_SeqSelectLabel.gridx = 1;
+				gbc_SeqSelectLabel.gridy = 4;
+				getContentPane().add(SeqSelectLabel, gbc_SeqSelectLabel);
+		
+		
+		
 
 		JLabel BlastHitLabel = new JLabel("Select Blast Hit");
 		BlastHitLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -298,27 +311,13 @@ public class BlastOutputGui extends JFrame {
 			}
 		});
 		
-		JScrollPane mainScroll = new JScrollPane(getContentPane());
-		
-		JLabel SeqSelectLabel = new JLabel("Select sequence");
-		SeqSelectLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
-//		SeqSelectLabel.setForeground(new Color(60, 210, 140));
-		GridBagConstraints gbc_SeqSelectLabel = new GridBagConstraints();
-		gbc_SeqSelectLabel.anchor = GridBagConstraints.WEST;
-		
-		gbc_SeqSelectLabel.insets = new Insets(0, 10, 12, 10);
-		gbc_SeqSelectLabel.gridx = 8;
-		gbc_SeqSelectLabel.gridy = 21;
-		getContentPane().add(SeqSelectLabel, gbc_SeqSelectLabel);
-		
-		
 		JComboBox<String> sequenceBox = new JComboBox<>();
 		sequenceBox.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		GridBagConstraints gbc_sequenceBox = new GridBagConstraints();
-		gbc_sequenceBox.insets = new Insets(5, 10, 5, 5); 
+		gbc_sequenceBox.insets = new Insets(0, 0, 15, 10); 
 		gbc_sequenceBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_sequenceBox.gridx = 9;
-		gbc_sequenceBox.gridy = 21;
+		gbc_sequenceBox.gridx = 2;
+		gbc_sequenceBox.gridy = 4;
 		getContentPane().add(sequenceBox, gbc_sequenceBox);
 		sequenceBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -345,6 +344,8 @@ public class BlastOutputGui extends JFrame {
         		}
         	
 					}});
+		
+		JScrollPane mainScroll = new JScrollPane(getContentPane());
 		mainScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		mainScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		setContentPane(mainScroll);
