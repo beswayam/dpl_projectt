@@ -1,0 +1,15 @@
+﻿Column1,Column2,Column3,Column4,Column5,Column6,Column7,Column8,Column9,Column92,Column10,Column11,Column12,Column13,Column14,Column15
+,iteration 1,,,,iteration 2,,,,iteration 3,,,,iteration 4,,
+nr,title,PPs,priority,status,title,PPs,priority,status,title,PPs,priority,status,PPs,priority,status
+1,Build GUI,4,M,Done,Create class to calculate sequence statistics,4,M,Done,BLAST output same/similar format,8,M,pending,,,
+2,Design GUI,4,M,Done,Display sequence statistics in GUI,4,M,Done,View statistics for both DNA and protein sequences,4,M,pending,,,
+3,Create use case diagram,2,M,Done,Run BLASTP API with input FASTA file,4,S,Done,Tool suggestions after statistics,.,C,open,,,
+4,Write use case descriptions,2,M,Done,Write  FASTA sequence inputted via GUI to FASTA file,4,S,Pending,FASTA with multiple sequences allowed by system,,S,open,,,
+5,Scheduling tools,- ,C,On hold,BLASTP GUI can handle multiple FASTA sequences in one file,-,W,Open,Update use case diagram,4,M,pending,,,
+6,Write code to upload fasta file,4,S,Iteration 2,Create Sequence class to store a FASTA sequence,4,M,Done,Update sequence diagram,,M,pending,,,
+7,Create input field for sequence,2,M,Done,Create class diagram,2,M,Done,Update class diagram,4,M,pending,,,
+8,Write code to upload database (or select one of many default),4,S,On hold,Update use case diagram,2,M,Done,Picutre of potential GUI,2,C,pending,,,
+9,Write functions to perform statistics over input sequence,4,M,Iteration 2,Design Gui + code for BLASTP output,- ,C,Done,BLASTN,,W,open,,,
+10,Write code to write BLAST output to file,- ,S,Iteration 2,Design interactive GUI for BLASTP output,- ,W,Open,,,,,,,
+11,Create display to Interact with output statistics ,- ,W,On hold,,,,,,,,,,,
+12,Write code to recommend future research options ,- ,W,On hold,,,,,,,,,,,

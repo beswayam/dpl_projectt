@@ -27,6 +27,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -34,6 +35,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.BlastResult;
 import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.UniProtHit;
 import utilities.BlastpSearch;
+import utilities.MultipleSequenceParser;
 import utilities.Sequence;
 import utilities.Statistics;
 import utilities.Ssearch36Search;
@@ -129,7 +131,6 @@ public class BlastGui extends JFrame {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 2;
 		contentPane.add(scrollPane, gbc_scrollPane);
-		
 
 		JTextArea txtrInputsequence = new JTextArea();
 		scrollPane.setViewportView(txtrInputsequence);
@@ -138,34 +139,49 @@ public class BlastGui extends JFrame {
 		gbc_btnInputSequenceUpload.insets = new Insets(5, 5, 10, 5);
 		gbc_btnInputSequenceUpload.gridx = 0;
 		gbc_btnInputSequenceUpload.gridy = 3;
-		// Button for upload input sequence (FASTA file) 
-				final JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
-				btnInputSequenceUpload.setBackground(Color.WHITE);
-				btnInputSequenceUpload.setFont(new Font("Tahoma", Font.PLAIN, 12));
-				btnInputSequenceUpload.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
+
+		// Button for upload input sequence (FASTA file)
+		final JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
+		btnInputSequenceUpload.setBackground(Color.WHITE);
+		btnInputSequenceUpload.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnInputSequenceUpload.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				if (!txtrInputsequence.getText().trim().isEmpty()) {
+		            JOptionPane.showMessageDialog(BlastGui.this, 
+		                "Please clear the text area before uploading a file.", 
+		                "Input Error", 
+		                JOptionPane.WARNING_MESSAGE);
+		            return;
+		        }
+				
+				JFileChooser fileChooser = new JFileChooser();
+				FileNameExtensionFilter fasta_filter = new FileNameExtensionFilter("Fasta file", "fasta");
+				fileChooser.setDialogTitle("Select Query FASTA File");
+				fileChooser.setFileFilter(fasta_filter);
+				if (fileChooser.showOpenDialog(BlastGui.this) == JFileChooser.APPROVE_OPTION) { {
+						File selectedFile = fileChooser.getSelectedFile();
 						
-						if (!txtrInputsequence.getText().trim().isEmpty()) {
-				            JOptionPane.showMessageDialog(BlastGui.this, 
-				                "Please clear the text area before uploading a file.", 
-				                "Input Error", 
-				                JOptionPane.WARNING_MESSAGE);
-				            return;
-				        }
-						
-						JFileChooser fileChooser = new JFileChooser();
-						FileNameExtensionFilter fasta_filter = new FileNameExtensionFilter("Fasta file", "fasta"); //Only shows files with .fasta extension in the file chooser
-						fileChooser.setDialogTitle("Select Query FASTA File");
-						fileChooser.setFileFilter(fasta_filter); //Applies extension filter;
-						if (fileChooser.showOpenDialog(BlastGui.this)==JFileChooser.APPROVE_OPTION) {
-							queryFile = fileChooser.getSelectedFile();
-							btnInputSequenceUpload.setText("Selected: " + queryFile.getName());
-							//SequenceValidator path = new SequenceValidator(queryFile.getPath()); // checks the the sequence and gives the path 
-						}
+						try {
+					        Sequence sequence = new Sequence(selectedFile); // runs verifySequence() internally
+					        // If no exception was thrown, the sequence is valid
+					        queryFile = selectedFile;
+					        btnInputSequenceUpload.setText("Selected: " + queryFile.getName());
+
+					    } catch (IllegalArgumentException e) { // replace with whatever exception verifySequence() throws
+					        JOptionPane.showMessageDialog(BlastGui.this,
+					            "Invalid FASTA sequence: " + e.getMessage(),
+					            "Validation Error",
+					            JOptionPane.ERROR_MESSAGE);
+					        // queryFile stays null / unchanged — no file is accepted
+					  
+						//btnInputSequenceUpload.setText("Selected: " + queryFile.getName());
+						//SequenceValidator path = new SequenceValidator(queryFile.getPath()); // checks the the sequence and gives the path 
 					}
-				});
+				}
+			}}}
+			);
 		contentPane.add(btnInputSequenceUpload, gbc_btnInputSequenceUpload);
-		
 
 		// Label to show if file is actually FASTA
 		JLabel lblUploadInputFastaFile = new JLabel("");
@@ -184,13 +200,22 @@ public class BlastGui extends JFrame {
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setDialogTitle("Select Database FASTA File");
 				if (fileChooser.showOpenDialog(BlastGui.this) == JFileChooser.APPROVE_OPTION) {
-					dbFile = fileChooser.getSelectedFile();
-					btnUploadDatabase.setText("Database: " + dbFile.getName());
+					try {
+						// Validate database file at upload time
+						File selectedFile = fileChooser.getSelectedFile();
+						new Sequence(selectedFile);
+						dbFile = selectedFile;
+						btnUploadDatabase.setText("Database: " + dbFile.getName());
+					} catch (IllegalArgumentException ex) {
+						JOptionPane.showMessageDialog(BlastGui.this,
+							"Invalid database file: " + ex.getMessage(),
+							"Database Error",
+							JOptionPane.WARNING_MESSAGE);
+					}
 				}
 			}
 		});
 
-		
 		// Upload Database button 
 		GridBagConstraints gbc_btnUploadDatabase = new GridBagConstraints();
 		gbc_btnUploadDatabase.fill = GridBagConstraints.BOTH;
@@ -262,7 +287,6 @@ public class BlastGui extends JFrame {
 		contentPane.add(lblScoringMatric, gbc_lblScoringMatric);
 
 		// Drop-down for scoring matrix
-		// moved above btnBLAST so the button listener can see it
 		JComboBox<String> ScoringMatrix = new JComboBox<String>();
 		ScoringMatrix.setModel(new DefaultComboBoxModel<String>(new String[] {"BLOSUM45", "BLOSUM50", "BLOSUM62", "BLOSUM80", "BLOSUM90", "PAM30", "PAM70", "PAM250"}));
 		ScoringMatrix.setBackground(Color.WHITE);
@@ -282,33 +306,39 @@ public class BlastGui extends JFrame {
 		btnBLAST.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Sequence sequence = null;
+				ArrayList<Sequence> sequencelist = null;
 				try {
 					String raw = txtrInputsequence.getText();
+					// Textbox input still validated here since there is no upload event for it
 					if (raw != null && !raw.trim().isEmpty()) {
-						sequence = new Sequence(raw);
+						sequencelist = MultipleSequenceParser.parseMultipleSeqs(raw);
 					}
+					// Files are already validated at upload time, just parse here
 					if (queryFile != null) {
-						sequence = new Sequence(queryFile);
+						sequencelist = MultipleSequenceParser.parseMultipleSeqs(queryFile);
 					}
 				} catch (IllegalArgumentException ex) {
-					JOptionPane.showMessageDialog(BlastGui.this,
-						"Invalid sequence: " + ex.getMessage(),
-						"Input Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(
+					        BlastGui.this,
+					        ex.getMessage(),
+					        "Input Error",
+					        JOptionPane.WARNING_MESSAGE
+					    );
 					return;
 				}
-
-				if (sequence == null) {
+				if (sequencelist == null) {
 				    JOptionPane.showMessageDialog(BlastGui.this, 
 				    		"Please provide a sequence via textbox or file", 
 			                "Input Error", 
 			                JOptionPane.WARNING_MESSAGE);
 				}
 				else {
+				
 				// database uploaded → always use ssearch36 local search
 				if (dbFile != null) {
 					try {
-						File queryFile = sequence.getFastaFile();
+						//Sequence sequence = sequencelist.get(0);	
+						//File queryFile = sequence.getFastaFile();
 						String outPath = dbFile.getParent() + File.separator + "ssearch_results.txt";
 						int exitCode = Ssearch36Search.run(
 							queryFile,
@@ -316,15 +346,20 @@ public class BlastGui extends JFrame {
 							Evalue.getSelectedItem().toString(),
 							MaxSeqs.getSelectedItem().toString(),
 							ScoringMatrix.getSelectedItem().toString(),
-							outPath
+							outPath								
 						);
 						if (exitCode == 0) {
 							parseBlastCustomDatabase();
 							String filename = "temp_output.tsv";
 							File file = new File(filename);
-							String seqString = sequence.getSequence();
-							String header = seqString.split("\\r?\\n")[0].split(" ")[0].substring(1);
-							BlastOutputGui blastpout = new BlastOutputGui(file, header);
+							//String seqString = sequence.getSequence();
+							//String header = seqString.split("\\r?\\n")[0].split(" ")[0].substring(1);
+							String header = "Sequence";
+							ArrayList<File> fileList = new ArrayList<File>();
+							fileList.add(file);
+							ArrayList<String> headerList = new ArrayList<String>();
+							headerList.add(header);
+							BlastOutputGui blastpout = new BlastOutputGui(fileList, headerList);
 							blastpout.setLocationRelativeTo(null);
 						    blastpout.setVisible(true);
 							
@@ -343,10 +378,23 @@ public class BlastGui extends JFrame {
 					}
 					return; // stop here — don't fall through to UniProt
 				}
+				ArrayList<File> fileList = new ArrayList<File>();
+				ArrayList<String> headerList = new ArrayList<String>();
 				
 				// no database uploaded → search against UniProt online
-					performBlastP(sequence, Float.valueOf(Evalue.getSelectedItem().toString()), Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
-			}}
+				for(int i = 0; i < sequencelist.size(); i++) {
+					Sequence sequence = sequencelist.get(i);
+					Object[] fileData = performBlastP(sequence, Float.valueOf(Evalue.getSelectedItem().toString()), Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
+					File file = (File) fileData[0];
+					String header = (String) fileData[1];
+					fileList.add(file);
+					headerList.add(header);
+				}
+				BlastOutputGui blastpout = new BlastOutputGui(fileList, headerList);
+				blastpout.setLocationRelativeTo(null);
+			    blastpout.setVisible(true);
+				}
+			}
 		});
 
 		GridBagConstraints gbc_btnBLAST = new GridBagConstraints();
@@ -357,31 +405,22 @@ public class BlastGui extends JFrame {
 		contentPane.add(btnBLAST, gbc_btnBLAST);
 		
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
-		
-
 	}
-	private static void performBlastP(Sequence sequence, float mineval, int maxseq) {
+
+	private static Object[] performBlastP(Sequence sequence, float mineval, int maxseq) {
 		String seqstring = sequence.getSequence();
 		BlastResult<UniProtHit> uniprotblastResult = BlastpSearch.runUniprotBlast(seqstring);
 
-		//MV: i believe this error is redundant, the sequence class will already gives an error if the sequence is invalid
-		//Blast gives an error if the blast is interrupted and an error if the output is empty
-		
-		// null means the server rejected the request
-		//if (uniprotblastResult == null) {
-		//	JOptionPane.showMessageDialog(null,
-		//		"BLAST search failed. The server rejected the request.\nCheck your sequence is valid.",
-		//		"Search Error", JOptionPane.ERROR_MESSAGE);
-		//	return;
-		//}
-
-		String filename = "temp_output.tsv";
-		BlastpSearch.writeUniprotBlastOutput(uniprotblastResult, mineval, maxseq, filename);
-		File file = new File(filename);
+		File file = new File("project_data"+File.separator+"temp_output.tsv");
+		int filenum = 1;
+		while(file.isFile()) {
+			file = new File("project_data"+File.separator+"temp_output_"+filenum+".tsv");
+			filenum++;
+		}
+		BlastpSearch.writeUniprotBlastOutput(uniprotblastResult, mineval, maxseq, file);
 		String header = seqstring.split("\\r?\\n")[0].split(" ")[0].substring(1);
-		BlastOutputGui blastpout = new BlastOutputGui(file, header);
-		blastpout.setLocationRelativeTo(null);
-	    blastpout.setVisible(true);
+		Object[] fileData = {file, header};
+		return fileData;
 	}
 	
 	private void parseBlastCustomDatabase() {

@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.JOptionPane;
 
+import java.io.File;
 import java.io.FileWriter;   
 import java.io.IOException;  
 
@@ -40,9 +41,9 @@ public class BlastpSearch {
 		return null; }
 	    
 	
-	public static void writeUniprotBlastOutput(BlastResult<UniProtHit> blastResult,float mineval,int maxseq, String filename) {
+	public static void writeUniprotBlastOutput(BlastResult<UniProtHit> blastResult,float mineval,int maxseq, File file) {
         try {
-    	      FileWriter myWriter = new FileWriter(filename);
+    	      FileWriter myWriter = new FileWriter(file);
     	      myWriter.write("hit_num\tuniprot_ID\tdescription\tsequence\te-value\tbit-score\tidentity\tquery_seq\tquery_start\tquery_end\tmatch_start\tmatch_end\n");
     	      myWriter.close();  
     	    } catch (IOException e) {
@@ -70,7 +71,7 @@ public class BlastpSearch {
     			  int match_end = alignment.getEndMatchSeq();
     			  numseq++;
     			  try {
-		    	      FileWriter myWriter = new FileWriter(filename,true);
+		    	      FileWriter myWriter = new FileWriter(file,true);
 		    	      myWriter.append(  numseq + "\t" + accession + "\t" + description + "\t" + sequence + 
 		    	      "\t" + eval + "\t" + bitscore + "\t" + identity + "\t" + query_seq + "\t" + query_start + "\t" + query_end + "\t" + 
 		    	      match_start + "\t" + match_end + "\n");

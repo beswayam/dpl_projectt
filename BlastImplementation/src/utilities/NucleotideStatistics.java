@@ -1,4 +1,5 @@
 package utilities;
+import utilities.Sequence;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,8 +7,8 @@ import java.util.HashMap;
 
 public class NucleotideStatistics extends Statistics{
 		
-	public NucleotideStatistics(String initialValue) {
-		super(initialValue);
+	public NucleotideStatistics(Sequence Sequence ) {
+		super(Sequence);
 	}
 	
 	// GC skew = (G-C)/(G+C). Returns 0 when there are no G/C bases.

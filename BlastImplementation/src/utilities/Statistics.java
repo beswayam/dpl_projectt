@@ -1,30 +1,29 @@
 // Statistics is a class within package utilities
 package utilities;
-
 import java.util.HashMap;
 
 // define the Statistics class
 public class Statistics {
-	private String SEQ;
+	private Sequence seq;
 	
 	// create a class constructor
-	public Statistics(String sequence) {
+	public Statistics(Sequence sequence) {
 		setSeq(sequence);
 	}
 	
 	// method to retrieve the (global) sequence
 	public String getSeq() {
-		return this.SEQ;
+		return this.seq.getSequenceNoHeader();
 	}
 	
 	// method to set the (global) sequence
-	public void setSeq(String seq) {
-		this.SEQ = seq.toUpperCase();
+	public void setSeq(Sequence seq) {
+		this.seq = seq;
 	}
 	
 	// method to calculate and retrieve the sequence length
 	public int seqLength() {
-		int sl = this.SEQ.length(); // sl = sequence length
+		int sl = getSeq().length(); // sl = sequence length
 		return sl;
 	}
 	
@@ -36,7 +35,7 @@ public class Statistics {
 		// add a value of one each time you strike a base to that
 		// corresponding base count
 		for (int i = 0; i < seqLength(); i++) { 
-			char base = SEQ.charAt(i);
+			char base = getSeq().charAt(i);
 			
 			if (!baseCounts.containsKey(base)) {
 				baseCounts.put(base, 0);

@@ -75,11 +75,12 @@ public class CodonUtils {
 	
 	public double baseWeight(char amino_acid){
 		double molar_weight;
+		
 		if (AMINO_MASS.get(amino_acid) != null){
 			molar_weight = AMINO_MASS.get(amino_acid); 		
 			
 		} else {
-			throw new IllegalArgumentException("Invalid base used, try again");
+			throw new IllegalArgumentException("Invalid base used:\"" + amino_acid + "\"-remaining sentence");
 		}
 		return molar_weight;
 	}
@@ -89,7 +90,7 @@ public class CodonUtils {
 		if (CODON_TABLE.get(codon) != null){
 			amino_acid = CODON_TABLE.get(codon); 		
 		} else {
-			throw new IllegalArgumentException("Invalid codon used, try again");
+			throw new IllegalArgumentException("Invalid codon used:  \"" + codon + "\"");
 		}
 		
 		return amino_acid;

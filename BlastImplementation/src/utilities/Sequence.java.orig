@@ -32,20 +32,6 @@ public class Sequence {
 		return this.fastaFile;
 	}
 	
-	public void setSequence(String sequence) {
-		this.sequence = sequence;
-	}
-	
-	public void setFastaFile(File fastaFile) {
-		this.fastaFile = fastaFile;
-	}
-
-	public String getSequenceNoHeader() {
-		int start = this.sequence.indexOf('\n') + 1; 
-		int end = this.sequence.length();
-		return this.sequence.substring(start, end);
-	}
-	
 	//Writes the sequence instance variable to fastaFile instance variable
 	private void sequenceToFile() {
 		int filenum=2;
@@ -104,15 +90,17 @@ public class Sequence {
 	// Check if residues are valid for either protein or DNA alphabets
 	private void checkSequenceElements() {
 		int start = this.sequence.indexOf('\n') + 1;
-		String header = this.sequence.substring(0, start);
 		String residues = this.sequence.substring(start)
 				.replaceAll("(?m)^>.*$", "")   // remove additional FASTA headers
 				.replaceAll("\\s+", "");       // remove all whitespace
 
 		if (residues.isEmpty()) {
-
+<<<<<<< HEAD
+			throw new IllegalArgumentException("Header found, but no sequence was provided");	//triggers with header without a sequence
+		
+=======
 			throw new IllegalArgumentException("Header found, but does not contain sequence");
-
+>>>>>>> 1266de8cf15a5f9a456bbb0237577778794cc262
 		}
 
 		final String dnaAlphabet = "ACGTN";
@@ -133,9 +121,19 @@ public class Sequence {
 			}
 		}
 		
-		this.sequence = header + residues;
+		this.sequence = residues;
 	}
 	
+<<<<<<< HEAD
+//	private String sequenceWithoutWhiteSpace() {
+//		
+//		return "hoi";
+//	}
+	
+	
+	
+=======
+>>>>>>> 1266de8cf15a5f9a456bbb0237577778794cc262
 	private void verifySequence() {
 		isNotEmpty();
 		checkHeader();

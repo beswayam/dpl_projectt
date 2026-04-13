@@ -8,19 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class MultipleSequenceParser {
-public static void main(String[] args)  {
 	
-	String sequences=">JOE\nAEEKSGYSFVHCKVTGTGGGIYLGRAWMSH\n>unknown_pecter\r\n"
-			+ "RVIIKMAPGEYKEKVTIDRNKPFI";
-	ArrayList<Sequence> parsedSeqList= parseMultipleSeqs(sequences);
-	System.out.println(parsedSeqList.get(1).getSequence());
-
-
-	File sequenceFile= new File("pectinesterases.fasta");
-	ArrayList<Sequence> parsedSeqListFromFile= parseMultipleSeqs(sequenceFile);
-	System.out.println(parsedSeqListFromFile.get(1).getSequence());
-	
-	}
 public static ArrayList<Sequence> parseMultipleSeqs(File sequencefile){
 	String sequences = "";
 	try {
