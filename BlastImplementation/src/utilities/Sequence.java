@@ -11,19 +11,19 @@ public class Sequence {
 	
 	// constructor for sting input 
 	public Sequence (String sequence) {
-		setSequence(sequence);
+		this.sequence = sequence;
 		verifySequence();
 		sequenceToFile();
 	}
 
 	//constructor for FASTA file input 
 	public Sequence (File fastaFile) {
-		setFastaFile(fastaFile);
+		this.fastaFile = fastaFile;
 		fileToSequence();
 		verifySequence();
 	}
 	
-	// Accessor method for Sequence
+	//accessor method for Sequence
 	public String getSequence() {
 	    return this.sequence;
 	}
@@ -32,27 +32,13 @@ public class Sequence {
 		return this.fastaFile;
 	}
 	
-	public void setSequence(String sequence) {
-		this.sequence = sequence;
-	}
-	
-	public void setFastaFile(File fastaFile) {
-		this.fastaFile = fastaFile;
-	}
-
-	public String getSequenceNoHeader() {
-		int start = this.sequence.indexOf('\n') + 1; 
-		int end = this.sequence.length();
-		return this.sequence.substring(start, end);
-	}
-	
 	//Writes the sequence instance variable to fastaFile instance variable
 	private void sequenceToFile() {
 		int filenum=2;
 		File file = new File("project_data" + File.separator + "blast_input.fa");
 		while(file.isFile()) {
-			file = new File("project_data" + File.separator + "blast_input_" + filenum + ".fa");
-			filenum++;
+		file = new File("project_data" + File.separator + "blast_input_" + filenum + ".fa");
+		filenum++;
 		}
 		try (FileWriter writer = new FileWriter(file)) {
 			writer.write(this.sequence);
@@ -78,7 +64,7 @@ public class Sequence {
 	//Check if entry is not empty
 	private void isNotEmpty() {
 		if (this.sequence.isEmpty()) {
-			throw new IllegalArgumentException("No sequence was provided");
+			throw new IllegalArgumentException("Entry is empty");
 		}
 	}
 	
@@ -90,23 +76,16 @@ public class Sequence {
 		}
 	}
 	
-	//Check if FASTA entry has a sequence
-	private void checkSequence() {
-		if (!this.sequence.contains("\n")) {
-		    throw new IllegalArgumentException("Header found, but no sequence was provided");		//command LW, this one not triggered when sequence without header is inserted
-		}
-	}
 	
 	//Convert sequence to upper case 
 	private void sequenceToUpperCase() {
-		int start = this.sequence.indexOf('\n') + 1; 
+		int start = this.sequence.indexOf('\n') + 1; //turn into separate  method 
 		int end = this.sequence.length();
 		String header = this.sequence.substring(0, start);
 		this.sequence = this.sequence.substring(start, end).toUpperCase();
 		this.sequence = header + this.sequence;
 
-		}
-
+	}
 	
 	// Check if residues are valid for either protein or DNA alphabets
 	private void checkSequenceElements() {
@@ -116,11 +95,11 @@ public class Sequence {
 				.replaceAll("\\s+", "");       // remove all whitespace
 
 		if (residues.isEmpty()) {
-			throw new IllegalArgumentException("Header found, but no sequence was provided");	//triggers with header without a sequence
+			throw new IllegalArgumentException("Header found, but does not contain sequence");
 		}
 
 		final String dnaAlphabet = "ACGTN";
-		final String proteinAlphabet = "ACDEFGHIKLMNPQRSTVWY";
+		final String proteinAlphabet = "ACDEFGHIKLMNPQRSTVWYBXZJUO*";
 
 		boolean isProtein = true;
 		boolean isDna = true;
@@ -133,17 +112,14 @@ public class Sequence {
 				isDna = false;
 			}
 			if (!isProtein && !isDna) {
-				throw new IllegalArgumentException("The sequence contains invalid characters for a protein or DNA sequence ");
+				throw new IllegalArgumentException("Invalid characters for protein or DNA sequence");
 			}
 		}
 	}
 	
-	
-	
 	private void verifySequence() {
 		isNotEmpty();
 		checkHeader();
-		checkSequence();
 		sequenceToUpperCase();
 		checkSequenceElements();
 		}
