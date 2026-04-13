@@ -114,7 +114,7 @@ public class Sequence {
 			throw new IllegalArgumentException("Header found, but does not contain sequence");
 
 		}
-
+		
 		final String dnaAlphabet = "ACGTN";
 		final String proteinAlphabet = "ACDEFGHIKLMNPQRSTVWYBXZJUO*";
 

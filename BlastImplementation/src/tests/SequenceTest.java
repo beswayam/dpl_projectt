@@ -58,7 +58,7 @@ public class SequenceTest extends TestCase {
 		 	}
 		
 		//Input with invalid amino acid
-		String wrong_res = ">mysequence\nMRzkM";
+		String wrong_res = ">mysequence\nMRzkMou7b";
 		try {
 			Sequence check7 = new Sequence(wrong_res);
 			fail();
