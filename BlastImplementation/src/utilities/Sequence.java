@@ -82,6 +82,7 @@ public class Sequence {
 		    throw new IllegalArgumentException("Invalid input");
 		}
 	}
+
 	
 	//Convert sequence to upper case 
 	private void sequenceToUpperCase() {
@@ -126,7 +127,6 @@ public class Sequence {
 	private void verifySequence() {
 		isNotEmpty();
 		checkHeader();
-		checkSequence();
 		sequenceToUpperCase();
 		checkSequenceElements();
 		}
