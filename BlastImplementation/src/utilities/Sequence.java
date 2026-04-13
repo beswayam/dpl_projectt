@@ -90,12 +90,6 @@ public class Sequence {
 		}
 	}
 	
-	//Check if FASTA entry has a sequence
-	private void checkSequence() {
-		if (!this.sequence.contains("\n")) {
-		    throw new IllegalArgumentException("Header found, but no sequence was provided");		//command LW, this one not triggered when sequence without header is inserted
-		}
-	}
 	
 	//Convert sequence to upper case 
 	private void sequenceToUpperCase() {
@@ -143,7 +137,6 @@ public class Sequence {
 	private void verifySequence() {
 		isNotEmpty();
 		checkHeader();
-		checkSequence();
 		sequenceToUpperCase();
 		checkSequenceElements();
 		}
