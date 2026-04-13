@@ -104,6 +104,7 @@ public class Sequence {
 	// Check if residues are valid for either protein or DNA alphabets
 	private void checkSequenceElements() {
 		int start = this.sequence.indexOf('\n') + 1;
+		String header = this.sequence.substring(0, start);
 		String residues = this.sequence.substring(start)
 				.replaceAll("(?m)^>.*$", "")   // remove additional FASTA headers
 				.replaceAll("\\s+", "");       // remove all whitespace
@@ -132,7 +133,7 @@ public class Sequence {
 			}
 		}
 		
-		this.sequence = residues;
+		this.sequence = header + residues;
 	}
 	
 	private void verifySequence() {
