@@ -75,7 +75,15 @@ public class Sequence {
 			this.sequence = ">sequence\n" + this.sequence; //add header if no header present
 		}
 	}
-		
+	
+	//Check if FASTA entry has a sequence
+	private void checkSequence() {
+		if (!this.sequence.contains("\n")) {
+		    throw new IllegalArgumentException("Invalid input");
+		}
+	}
+
+	
 	//Convert sequence to upper case 
 	private void sequenceToUpperCase() {
 		int start = this.sequence.indexOf('\n') + 1; //turn into separate  method 
