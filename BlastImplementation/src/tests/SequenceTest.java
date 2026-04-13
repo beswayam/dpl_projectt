@@ -58,7 +58,7 @@ public class SequenceTest extends TestCase {
 		 	}
 		
 		//Input with invalid amino acid
-		String wrong_res = ">mysequence\nMRzkM";
+		String wrong_res = ">mysequence\nMRzkMou7b";
 		try {
 			Sequence check7 = new Sequence(wrong_res);
 			fail();
@@ -73,8 +73,8 @@ public class SequenceTest extends TestCase {
 		File fileName = new File("project_data/test_fa.txt");
 		Sequence check8 = new Sequence(fileName);
 		String expected = ">tr|A0A222AH43|A0A222AH43_9HYST Hemoglobine alpha globin subunit (Fragment) OS=Ctenomys rionegrensis OX=88126 GN=HBA PE=3 SV=1\n"
-				+ "MVLSPADKTNVKAAWDKIGSHGAEYGAEALFRMFLSFPTTKTYFHHFDLSPGSAQVKAHG\n"
-				+ "KKVSDALTTAVGHLDDLPSALSALSDLHAHKLRVDPVNFKLLSHCLLVTLSLHHPAEFTP\n"
+				+ "MVLSPADKTNVKAAWDKIGSHGAEYGAEALFRMFLSFPTTKTYFHHFDLSPGSAQVKAHG"
+				+ "KKVSDALTTAVGHLDDLPSALSALSDLHAHKLRVDPVNFKLLSHCLLVTLSLHHPAEFTP"
 				+ "AVHASLDKFLATVSTVLTS";
 		assertNotNull(check8);
 		assertEquals(

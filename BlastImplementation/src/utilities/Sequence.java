@@ -110,30 +110,32 @@ public class Sequence {
 				.replaceAll("\\s+", "");       // remove all whitespace
 
 		if (residues.isEmpty()) {
-
 			throw new IllegalArgumentException("Header found, but does not contain sequence");
 
-		}
-
+		} 
+		
+		this.sequence = header + residues;
+	}
+	
+	public boolean isProtein() {
+		int start = this.sequence.indexOf('\n') + 1;
+		String residues = this.sequence.substring(start);
+		
 		final String dnaAlphabet = "ACGTN";
 		final String proteinAlphabet = "ACDEFGHIKLMNPQRSTVWYBXZJUO*";
 
-		boolean isProtein = true;
-		boolean isDna = true;
+		boolean isProtein = false;
 
 		for (char residue : residues.toCharArray()) {
 			if (proteinAlphabet.indexOf(residue) == -1) {
-				isProtein = false;
+				throw new IllegalArgumentException("Invalid base / nucleotide used: " + residue);
 			}
 			if (dnaAlphabet.indexOf(residue) == -1) {
-				isDna = false;
-			}
-			if (!isProtein && !isDna) {
-				throw new IllegalArgumentException("Invalid characters for protein or DNA sequence");
+				isProtein = true;
 			}
 		}
 		
-		this.sequence = header + residues;
+		return isProtein;
 	}
 	
 	private void verifySequence() {

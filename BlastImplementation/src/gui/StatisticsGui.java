@@ -105,10 +105,14 @@ public class StatisticsGui extends JFrame {
 		// file overview text area end
 		
 		// statistics text area start
+//		if protein {
 		JTextArea textStatistics = new JTextArea();
 		GridBagConstraints gbc_textStatistics = new GridBagConstraints();		
 		textForStatistics(textStatistics, gbc_textStatistics);
 		// statistics text area stop
+//		} else {
+//			dna
+//		}
 		
 		// tools text area start
 		JTextArea textTools = new JTextArea();		
