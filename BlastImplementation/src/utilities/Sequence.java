@@ -45,7 +45,7 @@ public class Sequence {
 			this.fastaFile = file;
 		}
 		catch (IOException e) {
-			throw new IllegalArgumentException("Invalid input");
+			throw new IllegalArgumentException("Could not write the sequence to an output file");
 		}	
 	}
 	
@@ -55,7 +55,7 @@ public class Sequence {
 		try {
 			sequence = Files.readString(this.fastaFile.toPath());
 		} catch (IOException e) {
-			throw new IllegalArgumentException("Invalid input");
+			throw new IllegalArgumentException("The selected FASTA file could not be read");
 		}
 		this.sequence = sequence;
 	}
@@ -64,7 +64,7 @@ public class Sequence {
 	//Check if entry is not empty
 	private void isNotEmpty() {
 		if (this.sequence.isEmpty()) {
-			throw new IllegalArgumentException("Invalid input");
+			throw new IllegalArgumentException("Entry is empty");
 		}
 	}
 	
@@ -76,13 +76,6 @@ public class Sequence {
 		}
 	}
 	
-	//Check if FASTA entry has a sequence
-	private void checkSequence() {
-		if (!this.sequence.contains("\n")) {
-		    throw new IllegalArgumentException("Invalid input");
-		}
-	}
-
 	
 	//Convert sequence to upper case 
 	private void sequenceToUpperCase() {
@@ -102,7 +95,7 @@ public class Sequence {
 				.replaceAll("\\s+", "");       // remove all whitespace
 
 		if (residues.isEmpty()) {
-			throw new IllegalArgumentException("Invalid input");
+			throw new IllegalArgumentException("Header found, but does not contain sequence");
 		}
 
 		final String dnaAlphabet = "ACGTN";
@@ -119,7 +112,7 @@ public class Sequence {
 				isDna = false;
 			}
 			if (!isProtein && !isDna) {
-				throw new IllegalArgumentException("Invalid input");
+				throw new IllegalArgumentException("Invalid characters for protein or DNA sequence");
 			}
 		}
 	}
