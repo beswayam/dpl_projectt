@@ -117,6 +117,7 @@ public class Sequence {
 
 		if (residues.isEmpty()) {
 			throw new IllegalArgumentException("Header found, but no sequence was provided");	//triggers with header without a sequence
+		
 		}
 
 		final String dnaAlphabet = "ACGTN";
@@ -136,7 +137,14 @@ public class Sequence {
 				throw new IllegalArgumentException("The sequence contains invalid characters for a protein or DNA sequence ");
 			}
 		}
+		
+		this.sequence = residues;
 	}
+	
+//	private String sequenceWithoutWhiteSpace() {
+//		
+//		return "hoi";
+//	}
 	
 	
 	

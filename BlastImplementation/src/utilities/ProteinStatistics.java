@@ -1,12 +1,15 @@
 package utilities;
 
 public class ProteinStatistics extends Statistics{
+	private Sequence initialValue;
+
 	public ProteinStatistics(Sequence initialValue) {
 		super(initialValue);
+		this.initialValue = initialValue;
 	}
 	
 	public double ProteinWeight() {
-		String seq = getSeq();
+		String seq = initialValue.getSequenceNoHeader();
 		CodonUtils utils = new CodonUtils();
 		double totalWeight = 0;
 		

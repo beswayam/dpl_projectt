@@ -158,7 +158,8 @@ public class StatisticsGui extends JFrame {
 	}
 	
 	private void textForOverviewInput(JTextArea textOverviewInput, GridBagConstraints gbc_textOverviewInput) {
-		String protSeq = new Sequence(this.file).getSequence();
+		Sequence protSeq = new Sequence(this.file);
+		String seq = protSeq.getSequence();
 		
 		textOverviewInput.setEditable(false);
 		textOverviewInput.setLineWrap(true);
@@ -174,10 +175,13 @@ public class StatisticsGui extends JFrame {
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
+		textOverviewInput.append(seq);
+		
+		
 		contentPane.add(scrollPane, gbc_textOverviewInput);
 		
 		
-		System.out.println(protSeq);
+		
 		
 	}
 	
