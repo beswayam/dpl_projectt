@@ -100,35 +100,8 @@ public class StatisticsGui extends JFrame {
 		
 		// file overview text area start
 		JTextArea textOverviewInput = new JTextArea();
-		textOverviewInput.setEditable(false);
-		textOverviewInput.setLineWrap(true);
-		textOverviewInput.setWrapStyleWord(true);
-		
 		GridBagConstraints gbc_textOverviewInput = new GridBagConstraints();
-		gbc_textOverviewInput.insets = new Insets(0, 0, 0, 5);
-		gbc_textOverviewInput.gridx = 0;
-		gbc_textOverviewInput.gridy = 1;
-		gbc_textOverviewInput.weightx = 1.0;
-		gbc_textOverviewInput.weighty = 1.0;
-		gbc_textOverviewInput.fill = GridBagConstraints.BOTH;
-		
-		JScrollPane scrollPane = new JScrollPane(textOverviewInput);
-		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-		contentPane.add(scrollPane, gbc_textOverviewInput);
-		
-		try (BufferedReader br = new BufferedReader(new FileReader(this.file))) {
-            String line;
-            int count = 0;
-
-            while ((line = br.readLine()) != null && count < 10) {
-            	textOverviewInput.append(line + "\n");
-                count++;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		textForOverviewInput(textOverviewInput, gbc_textOverviewInput);
 		// file overview text area end
 		
 		// statistics text area start
@@ -152,8 +125,8 @@ public class StatisticsGui extends JFrame {
 	}
 	
 	private void textForStatistics(JTextArea textStatistics, GridBagConstraints gbc_textStatistics) {
-		String rawSeq = new Sequence(this.file).getSequence();
-		ProteinStatistics protSeq = new ProteinStatistics(rawSeq);
+		Sequence protSeq = new Sequence(this.file);
+		ProteinStatistics seqStat = new ProteinStatistics(protSeq);
 		
 		gbc_textStatistics.insets = new Insets(0, 0, 0, 5);
 		gbc_textStatistics.gridx = 1;
@@ -164,12 +137,12 @@ public class StatisticsGui extends JFrame {
 		textStatistics.setEditable(false);
 		      
 		// protein length
-        int length = protSeq.seqLength();
+        int length = seqStat.seqLength();
 		textStatistics.append("Length of the protein is " + length + " amino acids\n\n");
 		
 		// protein base counts
 		textStatistics.append("Protein contents\n");
-		HashMap<Character, Integer> moleculeDict = protSeq.SeqContents();
+		HashMap<Character, Integer> moleculeDict = seqStat.SeqContents();
 
 		for (Entry<Character, Integer> mol : moleculeDict.entrySet()) {
 			Character key = mol.getKey();
@@ -179,8 +152,33 @@ public class StatisticsGui extends JFrame {
 		}
 		
 		// protein weight
-		textStatistics.append("\nProtein weight: " + protSeq.ProteinWeight() + " Da");
+		textStatistics.append("\nProtein weight: " + seqStat.ProteinWeight() + " Da");
 		
 		contentPane.add(new JScrollPane(textStatistics), gbc_textStatistics);		
 	}
+	
+	private void textForOverviewInput(JTextArea textOverviewInput, GridBagConstraints gbc_textOverviewInput) {
+		String protSeq = new Sequence(this.file).getSequence();
+		
+		textOverviewInput.setEditable(false);
+		textOverviewInput.setLineWrap(true);
+		textOverviewInput.setWrapStyleWord(true);
+		gbc_textOverviewInput.insets = new Insets(0, 0, 0, 5);
+		gbc_textOverviewInput.gridx = 0;
+		gbc_textOverviewInput.gridy = 1;
+		gbc_textOverviewInput.weightx = 1.0;
+		gbc_textOverviewInput.weighty = 1.0;
+		gbc_textOverviewInput.fill = GridBagConstraints.BOTH;
+		
+		JScrollPane scrollPane = new JScrollPane(textOverviewInput);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+		contentPane.add(scrollPane, gbc_textOverviewInput);
+		
+		
+		System.out.println(protSeq);
+		
+	}
+	
 }

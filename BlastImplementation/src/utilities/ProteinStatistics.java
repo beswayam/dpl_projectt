@@ -1,7 +1,7 @@
 package utilities;
 
 public class ProteinStatistics extends Statistics{
-	public ProteinStatistics(String initialValue) {
+	public ProteinStatistics(Sequence initialValue) {
 		super(initialValue);
 	}
 	

@@ -75,6 +75,7 @@ public class CodonUtils {
 	
 	public double baseWeight(char amino_acid){
 		double molar_weight;
+		System.out.println(amino_acid);
 		if (AMINO_MASS.get(amino_acid) != null){
 			molar_weight = AMINO_MASS.get(amino_acid); 		
 			
