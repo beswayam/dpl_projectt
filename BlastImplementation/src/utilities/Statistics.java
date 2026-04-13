@@ -28,7 +28,7 @@ public class Statistics {
 	}
 	
 	// method to create a dictionary with bases and their counts
-	public HashMap<Character, Integer> SeqContents() {
+	public HashMap<Character, Integer> seqContents() {
 		// initiate a map (dictionary in Python)
 		HashMap<Character, Integer> baseCounts = new HashMap<>();
 		

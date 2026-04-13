@@ -34,11 +34,11 @@ public class StatisticsTest extends TestCase {
 	
 	public void testSeqContents() {
 		// isolate the bases from the map
-		Set<Character> allBases = seq.SeqContents().keySet();
+		Set<Character> allBases = seq.seqContents().keySet();
 		
 		// check per base how many there are in the sequence
 		char base = 'G';
-		int count = seq.SeqContents().get(base);	
+		int count = seq.seqContents().get(base);	
 		assertEquals(3, count);
 		}
 	}

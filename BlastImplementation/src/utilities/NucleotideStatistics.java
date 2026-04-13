@@ -13,7 +13,7 @@ public class NucleotideStatistics extends Statistics{
 	
 	// GC skew = (G-C)/(G+C). Returns 0 when there are no G/C bases.
 	public double GCSkew() {
-		HashMap<Character, Integer> nuc_counts = SeqContents();
+		HashMap<Character, Integer> nuc_counts = seqContents();
 		int gCount = nuc_counts.get('G');
 		int cCount = nuc_counts.get('C');
 		int denominator = gCount + cCount;

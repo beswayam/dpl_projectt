@@ -146,7 +146,7 @@ public class StatisticsGui extends JFrame {
 		
 		// protein base counts
 		textStatistics.append("Protein contents\n");
-		HashMap<Character, Integer> moleculeDict = seqStat.SeqContents();
+		HashMap<Character, Integer> moleculeDict = seqStat.seqContents();
 
 		for (Entry<Character, Integer> mol : moleculeDict.entrySet()) {
 			Character key = mol.getKey();
