@@ -1,0 +1,40 @@
+# tools\ssearch36.exe -s BL62 -E 1e-2 -b 100 -d 100 C:\inf32306\project\group2026a\BlastImplementation\project_data\blast_input_87.fa C:\Users\milan\Downloads\pecter.fasta
+SSEARCH performs a Smith-Waterman search
+ version 36.3.8g Oct, 2018
+Please cite:
+ T. F. Smith and M. S. Waterman, (1981) J. Mol. Biol. 147:195-197; 
+ W.R. Pearson (1991) Genomics 11:635-650
+
+Query: C:\inf32306\project\group2026a\BlastImplementation\project_data\blast_input_87.fa
+  1>>>3unknown_pectinesterase_pt_3 - 48 aa
+Library: C:\Users\milan\Downloads\pecter.fasta
+      188 residues in     3 sequences
+
+Statistics: (shuffled [500]) MLE statistics: Lambda= 0.2354;  K=0.1021
+ statistics sampled from 3 (3) to 500 sequences
+Algorithm: Smith-Waterman (SSE2, Michael Farrar 2006) (7.2 Nov 2010)
+Parameters: BL62 matrix (11:-4), open/ext: -11/-1
+ Scan time:  0.000
+
+The best scores are:                                      s-w bits E(3)
+unknown_pectinesterase_pt_3                        (  48)  258 90.9  3e-024
+
+>>unknown_pectinesterase_pt_3                             (48 aa)
+ s-w opt: 258  Z-score: 476.4  bits: 90.9 E(3): 3e-024
+Smith-Waterman score: 258; 100.0% identity (100.0% similar) in 48 aa overlap (1-48:1-48)
+
+               10        20        30        40        
+3unkno LHVVGDGIRVIAAHAGKSAEEKSGYSFVHCKVTGTGGGIYLGRAWMSH
+       ::::::::::::::::::::::::::::::::::::::::::::::::
+unknow LHVVGDGIRVIAAHAGKSAEEKSGYSFVHCKVTGTGGGIYLGRAWMSH
+               10        20        30        40        
+
+
+
+48 residues in 1 query   sequences
+188 residues in 3 library sequences
+ Scomplib [36.3.8g Oct, 2018]
+ start: Tue Apr 14 16:09:45 2026 done: Tue Apr 14 16:09:45 2026
+ Scan time:  0.000 Display time:  0.000
+
+Function used was SSEARCH [36.3.8g Oct, 2018]

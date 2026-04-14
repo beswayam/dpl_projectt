@@ -337,9 +337,13 @@ public class BlastGui extends JFrame {
 				// database uploaded → always use ssearch36 local search
 				if (dbFile != null) {
 					try {
-						Sequence sequence = sequencelist.get(0);	
-						//File queryFile = sequence.getFastaFile();
-						String outPath = dbFile.getParent() + File.separator + "ssearch_results.txt";
+						Sequence sequence = null;
+						ArrayList<File> fileList = new ArrayList<File>();
+						ArrayList<String> headerList = new ArrayList<String>();
+						for(int i = 0; i < sequencelist.size(); i++) {
+							sequence = sequencelist.get(i);
+						File queryFile = sequence.getFastaFile();
+						String outPath = "project_data" + File.separator + "ssearch_results.txt";
 						int exitCode = Ssearch36Search.run(
 							queryFile,
 							dbFile,
@@ -351,34 +355,38 @@ public class BlastGui extends JFrame {
 						if (exitCode == 0) {
 							
 							
-							JOptionPane.showMessageDialog(BlastGui.this,
-								"Search complete!\nResults saved to:\n" + outPath);
-							parseBlastCustomDatabase();
-							String filename = "temp_output.tsv";
-							File file = new File(filename);
+							File file = new File("project_data"+File.separator+"temp_output.tsv");
+							int filenum = 1;
+							while(file.isFile()) {
+								file = new File("project_data"+File.separator+"temp_output_"+filenum+".tsv");
+								filenum++;
+							}
+							parseBlastCustomDatabase(file);
+							
 							//String seqString = sequence.getSequence();
 							//String header = seqString.split("\\r?\\n")[0].split(" ")[0].substring(1);
 							String header = "Sequence";
-							ArrayList<File> fileList = new ArrayList<File>();
 							fileList.add(file);
-							ArrayList<String> headerList = new ArrayList<String>();
 							headerList.add(header);
-							BlastOutputGui blastpout = new BlastOutputGui(fileList, headerList);
-							blastpout.setLocationRelativeTo(null);
-						    blastpout.setVisible(true);
-							return; // stop here — don't fall through to UniProt
+							
+							
 						} else {
 							JOptionPane.showMessageDialog(BlastGui.this,
 								"SSEARCH36 failed (exit code " + exitCode + ").\n"
 								+ "Check that ssearch36.exe exists in the tools folder.",
 								"Search Error", JOptionPane.ERROR_MESSAGE);
 						}
+						}
+						BlastOutputGui blastpout = new BlastOutputGui(fileList, headerList);
+						blastpout.setLocationRelativeTo(null);
+					    blastpout.setVisible(true);
 						
 					} catch (Exception ex) {
 						JOptionPane.showMessageDialog(BlastGui.this,
 							"SSEARCH36 failed: " + ex.getMessage(),
 							"Search Error", JOptionPane.ERROR_MESSAGE);
 					}
+					return; // stop here — don't fall through to UniProt
 					
 				}
 				ArrayList<File> fileList = new ArrayList<File>();
@@ -426,20 +434,19 @@ public class BlastGui extends JFrame {
 		return fileData;
 	}
 	
-	private void parseBlastCustomDatabase() {
+	private void parseBlastCustomDatabase(File outfile) {
 		// Claude generated this parser code for us based on a non functional template of us.
 		// We checked that the code works correctly.
 
 	    // ── Build path to the SSEARCH output file ─────────────────────────────
 	    // The ssearch_results.txt is expected in the same folder as the database file
-	    String pathBlastFile = dbFile.getParent() + File.separator + "ssearch_results.txt";
+	    String pathBlastFile = "project_data" + File.separator + "ssearch_results.txt";
 	    File blastOutputCustomDatabase = new File(pathBlastFile);
-	    String tsvFileName = "temp_output.tsv";
 
 	    try (Scanner blastOutput = new Scanner(blastOutputCustomDatabase)) {
 
 	        // false = overwrite existing file (not append)
-	        FileWriter blastOutputTsv = new FileWriter(tsvFileName, false);
+	        FileWriter blastOutputTsv = new FileWriter(outfile, false);
 
 	        // ── Write TSV header row ───────────────────────────────────────────
 	        blastOutputTsv.write(
