@@ -127,26 +127,6 @@ public class StatisticsGui extends JFrame {
 	
 	}
 	
-	private void textForStatistics(JTextArea textStatistics, GridBagConstraints gbc_textStatistics) {
-		Sequence unknownSeq = new Sequence(this.file);
-				
-		gbc_textStatistics.insets = new Insets(0, 0, 0, 5);
-		gbc_textStatistics.gridx = 1;
-		gbc_textStatistics.gridy = 1;
-		gbc_textStatistics.weightx = 1.0;
-		gbc_textStatistics.weighty = 1.0;
-		gbc_textStatistics.fill = GridBagConstraints.BOTH;
-		textStatistics.setEditable(false);
-		
-		if (unknownSeq.isProtein()) {
-			textForStatisticsIfProtein(unknownSeq, textStatistics);
-		} else {
-			textForStatisticsIfNucleotide(unknownSeq, textStatistics);
-		}
-				
-		contentPane.add(new JScrollPane(textStatistics), gbc_textStatistics);		
-	}
-	
 	private void textForOverviewInput(JTextArea textOverviewInput, GridBagConstraints gbc_textOverviewInput) {
 		Sequence protSeq = new Sequence(this.file);
 		
@@ -166,8 +146,31 @@ public class StatisticsGui extends JFrame {
 
 		textOverviewInput.append(protSeq.getSequence());
 		
-		
 		contentPane.add(scrollPane, gbc_textOverviewInput);		
+	}
+	
+	private void textForStatistics(JTextArea textStatistics, GridBagConstraints gbc_textStatistics) {
+		Sequence unknownSeq = new Sequence(this.file);
+				
+		gbc_textStatistics.insets = new Insets(0, 0, 0, 5);
+		gbc_textStatistics.gridx = 1;
+		gbc_textStatistics.gridy = 1;
+		gbc_textStatistics.weightx = 1.0;
+		gbc_textStatistics.weighty = 1.0;
+		gbc_textStatistics.fill = GridBagConstraints.BOTH;
+		textStatistics.setEditable(false);
+		
+		JScrollPane scrollPane = new JScrollPane(textStatistics);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		
+		if (unknownSeq.isProtein()) {
+			textForStatisticsIfProtein(unknownSeq, textStatistics);
+		} else {
+			textForStatisticsIfNucleotide(unknownSeq, textStatistics);
+		}
+				
+		contentPane.add(new JScrollPane(textStatistics), gbc_textStatistics);		
 	}
 	
 	private void textForStatisticsIfProtein(Sequence unknownSeq, JTextArea textStatistics) {
@@ -181,14 +184,7 @@ public class StatisticsGui extends JFrame {
 		textStatistics.append("Protein length; " + length + " amino acids\n\n");
 		
 		// sequence content counts
-		HashMap<Character, Integer> moleculeDict = seqStat.seqContents();
-		textStatistics.append("Protein contents;\n");
-		for (Entry<Character, Integer> mol : moleculeDict.entrySet()) {
-			Character key = mol.getKey();
-			Integer value = mol.getValue();
-			
-			textStatistics.append(key + " : " + value.toString() + "\n");
-		}
+		seqContents(seqStat, textStatistics);
 		
 		// weight if protein, if else nucleotide GC%
 		textStatistics.append("\nProtein weight; " + protWeight + " Da");
@@ -199,25 +195,43 @@ public class StatisticsGui extends JFrame {
 				
 		// sequence length
 		int length = seqStat.seqLength();
-		textStatistics.append("Nucleotide sequence length; \n" + length + " amino acids\n\n");
+		textStatistics.append("Nucleotide sequence length; \n" + length + " nucleotides\n\n");		
 		
 		// sequence content counts
-		HashMap<Character, Integer> moleculeDict = seqStat.seqContents();
 		textStatistics.append("Nucleotide sequence contents;\n");
-		for (Entry<Character, Integer> mol : moleculeDict.entrySet()) {
-			Character key = mol.getKey();
-			Integer value = mol.getValue();
-			
-			textStatistics.append(key + " : " + value.toString() + "\n");
-		}
-		
+		seqContents(seqStat, textStatistics);
 		
 		// nucleotide GC%
 		double gcContent = ((NucleotideStatistics) seqStat).GCContent();
 		BigDecimal rounded = new BigDecimal(gcContent * 100).setScale(1, RoundingMode.HALF_UP);
 		textStatistics.append("\nGC%; " + rounded);
 		
+		// codon frequency
+		textStatistics.append("\n\nCodon frequency: \n");
+		HashMap<String, Integer> codonFreq = ((NucleotideStatistics) seqStat).getCodonFrequency();
+		int count = 1;
+		for (String i : codonFreq.keySet()) {
+			textStatistics.append(i + " : " + codonFreq.get(i));
+			if (count % 3 == 0){
+				textStatistics.append("\n");
+			} else {
+				textStatistics.append("\t");
+			}
+			count++;
+		}
 		
+	}
+	
+	private void seqContents(StatisticsInterface seqStat, JTextArea textStatistics) {
+		HashMap<Character, Integer> moleculeDict = seqStat.seqContents();
+		
+		for (Entry<Character, Integer> mol : moleculeDict.entrySet()) {
+			Character key = mol.getKey();
+			Integer value = mol.getValue();
+			
+			textStatistics.append(key + " : " + value.toString() + "\n");
+			
+		}
 	}
 	
 }
