@@ -7,14 +7,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import com.google.common.io.Files;
+
 
 import interfaces.StatisticsInterface;
-import jakarta.validation.Path;
+
 import utilities.NucleotideStatistics;
 import utilities.ProteinStatistics;
 import java.awt.GridBagLayout;
-import java.awt.Image;
+
 
 import javax.swing.JTextArea;
 import java.awt.GridBagConstraints;
@@ -22,8 +22,7 @@ import java.awt.Insets;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.URL;
-import java.nio.file.Paths;
+
 import java.util.HashMap;
 import java.util.Map.Entry;
 import javax.swing.JLabel;
@@ -36,10 +35,9 @@ import javax.swing.SwingConstants;
 import utilities.Sequence;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+
 import java.awt.event.ActionEvent;
-import javax.swing.ImageIcon;
+
 import java.awt.Dimension;
 import java.awt.Cursor;
 
@@ -285,8 +283,8 @@ public class StatisticsGui extends JFrame {
 		// sequence content counts
 		seqContents(seqStat, textStatistics);
 		
-		// weight if protein, if else nucleotide GC%
-		textStatistics.append("\nProtein weight; " + protWeight + " Da");
+		// protein weight
+		textStatistics.append("\n\nProtein weight; " + protWeight + " Da");
 	}
 	
 	private void textForStatisticsIfNucleotide(Sequence unknownSeq, JTextArea textStatistics) {
@@ -303,7 +301,7 @@ public class StatisticsGui extends JFrame {
 		// nucleotide GC%
 		double gcContent = ((NucleotideStatistics) seqStat).GCContent();
 		BigDecimal rounded = new BigDecimal(gcContent * 100).setScale(1, RoundingMode.HALF_UP);
-		textStatistics.append("\nGC%; " + rounded);
+		textStatistics.append("\n\nGC%; " + rounded);
 		
 		// codon frequency
 		textStatistics.append("\n\nCodon frequency: \n");
@@ -324,13 +322,19 @@ public class StatisticsGui extends JFrame {
 	private void seqContents(StatisticsInterface seqStat, JTextArea textStatistics) {
 		HashMap<Character, Integer> moleculeDict = seqStat.seqContents();
 		
+		int count = 1;
 		for (Entry<Character, Integer> mol : moleculeDict.entrySet()) {
 			Character key = mol.getKey();
 			Integer value = mol.getValue();
 			
-			textStatistics.append(key + " : " + value.toString() + "\n");
-			
+			textStatistics.append(key + " : " + value.toString());		
+			if (count % 3 == 0){
+				textStatistics.append("\n");
+			} else {
+				textStatistics.append("\t");
+			}
+			count++;
 		}
+			
 	}
-	
 }
