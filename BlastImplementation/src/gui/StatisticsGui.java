@@ -1,27 +1,47 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import com.google.common.io.Files;
+
 import interfaces.StatisticsInterface;
+import jakarta.validation.Path;
 import utilities.NucleotideStatistics;
 import utilities.ProteinStatistics;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+
 import javax.swing.JTextArea;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Rectangle;
+import java.awt.SystemColor;
+
 import javax.swing.SwingConstants;
 import utilities.Sequence;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import java.awt.Dimension;
+import java.awt.Cursor;
 
 
 public class StatisticsGui extends JFrame {
@@ -55,22 +75,25 @@ public class StatisticsGui extends JFrame {
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 779, 506);
 		contentPane = new JPanel();
+		contentPane.setPreferredSize(new Dimension(300, 75));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{300, 300, 300, 0};
-		gbl_contentPane.rowHeights = new int[]{100, 500, 0};
+		gbl_contentPane.rowHeights = new int[]{50, 5, 50, 400, 0};
 		gbl_contentPane.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
 		// input file header start
 		JLabel lblInputFile = new JLabel("Input file");
+		lblInputFile.setPreferredSize(new Dimension(300, 75));
 		lblInputFile.setHorizontalAlignment(SwingConstants.CENTER);
 		lblInputFile.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblInputFile.setBounds(new Rectangle(0, 0, 300, 100));
 		GridBagConstraints gbc_lblInputFile = new GridBagConstraints();
+		gbc_lblInputFile.fill = GridBagConstraints.BOTH;
 		gbc_lblInputFile.insets = new Insets(0, 0, 5, 5);
 		gbc_lblInputFile.gridx = 0;
 		gbc_lblInputFile.gridy = 0;
@@ -85,11 +108,14 @@ public class StatisticsGui extends JFrame {
 		lblStatistics.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblStatistics.setBounds(new Rectangle(0, 0, 300, 100));
 		GridBagConstraints gbc_lblStatistics = new GridBagConstraints();
+		gbc_lblStatistics.fill = GridBagConstraints.BOTH;
+		gbc_lblStatistics.gridy = 0;
 		gbc_lblStatistics.insets = new Insets(0, 0, 5, 5);
 		gbc_lblStatistics.gridx = 1;
 		contentPane.add(lblStatistics, gbc_lblStatistics);
 		
 		JLabel lblToolSuggestions = new JLabel("Tool suggestions");
+		lblToolSuggestions.setPreferredSize(new Dimension(300, 75));
 		lblToolSuggestions.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblToolSuggestions = new GridBagConstraints();
 		gbc_lblToolSuggestions.fill = GridBagConstraints.BOTH;
@@ -102,6 +128,7 @@ public class StatisticsGui extends JFrame {
 		
 		// file overview text area start
 		JTextArea textOverviewInput = new JTextArea();
+		textOverviewInput.setRows(2);
 		GridBagConstraints gbc_textOverviewInput = new GridBagConstraints();
 		textForOverviewInput(textOverviewInput, gbc_textOverviewInput);
 		// file overview text area end
@@ -116,26 +143,61 @@ public class StatisticsGui extends JFrame {
 		// tools text area start
 		JTextArea textTools = new JTextArea();		
 		GridBagConstraints gbc_textTools = new GridBagConstraints();
-		gbc_textTools.insets = new Insets(0, 0, 0, 0);
-		gbc_textTools.gridx = 2;
-		gbc_textTools.gridy = 1;
-		gbc_textTools.weightx = 1.0;
-		gbc_textTools.weighty = 1.0;
-		gbc_textTools.fill = GridBagConstraints.BOTH;
-		contentPane.add(new JScrollPane(textTools), gbc_textTools);
-		// tools text area end
-	
+		textForTools(textTools, gbc_textTools);
 	}
 	
+	private void btnTool(JButton btnGoToTool, GridBagConstraints gbc_btnGoToTool) {
+		Sequence seq = new Sequence(this.file);
+		gbc_btnGoToTool.gridx = 2;
+		gbc_btnGoToTool.gridy = 2;
+		
+		btnGoToTool.setBackground(new Color(255, 255, 255));
+		
+		btnGoToTool.setForeground(SystemColor.infoText);
+		GridBagConstraints gbc_btnInputStatistics = new GridBagConstraints();
+		gbc_btnInputStatistics.fill = GridBagConstraints.BOTH;
+		
+		
+		String toolToReferTo;
+		
+		if (seq.isProtein()) {
+			toolToReferTo = "BLASTP";
+		} else {
+			toolToReferTo = "BLASTN";
+		}
+		
+		btnGoToTool.setText(toolToReferTo);
+		
+		btnGoToTool.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (seq.isProtein()){
+					 BlastGui stats = new BlastGui();
+					 stats.setLocationRelativeTo(null);
+					 stats.setVisible(true);
+				} else {
+				  JOptionPane.showMessageDialog(
+				            null,
+				            toolToReferTo + 
+				            " tool is still under construction.\nPlease, try again later.", 
+				            toolToReferTo + " not found",
+				            JOptionPane.ERROR_MESSAGE);
+				}
+			}	
+		});
+		
+		contentPane.add(btnGoToTool, gbc_btnGoToTool);		
+	}
+
+
 	private void textForOverviewInput(JTextArea textOverviewInput, GridBagConstraints gbc_textOverviewInput) {
-		Sequence protSeq = new Sequence(this.file);
+		Sequence seq = new Sequence(this.file);
 		
 		textOverviewInput.setEditable(false);
 		textOverviewInput.setLineWrap(true);
 		textOverviewInput.setWrapStyleWord(true);
 		gbc_textOverviewInput.insets = new Insets(0, 0, 0, 5);
 		gbc_textOverviewInput.gridx = 0;
-		gbc_textOverviewInput.gridy = 1;
+		gbc_textOverviewInput.gridy = 3;
 		gbc_textOverviewInput.weightx = 1.0;
 		gbc_textOverviewInput.weighty = 1.0;
 		gbc_textOverviewInput.fill = GridBagConstraints.BOTH;
@@ -144,8 +206,18 @@ public class StatisticsGui extends JFrame {
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-		textOverviewInput.append(protSeq.getSequence());
+		textOverviewInput.append(seq.getSequence());
 		
+		// button to refer to next tool
+		JButton btnGoToTool= new JButton();
+		btnGoToTool.setOpaque(false);
+		btnGoToTool.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnGoToTool.setPreferredSize(new Dimension(300, 50));
+		btnGoToTool.setHorizontalTextPosition(SwingConstants.CENTER);
+		GridBagConstraints gbc_btnGoToTool = new GridBagConstraints();
+		gbc_btnGoToTool.insets = new Insets(0, 0, 5, 0);
+		btnTool(btnGoToTool, gbc_btnGoToTool);
+
 		contentPane.add(scrollPane, gbc_textOverviewInput);		
 	}
 	
@@ -154,7 +226,7 @@ public class StatisticsGui extends JFrame {
 				
 		gbc_textStatistics.insets = new Insets(0, 0, 0, 5);
 		gbc_textStatistics.gridx = 1;
-		gbc_textStatistics.gridy = 1;
+		gbc_textStatistics.gridy = 3;
 		gbc_textStatistics.weightx = 1.0;
 		gbc_textStatistics.weighty = 1.0;
 		gbc_textStatistics.fill = GridBagConstraints.BOTH;
@@ -171,6 +243,33 @@ public class StatisticsGui extends JFrame {
 		}
 				
 		contentPane.add(new JScrollPane(textStatistics), gbc_textStatistics);		
+	}
+	
+	private void textForTools(JTextArea textTools, GridBagConstraints gbc_textTools) {
+		Sequence unknownSeq = new Sequence(this.file);
+		
+		JScrollPane scrollPane = new JScrollPane(textTools);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		textTools.setLineWrap(true);
+		textTools.setWrapStyleWord(true);
+		
+		gbc_textTools.insets = new Insets(0, 0, 5, 0);
+		gbc_textTools.gridx = 2;
+		gbc_textTools.gridy = 3;
+		gbc_textTools.weightx = 1.0;
+		gbc_textTools.weighty = 1.0;
+		gbc_textTools.fill = GridBagConstraints.BOTH;
+		
+		if (unknownSeq.isProtein()) {
+			textTools.append("The sequence contains amino acids. Use BLASTP to find"
+					+ " which organism the sequence comes from.");
+		} else {
+			textTools.append("The sequence contains nucleotides. Use BLASTN to find"
+					+ " which organism the sequence comes from.");
+		}
+		
+		contentPane.add(new JScrollPane(textTools), gbc_textTools);		
 	}
 	
 	private void textForStatisticsIfProtein(Sequence unknownSeq, JTextArea textStatistics) {

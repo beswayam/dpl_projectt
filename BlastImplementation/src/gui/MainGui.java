@@ -77,7 +77,6 @@ public class MainGui extends JFrame {
 							    blastp.setVisible(true);
 							}
 						});
-						// input statistics button end
 						
 						
 						// Header of the main interface

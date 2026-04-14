@@ -54,6 +54,10 @@ public class BlastGui extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+//    public BlastGui(File fastaFile) {
+//    	this.queryFile = fastaFile;
+//    }
+    
 	public BlastGui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 943, 676);
