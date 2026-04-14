@@ -6,7 +6,7 @@
 data
 bin
 doc
-temp_output.tsv
+
 
 # for Mac users
 .DS_Store
