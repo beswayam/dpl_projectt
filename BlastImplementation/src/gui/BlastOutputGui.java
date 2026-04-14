@@ -20,6 +20,7 @@ import java.util.Scanner;
 import java.util.stream.IntStream;
 
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
@@ -262,7 +263,27 @@ public class BlastOutputGui extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 	        	File file = fileList.get(sequenceIndex); 
 	        	String header = headerList.get(sequenceIndex);
-				exportResults(file,header);
+	        	// create file chooser for were to save the export
+	        	  JFileChooser fileChooser = new JFileChooser();
+	              fileChooser.setDialogTitle("Export Results");	
+	              fileChooser.setSelectedFile(new File(header + "_blastoutput.tsv"));
+	              
+	              //only continue if user clicks save
+	              if (fileChooser.showSaveDialog(BlastOutputGui.this) == JFileChooser.APPROVE_OPTION) {
+	                  File outputFile = fileChooser.getSelectedFile();
+
+	                  try {
+	                	// Export the BLAST result file to the chosen output location
+	                      exportResults(file, header, outputFile);
+	                  } catch (Exception ex) {
+	                	  //print error if there in one
+	                      ex.printStackTrace();
+	                      JOptionPane.showMessageDialog(BlastOutputGui.this,
+	                          "Error exporting file: " + ex.getMessage(),
+	                          "Export Error",
+	                          JOptionPane.ERROR_MESSAGE);
+	                  }
+	                  }
 			}
 		});
 //		ExportButton.setBackground(new Color(30, 32, 48));
@@ -450,15 +471,22 @@ public class BlastOutputGui extends JFrame {
 	return matches;
 	}
 	
-	private void exportResults(File infile,String header) {
-		String outfilename = System.getProperty("user.home")+ File.separator + "downloads"+ File.separator + header+"_blastoutput.tsv";
-		File outfile = new File(outfilename);
+	private void exportResults(File infile,String header, File outfile) {
+		String outfilename;
+		
+		// check if outfile argument is given, else save on standard location with standard name
+		if (outfile == null) {
+		outfilename = System.getProperty("user.home")+ File.separator + "downloads"+ File.separator + header+"_blastoutput.tsv";
+		
+		outfile = new File(outfilename);
+		
 		int fileid=2;
 		while(outfile.isFile()) {
 			outfilename = System.getProperty("user.home")+ File.separator + "downloads"+ File.separator + header+"_blastoutput_"+fileid+"_.tsv";
 			outfile = new File(outfilename);
 			fileid++;
-		}
+		}}
+		else {outfilename = outfile.getAbsolutePath();}
 		
 		try {
 			FileUtils.copyFile(infile, outfile);
