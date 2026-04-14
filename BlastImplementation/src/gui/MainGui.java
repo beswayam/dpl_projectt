@@ -9,7 +9,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.GridBagLayout;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -19,7 +18,7 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
+
 import javax.swing.JFileChooser;
 
 import java.awt.SystemColor;
@@ -109,8 +108,17 @@ public class MainGui extends JFrame {
 								JFileChooser fileChooser = new JFileChooser();
 								
 								// only shows files with .fasta extension in the file chooser
-								FileNameExtensionFilter fasta_filter = new FileNameExtensionFilter(".fasta", "fasta"); 
+								FileNameExtensionFilter fasta_filter = new FileNameExtensionFilter(
+										"FASTA files (*.fasta, *.fa, *.fna)", 
+										"fasta", "fa", "fna"); 
+								
+								FileNameExtensionFilter txt_filter = new FileNameExtensionFilter(
+										"Text files (*.txt)", 
+										"txt");
+								
 								fileChooser.setDialogTitle("Select Query FASTA File");
+								fileChooser.addChoosableFileFilter(fasta_filter);
+								fileChooser.addChoosableFileFilter(txt_filter);				
 								fileChooser.setFileFilter(fasta_filter); //Applies extension filter;
 								
 								// choose file in file explorer

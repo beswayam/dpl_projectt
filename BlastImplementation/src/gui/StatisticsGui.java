@@ -13,10 +13,9 @@ import java.awt.GridBagLayout;
 import javax.swing.JTextArea;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import javax.swing.JLabel;
@@ -150,7 +149,6 @@ public class StatisticsGui extends JFrame {
 	
 	private void textForOverviewInput(JTextArea textOverviewInput, GridBagConstraints gbc_textOverviewInput) {
 		Sequence protSeq = new Sequence(this.file);
-		String seq = protSeq.getSequence();
 		
 		textOverviewInput.setEditable(false);
 		textOverviewInput.setLineWrap(true);
@@ -173,9 +171,7 @@ public class StatisticsGui extends JFrame {
 	}
 	
 	private void textForStatisticsIfProtein(Sequence unknownSeq, JTextArea textStatistics) {
-		StatisticsInterface seqStat;
-		String printableStatement;
-		seqStat = new ProteinStatistics(unknownSeq);
+		StatisticsInterface seqStat = new ProteinStatistics(unknownSeq);
 		
 		// protein weight
 		double protWeight = ((ProteinStatistics) seqStat).proteinWeight();
@@ -199,16 +195,15 @@ public class StatisticsGui extends JFrame {
 	}
 	
 	private void textForStatisticsIfNucleotide(Sequence unknownSeq, JTextArea textStatistics) {
-		StatisticsInterface seqStat;
-		seqStat = new NucleotideStatistics(unknownSeq);
+		StatisticsInterface seqStat = new NucleotideStatistics(unknownSeq);
 				
 		// sequence length
 		int length = seqStat.seqLength();
-		textStatistics.append("Length of the nucleotide sequence is; " + length + " amino acids\n\n");
+		textStatistics.append("Nucleotide sequence length; \n" + length + " amino acids\n\n");
 		
 		// sequence content counts
 		HashMap<Character, Integer> moleculeDict = seqStat.seqContents();
-		textStatistics.append("Nucleotide contents\n");
+		textStatistics.append("Nucleotide sequence contents;\n");
 		for (Entry<Character, Integer> mol : moleculeDict.entrySet()) {
 			Character key = mol.getKey();
 			Integer value = mol.getValue();
@@ -216,10 +211,13 @@ public class StatisticsGui extends JFrame {
 			textStatistics.append(key + " : " + value.toString() + "\n");
 		}
 		
-		double gcContent = ((NucleotideStatistics) seqStat).GCContent();
 		
 		// nucleotide GC%
-		textStatistics.append("GC%; " + Math.round(gcContent * 1000) * 0.1);
+		double gcContent = ((NucleotideStatistics) seqStat).GCContent();
+		BigDecimal rounded = new BigDecimal(gcContent * 100).setScale(1, RoundingMode.HALF_UP);
+		textStatistics.append("\nGC%; " + rounded);
+		
+		
 	}
 	
 }

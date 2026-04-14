@@ -1,6 +1,4 @@
 package utilities;
-import utilities.Sequence;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -116,12 +114,10 @@ public class NucleotideStatistics extends Statistics implements StatisticsInterf
 		nucToNuc.put('T', 'A');
 		nucToNuc.put('G', 'C');
 		
-		CodonUtils utils = new CodonUtils();
 		revSeq.reverse();
-		
-		char revNuc;
 		char original;
 		StringBuilder revCompSeq = new StringBuilder();
+		
 		for (int i = 0; i < revSeq.length(); i++) {
 			original = revSeq.charAt(i);
 			 
