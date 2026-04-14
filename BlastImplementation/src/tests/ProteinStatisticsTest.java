@@ -9,7 +9,7 @@ public class ProteinStatisticsTest extends TestCase {
 	Sequence protSeq = new Sequence(initialSeq);
 	ProteinStatistics seq = new ProteinStatistics(protSeq);
 	public void testMolecularWeightt() {		
-		double protWeight = seq.ProteinWeight();
+		double protWeight = seq.proteinWeight();
 		assertEquals(protWeight, 1294.42);
 	}
 }

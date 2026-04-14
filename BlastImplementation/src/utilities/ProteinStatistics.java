@@ -1,6 +1,8 @@
 package utilities;
 
-public class ProteinStatistics extends Statistics{
+import interfaces.StatisticsInterface;
+
+public class ProteinStatistics extends Statistics implements StatisticsInterface{
 	private Sequence initialValue;
 
 	public ProteinStatistics(Sequence initialValue) {
@@ -8,7 +10,7 @@ public class ProteinStatistics extends Statistics{
 		this.initialValue = initialValue;
 	}
 	
-	public double ProteinWeight() {
+	public double proteinWeight() {
 		String seq = this.initialValue.getSequenceNoHeader();
 		CodonUtils utils = new CodonUtils();
 		double totalWeight = 0;

@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class NucleotideStatistics extends Statistics{
+import interfaces.StatisticsInterface;
+
+public class NucleotideStatistics extends Statistics implements StatisticsInterface{
 		
 	public NucleotideStatistics(Sequence Sequence ) {
 		super(Sequence);
@@ -97,11 +99,9 @@ public class NucleotideStatistics extends Statistics{
 					protein.append(aa);
 				}
 			}
-		} else {
-			throw new IllegalArgumentException("Sequence contains incomplete codons");
-		}
-		return protein.toString();
 		
+		}
+		return protein.toString();	
 	}
 		
 	// make a reverse compliment sequence of the dna sequence

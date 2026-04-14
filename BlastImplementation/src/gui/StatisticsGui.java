@@ -5,6 +5,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+
+import interfaces.StatisticsInterface;
+import utilities.NucleotideStatistics;
 import utilities.ProteinStatistics;
 import java.awt.GridBagLayout;
 import javax.swing.JTextArea;
@@ -105,14 +108,11 @@ public class StatisticsGui extends JFrame {
 		// file overview text area end
 		
 		// statistics text area start
-//		if protein {
 		JTextArea textStatistics = new JTextArea();
 		GridBagConstraints gbc_textStatistics = new GridBagConstraints();		
 		textForStatistics(textStatistics, gbc_textStatistics);
 		// statistics text area stop
-//		} else {
-//			dna
-//		}
+
 		
 		// tools text area start
 		JTextArea textTools = new JTextArea();		
@@ -129,9 +129,8 @@ public class StatisticsGui extends JFrame {
 	}
 	
 	private void textForStatistics(JTextArea textStatistics, GridBagConstraints gbc_textStatistics) {
-		Sequence protSeq = new Sequence(this.file);
-		ProteinStatistics seqStat = new ProteinStatistics(protSeq);
-		
+		Sequence unknownSeq = new Sequence(this.file);
+				
 		gbc_textStatistics.insets = new Insets(0, 0, 0, 5);
 		gbc_textStatistics.gridx = 1;
 		gbc_textStatistics.gridy = 1;
@@ -139,25 +138,13 @@ public class StatisticsGui extends JFrame {
 		gbc_textStatistics.weighty = 1.0;
 		gbc_textStatistics.fill = GridBagConstraints.BOTH;
 		textStatistics.setEditable(false);
-		      
-		// protein length
-        int length = seqStat.seqLength();
-		textStatistics.append("Length of the protein is " + length + " amino acids\n\n");
 		
-		// protein base counts
-		textStatistics.append("Protein contents\n");
-		HashMap<Character, Integer> moleculeDict = seqStat.seqContents();
-
-		for (Entry<Character, Integer> mol : moleculeDict.entrySet()) {
-			Character key = mol.getKey();
-			Integer value = mol.getValue();
-			
-			textStatistics.append(key + " : " + value.toString() + "\n");
+		if (unknownSeq.isProtein()) {
+			textForStatisticsIfProtein(unknownSeq, textStatistics);
+		} else {
+			textForStatisticsIfNucleotide(unknownSeq, textStatistics);
 		}
-		
-		// protein weight
-		textStatistics.append("\nProtein weight: " + seqStat.ProteinWeight() + " Da");
-		
+				
 		contentPane.add(new JScrollPane(textStatistics), gbc_textStatistics);		
 	}
 	
@@ -182,11 +169,57 @@ public class StatisticsGui extends JFrame {
 		textOverviewInput.append(protSeq.getSequence());
 		
 		
-		contentPane.add(scrollPane, gbc_textOverviewInput);
+		contentPane.add(scrollPane, gbc_textOverviewInput);		
+	}
+	
+	private void textForStatisticsIfProtein(Sequence unknownSeq, JTextArea textStatistics) {
+		StatisticsInterface seqStat;
+		String printableStatement;
+		seqStat = new ProteinStatistics(unknownSeq);
 		
+		// protein weight
+		double protWeight = ((ProteinStatistics) seqStat).proteinWeight();
 		
+		// sequence length
+		int length = seqStat.seqLength();
+		textStatistics.append("Protein length; " + length + " amino acids\n\n");
 		
+		// sequence content counts
+		HashMap<Character, Integer> moleculeDict = seqStat.seqContents();
+		textStatistics.append("Protein contents;\n");
+		for (Entry<Character, Integer> mol : moleculeDict.entrySet()) {
+			Character key = mol.getKey();
+			Integer value = mol.getValue();
+			
+			textStatistics.append(key + " : " + value.toString() + "\n");
+		}
 		
+		// weight if protein, if else nucleotide GC%
+		textStatistics.append("\nProtein weight; " + protWeight + " Da");
+	}
+	
+	private void textForStatisticsIfNucleotide(Sequence unknownSeq, JTextArea textStatistics) {
+		StatisticsInterface seqStat;
+		seqStat = new NucleotideStatistics(unknownSeq);
+				
+		// sequence length
+		int length = seqStat.seqLength();
+		textStatistics.append("Length of the nucleotide sequence is; " + length + " amino acids\n\n");
+		
+		// sequence content counts
+		HashMap<Character, Integer> moleculeDict = seqStat.seqContents();
+		textStatistics.append("Nucleotide contents\n");
+		for (Entry<Character, Integer> mol : moleculeDict.entrySet()) {
+			Character key = mol.getKey();
+			Integer value = mol.getValue();
+			
+			textStatistics.append(key + " : " + value.toString() + "\n");
+		}
+		
+		double gcContent = ((NucleotideStatistics) seqStat).GCContent();
+		
+		// nucleotide GC%
+		textStatistics.append("GC%; " + Math.round(gcContent * 1000) * 0.1);
 	}
 	
 }
