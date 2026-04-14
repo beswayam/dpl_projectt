@@ -338,7 +338,7 @@ public class BlastGui extends JFrame {
 				if (dbFile != null) {
 					try {
 						Sequence sequence = sequencelist.get(0);	
-						File queryFile = sequence.getFastaFile();
+						//File queryFile = sequence.getFastaFile();
 						String outPath = dbFile.getParent() + File.separator + "ssearch_results.txt";
 						int exitCode = Ssearch36Search.run(
 							queryFile,
@@ -349,6 +349,10 @@ public class BlastGui extends JFrame {
 							outPath								
 						);
 						if (exitCode == 0) {
+							
+							
+							JOptionPane.showMessageDialog(BlastGui.this,
+								"Search complete!\nResults saved to:\n" + outPath);
 							parseBlastCustomDatabase();
 							String filename = "temp_output.tsv";
 							File file = new File(filename);
@@ -362,21 +366,20 @@ public class BlastGui extends JFrame {
 							BlastOutputGui blastpout = new BlastOutputGui(fileList, headerList);
 							blastpout.setLocationRelativeTo(null);
 						    blastpout.setVisible(true);
-							
-							JOptionPane.showMessageDialog(BlastGui.this,
-								"Search complete!\nResults saved to:\n" + outPath);
+							return; // stop here — don't fall through to UniProt
 						} else {
 							JOptionPane.showMessageDialog(BlastGui.this,
 								"SSEARCH36 failed (exit code " + exitCode + ").\n"
 								+ "Check that ssearch36.exe exists in the tools folder.",
 								"Search Error", JOptionPane.ERROR_MESSAGE);
 						}
+						
 					} catch (Exception ex) {
 						JOptionPane.showMessageDialog(BlastGui.this,
 							"SSEARCH36 failed: " + ex.getMessage(),
 							"Search Error", JOptionPane.ERROR_MESSAGE);
 					}
-					return; // stop here — don't fall through to UniProt
+					
 				}
 				ArrayList<File> fileList = new ArrayList<File>();
 				ArrayList<String> headerList = new ArrayList<String>();
@@ -473,11 +476,19 @@ public class BlastGui extends JFrame {
 	                // pipeParts[2] = "HBB_HUMAN Hemoglobin subunit beta OS=Homo sa..."
 	                //String withoutArrows = line.substring(2).trim();
 	                String[] pipeParts   = line.split("\\|");
-	                String id            = pipeParts[1].trim();
+	                String id = "";
+	                String description = "";
+	                if(pipeParts.length>2) {
+	                	id = pipeParts[1].trim();
 
-	                // Description is everything after the gene name (HBB_HUMAN)
-	                // split by space with limit 2 to get ["HBB_HUMAN", "Hemoglobin..."]
-	                String description = pipeParts[2].trim();
+		                // Description is everything after the gene name (HBB_HUMAN)
+		                // split by space with limit 2 to get ["HBB_HUMAN", "Hemoglobin..."]
+		                description = pipeParts[2].trim();
+	                }
+	                else {
+	                	id = pipeParts[0].trim();
+	                	description = "n/a";
+	                }
 
 	                // ── STEP 2: Parse the score line ──────────────────────────
 	                // Example: s-w opt: 780  Z-score: 1810.1  bits: 340.9 E(3): 1.5e-098
@@ -533,74 +544,44 @@ public class BlastGui extends JFrame {
 	                //   sp|P68 MVHLTPEEKS...   <- match sequence block
 	                //
 	                // We loop through all blocks and concatenate to get the full sequence
-
-	                StringBuilder querySeq = new StringBuilder();
-	                StringBuilder matchSeq = new StringBuilder();
-
-	                // A sequence line matches this pattern:
-	                // starts with "sp|" followed by non-space chars, then whitespace, then letters
-	                // Example: "sp|P68 MVHLTPEEKS..."
-	                // We use a regex: starts with sp| then word chars then space(s) then capital letters
-	                String seqLinePattern = "sp\\|\\S+\\s+[A-Z-]+";
-
-	                boolean firstBlockFound = false; // tracks if we found the first query line
-
+	                
+	                String querySeq = "";
+	                String matchSeq = "";
+	                
+	                line = blastOutput.nextLine();
+	                line = blastOutput.nextLine();
+	                
 	                while (blastOutput.hasNextLine()) {
 	                    String seqLine = blastOutput.nextLine();
-
-	                    // Check if this line is a sequence line
-	                    if (seqLine.trim().matches(seqLinePattern)) {
-
-	                        if (!firstBlockFound) {
-	                            // First sequence line in a block = query sequence
-	                            // split by one or more spaces, sequence is the last token
-	                            String[] parts = seqLine.trim().split("\\s+");
-	                            querySeq.append(parts[parts.length - 1]);
-
-	                            // Next line is the :::: alignment line — skip it
-	                            blastOutput.nextLine();
-
-	                            // Line after that is the match sequence
-	                            String matchLine = blastOutput.nextLine().trim();
-	                            String[] matchParts = matchLine.split("\\s+");
-	                            matchSeq.append(matchParts[matchParts.length - 1]);
-
-	                            firstBlockFound = true;
-
-	                        } else {
-	                            // Subsequent blocks — same structure, just append
-	                            String[] parts = seqLine.trim().split("\\s+");
-	                            querySeq.append(parts[parts.length - 1]);
-
-	                            blastOutput.nextLine(); // skip :::: line
-
-	                            String matchLine = blastOutput.nextLine().trim();
-	                            String[] matchParts = matchLine.split("\\s+");
-	                            matchSeq.append(matchParts[matchParts.length - 1]);
-	                        }
-
-	                    } else if (firstBlockFound && seqLine.startsWith(">>")) {
-	                        // We hit the next hit block — stop reading sequences
-	                        // Note: this line will be missed so we handle it below
-	                    	pendingLine = seqLine;
-	                        break;
-	                    } else if (firstBlockFound && seqLine.trim().isEmpty()) {
-	                        // An empty line after sequences means the block ended
-	                        // Continue to check if there's another block coming
-	                        continue;
-	                    }
+	                    
+	                
+	                    querySeq += seqLine.substring(7).trim();
+	                
+	                    line = blastOutput.nextLine();
+	                    line = blastOutput.nextLine();
+	                
+	                    matchSeq += seqLine.substring(7).trim();
+	                
+		                line = blastOutput.nextLine();
+		                line = blastOutput.nextLine();
+		                line = blastOutput.nextLine();
+	                
+		                if(line.trim().isEmpty()) {
+		                	break;
+		                	}
 	                }
+	                
 
 	                // ── STEP 5: Write this hit to the TSV file ────────────────
 	                blastOutputTsv.write(
 	                    hitNum      + "\t" +
 	                    id          + "\t" +
 	                    description + "\t" +
-	                    matchSeq.toString() + "\t" +
+	                    matchSeq + "\t" +
 	                    eval        + "\t" +
 	                    bitScore    + "\t" +
 	                    identity    + "\t" +
-	                    querySeq.toString() + "\t" +
+	                    querySeq  + "\t" +
 	                    queryStart  + "\t" +
 	                    queryEnd    + "\t" +
 	                    matchStart  + "\t" +

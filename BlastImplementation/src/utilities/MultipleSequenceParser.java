@@ -34,7 +34,7 @@ public static ArrayList<Sequence> parseMultipleSeqs(String sequences){
 		}
 		oneSeq += lines[i] + "\n";
 	}
-	seqList.add(new Sequence(oneSeq.substring(0,oneSeq.length()-2)));
+	seqList.add(new Sequence(oneSeq.trim()));
 	
 	return seqList;
 }
