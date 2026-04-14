@@ -128,7 +128,7 @@ public class Sequence {
 
 		for (char residue : residues.toCharArray()) {
 			if (proteinAlphabet.indexOf(residue) == -1) {
-				throw new IllegalArgumentException("Invalid base / nucleotide used: " + residue);
+				throw new IllegalArgumentException("Invalid aminoacid/nucleotide used: " + residue);
 			}
 			if (dnaAlphabet.indexOf(residue) == -1) {
 				isProtein = true;
@@ -143,6 +143,7 @@ public class Sequence {
 		checkHeader();
 		sequenceToUpperCase();
 		checkSequenceElements();
+		isProtein();
 		}
 	}
 
