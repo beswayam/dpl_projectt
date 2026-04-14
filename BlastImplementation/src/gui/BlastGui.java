@@ -337,8 +337,8 @@ public class BlastGui extends JFrame {
 				// database uploaded → always use ssearch36 local search
 				if (dbFile != null) {
 					try {
-						//Sequence sequence = sequencelist.get(0);	
-						//File queryFile = sequence.getFastaFile();
+						Sequence sequence = sequencelist.get(0);	
+						File queryFile = sequence.getFastaFile();
 						String outPath = dbFile.getParent() + File.separator + "ssearch_results.txt";
 						int exitCode = Ssearch36Search.run(
 							queryFile,
