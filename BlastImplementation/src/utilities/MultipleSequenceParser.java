@@ -29,7 +29,7 @@ public static ArrayList<Sequence> parseMultipleSeqs(String sequences){
 	String oneSeq = "";
 	for(int i=0;i<lines.length;i++) {
 		if(lines[i].startsWith(">") && oneSeq != "") {
-			seqList.add(new Sequence(oneSeq));
+			seqList.add(new Sequence(oneSeq.trim()));
 			oneSeq = "";
 		}
 		oneSeq += lines[i] + "\n";

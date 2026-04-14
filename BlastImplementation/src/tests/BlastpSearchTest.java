@@ -2,6 +2,7 @@
 package tests;
 
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -38,14 +39,14 @@ public class BlastpSearchTest extends TestCase {
 				+ "FqknPvtaq";
 		float mineval = 0.00000000000000000001f;
 		int maxseq = 10;
-		String filename = "temp_output.tsv";
+		File file = new File("temp_output.tsv");
 		BlastResult<UniProtHit> uniprotblastResult = BlastpSearch.runUniprotBlast(sequence);
-		BlastpSearch.writeUniprotBlastOutput(uniprotblastResult,mineval,maxseq,filename);
+		BlastpSearch.writeUniprotBlastOutput(uniprotblastResult,mineval,maxseq,file);
 		
         FileReader fileReader=null;
         try
         {
-            fileReader = new FileReader(filename);
+            fileReader = new FileReader(file);
         }
         catch (FileNotFoundException fe)
         {
