@@ -1,14 +1,12 @@
 package gui;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import java.awt.GridBagLayout;
-
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -18,12 +16,14 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
-
 import javax.swing.JFileChooser;
-
 import java.awt.SystemColor;
 import utilities.Sequence;
-
+import java.awt.Cursor; // ── ADDED: for hand cursor
+import javax.swing.border.Border; // ── ADDED
+import java.awt.Graphics;          // ── ADDED
+import java.awt.Graphics2D;        // ── ADDED
+import java.awt.RenderingHints;    // ── ADDED
 
 public class MainGui extends JFrame {
 
@@ -32,9 +32,6 @@ public class MainGui extends JFrame {
 	public File inputFile;
 	public Sequence inputSeq;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -48,104 +45,155 @@ public class MainGui extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public MainGui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 769, 559);
+		setTitle("EzBLAST"); //added
+		
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-//		contentPane.setBackground(new Color(15, 17, 26));
-		setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{25, 413, 169, 0};
-		gbl_contentPane.rowHeights = new int[]{10, 100, 50, 50, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
-				
-				// BLASTP button 
-				JButton btnBlastInterface = new JButton("BLASTP");
-				//		btnBlastInterface.setBackground(new Color(28, 33, 52));
-				//        btnBlastInterface.setForeground(new Color(60, 210, 140));
-						btnBlastInterface.setFocusPainted(false);
-						btnBlastInterface.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent arg0) {
-								BlastGui blastp = new BlastGui();
-								blastp.setLocationRelativeTo(null);
-							    blastp.setVisible(true);
-							}
-						});
-						// input statistics button end
-						
-						
-						// Header of the main interface
-						JLabel lblPageHeader = new JLabel("Welcome! Please Pick a tool to use:");
-						lblPageHeader.setFont(new Font("Tahoma", Font.BOLD, 18));
-						//		lblPageHeader.setForeground(new Color(140, 180, 255));
-								GridBagConstraints gbc_lblPageHeader = new GridBagConstraints();
-								gbc_lblPageHeader.insets = new Insets(0, 0, 5, 5);
-								gbc_lblPageHeader.gridx = 1;
-								gbc_lblPageHeader.gridy = 1;
-								contentPane.add(lblPageHeader, gbc_lblPageHeader);
-						btnBlastInterface.setBackground(Color.WHITE);
-						GridBagConstraints gbc_btnBlastInterface = new GridBagConstraints();
-						gbc_btnBlastInterface.insets = new Insets(0, 0, 5, 5);
-						gbc_btnBlastInterface.fill = GridBagConstraints.BOTH;
-						gbc_btnBlastInterface.gridx = 1;
-						gbc_btnBlastInterface.gridy = 2;
-						contentPane.add(btnBlastInterface, gbc_btnBlastInterface);
-						
-						
-						// input statistics button start
-						JButton btnInputStatistics = new JButton("File statistics");
-						btnInputStatistics.setBackground(Color.WHITE);
-						btnInputStatistics.setFocusPainted(false);
-						btnInputStatistics.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								// open file explorer
-								JFileChooser fileChooser = new JFileChooser();
-								
-								// only shows files with .fasta extension in the file chooser
-								FileNameExtensionFilter fasta_filter = new FileNameExtensionFilter(
-										"FASTA files (*.fasta, *.fa, *.fna)", 
-										"fasta", "fa", "fna"); 
-								
-								FileNameExtensionFilter txt_filter = new FileNameExtensionFilter(
-										"Text files (*.txt)", 
-										"txt");
-								
-								fileChooser.setDialogTitle("Select Query FASTA File");
-								fileChooser.addChoosableFileFilter(fasta_filter);
-								fileChooser.addChoosableFileFilter(txt_filter);				
-								fileChooser.setFileFilter(fasta_filter); //Applies extension filter;
-								
-								// choose file in file explorer
-								int file = fileChooser.showOpenDialog(MainGui.this);
-								
-								// if the file is a valid file, pass the file to the FileStatistics GUI
-								if (file == JFileChooser.APPROVE_OPTION) {
-									inputFile = fileChooser.getSelectedFile();
-									inputSeq = new Sequence(inputFile);
-									
-									// pass file to second GUI
-								    StatisticsGui stats = new StatisticsGui(inputFile);
-								    stats.setLocationRelativeTo(null);
-								    stats.setVisible(true);
-								}
-							}
-						});
-						// input statistics button end
-						
-						btnInputStatistics.setForeground(SystemColor.infoText);
-						GridBagConstraints gbc_btnInputStatistics = new GridBagConstraints();
-						gbc_btnInputStatistics.fill = GridBagConstraints.BOTH;
-						gbc_btnInputStatistics.insets = new Insets(0, 0, 5, 5);
-						gbc_btnInputStatistics.gridx = 1;
-						gbc_btnInputStatistics.gridy = 3;
-						contentPane.add(btnInputStatistics, gbc_btnInputStatistics);
+        contentPane.setBackground(new Color(13, 17, 28)); // ── CHANGED: dark navy background
+        contentPane.setBorder(new EmptyBorder(30, 40, 30, 40)); // ── CHANGED: more padding
+        setContentPane(contentPane);
+		
+        GridBagLayout gbl_contentPane = new GridBagLayout();
+        gbl_contentPane.columnWidths  = new int[]{25, 413, 169, 0};
+        gbl_contentPane.rowHeights    = new int[]{10, 40, 10, 10, 50, 10, 10, 50, 10, 10, 50, 10, 40, 0};
+        gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+        gbl_contentPane.rowWeights    = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+        contentPane.setLayout(gbl_contentPane);
 
-	}
+        // ── ADDED: App title ─────────────────────────────────────────────────
+        JLabel lblAppTitle = new JLabel("EzBLAST");
+        lblAppTitle.setFont(new Font("Monospaced", Font.BOLD, 26)); // ── CHANGED: font
+        lblAppTitle.setForeground(new Color(56, 189, 248));          // ── CHANGED: sky blue
+        GridBagConstraints gbc_lblAppTitle = new GridBagConstraints();
+        gbc_lblAppTitle.anchor = GridBagConstraints.WEST;
+        gbc_lblAppTitle.insets = new Insets(0, 0, 4, 0);
+        gbc_lblAppTitle.gridx  = 1;
+        gbc_lblAppTitle.gridy  = 0;
+        contentPane.add(lblAppTitle, gbc_lblAppTitle);
 
+        // ── Header label ─────────────────────────────────────────────────────
+        JLabel lblPageHeader = new JLabel("Welcome! Please pick a tool to use:");
+        lblPageHeader.setFont(new Font("Monospaced", Font.PLAIN, 13)); // ── CHANGED: font
+        lblPageHeader.setForeground(new Color(100, 116, 139));          // ── CHANGED: muted grey
+        GridBagConstraints gbc_lblPageHeader = new GridBagConstraints();
+        gbc_lblPageHeader.anchor = GridBagConstraints.WEST;
+        gbc_lblPageHeader.insets = new Insets(0, 0, 6, 0);
+        gbc_lblPageHeader.gridx  = 1;
+        gbc_lblPageHeader.gridy  = 1;
+        contentPane.add(lblPageHeader, gbc_lblPageHeader);
+
+        // ── ADDED: Separator line ─────────────────────────────────────────────
+        JSeparator separator = new JSeparator();
+        separator.setForeground(new Color(30, 41, 59));
+        GridBagConstraints gbc_sep = new GridBagConstraints();
+        gbc_sep.fill   = GridBagConstraints.HORIZONTAL;
+        gbc_sep.insets = new Insets(0, 0, 10, 0);
+        gbc_sep.gridx  = 1;
+        gbc_sep.gridy  = 2;
+        contentPane.add(separator, gbc_sep);
+
+        // ── BLASTP button label ───────────────────────────────────────────────
+        // ── ADDED: label above button acts as the button title ───────────────
+        JLabel lblBlast = new JLabel("Run a protein sequence alignment");
+        lblBlast.setFont(new Font("Monospaced", Font.PLAIN, 12)); // ── ADDED
+        lblBlast.setForeground(new Color(100, 116, 139));          // ── CHANGED: muted text
+        
+        GridBagConstraints gbc_lblBlast = new GridBagConstraints();
+        gbc_lblBlast.anchor = GridBagConstraints.WEST;
+        gbc_lblBlast.insets = new Insets(0, 6, 8, 0); // ── CHANGED: bottom 2 → 8
+        gbc_lblBlast.gridx  = 1;
+        gbc_lblBlast.gridy  = 3;
+        contentPane.add(lblBlast, gbc_lblBlast);
+
+        // ── BLASTP button ─────────────────────────────────────────────────────
+        JButton btnBlastInterface = new JButton("BLASTP") {
+            @Override
+            protected void paintComponent(Graphics g) {
+                // RenderingHints makes the edges smooth and not jagged
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(new Color(56, 189, 248)); // ── blue fill
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20); // ── 20 = roundness of corners
+                super.paintComponent(g);
+            }
+        };
+        btnBlastInterface.setFont(new Font("Monospaced", Font.BOLD, 12));
+        btnBlastInterface.setForeground(Color.WHITE);
+        btnBlastInterface.setContentAreaFilled(false); // ── lets our custom paint show
+        btnBlastInterface.setBorderPainted(false);      // ── removes default border
+        btnBlastInterface.setFocusPainted(false);
+        btnBlastInterface.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnBlastInterface.setBorder(new EmptyBorder(8, 18, 8, 18)); // ── padding inside button
+        btnBlastInterface.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                BlastGui blastp = new BlastGui();
+                blastp.setLocationRelativeTo(null);
+                blastp.setVisible(true);
+            }
+        });
+        GridBagConstraints gbc_btnBlastInterface = new GridBagConstraints();
+        gbc_btnBlastInterface.anchor = GridBagConstraints.WEST; // ── CHANGED: no fill, fits to text
+        gbc_btnBlastInterface.insets = new Insets(0, 0, 16, 0);
+        gbc_btnBlastInterface.gridx  = 1;
+        gbc_btnBlastInterface.gridy  = 4;
+        contentPane.add(btnBlastInterface, gbc_btnBlastInterface);
+
+        // ── File Statistics label ─────────────────────────────────────────────
+        JLabel lblStats = new JLabel("Analyse a FASTA file and view sequence statistics");
+        lblStats.setFont(new Font("Monospaced", Font.PLAIN, 12)); // ── ADDED
+        lblStats.setForeground(new Color(100, 116, 139));          // ── CHANGED: muted text
+        
+        GridBagConstraints gbc_lblStats = new GridBagConstraints();
+        gbc_lblStats.anchor = GridBagConstraints.WEST;
+        gbc_lblStats.insets = new Insets(0, 6, 8, 0); // ── CHANGED: bottom 2 → 8
+        gbc_lblStats.gridx  = 1;
+        gbc_lblStats.gridy  = 6;
+        contentPane.add(lblStats, gbc_lblStats);
+
+        // ── File Statistics button ────────────────────────────────────────────
+        JButton btnInputStatistics = new JButton("File Statistics") {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(new Color(52, 211, 153)); // ── teal fill
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+                super.paintComponent(g);
+            }
+        };
+        btnInputStatistics.setFont(new Font("Monospaced", Font.BOLD, 12));
+        btnInputStatistics.setForeground(Color.WHITE);
+        btnInputStatistics.setContentAreaFilled(false);
+        btnInputStatistics.setBorderPainted(false);
+        btnInputStatistics.setFocusPainted(false);
+        btnInputStatistics.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnInputStatistics.setBorder(new EmptyBorder(8, 18, 8, 18));
+        btnInputStatistics.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter fasta_filter = new FileNameExtensionFilter(".fasta", "fasta");
+                fileChooser.setDialogTitle("Select Query FASTA File");
+                fileChooser.setFileFilter(fasta_filter);
+                int file = fileChooser.showOpenDialog(MainGui.this);
+                if (file == JFileChooser.APPROVE_OPTION) {
+					inputFile = fileChooser.getSelectedFile();
+					Sequence inputSeq = new Sequence(inputFile);
+					
+					// pass file to second GUI
+				    StatisticsGui stats = new StatisticsGui(inputFile);
+				    stats.setLocationRelativeTo(null);
+				    stats.setVisible(true);
+				}
+            }
+        });
+        GridBagConstraints gbc_btnInputStatistics = new GridBagConstraints();
+        gbc_btnInputStatistics.anchor = GridBagConstraints.WEST; // ── CHANGED: fits to text size
+        gbc_btnInputStatistics.insets = new Insets(0, 0, 16, 0);
+        gbc_btnInputStatistics.gridx  = 1;
+        gbc_btnInputStatistics.gridy  = 7;
+        contentPane.add(btnInputStatistics, gbc_btnInputStatistics);
+
+    }
 }
