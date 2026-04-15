@@ -23,8 +23,15 @@ public class Time {
 		long minutes = elapsed.toMinutesPart();
 		long seconds = elapsed.toSecondsPart();
 		
-		String output = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+		String output;
 		
+		if (hours > 0) {
+			output = String.format("Running for: %02d:%02d:%02d", hours, minutes, seconds);
+		} else if (minutes > 0) {
+			output = String.format("Running for: %02d:%02d", minutes, seconds);
+		} else {
+			output = String.format("Running for: %02d", seconds);
+		}
 		return output;
 	}
 }
