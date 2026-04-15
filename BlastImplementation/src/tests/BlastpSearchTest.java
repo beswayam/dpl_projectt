@@ -4,13 +4,10 @@ package tests;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
-import gui.BlastGui;
-import gui.BlastOutputGui;
 import utilities.BlastpSearch;
 import utilities.Sequence;
 import junit.framework.TestCase;
@@ -51,11 +48,12 @@ public class BlastpSearchTest extends TestCase {
 		File file = new File("project_data"+File.separator+"temp_output.tsv");
 		blastpsearch.writeUniprotBlastOutput(mineval,maxseq,file);
 		
-        FileReader fileReader=null;
-        try
-        {
-            fileReader = new FileReader(file);
-        }
+		try (Scanner blastOutputTsv = new Scanner(file)) {
+			String header;
+			header = blastOutputTsv.nextLine();
+			assertEquals("hit_num\tuniprot_ID\tdescription\tsequence\te-value\tbit-score\tidentity\tquery_seq\tquery_start\tquery_end\tmatch_start\tmatch_end",header);
+			
+		}
         catch (FileNotFoundException fe)
         {
 		    JOptionPane.showMessageDialog(new JOptionPane(), 
@@ -63,27 +61,5 @@ public class BlastpSearchTest extends TestCase {
 	                "Output Error", 
 	                JOptionPane.ERROR_MESSAGE);
 		    fe.printStackTrace();
-        }
-        try {
-			System.out.println(fileReader.read());
-		} catch (IOException e) {
-		    JOptionPane.showMessageDialog(new JOptionPane(), 
-		    		"Failed to open output file", 
-	                "Output Error", 
-	                JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-		}
-		
-        try {
-			assertNotNull(fileReader.read());
-		} catch (IOException e) {
-		    JOptionPane.showMessageDialog(new JOptionPane(), 
-		    		"Failed to open output file", 
-	                "Output Error", 
-	                JOptionPane.ERROR_MESSAGE);			
-			e.printStackTrace();
-		}
-	}
-	
-	
+        }}
 	}
