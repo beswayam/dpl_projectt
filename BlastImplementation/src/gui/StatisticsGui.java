@@ -332,7 +332,7 @@ public class StatisticsGui extends JFrame {
 	}
 	
 	private void textForStatisticsIfNucleotide(Sequence unknownSeq, JTextArea textStatistics) {
-		Statistics seqStat = new NucleotideStatistics(unknownSeq);
+		StatisticsInterface seqStat = new NucleotideStatistics(unknownSeq);
 				
 		// sequence length
 		int length = seqStat.seqLength();
@@ -363,7 +363,7 @@ public class StatisticsGui extends JFrame {
 		
 	}
 	
-	private void seqContents(Statistics seqStat, JTextArea textStatistics) {
+	private void seqContents(StatisticsInterface seqStat, JTextArea textStatistics) {
 		HashMap<Character, Integer> moleculeDict = seqStat.seqContents();
 		
 		int count = 1;
