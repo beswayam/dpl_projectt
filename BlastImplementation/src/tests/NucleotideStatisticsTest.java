@@ -55,7 +55,7 @@ public class NucleotideStatisticsTest extends TestCase {
 	// Test DNA translation using full codons.
 	public void testTranslate() {
 		seq.setSeq(new Sequence("ATGTTTTAA"));
-		String protein = seq.Translate();
+		String protein = seq.translate();
 		assertEquals(protein, "MF*");
 	}
 	

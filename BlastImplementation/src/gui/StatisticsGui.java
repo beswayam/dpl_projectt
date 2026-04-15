@@ -33,6 +33,7 @@ import java.awt.SystemColor;
 
 import javax.swing.SwingConstants;
 import utilities.Sequence;
+import utilities.Statistics;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -331,7 +332,7 @@ public class StatisticsGui extends JFrame {
 	}
 	
 	private void textForStatisticsIfNucleotide(Sequence unknownSeq, JTextArea textStatistics) {
-		StatisticsInterface seqStat = new NucleotideStatistics(unknownSeq);
+		Statistics seqStat = new NucleotideStatistics(unknownSeq);
 				
 		// sequence length
 		int length = seqStat.seqLength();
@@ -362,7 +363,7 @@ public class StatisticsGui extends JFrame {
 		
 	}
 	
-	private void seqContents(StatisticsInterface seqStat, JTextArea textStatistics) {
+	private void seqContents(Statistics seqStat, JTextArea textStatistics) {
 		HashMap<Character, Integer> moleculeDict = seqStat.seqContents();
 		
 		int count = 1;

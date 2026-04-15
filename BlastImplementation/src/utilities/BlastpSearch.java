@@ -14,16 +14,25 @@ import java.io.FileWriter;
 import java.io.IOException;  
 
 public class BlastpSearch {
-	public static BlastResult<UniProtHit> runUniprotBlast(String sequence) {
+	private Sequence sequence;
+	private BlastResult<UniProtHit> blastResult;
+	
+	public void setSequence(Sequence sequence) {
+		this.sequence = sequence;
+	}
+	
+	public BlastResult<UniProtHit> getblastResult() {
+		return(this.blastResult);
+	}
+	
+	public void runUniprotBlast() {
 	    ServiceFactory serviceFactoryInstance = Client.getServiceFactoryInstance();
 	    UniProtBlastService uniProtBlastService = serviceFactoryInstance.getUniProtBlastService();
-	    BlastInput input = new BlastInput.Builder(DatabaseOption.SWISSPROT, sequence).build();	    
+	    BlastInput input = new BlastInput.Builder(DatabaseOption.SWISSPROT, this.sequence.getSequence()).build();	    
 	    CompletableFuture<BlastResult<UniProtHit>> resultFuture = uniProtBlastService.runBlast(input);
 
 	    try {
-	            BlastResult<UniProtHit> blastResult = resultFuture.get();
-	            return blastResult;
-	            
+	            this.blastResult = resultFuture.get();	            
 
 	        } catch (ExecutionException e) {
 			    JOptionPane.showMessageDialog(new JOptionPane(), 
@@ -38,10 +47,10 @@ public class BlastpSearch {
 		                JOptionPane.ERROR_MESSAGE);
 	        	e.printStackTrace();
 	        }
-		return null; }
+	    }
 	    
 	
-	public static void writeUniprotBlastOutput(BlastResult<UniProtHit> blastResult,float mineval,int maxseq, File file) {
+	public void writeUniprotBlastOutput(float mineval,int maxseq,File file) {
         try {
     	      FileWriter myWriter = new FileWriter(file);
     	      myWriter.write("hit_num\tuniprot_ID\tdescription\tsequence\te-value\tbit-score\tidentity\tquery_seq\tquery_start\tquery_end\tmatch_start\tmatch_end\n");
@@ -53,7 +62,7 @@ public class BlastpSearch {
 		                JOptionPane.ERROR_MESSAGE);
     	      e.printStackTrace();}
       int numseq = 0;
-      for (UniProtHit hit : blastResult.hits()) {
+      for (UniProtHit hit : this.blastResult.hits()) {
     	  UniProtBlastSummary summary = hit.getSummary();
     	  Alignment alignment = summary.getAlignments().get(0);
     	  double eval=alignment.getExpectation();

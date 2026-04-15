@@ -42,6 +42,7 @@ import java.awt.RenderingHints;    // ── ADDED: for smooth edges
 import javax.swing.JSeparator;     // ── ADDED: separator line
 
 public class BlastGui extends JFrame {
+	private static BlastpSearch blastpsearch = new BlastpSearch();
 
 	private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -437,15 +438,16 @@ public class BlastGui extends JFrame {
 	}
 
 	private static Object[] performBlastP(Sequence sequence, float mineval, int maxseq) {
-		String seqstring = sequence.getSequence();
-		BlastResult<UniProtHit> uniprotblastResult = BlastpSearch.runUniprotBlast(seqstring);
+		blastpsearch.setSequence(sequence);
+		blastpsearch.runUniprotBlast();
 		File file = new File("project_data"+File.separator+"temp_output.tsv");
 		int filenum = 1;
 		while(file.isFile()) {
 			file = new File("project_data"+File.separator+"temp_output_"+filenum+".tsv");
 			filenum++;
 		}
-		BlastpSearch.writeUniprotBlastOutput(uniprotblastResult, mineval, maxseq, file);
+		blastpsearch.writeUniprotBlastOutput(mineval, maxseq, file);
+		String seqstring = sequence.getSequence();
 		String header = seqstring.split("\\r?\\n")[0].split(" ")[0].substring(1);
 		Object[] fileData = {file, header};
 		return fileData;
