@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
@@ -198,7 +199,7 @@ public class BlastOutputGui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 File file   = fileList.get(sequenceIndex);
                 String header = headerList.get(sequenceIndex);
-                exportResults(file, header);
+                exportResults(file, header, null);
             }
         });
         GridBagConstraints gbc_ExportButton = new GridBagConstraints();
@@ -371,10 +372,17 @@ public class BlastOutputGui extends JFrame {
 		}
 		return matches;
 	}
-
-	private void exportResults(File infile, String header) {
-		String outfilename = System.getProperty("user.home")+File.separator+"downloads"+File.separator+header+"_blastoutput.tsv";
-		File outfile = new File(outfilename);
+	
+	
+	private void exportResults(File infile,String header, File outfile) {
+		String outfilename;
+		
+		// check if outfile argument is given, else save on standard location with standard name
+		if (outfile == null) {
+		outfilename = System.getProperty("user.home")+ File.separator + "downloads"+ File.separator + header+"_blastoutput.tsv";
+		
+		outfile = new File(outfilename);
+		
 		int fileid = 2;
 		while(outfile.isFile()) {
 			outfilename = System.getProperty("user.home")+File.separator+"downloads"+File.separator+header+"_blastoutput_"+fileid+"_.tsv";
@@ -404,7 +412,7 @@ public class BlastOutputGui extends JFrame {
 	                JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
-	}
+	}}
 
 	private ArrayList<String[]> readBlastTsv(File file) {
 	    ArrayList<String[]> hits = new ArrayList<String[]>();
