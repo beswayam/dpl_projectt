@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.time.Instant;
 import java.awt.event.ActionEvent;
 import javax.swing.JFileChooser;
 import java.awt.SystemColor;
@@ -216,9 +217,10 @@ public class MainGui extends JFrame {
         gbc_lblShowAppTime.gridy = 12;
         contentPane.add(lblShowAppTime, gbc_lblShowAppTime);
         Time time = new Time();
+        Instant startTime = time.getStartTime();
         Timer timer = new Timer(1000, new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		lblShowAppTime.setText(time.getElapsedTime());
+        		lblShowAppTime.setText(time.getElapsedTime(startTime));
         	}
         });
         timer.start();

@@ -11,9 +11,13 @@ public class Time {
 		this.startTime = Instant.now();
 	}
 	
+	public Instant getStartTime() {
+		return this.startTime;
+	}
+	
 	//Returns the time elapsed since instantiation of the object
-	public String getElapsedTime() {
-		Duration elapsed = Duration.between(this.startTime, Instant.now());
+	public String getElapsedTime(Instant previousTime) {
+		Duration elapsed = Duration.between(previousTime, Instant.now());
 		
 		long hours = elapsed.toHours();
 		long minutes = elapsed.toMinutesPart();
