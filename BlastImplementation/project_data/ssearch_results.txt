@@ -1,11 +1,1 @@
-# tools\ssearch36.exe -s BL62 -E 1e-2 -b 100 -d 100 "C:\Users\chris\OneDrive - Wageningen University & Research\Documents\Wageningen University\Period 5\Software engineering\Project\group2026a\BlastImplementation\project_data\blast_input_24.fa" "C:\Users\chris\OneDrive - Wageningen University & Research\Documents\P68871.fasta.txt"
-SSEARCH performs a Smith-Waterman search
- version 36.3.8g Oct, 2018
-Please cite:
- T. F. Smith and M. S. Waterman, (1981) J. Mol. Biol. 147:195-197; 
- W.R. Pearson (1991) Genomics 11:635-650
 
-
- invalid library type: 2000756144 (>13)- resetting
-C:\Users\chris\OneDrive
-*** error [comp_lib9.c:642] cannot open library C:\Users\chris\OneDrive
