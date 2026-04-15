@@ -199,7 +199,28 @@ public class BlastOutputGui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 File file   = fileList.get(sequenceIndex);
                 String header = headerList.get(sequenceIndex);
-                exportResults(file, header, null);
+             // create file chooser for were to save the export
+	        	  JFileChooser fileChooser = new JFileChooser();
+	              fileChooser.setDialogTitle("Export Results");	
+	              fileChooser.setSelectedFile(new File(header + "_blastoutput.tsv"));
+	              
+	              //only continue if user clicks save
+	              if (fileChooser.showSaveDialog(BlastOutputGui.this) == JFileChooser.APPROVE_OPTION) {
+	                  File outputFile = fileChooser.getSelectedFile();
+
+	                  try {
+	                	// Export the BLAST result file to the chosen output location
+	                      exportResults(file, header, outputFile);
+	                  } catch (Exception ex) {
+	                	  //print error if there in one
+	                      ex.printStackTrace();
+	                      JOptionPane.showMessageDialog(BlastOutputGui.this,
+	                          "Error exporting file: " + ex.getMessage(),
+	                          "Export Error",
+	                          JOptionPane.ERROR_MESSAGE);
+	                  }
+	                  }
+
             }
         });
         GridBagConstraints gbc_ExportButton = new GridBagConstraints();
