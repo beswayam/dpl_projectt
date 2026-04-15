@@ -40,6 +40,11 @@ import java.awt.Graphics;          // ── ADDED: for rounded buttons
 import java.awt.Graphics2D;        // ── ADDED: for rounded buttons
 import java.awt.RenderingHints;    // ── ADDED: for smooth edges
 import javax.swing.JSeparator;     // ── ADDED: separator line
+import javax.swing.JDialog;
+import javax.swing.JProgressBar;
+import javax.swing.SwingWorker;
+import java.awt.BorderLayout;
+import java.util.List;
 
 public class BlastGui extends JFrame {
 	private static BlastpSearch blastpsearch = new BlastpSearch();
@@ -340,6 +345,7 @@ public class BlastGui extends JFrame {
         btnBLAST.setBorder(new EmptyBorder(10, 30, 10, 30));
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// ── Input validation (stays on EDT) ──────────────────────────────────
 				ArrayList<Sequence> sequencelist = null;
 				try {
 					String raw = txtrInputsequence.getText();
@@ -363,67 +369,121 @@ public class BlastGui extends JFrame {
 				    		"Please provide a sequence via textbox or file",
 			                "Input Error",
 			                JOptionPane.WARNING_MESSAGE);
+				    return;
 				}
-				else {
-				if (dbFile != null) {
-					try {
-						Sequence sequence = null;
-						ArrayList<File> fileList = new ArrayList<File>();
-						ArrayList<String> headerList = new ArrayList<String>();
-						for(int i = 0; i < sequencelist.size(); i++) {
-							sequence = sequencelist.get(i);
-						File queryFile = sequence.getFastaFile();
-						String outPath = "project_data" + File.separator + "ssearch_results.txt";
-						int exitCode = Ssearch36Search.run(
-							queryFile,
-							dbFile,
-							Evalue.getSelectedItem().toString(),
-							MaxSeqs.getSelectedItem().toString(),
-							ScoringMatrix.getSelectedItem().toString(),
-							outPath
-						);
-						if (exitCode == 0) {
-							File file = new File("project_data"+File.separator+"temp_output.tsv");
-							int filenum = 1;
-							while(file.isFile()) {
-								file = new File("project_data"+File.separator+"temp_output_"+filenum+".tsv");
-								filenum++;
+
+				// ── Build progress dialog ─────────────────────────────────────────────
+				boolean isLocal = (dbFile != null);
+				JDialog progressDialog = new JDialog(BlastGui.this, "Running BLAST", true);
+				progressDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+
+				JPanel panel = new JPanel(new BorderLayout(10, 14));
+				panel.setBackground(new Color(13, 17, 28));
+				panel.setBorder(new EmptyBorder(24, 32, 24, 32));
+
+				JLabel statusLabel = new JLabel(isLocal ? "Preparing local search..." : "Submitting to UniProt...");
+				statusLabel.setFont(new Font("Monospaced", Font.PLAIN, 13));
+				statusLabel.setForeground(new Color(226, 232, 240));
+				statusLabel.setHorizontalAlignment(JLabel.CENTER);
+
+				JProgressBar progressBar = new JProgressBar();
+				progressBar.setIndeterminate(true);
+				progressBar.setForeground(new Color(56, 189, 248));   // sky blue
+				progressBar.setBackground(new Color(22, 28, 45));
+				progressBar.setPreferredSize(new Dimension(380, 16));
+				progressBar.setBorderPainted(false);
+
+				panel.add(statusLabel, BorderLayout.NORTH);
+				panel.add(progressBar, BorderLayout.CENTER);
+				progressDialog.setContentPane(panel);
+				progressDialog.setSize(460, 110);
+				progressDialog.setLocationRelativeTo(BlastGui.this);
+				progressDialog.setResizable(false);
+
+				// ── SwingWorker: runs BLAST off the EDT ──────────────────────────────
+				final ArrayList<Sequence> seqList = sequencelist;
+
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+					final ArrayList<File>   fileList   = new ArrayList<>();
+					final ArrayList<String> headerList = new ArrayList<>();
+					String errorMsg = null;
+
+					@Override
+					protected Void doInBackground() {
+						try {
+							if (isLocal) {
+								publish("Preparing local search...");
+								for (int i = 0; i < seqList.size(); i++) {
+									Sequence sequence = seqList.get(i);
+									File qFile = sequence.getFastaFile();
+									String outPath = "project_data" + File.separator + "ssearch_results.txt";
+									publish("Running local BLAST (" + (i + 1) + " / " + seqList.size() + ")...");
+									int exitCode = Ssearch36Search.run(
+										qFile, dbFile,
+										Evalue.getSelectedItem().toString(),
+										MaxSeqs.getSelectedItem().toString(),
+										ScoringMatrix.getSelectedItem().toString(),
+										outPath
+									);
+									if (exitCode == 0) {
+										publish("Processing results...");
+										File file = new File("project_data" + File.separator + "temp_output.tsv");
+										int filenum = 1;
+										while (file.isFile()) {
+											file = new File("project_data" + File.separator + "temp_output_" + filenum + ".tsv");
+											filenum++;
+										}
+										parseBlastCustomDatabase(file);
+										fileList.add(file);
+										headerList.add("Sequence");
+									} else {
+										errorMsg = "SSEARCH36 failed (exit code " + exitCode + ").\n"
+												+ "Check that ssearch36.exe exists in the tools folder.";
+										return null;
+									}
+								}
+							} else {
+								publish("Submitting to UniProt BLAST...");
+								for (int i = 0; i < seqList.size(); i++) {
+									publish("Waiting for UniProt results (" + (i + 1) + " / " + seqList.size() + ")...");
+									Object[] fileData = performBlastP(
+										seqList.get(i),
+										Float.valueOf(Evalue.getSelectedItem().toString()),
+										Integer.parseInt(MaxSeqs.getSelectedItem().toString())
+									);
+									publish("Processing hits...");
+									fileList.add((File) fileData[0]);
+									headerList.add((String) fileData[1]);
+								}
 							}
-							parseBlastCustomDatabase(file);
-							String header = "Sequence";
-							fileList.add(file);
-							headerList.add(header);
-						} else {
-							JOptionPane.showMessageDialog(BlastGui.this,
-								"SSEARCH36 failed (exit code " + exitCode + ").\n"
-								+ "Check that ssearch36.exe exists in the tools folder.",
-								"Search Error", JOptionPane.ERROR_MESSAGE);
+						} catch (Exception ex) {
+							errorMsg = ex.getMessage();
 						}
+						return null;
+					}
+
+					@Override
+					protected void process(List<String> chunks) {
+						// Show the most recent status message
+						statusLabel.setText(chunks.get(chunks.size() - 1));
+					}
+
+					@Override
+					protected void done() {
+						progressDialog.dispose();
+						if (errorMsg != null) {
+							JOptionPane.showMessageDialog(BlastGui.this,
+								errorMsg, "Search Error", JOptionPane.ERROR_MESSAGE);
+							return;
 						}
 						BlastOutputGui blastpout = new BlastOutputGui(fileList, headerList);
 						blastpout.setLocationRelativeTo(null);
-					    blastpout.setVisible(true);
-					} catch (Exception ex) {
-						JOptionPane.showMessageDialog(BlastGui.this,
-							"SSEARCH36 failed: " + ex.getMessage(),
-							"Search Error", JOptionPane.ERROR_MESSAGE);
+						blastpout.setVisible(true);
 					}
-					return;
-				}
-				ArrayList<File> fileList = new ArrayList<File>();
-				ArrayList<String> headerList = new ArrayList<String>();
-				for(int i = 0; i < sequencelist.size(); i++) {
-					Sequence sequence = sequencelist.get(i);
-					Object[] fileData = performBlastP(sequence, Float.valueOf(Evalue.getSelectedItem().toString()), Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
-					File file = (File) fileData[0];
-					String header = (String) fileData[1];
-					fileList.add(file);
-					headerList.add(header);
-				}
-				BlastOutputGui blastpout = new BlastOutputGui(fileList, headerList);
-				blastpout.setLocationRelativeTo(null);
-			    blastpout.setVisible(true);
-				}
+				};
+
+				worker.execute();
+				progressDialog.setVisible(true); // modal — blocks here until done() disposes it
 			}
 		});
 
