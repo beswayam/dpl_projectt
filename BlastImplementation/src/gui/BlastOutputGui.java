@@ -129,7 +129,7 @@ public class BlastOutputGui extends JFrame {
         GridBagConstraints gbc_BlastHitLabel = new GridBagConstraints();
         gbc_BlastHitLabel.insets = new Insets(0, 15, 12, 10);
         gbc_BlastHitLabel.gridx  = 1;
-        gbc_BlastHitLabel.gridy  = 5;
+        gbc_BlastHitLabel.gridy  = 6;
         getContentPane().add(BlastHitLabel, gbc_BlastHitLabel);
 
         // ── Data labels — helper method keeps it clean ────────────────────────
@@ -239,7 +239,7 @@ public class BlastOutputGui extends JFrame {
         gbc_comboBox.insets = new Insets(0, 0, 12, 10);
         gbc_comboBox.fill   = GridBagConstraints.HORIZONTAL;
         gbc_comboBox.gridx  = 2;
-        gbc_comboBox.gridy  = 5;
+        gbc_comboBox.gridy  = 6;
         getContentPane().add(comboBox, gbc_comboBox);
         comboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -262,10 +262,10 @@ public class BlastOutputGui extends JFrame {
         SeqSelectLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
         SeqSelectLabel.setForeground(new Color(100, 116, 139)); // ── CHANGED
         GridBagConstraints gbc_SeqSelectLabel = new GridBagConstraints();
-        gbc_SeqSelectLabel.anchor = GridBagConstraints.WEST;
+        gbc_SeqSelectLabel.anchor = GridBagConstraints.CENTER;
         gbc_SeqSelectLabel.insets = new Insets(0, 10, 12, 10);
-        gbc_SeqSelectLabel.gridx  = 8;
-        gbc_SeqSelectLabel.gridy  = 21;
+        gbc_SeqSelectLabel.gridx  = 1;
+        gbc_SeqSelectLabel.gridy  = 5;
         getContentPane().add(SeqSelectLabel, gbc_SeqSelectLabel);
 
         JComboBox<String> sequenceBox = new JComboBox<>();
@@ -273,10 +273,10 @@ public class BlastOutputGui extends JFrame {
         sequenceBox.setBackground(new Color(22, 28, 45));    // ── CHANGED
         sequenceBox.setForeground(new Color(226, 232, 240)); // ── CHANGED
         GridBagConstraints gbc_sequenceBox = new GridBagConstraints();
-        gbc_sequenceBox.insets = new Insets(5, 10, 5, 15);
+        gbc_sequenceBox.insets = new Insets(0, 0, 12, 10);
         gbc_sequenceBox.fill   = GridBagConstraints.HORIZONTAL;
-        gbc_sequenceBox.gridx  = 9;
-        gbc_sequenceBox.gridy  = 21;
+        gbc_sequenceBox.gridx  = 2;
+        gbc_sequenceBox.gridy  = 5;
         getContentPane().add(sequenceBox, gbc_sequenceBox);
         sequenceBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

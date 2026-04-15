@@ -35,6 +35,7 @@ public final class Ssearch36Search {
     public static int run(File queryFile, File dbFile,
             String evalue, String maxSeqs,
             String matrix, String outputPath) throws Exception {
+    	System.out.println(queryFile.getPath());
         String osName = System.getProperty("os.name");
         String exeName = osName != null && osName.toLowerCase().contains("win") ? "ssearch36.exe" : "ssearch36";
         String ssearchExe = "tools" + File.separator + exeName;
@@ -45,8 +46,8 @@ public final class Ssearch36Search {
                 "-E", evalue,
                 "-b", maxSeqs,
                 "-d", maxSeqs,
-                queryFile.getAbsolutePath(),
-                dbFile.getAbsolutePath());
+                queryFile.getPath(),
+                dbFile.getPath());
         pb.redirectErrorStream(true);
         pb.redirectOutput(new File(outputPath));
         Process p = pb.start();

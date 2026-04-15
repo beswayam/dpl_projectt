@@ -41,7 +41,7 @@ public class BlastpSearchTest extends TestCase {
 		int maxseq = 10;
 		File file = new File("temp_output.tsv");
 		BlastResult<UniProtHit> uniprotblastResult = BlastpSearch.runUniprotBlast(sequence);
-		BlastpSearch.writeUniprotBlastOutput(uniprotblastResult,mineval,maxseq,file);
+		BlastpSearch.writeUniprotBlastOutput(mineval,maxseq,file);
 		
         FileReader fileReader=null;
         try
