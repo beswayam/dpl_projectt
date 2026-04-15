@@ -24,6 +24,9 @@ import javax.swing.border.Border; // ── ADDED
 import java.awt.Graphics;          // ── ADDED
 import java.awt.Graphics2D;        // ── ADDED
 import java.awt.RenderingHints;    // ── ADDED
+import javax.swing.Timer;
+import utilities.Time;
+import javax.swing.SwingConstants;
 
 public class MainGui extends JFrame {
 
@@ -52,14 +55,14 @@ public class MainGui extends JFrame {
 		
 		contentPane = new JPanel();
         contentPane.setBackground(new Color(13, 17, 28)); // ── CHANGED: dark navy background
-        contentPane.setBorder(new EmptyBorder(30, 40, 30, 40)); // ── CHANGED: more padding
+        contentPane.setBorder(new EmptyBorder(30, 40, 0, 0)); // ── CHANGED: more padding
         setContentPane(contentPane);
 		
         GridBagLayout gbl_contentPane = new GridBagLayout();
         gbl_contentPane.columnWidths  = new int[]{25, 413, 169, 0};
-        gbl_contentPane.rowHeights    = new int[]{10, 40, 10, 10, 50, 10, 10, 50, 10, 10, 50, 10, 40, 0};
+        gbl_contentPane.rowHeights    = new int[]{10, 40, 10, 10, 50, 10, 10, 50, 10, 10, 50, 10, 0, 0};
         gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-        gbl_contentPane.rowWeights    = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+        gbl_contentPane.rowWeights    = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
         contentPane.setLayout(gbl_contentPane);
 
 
@@ -69,7 +72,7 @@ public class MainGui extends JFrame {
         lblAppTitle.setForeground(new Color(56, 189, 248));          // ── CHANGED: sky blue
         GridBagConstraints gbc_lblAppTitle = new GridBagConstraints();
         gbc_lblAppTitle.anchor = GridBagConstraints.WEST;
-        gbc_lblAppTitle.insets = new Insets(0, 0, 4, 0);
+        gbc_lblAppTitle.insets = new Insets(0, 0, 5, 5);
         gbc_lblAppTitle.gridx  = 1;
         gbc_lblAppTitle.gridy  = 0;
         contentPane.add(lblAppTitle, gbc_lblAppTitle);
@@ -80,7 +83,7 @@ public class MainGui extends JFrame {
         lblPageHeader.setForeground(new Color(100, 116, 139));          // ── CHANGED: muted grey
         GridBagConstraints gbc_lblPageHeader = new GridBagConstraints();
         gbc_lblPageHeader.anchor = GridBagConstraints.WEST;
-        gbc_lblPageHeader.insets = new Insets(0, 0, 6, 0);
+        gbc_lblPageHeader.insets = new Insets(0, 0, 6, 5);
         gbc_lblPageHeader.gridx  = 1;
         gbc_lblPageHeader.gridy  = 1;
         contentPane.add(lblPageHeader, gbc_lblPageHeader);
@@ -90,7 +93,7 @@ public class MainGui extends JFrame {
         separator.setForeground(new Color(30, 41, 59));
         GridBagConstraints gbc_sep = new GridBagConstraints();
         gbc_sep.fill   = GridBagConstraints.HORIZONTAL;
-        gbc_sep.insets = new Insets(0, 0, 10, 0);
+        gbc_sep.insets = new Insets(0, 0, 10, 5);
         gbc_sep.gridx  = 1;
         gbc_sep.gridy  = 2;
         contentPane.add(separator, gbc_sep);
@@ -103,7 +106,7 @@ public class MainGui extends JFrame {
         
         GridBagConstraints gbc_lblBlast = new GridBagConstraints();
         gbc_lblBlast.anchor = GridBagConstraints.WEST;
-        gbc_lblBlast.insets = new Insets(0, 6, 8, 0); // ── CHANGED: bottom 2 → 8
+        gbc_lblBlast.insets = new Insets(0, 6, 8, 5); // ── CHANGED: bottom 2 → 8
         gbc_lblBlast.gridx  = 1;
         gbc_lblBlast.gridy  = 3;
         contentPane.add(lblBlast, gbc_lblBlast);
@@ -137,7 +140,7 @@ public class MainGui extends JFrame {
         });
         GridBagConstraints gbc_btnBlastInterface = new GridBagConstraints();
         gbc_btnBlastInterface.anchor = GridBagConstraints.WEST; // ── CHANGED: no fill, fits to text
-        gbc_btnBlastInterface.insets = new Insets(0, 0, 16, 0);
+        gbc_btnBlastInterface.insets = new Insets(0, 0, 16, 5);
         gbc_btnBlastInterface.gridx  = 1;
         gbc_btnBlastInterface.gridy  = 4;
         contentPane.add(btnBlastInterface, gbc_btnBlastInterface);
@@ -149,7 +152,7 @@ public class MainGui extends JFrame {
         
         GridBagConstraints gbc_lblStats = new GridBagConstraints();
         gbc_lblStats.anchor = GridBagConstraints.WEST;
-        gbc_lblStats.insets = new Insets(0, 6, 8, 0); // ── CHANGED: bottom 2 → 8
+        gbc_lblStats.insets = new Insets(0, 6, 8, 5); // ── CHANGED: bottom 2 → 8
         gbc_lblStats.gridx  = 1;
         gbc_lblStats.gridy  = 6;
         contentPane.add(lblStats, gbc_lblStats);
@@ -199,10 +202,25 @@ public class MainGui extends JFrame {
         });
         GridBagConstraints gbc_btnInputStatistics = new GridBagConstraints();
         gbc_btnInputStatistics.anchor = GridBagConstraints.WEST; // ── CHANGED: fits to text size
-        gbc_btnInputStatistics.insets = new Insets(0, 0, 16, 0);
+        gbc_btnInputStatistics.insets = new Insets(0, 0, 16, 5);
         gbc_btnInputStatistics.gridx  = 1;
         gbc_btnInputStatistics.gridy  = 7;
         contentPane.add(btnInputStatistics, gbc_btnInputStatistics);
-
+        
+        JLabel lblShowAppTime = new JLabel();
+        lblShowAppTime.setVerticalAlignment(SwingConstants.BOTTOM);
+        lblShowAppTime.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblShowAppTime.setForeground(new Color(255, 255, 255));
+        GridBagConstraints gbc_lblShowAppTime = new GridBagConstraints();
+        gbc_lblShowAppTime.gridx = 2;
+        gbc_lblShowAppTime.gridy = 12;
+        contentPane.add(lblShowAppTime, gbc_lblShowAppTime);
+        Time time = new Time();
+        Timer timer = new Timer(1000, new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		lblShowAppTime.setText(time.getElapsedTime());
+        	}
+        });
+        timer.start();
     }
 }
