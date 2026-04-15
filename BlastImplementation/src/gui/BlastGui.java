@@ -44,7 +44,6 @@ import javax.swing.JDialog;
 import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 import java.awt.BorderLayout;
-import java.util.List;
 
 public class BlastGui extends JFrame {
 	private static BlastpSearch blastpsearch = new BlastpSearch();
@@ -372,6 +371,24 @@ public class BlastGui extends JFrame {
 				    return;
 				}
 
+				// ── Message arrays for each search type ──────────────────────────────
+				String[] ssearchMessages = {
+					"Running SSEARCH36...",
+					"Aligning sequences...",
+					"Scanning database...",
+					"Computing scores...",
+					"Almost there...",
+					"Still running, please wait..."
+				};
+				String[] uniprotMessages = {
+					"Connecting to UniProt...",
+					"Sending sequence to server...",
+					"Waiting for response...",
+					"Retrieving results...",
+					"Processing hits...",
+					"Almost there..."
+				};
+
 				// ── Build progress dialog ─────────────────────────────────────────────
 				boolean isLocal = (dbFile != null);
 				JDialog progressDialog = new JDialog(BlastGui.this, "Running BLAST", true);
@@ -381,29 +398,30 @@ public class BlastGui extends JFrame {
 				panel.setBackground(new Color(13, 17, 28));
 				panel.setBorder(new EmptyBorder(24, 32, 24, 32));
 
-				JLabel statusLabel = new JLabel(isLocal ? "Preparing local search..." : "Submitting to UniProt...");
-				statusLabel.setFont(new Font("Monospaced", Font.PLAIN, 13));
-				statusLabel.setForeground(new Color(226, 232, 240));
-				statusLabel.setHorizontalAlignment(JLabel.CENTER);
-
 				JProgressBar progressBar = new JProgressBar();
 				progressBar.setIndeterminate(true);
+				progressBar.setStringPainted(true);
+				progressBar.setFont(new Font("Monospaced", Font.PLAIN, 12));
 				progressBar.setForeground(new Color(56, 189, 248));   // sky blue
 				progressBar.setBackground(new Color(22, 28, 45));
-				progressBar.setPreferredSize(new Dimension(380, 16));
+				progressBar.setPreferredSize(new Dimension(380, 28));
 				progressBar.setBorderPainted(false);
 
-				panel.add(statusLabel, BorderLayout.NORTH);
 				panel.add(progressBar, BorderLayout.CENTER);
 				progressDialog.setContentPane(panel);
-				progressDialog.setSize(460, 110);
+				progressDialog.setSize(460, 100);
 				progressDialog.setLocationRelativeTo(BlastGui.this);
 				progressDialog.setResizable(false);
 
+				// ── Start cycling messages via Timer ──────────────────────────────────
+				javax.swing.Timer messageTimer = startAnimatedMessages(
+					progressBar, isLocal ? ssearchMessages : uniprotMessages);
+
 				// ── SwingWorker: runs BLAST off the EDT ──────────────────────────────
+				btnBLAST.setEnabled(false);
 				final ArrayList<Sequence> seqList = sequencelist;
 
-				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					final ArrayList<File>   fileList   = new ArrayList<>();
 					final ArrayList<String> headerList = new ArrayList<>();
 					String errorMsg = null;
@@ -412,12 +430,10 @@ public class BlastGui extends JFrame {
 					protected Void doInBackground() {
 						try {
 							if (isLocal) {
-								publish("Preparing local search...");
 								for (int i = 0; i < seqList.size(); i++) {
 									Sequence sequence = seqList.get(i);
 									File qFile = sequence.getFastaFile();
 									String outPath = "project_data" + File.separator + "ssearch_results.txt";
-									publish("Running local BLAST (" + (i + 1) + " / " + seqList.size() + ")...");
 									int exitCode = Ssearch36Search.run(
 										qFile, dbFile,
 										Evalue.getSelectedItem().toString(),
@@ -426,7 +442,6 @@ public class BlastGui extends JFrame {
 										outPath
 									);
 									if (exitCode == 0) {
-										publish("Processing results...");
 										File file = new File("project_data" + File.separator + "temp_output.tsv");
 										int filenum = 1;
 										while (file.isFile()) {
@@ -443,15 +458,12 @@ public class BlastGui extends JFrame {
 									}
 								}
 							} else {
-								publish("Submitting to UniProt BLAST...");
 								for (int i = 0; i < seqList.size(); i++) {
-									publish("Waiting for UniProt results (" + (i + 1) + " / " + seqList.size() + ")...");
 									Object[] fileData = performBlastP(
 										seqList.get(i),
 										Float.valueOf(Evalue.getSelectedItem().toString()),
 										Integer.parseInt(MaxSeqs.getSelectedItem().toString())
 									);
-									publish("Processing hits...");
 									fileList.add((File) fileData[0]);
 									headerList.add((String) fileData[1]);
 								}
@@ -463,19 +475,18 @@ public class BlastGui extends JFrame {
 					}
 
 					@Override
-					protected void process(List<String> chunks) {
-						// Show the most recent status message
-						statusLabel.setText(chunks.get(chunks.size() - 1));
-					}
-
-					@Override
 					protected void done() {
-						progressDialog.dispose();
+						messageTimer.stop();
+						btnBLAST.setEnabled(true);
 						if (errorMsg != null) {
+							progressBar.setString("Search failed.");
+							progressDialog.dispose();
 							JOptionPane.showMessageDialog(BlastGui.this,
 								errorMsg, "Search Error", JOptionPane.ERROR_MESSAGE);
 							return;
 						}
+						progressBar.setString("Search complete!");
+						progressDialog.dispose();
 						BlastOutputGui blastpout = new BlastOutputGui(fileList, headerList);
 						blastpout.setLocationRelativeTo(null);
 						blastpout.setVisible(true);
@@ -495,6 +506,20 @@ public class BlastGui extends JFrame {
         contentPane.add(btnBLAST, gbc_btnBLAST);
 
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	}
+
+	// Cycles through messages on the progress bar every 2 seconds.
+	// int[] used instead of int so the lambda can increment the counter.
+	// Returns the Timer so the caller can stop it in done().
+	private javax.swing.Timer startAnimatedMessages(JProgressBar progressBar, String[] messages) {
+		int[] index = {0};
+		progressBar.setString(messages[0]);
+		javax.swing.Timer timer = new javax.swing.Timer(2000, evt -> {
+			progressBar.setString(messages[index[0] % messages.length]);
+			index[0]++;
+		});
+		timer.start();
+		return timer;
 	}
 
 	private static Object[] performBlastP(Sequence sequence, float mineval, int maxseq) {
