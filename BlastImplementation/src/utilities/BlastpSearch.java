@@ -21,6 +21,10 @@ public class BlastpSearch {
 		this.sequence = sequence;
 	}
 	
+	public BlastResult<UniProtHit> getblastResult() {
+		return(this.blastResult);
+	}
+	
 	public void runUniprotBlast() {
 	    ServiceFactory serviceFactoryInstance = Client.getServiceFactoryInstance();
 	    UniProtBlastService uniProtBlastService = serviceFactoryInstance.getUniProtBlastService();
