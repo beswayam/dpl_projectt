@@ -7,6 +7,7 @@ data
 bin
 doc
 BlastImplementation/project_data/temp_output*
+BlastImplementation/project_data/ssearch_results.txt
 BlastImplementation/project_data/blast_input*
 # for Mac users
 .DS_Store
