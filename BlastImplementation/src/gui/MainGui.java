@@ -57,7 +57,7 @@ public class MainGui extends JFrame {
         contentPane.setBackground(new Color(13, 17, 28)); // ── CHANGED: dark navy background
         contentPane.setBorder(new EmptyBorder(30, 40, 0, 0)); // ── CHANGED: more padding
         setContentPane(contentPane);
-		
+        
         GridBagLayout gbl_contentPane = new GridBagLayout();
         gbl_contentPane.columnWidths  = new int[]{25, 413, 169, 0};
         gbl_contentPane.rowHeights    = new int[]{10, 40, 10, 10, 50, 10, 10, 50, 10, 10, 50, 10, 0, 0};
