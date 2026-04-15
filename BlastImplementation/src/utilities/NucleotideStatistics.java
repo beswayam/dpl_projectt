@@ -12,7 +12,7 @@ public class NucleotideStatistics extends Statistics implements StatisticsInterf
 	}
 	
 	// GC skew = (G-C)/(G+C). Returns 0 when there are no G/C bases.
-	public double GCSkew() {
+	public double gcSkew() {
 		HashMap<Character, Integer> nuc_counts = seqContents();
 		int gCount = nuc_counts.get('G');
 		int cCount = nuc_counts.get('C');
@@ -24,7 +24,7 @@ public class NucleotideStatistics extends Statistics implements StatisticsInterf
 	}
 	
 	// calculate the GC content
-	public double GCContent() {
+	public double gcContent() {
 		if (seqLength() == 0) {
 			return 0.0;
 		}
@@ -40,7 +40,7 @@ public class NucleotideStatistics extends Statistics implements StatisticsInterf
 	}
 	
 	// get all codons within the specified reading frame
-	public String ReadingFrame(int kframe) {
+	public String readingFrame(int kframe) {
 		String seq = getSeq();
 		StringBuilder codon = new StringBuilder();
 		StringBuilder codingSeq = new StringBuilder();
@@ -74,17 +74,17 @@ public class NucleotideStatistics extends Statistics implements StatisticsInterf
 	}
 	
 	// find all reading frames
-	public ArrayList<String> AllReadingFrames(ArrayList<Integer> rframe_idxs) {
+	public ArrayList<String> allReadingFrames(ArrayList<Integer> rframe_idxs) {
 		ArrayList<String> rFrames = new ArrayList<>();
 		
 		for (int k : rframe_idxs) {
-			rFrames.add(ReadingFrame(k));
+			rFrames.add(readingFrame(k));
 		}
 		return rFrames;
 	}
 	
 	// Translate full DNA sequence into one-letter amino-acid sequence.
-	public String Translate() {
+	public String translate() {
 		String seq = getSeq();
 		StringBuilder protein = new StringBuilder();
 		CodonUtils utils = new CodonUtils();
@@ -103,7 +103,7 @@ public class NucleotideStatistics extends Statistics implements StatisticsInterf
 	}
 		
 	// make a reverse compliment sequence of the dna sequence
-	public String ReverseCompliment() {
+	public String reverseCompliment() {
 		String seq = getSeq();
 		StringBuilder revSeq = new StringBuilder(seq);
 		

@@ -413,19 +413,19 @@ public class BlastOutputGui extends JFrame {
 	
 	}
 	
-	private void parseHit(String[] hitdata,ArrayList<JLabel> labelList) {
-	String hitnum = hitdata[0];
-	String id = hitdata[1];
-	String description = hitdata[2];
-	String match_seq = hitdata[3];
-	String eval= hitdata[4];
-	String bitscore = hitdata[5];
-	String identity = hitdata[6];
-	String query_seq = hitdata[7];
-	String query_start = hitdata[8];
-	String query_end = hitdata[9];
-	String match_start = hitdata[10];
-	String match_end = hitdata[11];
+	private void parseHit(String[] hitData,ArrayList<JLabel> labelList) {
+	String hitnum = hitData[0];
+	String id = hitData[1];
+	String description = hitData[2];
+	String match_seq = hitData[3];
+	String eval= hitData[4];
+	String bitscore = hitData[5];
+	String identity = hitData[6];
+	String query_seq = hitData[7];
+	String query_start = hitData[8];
+	String query_end = hitData[9];
+	String match_start = hitData[10];
+	String match_end = hitData[11];
 	String matches = findMatches(query_seq,match_seq);
 	labelList.get(0).setText(id);
 	labelList.get(1).setText(description);

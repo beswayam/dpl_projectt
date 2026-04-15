@@ -10,13 +10,13 @@ public class NucleotideStatisticsTest extends TestCase {
 	
 	// Test GC skew calculation.
 	public void testGCSkew() {
-		double gcSkew = seq.GCSkew();
+		double gcSkew = seq.gcSkew();
 		assertEquals(gcSkew, 0.2);
 	}
 	
 	// calculate the GC content
 	public void testGCContent() {	
-		double gcProportion = seq.GCContent();
+		double gcProportion = seq.gcContent();
 		assertEquals(gcProportion, (double) 5 / 6);
 	}
 	
@@ -27,7 +27,7 @@ public class NucleotideStatisticsTest extends TestCase {
 		int k = 0;
 		
 		//get the readingframe k
-		String rFrame = seq.ReadingFrame(k);
+		String rFrame = seq.readingFrame(k);
 		assertEquals(rFrame, "ATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAA");
 		}
 	
@@ -41,7 +41,7 @@ public class NucleotideStatisticsTest extends TestCase {
 		k.add(1);
 		k.add(2);
 		
-		ArrayList<String> readingFrames = seq.AllReadingFrames(k);
+		ArrayList<String> readingFrames = seq.allReadingFrames(k);
 		int count = 0;
 		for (String rFrame : readingFrames) {
 			
@@ -63,7 +63,7 @@ public class NucleotideStatisticsTest extends TestCase {
 	public void testReverseCompliment() {
 		seq.setSeq(new Sequence("GGTCCA"));
 		
-		String revCompSeq = seq.ReverseCompliment();
+		String revCompSeq = seq.reverseCompliment();
 		assertEquals(revCompSeq, "TGGACC");
 	}
 	

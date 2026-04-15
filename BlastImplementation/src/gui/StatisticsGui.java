@@ -299,7 +299,7 @@ public class StatisticsGui extends JFrame {
 		seqContents(seqStat, textStatistics);
 		
 		// nucleotide GC%
-		double gcContent = ((NucleotideStatistics) seqStat).GCContent();
+		double gcContent = ((NucleotideStatistics) seqStat).gcContent();
 		BigDecimal rounded = new BigDecimal(gcContent * 100).setScale(1, RoundingMode.HALF_UP);
 		textStatistics.append("\n\nGC%; " + rounded);
 		
