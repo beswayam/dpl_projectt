@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -379,6 +380,17 @@ public class BlastGui extends JFrame {
 			                JOptionPane.WARNING_MESSAGE);
 				}
 				else {
+					//show message that BLAST is running
+					JDialog dialog = new JDialog(BlastGui.this, "Loading", false);
+					JLabel loadingLabel = new JLabel("BLAST is running, please wait...", JLabel.CENTER);
+					loadingLabel.setFont(new Font("Monospaced", Font.PLAIN, 13));
+					loadingLabel.setBorder(new EmptyBorder(20, 30, 20, 30));
+					dialog.getContentPane().add(loadingLabel);
+					dialog.pack();
+					dialog.setLocationRelativeTo(BlastGui.this);
+					dialog.setVisible(true);
+					dialog.paintAll(dialog.getGraphics());
+					
 				if (dbFile != null) {
 					try {
 						Sequence sequence = null;
@@ -393,8 +405,11 @@ public class BlastGui extends JFrame {
 							Evalue.getSelectedItem().toString(),
 							MaxSeqs.getSelectedItem().toString(),
 							ScoringMatrix.getSelectedItem().toString(),
-							outPath
-						);
+							outPath);
+							
+							//close BLAST running dialog
+							dialog.dispose();
+							
 						if (ssearch36search.getErrorCode() == 0) {
 							File file = new File("project_data"+File.separator+"temp_output.tsv");
 							int filenum = 1;
@@ -433,6 +448,10 @@ public class BlastGui extends JFrame {
 					fileList.add(file);
 					headerList.add(header);
 				}
+				
+				//close BLAST running dialog
+				dialog.dispose();
+				
 				BlastOutputGui blastpout = new BlastOutputGui(fileList, headerList);
 				blastpout.setLocationRelativeTo(null);
 			    blastpout.setVisible(true);
