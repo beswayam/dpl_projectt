@@ -51,7 +51,7 @@ public class BlastOutputGuiFunctions extends JFrame {
 		String matches = findMatches(query_seq, match_seq);
 		labelList.get(0).setText(id);
 		labelList.get(1).setText(description);
-		labelList.get(2).setText("<html>"+query_seq+"<br>"+matches+"<br>"+match_seq+"</html>");
+		labelList.get(2).setText("<html>"+query_seq.replaceAll(" ","\u00a0")+"<br>"+matches+"<br>"+match_seq.replaceAll(" ","\u00a0")+"</html>");
 		labelList.get(3).setText("<html>("+query_start+":"+query_end+")<br><br>("+match_start+":"+match_end+")</html>");
 		labelList.get(4).setText(eval);
 		labelList.get(5).setText(bitscore);
