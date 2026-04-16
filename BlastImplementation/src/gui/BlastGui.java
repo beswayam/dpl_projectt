@@ -486,6 +486,16 @@ public class BlastGui extends JFrame {
         
         btnCLEAR.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	txtrInputsequence.setText("");		//maakt tekstbox leeg
+                queryFile = null;	//removes input-sequence file to no file selected
+                dbFile = null;		//removes db file to no file selected
+                sequencelist = null;	//remove sequence list
+                //put text back in import button
+                btnInputSequenceUpload.setText("Upload Input Sequence (FASTA file)");
+                btnUploadDatabase.setText("Upload Database (FASTA file)");
+                //make color white again
+                btnInputSequenceUpload.setForeground(Color.WHITE);
+                btnUploadDatabase.setForeground(Color.WHITE);
                 
             }
         });
