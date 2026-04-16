@@ -169,9 +169,7 @@ public class StatisticsGui extends JFrame {
 	}
 	
 	// Method to apply same style of button from Main GUI
-	private void applyRoundedStyle(JButton btn, Color fillColor, Color outerColor) {
-	    // Override painting on the existing instance is not possible,
-	    // so we use a workaround: replace the button's UI with a custom one.
+	public static void applyRoundedStyle(JButton btn, Color fillColor, Color outerColor) {
 	    btn.setUI(new javax.swing.plaf.basic.BasicButtonUI() {
 	        @Override
 	        public void paint(Graphics g, JComponent c) {
