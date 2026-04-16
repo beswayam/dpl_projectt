@@ -288,7 +288,17 @@ public class MainGui extends JFrame {
             JTextArea textArea = new JTextArea();
             textArea.setText(
                 "File Statistics Instructions:\n\n" +
-                "1. Fill in what we should do for file statistics here"
+                "This program gives information about the sequences in a FASTA file\n" +
+                "and suggests which tools can be used with this file.\n\n "+
+                "How to use:\n"+
+                "1. Click \"File Statistics\" \n"+
+                "2. navigate to the FASTA file with the sequence(s)\n"+
+                "3. Click on the file and then click on open\n"+
+                "4. a window will appear with:\n"+
+                "	- the inputted sequence on the left\n"+
+                "	- file statistics in the middle\n"+
+                "	- suggested tools on the right\n"
+                
             );
             textArea.setEditable(false);
             textArea.setLineWrap(true);
