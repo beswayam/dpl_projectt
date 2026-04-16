@@ -446,7 +446,39 @@ public class BlastGui extends JFrame {
         gbc_btnBLAST.gridx  = 0;
         gbc_btnBLAST.gridy  = 8;
         contentPane.add(btnBLAST, gbc_btnBLAST);
+        
+        JButton btnCLEAR = new JButton("Clear") {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(new Color(220, 80, 80)); // ── red fill
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+                super.paintComponent(g);
+            }
+        };
+        btnCLEAR.setFont(new Font("Monospaced", Font.BOLD, 14)); // ── CHANGED
+        btnCLEAR.setForeground(Color.WHITE);                      // ── CHANGED
+        btnCLEAR.setContentAreaFilled(false);
+        btnCLEAR.setBorderPainted(false);
+        btnCLEAR.setFocusPainted(false);
+        btnCLEAR.setCursor(new Cursor(Cursor.HAND_CURSOR));       // ── ADDED
+        btnCLEAR.setBorder(new EmptyBorder(10, 30, 10, 30));
+        
+        btnCLEAR.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
 
+        GridBagConstraints gbc_btnCLEAR = new GridBagConstraints();
+        gbc_btnCLEAR.anchor = GridBagConstraints.WEST;
+        gbc_btnCLEAR.insets = new Insets(12, 10, 0, 5); // 10px gap from BLAST button
+        gbc_btnCLEAR.gridx  = 1; // ── next column after BLAST
+        gbc_btnCLEAR.gridy  = 8; // ── same row as BLAST
+        contentPane.add(btnCLEAR, gbc_btnCLEAR);
+        
+        
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
