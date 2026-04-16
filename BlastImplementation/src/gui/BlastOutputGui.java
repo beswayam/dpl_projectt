@@ -212,7 +212,7 @@ public class BlastOutputGui extends JFrame {
 
 	                  try {
 	                	// Export the BLAST result file to the chosen output location
-	                      exportResults(file, header, outputFile);
+	                      exportResults(file, outputFile);
 	                  } catch (Exception ex) {
 	                	  //print error if there in one
 	                      ex.printStackTrace();
@@ -397,28 +397,14 @@ public class BlastOutputGui extends JFrame {
 	}
 	
 	
-	private void exportResults(File infile,String header, File outfile) {
-		String outfilename;
-		
-		// check if outfile argument is given, else save on standard location with standard name
-		if (outfile == null) {
-		outfilename = System.getProperty("user.home")+ File.separator + "downloads"+ File.separator + header+"_blastoutput.tsv";
-		
-		outfile = new File(outfilename);
-		
-		int fileid = 2;
-		while(outfile.isFile()) {
-			outfilename = System.getProperty("user.home")+File.separator+"downloads"+File.separator+header+"_blastoutput_"+fileid+"_.tsv";
-			outfile = new File(outfilename);
-			fileid++;
-		}
+	private void exportResults(File infile,File outfile) {
 		try {
 			FileUtils.copyFile(infile, outfile);
 			JFrame exportFrame = new JFrame("Export successful");
 			exportFrame.setSize(500, 100);
 			exportFrame.setLocationRelativeTo(null);
 			JTextArea textArea = new JTextArea();
-		    textArea.setText("Result saved to " + outfilename);
+		    textArea.setText("Result saved to " + outfile.getAbsolutePath());
 		    textArea.setEditable(false);
 			textArea.setLineWrap(true);
 		    textArea.setWrapStyleWord(true);
@@ -435,7 +421,7 @@ public class BlastOutputGui extends JFrame {
 	                JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
-	}}
+	}
 
 	private ArrayList<String[]> readBlastTsv(File file) {
 	    ArrayList<String[]> hits = new ArrayList<String[]>();

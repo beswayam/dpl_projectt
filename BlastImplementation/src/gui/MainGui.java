@@ -3,7 +3,9 @@ package gui;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.GridBagLayout;
@@ -62,10 +64,10 @@ public class MainGui extends JFrame {
         setContentPane(contentPane);
         
         GridBagLayout gbl_contentPane = new GridBagLayout();
-        gbl_contentPane.columnWidths  = new int[]{25, 413, 169, 0};
-        gbl_contentPane.rowHeights    = new int[]{10, 40, 10, 10, 50, 10, 10, 50, 10, 10, 50, 10, 0, 0};
+        gbl_contentPane.columnWidths  = new int[]{25, 200, 169, 0};
+        gbl_contentPane.rowHeights    = new int[]{10, 40, 10, 10, 50, 10, 10, 0, 26, 0, 0, 0, 0, 10, 10, 50, 10, 0, 0, 0};
         gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-        gbl_contentPane.rowWeights    = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+        gbl_contentPane.rowWeights    = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
         contentPane.setLayout(gbl_contentPane);
 
 
@@ -95,7 +97,7 @@ public class MainGui extends JFrame {
         JSeparator separator = new JSeparator();
         separator.setForeground(new Color(30, 41, 59));
         GridBagConstraints gbc_sep = new GridBagConstraints();
-        gbc_sep.fill   = GridBagConstraints.HORIZONTAL;
+        gbc_sep.anchor = GridBagConstraints.WEST;
         gbc_sep.insets = new Insets(0, 0, 10, 5);
         gbc_sep.gridx  = 1;
         gbc_sep.gridy  = 2;
@@ -207,27 +209,61 @@ public class MainGui extends JFrame {
         gbc_btnInputStatistics.anchor = GridBagConstraints.WEST; // ── CHANGED: fits to text size
         gbc_btnInputStatistics.insets = new Insets(0, 0, 16, 5);
         gbc_btnInputStatistics.gridx  = 1;
-        gbc_btnInputStatistics.gridy  = 7;
+        gbc_btnInputStatistics.gridy  = 8;
         contentPane.add(btnInputStatistics, gbc_btnInputStatistics);
+        Date today = new Date();
+        String todayFormat = today.display();
+        
+        // Help button of File Statistics
+        JButton btnHelpFileStatistics = new JButton("Help");
+        btnHelpFileStatistics.setVerticalAlignment(SwingConstants.TOP);
+        btnHelpFileStatistics.setHorizontalAlignment(SwingConstants.LEFT);
+        GridBagConstraints gbc_btnHelpFileStatistics = new GridBagConstraints();
+        gbc_btnHelpFileStatistics.anchor = GridBagConstraints.WEST;
+        gbc_btnHelpFileStatistics.insets = new Insets(0, 0, 5, 0);
+        gbc_btnHelpFileStatistics.gridx = 2;
+        gbc_btnHelpFileStatistics.gridy = 8;
+        contentPane.add(btnHelpFileStatistics, gbc_btnHelpFileStatistics);
+        
+        StatisticsGui.applyRoundedStyle(btnHelpFileStatistics, new Color(56, 189, 248), new Color(22, 28, 45));
+        
+        btnHelpFileStatistics.setCursor(new Cursor(Cursor.HAND_CURSOR));   // ── ADDED: hand cursor
+        btnHelpFileStatistics.addActionListener(e -> {
+            JFrame helpFrame = new JFrame("FileStatistics Help");
+            helpFrame.setSize(400, 300);
+            JTextArea textArea = new JTextArea();
+            textArea.setText(
+                "File Statistics Instructions:\n\n" +
+                "1. Fill in what we should do for file statistics here"
+            );
+            textArea.setEditable(false);
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
+            JScrollPane sp = new JScrollPane(textArea);
+            helpFrame.getContentPane().add(sp);
+            helpFrame.setLocationRelativeTo(null);
+            helpFrame.setVisible(true);
+        });
         
         JLabel lblShowCurrDate = new JLabel("");
         lblShowCurrDate.setForeground(new Color(255, 255, 255));
         GridBagConstraints gbc_lblShowCurrDate = new GridBagConstraints();
-        gbc_lblShowCurrDate.insets = new Insets(0, 0, 0, 5);
+        gbc_lblShowCurrDate.insets = new Insets(0, 0, 5, 5);
         gbc_lblShowCurrDate.gridx = 0;
-        gbc_lblShowCurrDate.gridy = 12;
+        gbc_lblShowCurrDate.gridy = 18;
         contentPane.add(lblShowCurrDate, gbc_lblShowCurrDate);
-        Date today = new Date();
-        String todayFormat = today.display();
         lblShowCurrDate.setText(todayFormat);
         
+        
+        
+        // Show Runtime of program 
         JLabel lblShowAppTime = new JLabel();
         lblShowAppTime.setVerticalAlignment(SwingConstants.BOTTOM);
         lblShowAppTime.setHorizontalAlignment(SwingConstants.RIGHT);
         lblShowAppTime.setForeground(new Color(255, 255, 255));
         GridBagConstraints gbc_lblShowAppTime = new GridBagConstraints();
         gbc_lblShowAppTime.gridx = 2;
-        gbc_lblShowAppTime.gridy = 12;
+        gbc_lblShowAppTime.gridy = 18;
         contentPane.add(lblShowAppTime, gbc_lblShowAppTime);
         Time time = new Time();
         Instant startTime = time.getStartTime();
@@ -238,4 +274,5 @@ public class MainGui extends JFrame {
         });
         timer.start();
     }
-}
+		
+	}
