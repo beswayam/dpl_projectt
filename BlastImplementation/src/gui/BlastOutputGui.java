@@ -36,8 +36,10 @@ import javax.swing.JSeparator; //added
 import javax.swing.border.EmptyBorder; //added
 
 public class BlastOutputGui extends JFrame {
-
-	int sequenceIndex;
+	
+	private ArrayList<String[]> hits;
+	private int sequenceIndex;
+	private ArrayList<JLabel> labelList = new ArrayList<>();
 	private static final long serialVersionUID = 1L;
 
 	public BlastOutputGui(ArrayList<File> fileList, ArrayList<String> headerList) {
@@ -244,16 +246,7 @@ public class BlastOutputGui extends JFrame {
         comboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 File file = fileList.get(sequenceIndex);
-                ArrayList<String[]> hits = readBlastTsv(file);
-                ArrayList<JLabel> labelList = new ArrayList<>();
-                labelList.add(UniprotIDValueLabel);
-                labelList.add(ProteinDescValueLabel);
-                labelList.add(SeqValueLabel);
-                labelList.add(SeqAlignLenLabel);
-                labelList.add(EvalueAnnotLabel);
-                labelList.add(BitScoreAnnotLabel);
-                labelList.add(IdentityValueLabel);
-                parseHit(hits.get(comboBox.getSelectedIndex()), labelList);
+                parseHit(hits.get(comboBox.getSelectedIndex()));
             }
         });
 
@@ -283,7 +276,7 @@ public class BlastOutputGui extends JFrame {
                 sequenceIndex = sequenceBox.getSelectedIndex();
                 File file     = fileList.get(sequenceIndex);
                 String header = headerList.get(sequenceIndex);
-                ArrayList<String[]> hits = readBlastTsv(file);
+                hits = readBlastTsv(file);
                 int hitnum = hits.size();
                 if (hitnum == 0) {
                     JOptionPane.showMessageDialog(BlastOutputGui.this,
@@ -313,7 +306,15 @@ public class BlastOutputGui extends JFrame {
 		WindowListener taskStarterWindowListener = new WindowListener() {
 	        @Override
 	        public void windowOpened(WindowEvent e) {
+                labelList.add(UniprotIDValueLabel);
+                labelList.add(ProteinDescValueLabel);
+                labelList.add(SeqValueLabel);
+                labelList.add(SeqAlignLenLabel);
+                labelList.add(EvalueAnnotLabel);
+                labelList.add(BitScoreAnnotLabel);
+                labelList.add(IdentityValueLabel);
 	        	int seqAmount = fileList.size();
+	        	
 	        	int[] hitnumrange = IntStream.range(1, seqAmount+1).toArray();
 	        	String[] hitrange = Arrays.toString(hitnumrange).split("[\\[\\]]")[1].split(", ");
 	        	DefaultComboBoxModel<String> hitsModel = new DefaultComboBoxModel<String>(hitrange);
@@ -358,7 +359,7 @@ public class BlastOutputGui extends JFrame {
         return gbc;
     }
 
-	private void parseHit(String[] hitdata, ArrayList<JLabel> labelList) {
+	private void parseHit(String[] hitdata) {
 		String hitnum = hitdata[0];
 		String id = hitdata[1];
 		String description = hitdata[2];
