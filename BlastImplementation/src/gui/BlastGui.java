@@ -93,13 +93,13 @@ public class BlastGui extends JFrame {
                 super.paintComponent(g);
             }
         };
-        btnHelp.setForeground(Color.WHITE);
+        
         btnHelp.setContentAreaFilled(false);
         btnHelp.setBorderPainted(false);
         btnHelp.setFocusPainted(false);
         btnHelp.setFont(new Font("Monospaced", Font.BOLD, 11));
         btnHelp.setBackground(new Color(22, 28, 45));       // ── CHANGED: dark card
-//        btnHelp.setForeground(new Color(100, 116, 139));     // ── CHANGED: muted grey
+        btnHelp.setForeground(Color.WHITE);
         btnHelp.setFocusPainted(false);
         btnHelp.setBorder(new javax.swing.border.CompoundBorder(
             new javax.swing.border.LineBorder(new Color(30, 41, 59), 1),
@@ -185,7 +185,7 @@ public class BlastGui extends JFrame {
         final JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
         btnInputSequenceUpload.setFont(new Font("Monospaced", Font.PLAIN, 11)); // ── CHANGED
         btnInputSequenceUpload.setBackground(new Color(22, 28, 45));             // ── CHANGED
-        btnInputSequenceUpload.setForeground(new Color(100, 116, 139));          // ── CHANGED
+        btnInputSequenceUpload.setForeground(Color.WHITE);          // ── CHANGED
         btnInputSequenceUpload.setFocusPainted(false);
         btnInputSequenceUpload.setBorder(new javax.swing.border.CompoundBorder(
             new javax.swing.border.LineBorder(new Color(30, 41, 59), 1),
@@ -225,7 +225,7 @@ public class BlastGui extends JFrame {
         final JButton btnUploadDatabase = new JButton("Upload Database (FASTA file)");
         btnUploadDatabase.setFont(new Font("Monospaced", Font.PLAIN, 11)); // ── CHANGED
         btnUploadDatabase.setBackground(new Color(22, 28, 45));             // ── CHANGED
-        btnUploadDatabase.setForeground(new Color(100, 116, 139));          // ── CHANGED
+        btnUploadDatabase.setForeground(Color.WHITE);          // ── CHANGED
         btnUploadDatabase.setFocusPainted(false);
         btnUploadDatabase.setBorder(new javax.swing.border.CompoundBorder(
             new javax.swing.border.LineBorder(new Color(30, 41, 59), 1),
@@ -261,7 +261,7 @@ public class BlastGui extends JFrame {
         // ── E-value label and dropdown ───────────────────────────────────────
         JLabel lblEvalue = new JLabel("E-value Threshold:");
         lblEvalue.setFont(new Font("Monospaced", Font.BOLD, 12));   // ── CHANGED: font
-        lblEvalue.setForeground(new Color(100, 116, 139));           // ── CHANGED: muted
+        lblEvalue.setForeground(Color.WHITE);           // ── CHANGED: muted
         GridBagConstraints gbc_lblEvalue = new GridBagConstraints();
         gbc_lblEvalue.fill   = GridBagConstraints.HORIZONTAL;
         gbc_lblEvalue.insets = new Insets(8, 0, 4, 5);
@@ -286,7 +286,7 @@ public class BlastGui extends JFrame {
         // ── Max sequences label and dropdown ─────────────────────────────────
         JLabel lblMaxSeqs = new JLabel("Maximum Number of Sequences:");
         lblMaxSeqs.setFont(new Font("Monospaced", Font.BOLD, 12));  // ── CHANGED
-        lblMaxSeqs.setForeground(new Color(100, 116, 139));          // ── CHANGED
+        lblMaxSeqs.setForeground(Color.WHITE);          // ── CHANGED
         GridBagConstraints gbc_lblMaxSeqs = new GridBagConstraints();
         gbc_lblMaxSeqs.fill   = GridBagConstraints.HORIZONTAL;
         gbc_lblMaxSeqs.insets = new Insets(0, 0, 4, 5);
@@ -311,7 +311,7 @@ public class BlastGui extends JFrame {
         // ── Scoring matrix label and dropdown ────────────────────────────────
         JLabel lblScoringMatric = new JLabel("Scoring Matrix:");
         lblScoringMatric.setFont(new Font("Monospaced", Font.BOLD, 12)); // ── CHANGED
-        lblScoringMatric.setForeground(new Color(100, 116, 139));         // ── CHANGED
+        lblScoringMatric.setForeground(Color.WHITE);         // ── CHANGED
         GridBagConstraints gbc_lblScoringMatric = new GridBagConstraints();
         gbc_lblScoringMatric.fill   = GridBagConstraints.HORIZONTAL;
         gbc_lblScoringMatric.insets = new Insets(0, 0, 4, 5);
