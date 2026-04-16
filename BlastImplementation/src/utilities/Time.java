@@ -16,7 +16,7 @@ public class Time {
 	}
 	
 	//Returns the time elapsed since instantiation of the object
-	public String getElapsedTime(Instant previousTime) {
+	public String display(Instant previousTime) {
 		Duration elapsed = Duration.between(previousTime, Instant.now());
 		
 		long hours = elapsed.toHours();
