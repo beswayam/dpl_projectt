@@ -222,7 +222,7 @@ public class MainGui extends JFrame {
         gbc_lblUpload.anchor = GridBagConstraints.WEST;
         gbc_lblUpload.insets = new Insets(0, 6, 8, 5); // ── CHANGED: bottom 2 → 8
         gbc_lblUpload.gridx  = 1;
-        gbc_lblUpload.gridy  = 8;
+        gbc_lblUpload.gridy  = 9;
         contentPane.add(lblUpload, gbc_lblUpload);
         
         JButton btnUploadtsv = new JButton("Upload .tsv file") {
@@ -247,7 +247,7 @@ public class MainGui extends JFrame {
         gbc_btnUploadtsv.anchor = GridBagConstraints.WEST; // ── CHANGED: fits to text size
         gbc_btnUploadtsv.insets = new Insets(0, 0, 16, 5);
         gbc_btnUploadtsv.gridx  = 1;
-        gbc_btnUploadtsv.gridy  = 9;
+        gbc_btnUploadtsv.gridy  = 10;
         contentPane.add(btnUploadtsv, gbc_btnUploadtsv);
         
         // Help button of File Statistics
@@ -255,9 +255,9 @@ public class MainGui extends JFrame {
         btnHelpFileStatistics.setVerticalAlignment(SwingConstants.TOP);
         btnHelpFileStatistics.setHorizontalAlignment(SwingConstants.LEFT);
         GridBagConstraints gbc_btnHelpFileStatistics = new GridBagConstraints();
-        gbc_btnHelpFileStatistics.anchor = GridBagConstraints.WEST;
-        gbc_btnHelpFileStatistics.insets = new Insets(0, 0, 5, 0);
-        gbc_btnHelpFileStatistics.gridx = 2;
+        gbc_btnHelpFileStatistics.anchor = GridBagConstraints.CENTER;
+        gbc_btnHelpFileStatistics.insets = new Insets(0, 0, 16, 5);
+        gbc_btnHelpFileStatistics.gridx = 1;
         gbc_btnHelpFileStatistics.gridy = 8;
         contentPane.add(btnHelpFileStatistics, gbc_btnHelpFileStatistics);
         
