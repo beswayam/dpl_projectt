@@ -44,7 +44,7 @@ import javax.swing.JSeparator;     // ── ADDED: separator line
 public class BlastGui extends JFrame {
 	private static BlastpSearch blastpsearch = new BlastpSearch();
 	private static Ssearch36Search ssearch36search = new Ssearch36Search();
-	
+	private ArrayList<Sequence> sequencelist;
 	private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JLabel txtBlastpAlgorithm;
@@ -341,8 +341,8 @@ public class BlastGui extends JFrame {
         btnBLAST.setBorder(new EmptyBorder(10, 30, 10, 30));
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ArrayList<Sequence> sequencelist = null;
 				try {
+					sequencelist = null;
 					String raw = txtrInputsequence.getText();
 					if (raw != null && !raw.trim().isEmpty()) {
 						sequencelist = MultipleSequenceParser.parseMultipleSeqs(raw);
