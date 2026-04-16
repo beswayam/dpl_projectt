@@ -269,7 +269,7 @@ public class MainGui extends JFrame {
         Instant startTime = time.getStartTime();
         Timer timer = new Timer(1000, new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		lblShowAppTime.setText(time.display(startTime));
+        		lblShowAppTime.setText(time.display());
         	}
         });
         timer.start();
