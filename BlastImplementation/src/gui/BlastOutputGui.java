@@ -27,6 +27,7 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Cursor;        //added
+import java.awt.Dimension;
 import java.awt.Graphics;      //added
 import java.awt.Graphics2D;    //added
 import java.awt.RenderingHints;//added
@@ -46,6 +47,8 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
         gridBagLayout.rowWeights    = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
         getContentPane().setLayout(gridBagLayout);
         getContentPane().setBackground(new Color(13, 17, 28)); // ── CHANGED: dark navy
+        setMinimumSize(new Dimension(1200, 600));
+        toFront();
 
         // ── Title ────────────────────────────────────────────────────────────
         JLabel OutTitleLabel = new JLabel("BLAST Output");
