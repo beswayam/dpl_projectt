@@ -83,10 +83,23 @@ public class BlastGui extends JFrame {
         contentPane.add(txtBlastpAlgorithm, gbc_txtBlastpAlgorithm);
 
 		// Help button
-        JButton btnHelp = new JButton("Help");
+        JButton btnHelp = new JButton("Help"){
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(new Color(52, 211, 153)); // ── teal fill
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+                super.paintComponent(g);
+            }
+        };
+        btnHelp.setForeground(Color.WHITE);
+        btnHelp.setContentAreaFilled(false);
+        btnHelp.setBorderPainted(false);
+        btnHelp.setFocusPainted(false);
         btnHelp.setFont(new Font("Monospaced", Font.BOLD, 11));
         btnHelp.setBackground(new Color(22, 28, 45));       // ── CHANGED: dark card
-        btnHelp.setForeground(new Color(100, 116, 139));     // ── CHANGED: muted grey
+//        btnHelp.setForeground(new Color(100, 116, 139));     // ── CHANGED: muted grey
         btnHelp.setFocusPainted(false);
         btnHelp.setBorder(new javax.swing.border.CompoundBorder(
             new javax.swing.border.LineBorder(new Color(30, 41, 59), 1),
