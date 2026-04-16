@@ -413,7 +413,7 @@ public class BlastGui extends JFrame {
 								"Search Error", JOptionPane.ERROR_MESSAGE);
 						}
 						}
-						BlastOutputGui blastpout = new BlastOutputGui(fileList, headerList);
+						BlastOutputGuiFunctions blastpout = new BlastOutputGui(fileList, headerList);
 						blastpout.setLocationRelativeTo(null);
 					    blastpout.setVisible(true);
 					} catch (Exception ex) {
@@ -433,7 +433,7 @@ public class BlastGui extends JFrame {
 					fileList.add(file);
 					headerList.add(header);
 				}
-				BlastOutputGui blastpout = new BlastOutputGui(fileList, headerList);
+				BlastOutputGuiFunctions blastpout = new BlastOutputGui(fileList, headerList);
 				blastpout.setLocationRelativeTo(null);
 			    blastpout.setVisible(true);
 				}
