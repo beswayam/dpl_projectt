@@ -33,11 +33,14 @@ import java.awt.RenderingHints;//added
 import javax.swing.JSeparator; //added
 import javax.swing.border.EmptyBorder; //added
 
-public class BlastOutputGui extends BlastOutputGuiFunctions {
-	
-	private int sequenceIndex;
+public class BlastViewGui extends BlastOutputGuiFunctions {
 
-	public BlastOutputGui(ArrayList<File> fileList, ArrayList<String> headerList) {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public BlastViewGui(File file) {
 		super();
 		GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths  = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -175,59 +178,6 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
         getContentPane().add(IdentityLabel,      constraintsFor(1, 18));
         getContentPane().add(IdentityValueLabel, constraintsFor(2, 18));
 
-        // ── Export button — rounded teal ──────────────────────────────────────
-        JButton ExportButton = new JButton("Export Results") {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(new Color(52, 211, 153)); // ── teal fill
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-                super.paintComponent(g);
-            }
-        };
-        ExportButton.setFont(new Font("Monospaced", Font.BOLD, 12));
-        ExportButton.setForeground(Color.WHITE);
-        ExportButton.setContentAreaFilled(false);
-        ExportButton.setBorderPainted(false);
-        ExportButton.setFocusPainted(false);
-        ExportButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED
-        ExportButton.setBorder(new EmptyBorder(8, 20, 8, 20));
-        ExportButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                File file   = fileList.get(sequenceIndex);
-                String header = headerList.get(sequenceIndex);
-             // create file chooser for were to save the export
-	        	  JFileChooser fileChooser = new JFileChooser();
-	              fileChooser.setDialogTitle("Export Results");	
-	              fileChooser.setSelectedFile(new File(header + "_blastoutput.tsv"));
-	              
-	              //only continue if user clicks save
-	              if (fileChooser.showSaveDialog(BlastOutputGui.this) == JFileChooser.APPROVE_OPTION) {
-	                  File outputFile = fileChooser.getSelectedFile();
-
-	                  try {
-	                	// Export the BLAST result file to the chosen output location
-	                      exportResults(file, outputFile);
-	                  } catch (Exception ex) {
-	                	  //print error if there in one
-	                      ex.printStackTrace();
-	                      JOptionPane.showMessageDialog(BlastOutputGui.this,
-	                          "Error exporting file: " + ex.getMessage(),
-	                          "Export Error",
-	                          JOptionPane.ERROR_MESSAGE);
-	                  }
-	                  }
-
-            }
-        });
-        GridBagConstraints gbc_ExportButton = new GridBagConstraints();
-        gbc_ExportButton.anchor = GridBagConstraints.WEST;
-        gbc_ExportButton.insets = new Insets(10, 15, 10, 5);
-        gbc_ExportButton.gridx  = 1;
-        gbc_ExportButton.gridy  = 21;
-        getContentPane().add(ExportButton, gbc_ExportButton);
-
         // ── Combo box for blast hits ──────────────────────────────────────────
         JComboBox<String> comboBox = new JComboBox<>();
         comboBox.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -242,49 +192,6 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
         comboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 parseHit(hits.get(comboBox.getSelectedIndex()));
-            }
-        });
-
-        // ── Select sequence label and combo ──────────────────────────────────
-        JLabel SeqSelectLabel = new JLabel("Select sequence");
-        SeqSelectLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
-        SeqSelectLabel.setForeground(new Color(100, 116, 139)); // ── CHANGED
-        GridBagConstraints gbc_SeqSelectLabel = new GridBagConstraints();
-        gbc_SeqSelectLabel.anchor = GridBagConstraints.CENTER;
-        gbc_SeqSelectLabel.insets = new Insets(0, 10, 12, 10);
-        gbc_SeqSelectLabel.gridx  = 1;
-        gbc_SeqSelectLabel.gridy  = 5;
-        getContentPane().add(SeqSelectLabel, gbc_SeqSelectLabel);
-
-        JComboBox<String> sequenceBox = new JComboBox<>();
-        sequenceBox.setFont(new Font("Monospaced", Font.PLAIN, 12));
-        sequenceBox.setBackground(new Color(22, 28, 45));    // ── CHANGED
-        sequenceBox.setForeground(new Color(226, 232, 240)); // ── CHANGED
-        GridBagConstraints gbc_sequenceBox = new GridBagConstraints();
-        gbc_sequenceBox.insets = new Insets(0, 0, 12, 10);
-        gbc_sequenceBox.fill   = GridBagConstraints.HORIZONTAL;
-        gbc_sequenceBox.gridx  = 2;
-        gbc_sequenceBox.gridy  = 5;
-        getContentPane().add(sequenceBox, gbc_sequenceBox);
-        sequenceBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                sequenceIndex = sequenceBox.getSelectedIndex();
-                File file     = fileList.get(sequenceIndex);
-                String header = headerList.get(sequenceIndex);
-                hits = readBlastTsv(file);
-                int hitnum = hits.size();
-                if (hitnum == 0) {
-                    JOptionPane.showMessageDialog(BlastOutputGui.this,
-                        "No BLAST results found", "Output Error", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    int[] hitnumrange = IntStream.range(1, hitnum + 1).toArray();
-                    String[] hitrange = Arrays.toString(hitnumrange).split("[\\[\\]]")[1].split(", ");
-                    comboBox.setModel(new DefaultComboBoxModel<>(hitrange));
-                    comboBox.setSelectedIndex(0);
-                }
-                if (!header.equals("sequence")) {
-                    QuerySeqLabel.setText("<html>" + header + "<br><br>Match Sequence</html>");
-                }
             }
         });
 
@@ -308,13 +215,18 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
                 labelList.add(EvalueAnnotLabel);
                 labelList.add(BitScoreAnnotLabel);
                 labelList.add(IdentityValueLabel);
-	        	int seqAmount = fileList.size();
 	        	
-	        	int[] hitnumrange = IntStream.range(1, seqAmount+1).toArray();
-	        	String[] hitrange = Arrays.toString(hitnumrange).split("[\\[\\]]")[1].split(", ");
-	        	DefaultComboBoxModel<String> hitsModel = new DefaultComboBoxModel<String>(hitrange);
-	        	sequenceBox.setModel(hitsModel);
-	        	sequenceBox.setSelectedIndex(0);
+	        	hits = readBlastTsv(file);
+                int hitnum = hits.size();
+                if (hitnum == 0) {
+                    JOptionPane.showMessageDialog(BlastViewGui.this,
+                        "No BLAST results found", "Output Error", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    int[] hitnumrange = IntStream.range(1, hitnum + 1).toArray();
+                    String[] hitrange = Arrays.toString(hitnumrange).split("[\\[\\]]")[1].split(", ");
+                    comboBox.setModel(new DefaultComboBoxModel<>(hitrange));
+                    comboBox.setSelectedIndex(0);
+                }
 	        }
 			@Override public void windowClosing(WindowEvent e)    {}
 			@Override public void windowClosed(WindowEvent e)     {}
@@ -353,30 +265,4 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
         gbc.gridy  = row;
         return gbc;
     }
-	
-	private void exportResults(File infile,File outfile) {
-		try {
-			FileUtils.copyFile(infile, outfile);
-			JFrame exportFrame = new JFrame("Export successful");
-			exportFrame.setSize(500, 100);
-			exportFrame.setLocationRelativeTo(null);
-			JTextArea textArea = new JTextArea();
-		    textArea.setText("Result saved to " + outfile.getAbsolutePath());
-		    textArea.setEditable(false);
-			textArea.setLineWrap(true);
-		    textArea.setWrapStyleWord(true);
-		    textArea.setBackground(new Color(22, 28, 45)); //added
-		    textArea.setForeground(new Color(226, 232, 240)); //added
-			exportFrame.getContentPane().setBackground(new Color(13, 17, 28)); //added
-			exportFrame.setVisible(true);
-		    JScrollPane scrollPane = new JScrollPane(textArea);
-		    exportFrame.getContentPane().add(scrollPane);
-		} catch (IOException e) {
-		    JOptionPane.showMessageDialog(BlastOutputGui.this,
-		    		"Failed to save file",
-	                "Output Error",
-	                JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-		}
-	}
 }

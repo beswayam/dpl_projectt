@@ -39,6 +39,7 @@ public class MainGui extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	public File inputFile;
+	public File inputTsv;
 	public Sequence inputSeq;
 
 	public static void main(String[] args) {
@@ -241,6 +242,24 @@ public class MainGui extends JFrame {
         btnUploadtsv.setFocusPainted(false);
         btnUploadtsv.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnUploadtsv.setBorder(new EmptyBorder(8, 18, 8, 18));
+        btnUploadtsv.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) { 	
+            	
+            	JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter tsv_filter = new FileNameExtensionFilter(
+						"TSV files (*.tsv)","tsv"); 
+                fileChooser.setDialogTitle("Select BLAST output tsv File");
+                fileChooser.addChoosableFileFilter(tsv_filter);
+                fileChooser.setFileFilter(tsv_filter);
+                int file = fileChooser.showOpenDialog(MainGui.this);
+                if (file == JFileChooser.APPROVE_OPTION) {
+					inputTsv = fileChooser.getSelectedFile();
+					BlastViewGui blastviewer = new BlastViewGui(inputTsv);
+					blastviewer.setLocationRelativeTo(null);
+					blastviewer.setVisible(true);
+				}
+            }
+        });
         
         GridBagConstraints gbc_btnUploadtsv = new GridBagConstraints();
         gbc_btnUploadtsv.anchor = GridBagConstraints.WEST; // ── CHANGED: fits to text size
