@@ -208,6 +208,42 @@ public class MainGui extends JFrame {
         gbc_btnInputStatistics.gridy  = 7;
         contentPane.add(btnInputStatistics, gbc_btnInputStatistics);
         
+        JLabel lblUpload = new JLabel("Upload your .tsv result file to visualise results");
+        lblUpload.setFont(new Font("Monospaced", Font.PLAIN, 12)); // ── ADDED
+        lblUpload.setForeground(new Color(100, 116, 139));          // ── CHANGED: muted text
+        
+        GridBagConstraints gbc_lblUpload = new GridBagConstraints();
+        gbc_lblUpload.anchor = GridBagConstraints.WEST;
+        gbc_lblUpload.insets = new Insets(0, 6, 8, 5); // ── CHANGED: bottom 2 → 8
+        gbc_lblUpload.gridx  = 1;
+        gbc_lblUpload.gridy  = 8;
+        contentPane.add(lblUpload, gbc_lblUpload);
+        
+        JButton btnUploadtsv = new JButton("Upload .tsv file") {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(new Color(52, 211, 153)); // ── teal fill
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+                super.paintComponent(g);
+            }
+        };
+        btnUploadtsv.setFont(new Font("Monospaced", Font.BOLD, 12));
+        btnUploadtsv.setForeground(Color.WHITE);
+        btnUploadtsv.setContentAreaFilled(false);
+        btnUploadtsv.setBorderPainted(false);
+        btnUploadtsv.setFocusPainted(false);
+        btnUploadtsv.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnUploadtsv.setBorder(new EmptyBorder(8, 18, 8, 18));
+        
+        GridBagConstraints gbc_btnUploadtsv = new GridBagConstraints();
+        gbc_btnUploadtsv.anchor = GridBagConstraints.WEST; // ── CHANGED: fits to text size
+        gbc_btnUploadtsv.insets = new Insets(0, 0, 16, 5);
+        gbc_btnUploadtsv.gridx  = 1;
+        gbc_btnUploadtsv.gridy  = 9;
+        contentPane.add(btnUploadtsv, gbc_btnUploadtsv);
+        
         JLabel lblShowAppTime = new JLabel();
         lblShowAppTime.setVerticalAlignment(SwingConstants.BOTTOM);
         lblShowAppTime.setHorizontalAlignment(SwingConstants.RIGHT);
