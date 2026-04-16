@@ -2,7 +2,7 @@ package utilities;
 import java.time.Duration;
 import java.time.Instant;
 
-public class Time {
+public class Time implements Displayable {
 	
 	private final Instant startTime;
 	
@@ -16,6 +16,7 @@ public class Time {
 	}
 	
 	//Returns the time elapsed since instantiation of the object
+	@Override
 	public String display() {
 		Duration elapsed = Duration.between(startTime, Instant.now());
 		
@@ -54,5 +55,9 @@ public class Time {
 			output = String.format("Running for: %02d", seconds);
 		}
 		return output;
+	}
+	
+	public boolean needsUpdate() {
+		return true;
 	}
 }

@@ -23,6 +23,7 @@ import javax.swing.JFileChooser;
 import java.awt.SystemColor;
 
 import utilities.Date;
+import utilities.Displayable;
 import utilities.Sequence;
 import java.awt.Cursor; // ── ADDED: for hand cursor
 import javax.swing.border.Border; // ── ADDED
@@ -211,8 +212,6 @@ public class MainGui extends JFrame {
         gbc_btnInputStatistics.gridx  = 1;
         gbc_btnInputStatistics.gridy  = 8;
         contentPane.add(btnInputStatistics, gbc_btnInputStatistics);
-        Date today = new Date();
-        String todayFormat = today.display();
         
         // Help button of File Statistics
         JButton btnHelpFileStatistics = new JButton("Help");
@@ -251,10 +250,7 @@ public class MainGui extends JFrame {
         gbc_lblShowCurrDate.insets = new Insets(0, 0, 5, 5);
         gbc_lblShowCurrDate.gridx = 0;
         gbc_lblShowCurrDate.gridy = 18;
-        contentPane.add(lblShowCurrDate, gbc_lblShowCurrDate);
-        lblShowCurrDate.setText(todayFormat);
-        
-        
+        contentPane.add(lblShowCurrDate, gbc_lblShowCurrDate);      
         
         // Show Runtime of program 
         JLabel lblShowAppTime = new JLabel();
@@ -265,11 +261,25 @@ public class MainGui extends JFrame {
         gbc_lblShowAppTime.gridx = 2;
         gbc_lblShowAppTime.gridy = 18;
         contentPane.add(lblShowAppTime, gbc_lblShowAppTime);
-        Time time = new Time();
-        Instant startTime = time.getStartTime();
+        
+        Time currentTime = new Time();
+        Date today = new Date();
+        Displayable[] programmeInfo = {currentTime, today};
+        JLabel[] labels = {lblShowAppTime,lblShowCurrDate};
+        
+        //Set the time and date to correct label in a polymorphic manner
+        for (int i = 0; i < programmeInfo.length; i++) {
+        	labels[i].setText(programmeInfo[i].display());
+			}
+		
+		//Iteratively update the timedisplay in an iterative manner
         Timer timer = new Timer(1000, new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		lblShowAppTime.setText(time.display());
+        		for (int i = 0; i < programmeInfo.length; i++) {
+        			if (programmeInfo[i].needsUpdate()) {
+                	labels[i].setText(programmeInfo[i].display());
+        			}
+                }
         	}
         });
         timer.start();

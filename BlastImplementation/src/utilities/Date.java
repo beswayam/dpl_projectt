@@ -2,7 +2,7 @@ package utilities;
 
 import java.time.LocalDate;
 
-public class Date {
+public class Date implements Displayable {
 	
 	private int day;
 	private int month;
