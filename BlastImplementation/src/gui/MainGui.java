@@ -19,6 +19,8 @@ import java.time.Instant;
 import java.awt.event.ActionEvent;
 import javax.swing.JFileChooser;
 import java.awt.SystemColor;
+
+import utilities.Date;
 import utilities.Sequence;
 import java.awt.Cursor; // ── ADDED: for hand cursor
 import javax.swing.border.Border; // ── ADDED
@@ -207,6 +209,17 @@ public class MainGui extends JFrame {
         gbc_btnInputStatistics.gridx  = 1;
         gbc_btnInputStatistics.gridy  = 7;
         contentPane.add(btnInputStatistics, gbc_btnInputStatistics);
+        
+        JLabel lblShowCurrDate = new JLabel("");
+        lblShowCurrDate.setForeground(new Color(255, 255, 255));
+        GridBagConstraints gbc_lblShowCurrDate = new GridBagConstraints();
+        gbc_lblShowCurrDate.insets = new Insets(0, 0, 0, 5);
+        gbc_lblShowCurrDate.gridx = 0;
+        gbc_lblShowCurrDate.gridy = 12;
+        contentPane.add(lblShowCurrDate, gbc_lblShowCurrDate);
+        Date today = new Date();
+        String todayFormat = today.display();
+        lblShowCurrDate.setText(todayFormat);
         
         JLabel lblShowAppTime = new JLabel();
         lblShowAppTime.setVerticalAlignment(SwingConstants.BOTTOM);
