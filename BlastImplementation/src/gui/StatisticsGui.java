@@ -208,10 +208,12 @@ public class StatisticsGui extends JFrame {
 
 		btnGoToTool.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (seq.isProtein()) {
-					BlastGui stats = new BlastGui();
-					stats.setLocationRelativeTo(null);
-					stats.setVisible(true);
+
+				if (seq.isProtein()){
+					 BlastpGui stats = new BlastpGui();
+					 stats.setLocationRelativeTo(null);
+					 stats.setVisible(true);
+
 				} else {
 					JOptionPane.showMessageDialog(null,
 							toolToReferTo + " tool is still under construction.\nPlease, try again later.",
