@@ -6,13 +6,32 @@ import java.util.HashMap;
 
 import interfaces.StatisticsInterface;
 
+/**
+ * The NucleotideStatistics class extends Statistics and provides
+ * analytical methods for DNA sequences.
+ * 
+ * <p>It supports computation of GC content, GC skew, translation,
+ * codon usage, reverse compliment, and reading frame extraction.
+ */
 public class NucleotideStatistics extends Statistics implements StatisticsInterface {
-
+	
+	/**
+	 * Constructs a NucleotideStatistics object for a given sequence.
+	 * 
+	 * @param Sequence the DNA sequence to compute statistics of
+	 */
 	public NucleotideStatistics(Sequence Sequence) {
 		super(Sequence);
 	}
 
-	// GC skew = (G-C)/(G+C). Returns 0 when there are no G/C bases.
+	
+	/**
+	 * Calculates GC skew: (G - C) / (G + C).
+	 * 
+	 * <p>Returns 0.0 if no G or C bases are present.
+	 * 
+	 * @return the GC skew value
+	 */
 	public double gcSkew() {
 		HashMap<Character, Integer> nuc_counts = seqContents();
 		int gCount = nuc_counts.get('G');
@@ -24,7 +43,11 @@ public class NucleotideStatistics extends Statistics implements StatisticsInterf
 		return (double) (gCount - cCount) / denominator;
 	}
 
-	// calculate the GC content
+	/**
+	 * Calculates the GC content of the sequence.
+	 * 
+	 * @return GC content as a fraction between 0 and 1
+	 */
 	public double gcContent() {
 		if (seqLength() == 0) {
 			return 0.0;
@@ -40,7 +63,15 @@ public class NucleotideStatistics extends Statistics implements StatisticsInterf
 		return (double) gc / seqLength();
 	}
 
-	// get all codons within the specified reading frame
+	/**
+	 * Extracts the coding sequence from a given reading frame.
+	 * 
+	 * <p>Starts translation at the specified frame and continues
+	 * until a stop codon is encountered
+	 * 
+	 * @param kframe the reading frame offset (0, 1, 2)
+	 * @return the extracted coding DNA sequence
+	 */
 	public String readingFrame(int kframe) {
 		String seq = getSeq();
 		StringBuilder codon = new StringBuilder();
@@ -74,7 +105,12 @@ public class NucleotideStatistics extends Statistics implements StatisticsInterf
 		return codingSeq.toString();
 	}
 
-	// find all reading frames
+	/**
+	 * Computes all reading frames for the given frame indices.
+	 * 
+	 * @param rframe_idxs list of reading frame start positions
+	 * @return list of extracted coding sequences
+	 */
 	public ArrayList<String> allReadingFrames(ArrayList<Integer> rframe_idxs) {
 		ArrayList<String> rFrames = new ArrayList<>();
 
@@ -84,7 +120,13 @@ public class NucleotideStatistics extends Statistics implements StatisticsInterf
 		return rFrames;
 	}
 
-	// Translate full DNA sequence into one-letter amino-acid sequence.
+	/**
+	 * Translates the DNA sequence into a protein sequence.
+	 * 
+	 * <p>Codons are translated using codonUtils.
+	 * 
+	 * @return amino acid sequence as a string
+	 */
 	public String translate() {
 		String seq = getSeq();
 		StringBuilder protein = new StringBuilder();
@@ -103,7 +145,12 @@ public class NucleotideStatistics extends Statistics implements StatisticsInterf
 		return protein.toString();
 	}
 
-	// make a reverse compliment sequence of the dna sequence
+	/**
+	 * Generates the reverse complement of the DNA sequence.
+	 * 
+	 * @return reverse complement DNA sequence
+	 * @throws IllegalArgumentException if invalid bases are found
+	 */
 	public String reverseCompliment() {
 		String seq = getSeq();
 		StringBuilder revSeq = new StringBuilder(seq);
@@ -131,7 +178,11 @@ public class NucleotideStatistics extends Statistics implements StatisticsInterf
 		return revCompSeq.toString();
 	}
 
-	// Count codon usage across complete codons of the sequence.
+	/**
+	 * Calculates codon frequency across the sequence.
+	 * 
+	 * @return a map of codons and their occurrence counts
+	 */
 	public HashMap<String, Integer> getCodonFrequency() {
 		HashMap<String, Integer> codonFrequency = new HashMap<>();
 		String dna = getSeq();
