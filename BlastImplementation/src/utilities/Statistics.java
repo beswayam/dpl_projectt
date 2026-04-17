@@ -1,4 +1,3 @@
-// Statistics is a class within package utilities
 package utilities;
 
 import java.util.HashMap;
