@@ -8,181 +8,138 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
-
 public class Ssearch36Search {
 	private Sequence sequence;
 	private File ssearchresult;
 	private int errorCode;
-	
-    // maps the GUI names to the short matrix flags
-    private static String[][] MATRIX_MAP = {
-        {"BLOSUM45", "BL45"},
-        {"BLOSUM50", "BL50"},
-        {"BLOSUM62", "BL62"},
-        {"BLOSUM80", "BL80"},
-        {"BLOSUM90", "BL90"},
-        {"PAM30", "P30"},
-        {"PAM70", "P70"},
-        {"PAM250", "P250"}
-    };
-    
-    private static String getMatrixFlag(String displayName) {
-        String matrixFlag = "BL62";
-        for (String[] mapping : MATRIX_MAP) {
-            if (mapping[0].equals(displayName)) {
-                return mapping[1];
-            }
-        }
-        return matrixFlag;
-    }
 
-    /**
-     * Runs the local ssearch36 executable with the selected options.
-     */
-    public void setSequence(Sequence sequence) {
-    	this.sequence = sequence;
-    } 
-    
-    public int getErrorCode() {
-    	return this.errorCode;
-    }
-    
-    public void run(File dbFile, String evalue,
-        String maxSeqs, String matrix,
-        String outputPath) 
-        throws Exception {
-        String osName = System.getProperty("os.name");
-        String exeName = osName != null && osName.toLowerCase().contains("win") ? "ssearch36.exe" : "ssearch36";
-        String ssearchExe = "tools" + File.separator + exeName;
-        String matrixFlag = getMatrixFlag(matrix);
-        File queryFile = this.sequence.getFastaFile();
-        ProcessBuilder pb = new ProcessBuilder(
-                ssearchExe,
-                "-s", matrixFlag,
-                "-E", evalue,
-                "-b", maxSeqs,
-                "-d", maxSeqs,
-                queryFile.getPath(),
-                dbFile.getPath());
-        pb.redirectErrorStream(true);
-        pb.redirectOutput(new File(outputPath));
-        Process p = pb.start();
-        this.errorCode = p.waitFor();
-        this.ssearchresult = new File(outputPath);
-    }
-    
+	// maps the GUI names to the short matrix flags
+	private static String[][] MATRIX_MAP = { { "BLOSUM45", "BL45" }, { "BLOSUM50", "BL50" }, { "BLOSUM62", "BL62" },
+			{ "BLOSUM80", "BL80" }, { "BLOSUM90", "BL90" }, { "PAM30", "P30" }, { "PAM70", "P70" },
+			{ "PAM250", "P250" } };
+
+	private static String getMatrixFlag(String displayName) {
+		String matrixFlag = "BL62";
+		for (String[] mapping : MATRIX_MAP) {
+			if (mapping[0].equals(displayName)) {
+				return mapping[1];
+			}
+		}
+		return matrixFlag;
+	}
+
+	/**
+	 * Runs the local ssearch36 executable with the selected options.
+	 */
+	public void setSequence(Sequence sequence) {
+		this.sequence = sequence;
+	}
+
+	public int getErrorCode() {
+		return this.errorCode;
+	}
+
+	public void run(File dbFile, String evalue, String maxSeqs, String matrix, String outputPath) throws Exception {
+		String osName = System.getProperty("os.name");
+		String exeName = osName != null && osName.toLowerCase().contains("win") ? "ssearch36.exe" : "ssearch36";
+		String ssearchExe = "tools" + File.separator + exeName;
+		String matrixFlag = getMatrixFlag(matrix);
+		File queryFile = this.sequence.getFastaFile();
+		ProcessBuilder pb = new ProcessBuilder(ssearchExe, "-s", matrixFlag, "-E", evalue, "-b", maxSeqs, "-d", maxSeqs,
+				queryFile.getPath(), dbFile.getPath());
+		pb.redirectErrorStream(true);
+		pb.redirectOutput(new File(outputPath));
+		Process p = pb.start();
+		this.errorCode = p.waitFor();
+		this.ssearchresult = new File(outputPath);
+	}
+
 	public void parseBlastCustomDatabase(File outfile) {
-		// Claude generated this parser code for us based on a non functional template made by us.
+		// Claude generated this parser code for us based on a non functional template
+		// made by us.
 		// We checked that the code works correctly.
 		// Part of the code was not written by Claude, this segment is labelled as such
 
-	    File blastOutputCustomDatabase = this.ssearchresult;
-	    String pathBlastFile = blastOutputCustomDatabase.getPath();
-	    try (Scanner blastOutput = new Scanner(blastOutputCustomDatabase)) {
+		File blastOutputCustomDatabase = this.ssearchresult;
+		String pathBlastFile = blastOutputCustomDatabase.getPath();
+		try (Scanner blastOutput = new Scanner(blastOutputCustomDatabase)) {
 
-	        FileWriter blastOutputTsv = new FileWriter(outfile, false);
-	        blastOutputTsv.write(
-	            "hit\tid\tdescription\tmatch_sequence\teval\tbitscore\tidentity\t" +
-	            "query_sequence\tquery_start\tquery_end\tmatch_start\tmatch_end\n"
-	        );
+			FileWriter blastOutputTsv = new FileWriter(outfile, false);
+			blastOutputTsv.write("hit\tid\tdescription\tmatch_sequence\teval\tbitscore\tidentity\t"
+					+ "query_sequence\tquery_start\tquery_end\tmatch_start\tmatch_end\n");
 
-	        int hitNum = 0;
-	        String line = "";
-	        	        while (blastOutput.hasNextLine()) {
+			int hitNum = 0;
+			String line = "";
+			while (blastOutput.hasNextLine()) {
 
-	        	
+				if (line.startsWith(">>")) {
+					hitNum++;
 
-	            if (line.startsWith(">>")) {
-	                hitNum++;
+					String[] pipeParts = line.split("\\|");
+					String id = "";
+					String description = "";
+					if (pipeParts.length > 2) {
+						id = pipeParts[1].trim();
+						description = pipeParts[2].trim();
+					} else {
+						id = pipeParts[0].trim();
+						description = "n/a";
+					}
 
-	                String[] pipeParts   = line.split("\\|");
-	                String id = "";
-	                String description = "";
-	                if(pipeParts.length>2) {
-	                	id = pipeParts[1].trim();
-	                	description = pipeParts[2].trim();
-	                }
-	                else {
-	                	id = pipeParts[0].trim();
-	                	description = "n/a";
-	                }
-	                
-	                String scoreLine = blastOutput.nextLine().trim();
-	                String bitScore = scoreLine.split("bits:")[1].trim().split(" ")[0];
-	                String eval = scoreLine.split("E\\(")[1].split("\\):")[1].trim();
-	                
-	                String swLine = blastOutput.nextLine().trim();
-	                String identity = swLine.split(";")[1].trim().split("%")[0].trim();
-	                String positions = swLine
-	                    .substring(swLine.lastIndexOf("(") + 1)
-	                    .replace(")", "")
-	                    .trim();
-	                String queryRange = positions.split(":")[0];
-	                String matchRange = positions.split(":")[1];
-	                String queryStart = queryRange.split("-")[0];
-	                String queryEnd   = queryRange.split("-")[1];
-	                String matchStart = matchRange.split("-")[0];
-	                String matchEnd   = matchRange.split("-")[1];
-	                
-	                // This section was not generated by Claude
-	                String querySeq = "";
-	                String matchSeq = "";
+					String scoreLine = blastOutput.nextLine().trim();
+					String bitScore = scoreLine.split("bits:")[1].trim().split(" ")[0];
+					String eval = scoreLine.split("E\\(")[1].split("\\):")[1].trim();
 
-	                line = blastOutput.nextLine();
-	                line = blastOutput.nextLine();
+					String swLine = blastOutput.nextLine().trim();
+					String identity = swLine.split(";")[1].trim().split("%")[0].trim();
+					String positions = swLine.substring(swLine.lastIndexOf("(") + 1).replace(")", "").trim();
+					String queryRange = positions.split(":")[0];
+					String matchRange = positions.split(":")[1];
+					String queryStart = queryRange.split("-")[0];
+					String queryEnd = queryRange.split("-")[1];
+					String matchStart = matchRange.split("-")[0];
+					String matchEnd = matchRange.split("-")[1];
 
-	                while (blastOutput.hasNextLine()) {
-	                    line = blastOutput.nextLine();
-	                    querySeq += line.substring(7).replaceAll("[\\r\\n]+", "");
-	                    line = blastOutput.nextLine();
-	                    line = blastOutput.nextLine();
-	                    matchSeq += line.substring(7).replaceAll("[\\r\\n]+", "");
-	                    line = blastOutput.nextLine();
-	                    line = blastOutput.nextLine();
-	                    line = blastOutput.nextLine();
-	                    if(line.trim().isEmpty()==true) {
-	                    	break;}
-	                    if(line.trim().substring(0, 1).compareTo(">")==0)  {
-	                    	break;
-	                    }
-	                    
-	                }
+					// This section was not generated by Claude
+					String querySeq = "";
+					String matchSeq = "";
 
-	                blastOutputTsv.write(
-	                    hitNum      + "\t" +
-	                    id          + "\t" +
-	                    description + "\t" +
-	                    matchSeq + "\t" +
-	                    eval        + "\t" +
-	                    bitScore    + "\t" +
-	                    identity    + "\t" +
-	                    querySeq  + "\t" +
-	                    queryStart  + "\t" +
-	                    queryEnd    + "\t" +
-	                    matchStart  + "\t" +
-	                    matchEnd    + "\t" + "\n"
-	                );
-	            }
-	            else {
-	            	line = blastOutput.nextLine();
-	            }
-	        }
-	        blastOutputTsv.close();
+					line = blastOutput.nextLine();
+					line = blastOutput.nextLine();
 
-	    } catch (FileNotFoundException e) {
-	        JOptionPane.showMessageDialog(
-	            null,
-	            "Could not find the SSEARCH results file at:\n" + pathBlastFile,
-	            "File Not Found",
-	            JOptionPane.ERROR_MESSAGE
-	        );
-	    } catch (IOException e) {
-	        JOptionPane.showMessageDialog(
-	            null,
-	            "Failed to write output to TSV file.",
-	            "Output Error",
-	            JOptionPane.ERROR_MESSAGE
-	        );
-	    }
+					while (blastOutput.hasNextLine()) {
+						line = blastOutput.nextLine();
+						querySeq += line.substring(7).replaceAll("[\\r\\n]+", "");
+						line = blastOutput.nextLine();
+						line = blastOutput.nextLine();
+						matchSeq += line.substring(7).replaceAll("[\\r\\n]+", "");
+						line = blastOutput.nextLine();
+						line = blastOutput.nextLine();
+						line = blastOutput.nextLine();
+						if (line.trim().isEmpty() == true) {
+							break;
+						}
+						if (line.trim().substring(0, 1).compareTo(">") == 0) {
+							break;
+						}
+
+					}
+
+					blastOutputTsv.write(hitNum + "\t" + id + "\t" + description + "\t" + matchSeq + "\t" + eval + "\t"
+							+ bitScore + "\t" + identity + "\t" + querySeq + "\t" + queryStart + "\t" + queryEnd + "\t"
+							+ matchStart + "\t" + matchEnd + "\t" + "\n");
+				} else {
+					line = blastOutput.nextLine();
+				}
+			}
+			blastOutputTsv.close();
+
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "Could not find the SSEARCH results file at:\n" + pathBlastFile,
+					"File Not Found", JOptionPane.ERROR_MESSAGE);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Failed to write output to TSV file.", "Output Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }
