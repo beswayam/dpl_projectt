@@ -222,12 +222,9 @@ public class StatisticsGui extends JFrame {
 					 stats.setLocationRelativeTo(null);
 					 stats.setVisible(true);
 				} else {
-				  JOptionPane.showMessageDialog(
-				            null,
-				            toolToReferTo + 
-				            " tool is still under construction.\nPlease, try again later.", 
-				            toolToReferTo + " not found",
-				            JOptionPane.ERROR_MESSAGE);
+					BlastnGui blastn = new BlastnGui();
+	                blastn.setLocationRelativeTo(null);
+	                blastn.setVisible(true);
 				}
 			}	
 		});
