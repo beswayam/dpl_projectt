@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -19,23 +18,12 @@ import java.awt.Font;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.Scanner;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.BlastResult;
-import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.UniProtHit;
-import utilities.BlastnSearch;
-import utilities.BlastpSearch;
 import utilities.MultipleSequenceParser;
 import utilities.Sequence;
-import utilities.Statistics;
 import utilities.Ssearch36Search;
 import java.awt.Cursor; // ── ADDED: hand cursor
 import java.awt.Graphics; // ── ADDED: for rounded buttons
@@ -44,8 +32,7 @@ import java.awt.RenderingHints; // ── ADDED: for smooth edges
 import javax.swing.JSeparator; // ── ADDED: separator line
 
 public class BlastnGui extends JFrame {
-	private static BlastnSearch blastnsearch = new BlastnSearch();
-	private static Ssearch36Search ssearch36search = new Ssearch36Search();
+	private static Ssearch36Search ssearch36search = new Ssearch36Search(false);
 	private ArrayList<Sequence> sequencelist;
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -345,6 +332,7 @@ public class BlastnGui extends JFrame {
 		btnBLAST.setFocusPainted(false);
 		btnBLAST.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED
 		btnBLAST.setBorder(new EmptyBorder(10, 30, 10, 30));
+
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -375,72 +363,69 @@ public class BlastnGui extends JFrame {
 					dialog.setLocationRelativeTo(BlastnGui.this);
 					dialog.setVisible(true);
 					dialog.paintAll(dialog.getGraphics());
-
-					if (dbFile != null) {
-						try {
-							Sequence sequence = null;
-							ArrayList<File> fileList = new ArrayList<File>();
-							ArrayList<String> headerList = new ArrayList<String>();
-							for (int i = 0; i < sequencelist.size(); i++) {
-								sequence = sequencelist.get(i);
+					
+				if (dbFile != null) {
+					try {
+						Sequence sequence = null;
+						ArrayList<File> fileList = new ArrayList<File>();
+						ArrayList<String> headerList = new ArrayList<String>();
+						for(int i = 0; i < sequencelist.size(); i++) {
+							sequence = sequencelist.get(i);
+							if(sequence.isProtein()==true) {
+								JOptionPane.showMessageDialog(BlastnGui.this,
+										"File contains protein sequences.\n"
+										+ "Please fix the sequence or use BLASTP instead.",
+										"Search Error", JOptionPane.ERROR_MESSAGE);
+								dialog.dispose();
+								return;
+							}
 								String outPath = "project_data" + File.separator + "ssearch_results.txt";
 								ssearch36search.setSequence(sequence);
-								ssearch36search.run(dbFile, Evalue.getSelectedItem().toString(),
-										MaxSeqs.getSelectedItem().toString(),
-										ScoringMatrix.getSelectedItem().toString(), outPath);
-
-								// close BLAST running dialog
+								ssearch36search.run(
+								dbFile,
+								Evalue.getSelectedItem().toString(),
+								MaxSeqs.getSelectedItem().toString(),
+								outPath);
+								//close BLAST running dialog
 								dialog.dispose();
-
-								if (ssearch36search.getErrorCode() == 0) {
-									File file = new File("project_data" + File.separator + "temp_output.tsv");
-									int filenum = 1;
-									while (file.isFile()) {
-										file = new File(
-												"project_data" + File.separator + "temp_output_" + filenum + ".tsv");
-										filenum++;
-									}
-									ssearch36search.parseBlastCustomDatabase(file);
-									String header = "Sequence";
-									fileList.add(file);
-									headerList.add(header);
-								} else {
-									JOptionPane.showMessageDialog(BlastnGui.this,
-											"SSEARCH36 failed (exit code " + ssearch36search.getErrorCode() + ").\n"
-													+ "Check that ssearch36.exe exists in the tools folder.",
-											"Search Error", JOptionPane.ERROR_MESSAGE);
+								
+							if (ssearch36search.getErrorCode() == 0) {
+								File file = new File("project_data"+File.separator+"temp_output.tsv");
+								int filenum = 1;
+								while(file.isFile()) {
+									file = new File("project_data"+File.separator+"temp_output_"+filenum+".tsv");
+									filenum++;
 								}
+								ssearch36search.parseBlastCustomDatabase(file);
+								String header = "Sequence";
+								fileList.add(file);
+								headerList.add(header);
+							} else {
+								JOptionPane.showMessageDialog(BlastnGui.this,
+									"SSEARCH36 failed (exit code " + ssearch36search.getErrorCode() + ").\n"
+									+ "Check that ssearch36.exe exists in the tools folder.",
+									"Search Error", JOptionPane.ERROR_MESSAGE);
+							}
 							}
 							BlastOutputGuiFunctions blastpout = new BlastOutputGui(fileList, headerList);
 							blastpout.setLocationRelativeTo(null);
-							blastpout.setVisible(true);
+						    blastpout.setVisible(true);
 						} catch (Exception ex) {
-							JOptionPane.showMessageDialog(BlastnGui.this, "SSEARCH36 failed: " + ex.getMessage(),
-									"Search Error", JOptionPane.ERROR_MESSAGE);
-						}
-						return;
+							JOptionPane.showMessageDialog(BlastnGui.this,
+								"SSEARCH36 failed: " + ex.getMessage(),
+								"Search Error", JOptionPane.ERROR_MESSAGE);
+							dialog.dispose();
 					}
-					ArrayList<File> fileList = new ArrayList<File>();
-					ArrayList<String> headerList = new ArrayList<String>();
-					for (int i = 0; i < sequencelist.size(); i++) {
-						Sequence sequence = sequencelist.get(i);
-						Object[] fileData = performBlastN(sequence, Float.valueOf(Evalue.getSelectedItem().toString()),
-								Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
-						File file = (File) fileData[0];
-						String header = (String) fileData[1];
-						fileList.add(file);
-						headerList.add(header);
-					}
-
-					// close BLAST running dialog
-					dialog.dispose();
-
-					BlastOutputGuiFunctions blastpout = new BlastOutputGui(fileList, headerList);
-					blastpout.setLocationRelativeTo(null);
-					blastpout.setVisible(true);
+					return;
 				}
-			}
-		});
+				else {
+					JOptionPane.showMessageDialog(BlastnGui.this,
+							"Please upload a database file",
+							"Database Error", JOptionPane.WARNING_MESSAGE);
+					dialog.dispose();
+				}
+				
+			}}});
 
 		GridBagConstraints gbc_btnBLAST = new GridBagConstraints();
 		gbc_btnBLAST.anchor = GridBagConstraints.WEST; // ── CHANGED: fits to text width
@@ -492,21 +477,4 @@ public class BlastnGui extends JFrame {
 
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
-
-	private static Object[] performBlastN(Sequence sequence, float mineval, int maxseq) {
-		blastnsearch.setSequence(sequence);
-		blastnsearch.runDefault();
-		File file = new File("project_data" + File.separator + "temp_output.tsv");
-		int filenum = 1;
-		while (file.isFile()) {
-			file = new File("project_data" + File.separator + "temp_output_" + filenum + ".tsv");
-			filenum++;
-		}
-		blastnsearch.writeDefaultBlastOutput(mineval, maxseq, file);
-		String seqstring = sequence.getSequence();
-		String header = seqstring.split("\\r?\\n")[0].split(" ")[0].substring(1);
-		Object[] fileData = { file, header };
-		return fileData;
-	}
-
 }

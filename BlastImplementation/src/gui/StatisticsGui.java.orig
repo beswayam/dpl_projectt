@@ -208,7 +208,7 @@ public class StatisticsGui extends JFrame {
 
 		btnGoToTool.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
+
 				if (seq.isProtein()){
 					 BlastpGui stats = new BlastpGui();
 					 stats.setLocationRelativeTo(null);
@@ -217,16 +217,8 @@ public class StatisticsGui extends JFrame {
 					BlastnGui blastn = new BlastnGui();
 	                blastn.setLocationRelativeTo(null);
 	                blastn.setVisible(true);
-=======
-				if (seq.isProtein()) {
-					BlastGui stats = new BlastGui();
-					stats.setLocationRelativeTo(null);
-					stats.setVisible(true);
-				} else {
-					JOptionPane.showMessageDialog(null,
-							toolToReferTo + " tool is still under construction.\nPlease, try again later.",
-							toolToReferTo + " not found", JOptionPane.ERROR_MESSAGE);
->>>>>>> 6fc79b79ffac26e4870e02e8da90617280bddb2f
+
+
 				}
 			}
 		});
