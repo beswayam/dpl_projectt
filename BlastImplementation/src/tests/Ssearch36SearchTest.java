@@ -52,14 +52,6 @@ public class Ssearch36SearchTest extends TestCase {
         	String header;
         	header = blastOutputTsv.nextLine();
         	assertEquals("hit\tid\tdescription\tmatch_sequence\teval\tbitscore\tidentity\tquery_sequence\tquery_start\tquery_end\tmatch_start\tmatch_end",header);
-		
-	}
-    catch (FileNotFoundException fe)
-    {
-	    JOptionPane.showMessageDialog(new JOptionPane(), 
-	    		"Failed to open output file", 
-                "Output Error", 
-                JOptionPane.ERROR_MESSAGE);
-	    fe.printStackTrace();
-    }}
+	
+        }}
 }
