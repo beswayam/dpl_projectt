@@ -13,7 +13,7 @@ import utilities.Ssearch36Search;
 
 // JUnit 3 test class for the ssearch36 utility
 public class Ssearch36SearchTest extends TestCase {
-	private static Ssearch36Search ssearch36search = new Ssearch36Search();
+	private static Ssearch36Search ssearch36search = new Ssearch36Search(true);
 	
     public void testRunReturnsZeroForValidInput() throws Exception {
         File dbFile = File.createTempFile("ssearch_db", ".fasta");
@@ -23,11 +23,11 @@ public class Ssearch36SearchTest extends TestCase {
         dbWriter.write(">db\nMKTAYIAKQRQISFVKSHFSRQDILDLWQ\n");
         dbWriter.close();
         ssearch36search.setSequence(sequence);
+        ssearch36search.setMatrixFlag("BLOSUM62");
        	ssearch36search.run(
                 dbFile,
                 "1e-5",
                 "10",
-                "BLOSUM62",
                 outputFile.getAbsolutePath());
         assertEquals(0, ssearch36search.getErrorCode());
     }
@@ -44,7 +44,6 @@ public class Ssearch36SearchTest extends TestCase {
                 dbFile,
                 "1e-5",
                 "10",
-                "BLOSUM62",
                 outputFile.getAbsolutePath());
         assertEquals(0, ssearch36search.getErrorCode());
         File outputTsv = new File("project_data"+File.separator+"temp_output.tsv");

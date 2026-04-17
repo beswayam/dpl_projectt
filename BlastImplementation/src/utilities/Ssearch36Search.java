@@ -13,6 +13,8 @@ public class Ssearch36Search {
 	private Sequence sequence;
 	private File ssearchresult;
 	private int errorCode;
+	private boolean protein;
+	private static String matrixFlag;
 	
     // maps the GUI names to the short matrix flags
     private static String[][] MATRIX_MAP = {
@@ -26,14 +28,16 @@ public class Ssearch36Search {
         {"PAM250", "P250"}
     };
     
-    private static String getMatrixFlag(String displayName) {
-        String matrixFlag = "BL62";
+    public Ssearch36Search(boolean protein) {
+		this.protein=protein;
+	}
+
+	public void setMatrixFlag(String displayName) {
         for (String[] mapping : MATRIX_MAP) {
             if (mapping[0].equals(displayName)) {
-                return mapping[1];
+            	matrixFlag = mapping[1];
             }
         }
-        return matrixFlag;
     }
 
     /**
@@ -48,16 +52,17 @@ public class Ssearch36Search {
     }
     
     public void run(File dbFile, String evalue,
-        String maxSeqs, String matrix,
-        String outputPath) 
+        String maxSeqs, String outputPath) 
         throws Exception {
         String osName = System.getProperty("os.name");
         String exeName = osName != null && osName.toLowerCase().contains("win") ? "ssearch36.exe" : "ssearch36";
         String ssearchExe = "tools" + File.separator + exeName;
-        String matrixFlag = getMatrixFlag(matrix);
         File queryFile = this.sequence.getFastaFile();
-        ProcessBuilder pb = new ProcessBuilder(
+        ProcessBuilder pb;
+        if(this.protein) {
+        	pb = new ProcessBuilder(
                 ssearchExe,
+                "-p",
                 "-s", matrixFlag,
                 "-E", evalue,
                 "-b", maxSeqs,
@@ -65,7 +70,19 @@ public class Ssearch36Search {
                 queryFile.getPath(),
                 dbFile.getPath());
         pb.redirectErrorStream(true);
-        pb.redirectOutput(new File(outputPath));
+        pb.redirectOutput(new File(outputPath));}
+        else {
+        	pb = new ProcessBuilder(
+                    ssearchExe,
+                    "-n",
+                    "-E", evalue,
+                    "-b", maxSeqs,
+                    "-d", maxSeqs,
+                    queryFile.getPath(),
+                    dbFile.getPath());
+            pb.redirectErrorStream(true);
+            pb.redirectOutput(new File(outputPath));}
+        
         Process p = pb.start();
         this.errorCode = p.waitFor();
         this.ssearchresult = new File(outputPath);

@@ -140,7 +140,7 @@ public class MainGui extends JFrame {
         btnBlastpInterface.setBorder(new EmptyBorder(8, 18, 8, 18)); // ── padding inside button
         btnBlastpInterface.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                BlastGui blastp = new BlastGui();
+                BlastpGui blastp = new BlastpGui();
                 blastp.setLocationRelativeTo(null);
                 blastp.setVisible(true);
             }
