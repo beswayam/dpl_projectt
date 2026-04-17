@@ -42,7 +42,7 @@ import java.awt.Graphics2D;        // ── ADDED: for rounded buttons
 import java.awt.RenderingHints;    // ── ADDED: for smooth edges
 import javax.swing.JSeparator;     // ── ADDED: separator line
 
-public class BlastGui extends JFrame {
+public class BlastpGui extends JFrame {
 	private static BlastpSearch blastpsearch = new BlastpSearch();
 	private static Ssearch36Search ssearch36search = new Ssearch36Search();
 	private ArrayList<Sequence> sequencelist;
@@ -54,7 +54,7 @@ public class BlastGui extends JFrame {
     public File queryFile = null;
     public File dbFile = null;
 
-	public BlastGui() {
+	public BlastpGui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 943, 676);
 		setTitle("EzBLAST — BLASTP"); //added
@@ -196,7 +196,7 @@ public class BlastGui extends JFrame {
         btnInputSequenceUpload.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 if (!txtrInputsequence.getText().trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(BlastGui.this,
+                    JOptionPane.showMessageDialog(BlastpGui.this,
                         "Please clear the text area before uploading a file.",
                         "Input Error", JOptionPane.WARNING_MESSAGE);
                     return;
@@ -205,7 +205,7 @@ public class BlastGui extends JFrame {
                 FileNameExtensionFilter fasta_filter = new FileNameExtensionFilter("Fasta file", "fasta");
                 fileChooser.setDialogTitle("Select Query FASTA File");
                 fileChooser.setFileFilter(fasta_filter);
-                if (fileChooser.showOpenDialog(BlastGui.this) == JFileChooser.APPROVE_OPTION) {
+                if (fileChooser.showOpenDialog(BlastpGui.this) == JFileChooser.APPROVE_OPTION) {
                     queryFile = fileChooser.getSelectedFile();
                     btnInputSequenceUpload.setText("Selected: " + queryFile.getName());
                     btnInputSequenceUpload.setForeground(new Color(52, 211, 153)); // ── ADDED: green on select
@@ -237,7 +237,7 @@ public class BlastGui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setDialogTitle("Select Database FASTA File");
-                if (fileChooser.showOpenDialog(BlastGui.this) == JFileChooser.APPROVE_OPTION) {
+                if (fileChooser.showOpenDialog(BlastpGui.this) == JFileChooser.APPROVE_OPTION) {
                     dbFile = fileChooser.getSelectedFile();
                     btnUploadDatabase.setText("Database: " + dbFile.getName());
                     btnUploadDatabase.setForeground(new Color(52, 211, 153)); // ── ADDED: green on select
@@ -366,7 +366,7 @@ public class BlastGui extends JFrame {
 					}
 				} catch (IllegalArgumentException ex) {
 					JOptionPane.showMessageDialog(
-					        BlastGui.this,
+					        BlastpGui.this,
 					        ex.getMessage(),
 					        "Input Error",
 					        JOptionPane.WARNING_MESSAGE
@@ -374,20 +374,20 @@ public class BlastGui extends JFrame {
 					return;
 				}
 				if (sequencelist == null) {
-				    JOptionPane.showMessageDialog(BlastGui.this,
+				    JOptionPane.showMessageDialog(BlastpGui.this,
 				    		"Please provide a sequence via textbox or file",
 			                "Input Error",
 			                JOptionPane.WARNING_MESSAGE);
 				}
 				else {
 					//show message that BLAST is running
-					JDialog dialog = new JDialog(BlastGui.this, "Loading", false);
+					JDialog dialog = new JDialog(BlastpGui.this, "Loading", false);
 					JLabel loadingLabel = new JLabel("BLAST is running, please wait...", JLabel.CENTER);
 					loadingLabel.setFont(new Font("Monospaced", Font.PLAIN, 13));
 					loadingLabel.setBorder(new EmptyBorder(20, 30, 20, 30));
 					dialog.getContentPane().add(loadingLabel);
 					dialog.pack();
-					dialog.setLocationRelativeTo(BlastGui.this);
+					dialog.setLocationRelativeTo(BlastpGui.this);
 					dialog.setVisible(true);
 					dialog.paintAll(dialog.getGraphics());
 					
@@ -422,7 +422,7 @@ public class BlastGui extends JFrame {
 							fileList.add(file);
 							headerList.add(header);
 						} else {
-							JOptionPane.showMessageDialog(BlastGui.this,
+							JOptionPane.showMessageDialog(BlastpGui.this,
 								"SSEARCH36 failed (exit code " + ssearch36search.getErrorCode() + ").\n"
 								+ "Check that ssearch36.exe exists in the tools folder.",
 								"Search Error", JOptionPane.ERROR_MESSAGE);
@@ -432,7 +432,7 @@ public class BlastGui extends JFrame {
 						blastpout.setLocationRelativeTo(null);
 					    blastpout.setVisible(true);
 					} catch (Exception ex) {
-						JOptionPane.showMessageDialog(BlastGui.this,
+						JOptionPane.showMessageDialog(BlastpGui.this,
 							"SSEARCH36 failed: " + ex.getMessage(),
 							"Search Error", JOptionPane.ERROR_MESSAGE);
 					}
