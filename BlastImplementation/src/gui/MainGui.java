@@ -119,7 +119,7 @@ public class MainGui extends JFrame {
         contentPane.add(lblBlast, gbc_lblBlast);
 
         // ── BLASTP button ─────────────────────────────────────────────────────
-        JButton btnBlastInterface = new JButton("BLASTP") {
+        JButton btnBlastpInterface = new JButton("BLASTP") {
             @Override
             protected void paintComponent(Graphics g) {
                 // RenderingHints makes the edges smooth and not jagged
@@ -131,27 +131,85 @@ public class MainGui extends JFrame {
             }
         };
         
-        btnBlastInterface.setFont(new Font("Monospaced", Font.BOLD, 12));
-        btnBlastInterface.setForeground(Color.WHITE);
-        btnBlastInterface.setContentAreaFilled(false); // ── lets our custom paint show
-        btnBlastInterface.setBorderPainted(false);      // ── removes default border
-        btnBlastInterface.setFocusPainted(false);
-        btnBlastInterface.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnBlastInterface.setBorder(new EmptyBorder(8, 18, 8, 18)); // ── padding inside button
-        btnBlastInterface.addActionListener(new ActionListener() {
+        btnBlastpInterface.setFont(new Font("Monospaced", Font.BOLD, 12));
+        btnBlastpInterface.setForeground(Color.WHITE);
+        btnBlastpInterface.setContentAreaFilled(false); // ── lets our custom paint show
+        btnBlastpInterface.setBorderPainted(false);      // ── removes default border
+        btnBlastpInterface.setFocusPainted(false);
+        btnBlastpInterface.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnBlastpInterface.setBorder(new EmptyBorder(8, 18, 8, 18)); // ── padding inside button
+        btnBlastpInterface.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 BlastGui blastp = new BlastGui();
                 blastp.setLocationRelativeTo(null);
                 blastp.setVisible(true);
             }
         });
-        GridBagConstraints gbc_btnBlastInterface = new GridBagConstraints();
-        gbc_btnBlastInterface.anchor = GridBagConstraints.WEST; // ── CHANGED: no fill, fits to text
-        gbc_btnBlastInterface.insets = new Insets(0, 0, 16, 5);
-        gbc_btnBlastInterface.gridx  = 1;
-        gbc_btnBlastInterface.gridy  = 4;
-        contentPane.add(btnBlastInterface, gbc_btnBlastInterface);
+        GridBagConstraints gbc_btnBlastpInterface = new GridBagConstraints();
+        gbc_btnBlastpInterface.anchor = GridBagConstraints.WEST; // ── CHANGED: no fill, fits to text
+        gbc_btnBlastpInterface.insets = new Insets(0, 0, 16, 5);
+        gbc_btnBlastpInterface.gridx  = 1;
+        gbc_btnBlastpInterface.gridy  = 4;
+        contentPane.add(btnBlastpInterface, gbc_btnBlastpInterface);
+        
+        JLabel lblBlastp = new JLabel("Run a protein sequence alignment");
+        lblBlastp.setFont(new Font("Monospaced", Font.PLAIN, 12)); // ── ADDED
+        lblBlastp.setForeground(new Color(100, 116, 139));          // ── CHANGED: muted text
+        
+        GridBagConstraints gbc_lblBlastp = new GridBagConstraints();
+        gbc_lblBlastp.anchor = GridBagConstraints.WEST;
+        gbc_lblBlastp.insets = new Insets(0, 6, 8, 5); // ── CHANGED: bottom 2 → 8
+        gbc_lblBlastp.gridx  = 1;
+        gbc_lblBlastp.gridy  = 3;
+        contentPane.add(lblBlastp, gbc_lblBlastp);
 
+        // ── BLASTN label ─────────────────────────────────────────────
+        JLabel lblBlastn = new JLabel("Run a nucleotide sequence alignment");
+        lblBlastn.setFont(new Font("Monospaced", Font.PLAIN, 12)); // ── ADDED
+        lblBlastn.setForeground(new Color(100, 116, 139));          // ── CHANGED: muted text
+        
+        GridBagConstraints gbc_lblBlastn = new GridBagConstraints();
+        gbc_lblBlastn.anchor = GridBagConstraints.WEST;
+        gbc_lblBlastn.insets = new Insets(0, 6, 8, 5); // ── CHANGED: bottom 2 → 8
+        gbc_lblBlastn.gridx  = 1;
+        gbc_lblBlastn.gridy  = 5;
+        contentPane.add(lblBlastn, gbc_lblBlastn);
+        
+        
+        // ── BLASTN button ─────────────────────────────────────────────────────
+        JButton btnBlastnInterface = new JButton("BLASTN") {
+            @Override
+            protected void paintComponent(Graphics g) {
+                // RenderingHints makes the edges smooth and not jagged
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(new Color(56, 189, 248)); // ── blue fill
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20); // ── 20 = roundness of corners
+                super.paintComponent(g);
+            }
+        };
+       
+        btnBlastnInterface.setFont(new Font("Monospaced", Font.BOLD, 12));
+        btnBlastnInterface.setForeground(Color.WHITE);
+        btnBlastnInterface.setContentAreaFilled(false); // ── lets our custom paint show
+        btnBlastnInterface.setBorderPainted(false);      // ── removes default border
+        btnBlastnInterface.setFocusPainted(false);
+        btnBlastnInterface.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnBlastnInterface.setBorder(new EmptyBorder(8, 18, 8, 18)); // ── padding inside button
+        btnBlastnInterface.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                BlastnGui blastn = new BlastnGui();
+                blastn.setLocationRelativeTo(null);
+                blastn.setVisible(true);
+            }
+        });
+        GridBagConstraints gbc_btnBlastnInterface = new GridBagConstraints();
+        gbc_btnBlastnInterface.anchor = GridBagConstraints.WEST; // ── CHANGED: no fill, fits to text
+        gbc_btnBlastnInterface.insets = new Insets(0, 0, 16, 5);
+        gbc_btnBlastnInterface.gridx  = 1;
+        gbc_btnBlastnInterface.gridy  = 6;
+        contentPane.add(btnBlastnInterface, gbc_btnBlastnInterface);        
+        
         // ── File Statistics label ─────────────────────────────────────────────
         JLabel lblStats = new JLabel("Analyse a FASTA file and view sequence statistics");
         lblStats.setFont(new Font("Monospaced", Font.PLAIN, 12)); // ── ADDED
@@ -161,7 +219,7 @@ public class MainGui extends JFrame {
         gbc_lblStats.anchor = GridBagConstraints.WEST;
         gbc_lblStats.insets = new Insets(0, 6, 8, 5); // ── CHANGED: bottom 2 → 8
         gbc_lblStats.gridx  = 1;
-        gbc_lblStats.gridy  = 6;
+        gbc_lblStats.gridy  = 7;
         contentPane.add(lblStats, gbc_lblStats);
 
         // ── File Statistics button ────────────────────────────────────────────
