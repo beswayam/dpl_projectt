@@ -14,79 +14,58 @@ public class Ssearch36Search {
 	private int errorCode;
 	private boolean protein;
 	private static String matrixFlag;
-	
-    // maps the GUI names to the short matrix flags
-    private static String[][] MATRIX_MAP = {
-        {"BLOSUM45", "BL45"},
-        {"BLOSUM50", "BL50"},
-        {"BLOSUM62", "BL62"},
-        {"BLOSUM80", "BL80"},
-        {"BLOSUM90", "BL90"},
-        {"PAM30", "P30"},
-        {"PAM70", "P70"},
-        {"PAM250", "P250"}
-    };
-    
-    public Ssearch36Search(boolean protein) {
-		this.protein=protein;
+
+	// maps the GUI names to the short matrix flags
+	private static String[][] MATRIX_MAP = { { "BLOSUM45", "BL45" }, { "BLOSUM50", "BL50" }, { "BLOSUM62", "BL62" },
+			{ "BLOSUM80", "BL80" }, { "BLOSUM90", "BL90" }, { "PAM30", "P30" }, { "PAM70", "P70" },
+			{ "PAM250", "P250" } };
+
+	public Ssearch36Search(boolean protein) {
+		this.protein = protein;
 	}
 
 	public void setMatrixFlag(String displayName) {
-        for (String[] mapping : MATRIX_MAP) {
-            if (mapping[0].equals(displayName)) {
-            	matrixFlag = mapping[1];
-            }
-        }
-    }
+		for (String[] mapping : MATRIX_MAP) {
+			if (mapping[0].equals(displayName)) {
+				matrixFlag = mapping[1];
+			}
+		}
+	}
 
-    /**
-     * Runs the local ssearch36 executable with the selected options.
-     */
-    public void setSequence(Sequence sequence) {
-    	this.sequence = sequence;
-    } 
-    
-    public int getErrorCode() {
-    	return this.errorCode;
-    }
-    
-    public void run(File dbFile, String evalue,
-        String maxSeqs, String outputPath) 
-        throws Exception {
-        String osName = System.getProperty("os.name");
-        String exeName = osName != null && osName.toLowerCase().contains("win") ? "ssearch36.exe" : "ssearch36";
-        String ssearchExe = "tools" + File.separator + exeName;
-        File queryFile = this.sequence.getFastaFile();
-        ProcessBuilder pb;
-        if(this.protein) {
-        	pb = new ProcessBuilder(
-                ssearchExe,
-                "-p",
-                "-s", matrixFlag,
-                "-E", evalue,
-                "-b", maxSeqs,
-                "-d", maxSeqs,
-                queryFile.getPath(),
-                dbFile.getPath());
-        pb.redirectErrorStream(true);
-        pb.redirectOutput(new File(outputPath));}
-        else {
-        	pb = new ProcessBuilder(
-                    ssearchExe,
-                    "-n",
-                    "-E", evalue,
-                    "-b", maxSeqs,
-                    "-d", maxSeqs,
-                    queryFile.getPath(),
-                    dbFile.getPath());
-            pb.redirectErrorStream(true);
-            pb.redirectOutput(new File(outputPath));}
-        
-        Process p = pb.start();
-        this.errorCode = p.waitFor();
-        this.ssearchresult = new File(outputPath);
-    }
-    
+	/**
+	 * Runs the local ssearch36 executable with the selected options.
+	 */
+	public void setSequence(Sequence sequence) {
+		this.sequence = sequence;
+	}
+
+	public int getErrorCode() {
+		return this.errorCode;
+	}
+
+	public void run(File dbFile, String evalue, String maxSeqs, String outputPath) throws Exception {
+		String osName = System.getProperty("os.name");
+		String exeName = osName != null && osName.toLowerCase().contains("win") ? "ssearch36.exe" : "ssearch36";
+		String ssearchExe = "tools" + File.separator + exeName;
+		File queryFile = this.sequence.getFastaFile();
+		ProcessBuilder pb;
+		if (this.protein) {
+			pb = new ProcessBuilder(ssearchExe, "-p", "-s", matrixFlag, "-E", evalue, "-b", maxSeqs, "-d", maxSeqs,
+					queryFile.getPath(), dbFile.getPath());
+			pb.redirectErrorStream(true);
+			pb.redirectOutput(new File(outputPath));
+		} else {
+			pb = new ProcessBuilder(ssearchExe, "-n", "-E", evalue, "-b", maxSeqs, "-d", maxSeqs, queryFile.getPath(),
+					dbFile.getPath());
+			pb.redirectErrorStream(true);
+			pb.redirectOutput(new File(outputPath));
+		}
+
+		Process p = pb.start();
+		this.errorCode = p.waitFor();
+		this.ssearchresult = new File(outputPath);
+	}
+
 	public void parseBlastCustomDatabase(File outfile) {
 		// Claude generated this parser code for us based on a non functional template
 		// made by us.

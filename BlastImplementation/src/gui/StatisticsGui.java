@@ -209,15 +209,14 @@ public class StatisticsGui extends JFrame {
 		btnGoToTool.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if (seq.isProtein()){
-					 BlastpGui stats = new BlastpGui();
-					 stats.setLocationRelativeTo(null);
-					 stats.setVisible(true);
+				if (seq.isProtein()) {
+					BlastpGui stats = new BlastpGui();
+					stats.setLocationRelativeTo(null);
+					stats.setVisible(true);
 				} else {
 					BlastnGui blastn = new BlastnGui();
-	                blastn.setLocationRelativeTo(null);
-	                blastn.setVisible(true);
-
+					blastn.setLocationRelativeTo(null);
+					blastn.setVisible(true);
 
 				}
 			}

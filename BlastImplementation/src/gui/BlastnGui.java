@@ -363,69 +363,66 @@ public class BlastnGui extends JFrame {
 					dialog.setLocationRelativeTo(BlastnGui.this);
 					dialog.setVisible(true);
 					dialog.paintAll(dialog.getGraphics());
-					
-				if (dbFile != null) {
-					try {
-						Sequence sequence = null;
-						ArrayList<File> fileList = new ArrayList<File>();
-						ArrayList<String> headerList = new ArrayList<String>();
-						for(int i = 0; i < sequencelist.size(); i++) {
-							sequence = sequencelist.get(i);
-							if(sequence.isProtein()==true) {
-								JOptionPane.showMessageDialog(BlastnGui.this,
-										"File contains protein sequences.\n"
-										+ "Please fix the sequence or use BLASTP instead.",
-										"Search Error", JOptionPane.ERROR_MESSAGE);
-								dialog.dispose();
-								return;
-							}
+
+					if (dbFile != null) {
+						try {
+							Sequence sequence = null;
+							ArrayList<File> fileList = new ArrayList<File>();
+							ArrayList<String> headerList = new ArrayList<String>();
+							for (int i = 0; i < sequencelist.size(); i++) {
+								sequence = sequencelist.get(i);
+								if (sequence.isProtein() == true) {
+									JOptionPane.showMessageDialog(BlastnGui.this,
+											"File contains protein sequences.\n"
+													+ "Please fix the sequence or use BLASTP instead.",
+											"Search Error", JOptionPane.ERROR_MESSAGE);
+									dialog.dispose();
+									return;
+								}
 								String outPath = "project_data" + File.separator + "ssearch_results.txt";
 								ssearch36search.setSequence(sequence);
-								ssearch36search.run(
-								dbFile,
-								Evalue.getSelectedItem().toString(),
-								MaxSeqs.getSelectedItem().toString(),
-								outPath);
-								//close BLAST running dialog
+								ssearch36search.run(dbFile, Evalue.getSelectedItem().toString(),
+										MaxSeqs.getSelectedItem().toString(), outPath);
+								// close BLAST running dialog
 								dialog.dispose();
-								
-							if (ssearch36search.getErrorCode() == 0) {
-								File file = new File("project_data"+File.separator+"temp_output.tsv");
-								int filenum = 1;
-								while(file.isFile()) {
-									file = new File("project_data"+File.separator+"temp_output_"+filenum+".tsv");
-									filenum++;
+
+								if (ssearch36search.getErrorCode() == 0) {
+									File file = new File("project_data" + File.separator + "temp_output.tsv");
+									int filenum = 1;
+									while (file.isFile()) {
+										file = new File(
+												"project_data" + File.separator + "temp_output_" + filenum + ".tsv");
+										filenum++;
+									}
+									ssearch36search.parseBlastCustomDatabase(file);
+									String header = "Sequence";
+									fileList.add(file);
+									headerList.add(header);
+								} else {
+									JOptionPane.showMessageDialog(BlastnGui.this,
+											"SSEARCH36 failed (exit code " + ssearch36search.getErrorCode() + ").\n"
+													+ "Check that ssearch36.exe exists in the tools folder.",
+											"Search Error", JOptionPane.ERROR_MESSAGE);
 								}
-								ssearch36search.parseBlastCustomDatabase(file);
-								String header = "Sequence";
-								fileList.add(file);
-								headerList.add(header);
-							} else {
-								JOptionPane.showMessageDialog(BlastnGui.this,
-									"SSEARCH36 failed (exit code " + ssearch36search.getErrorCode() + ").\n"
-									+ "Check that ssearch36.exe exists in the tools folder.",
-									"Search Error", JOptionPane.ERROR_MESSAGE);
-							}
 							}
 							BlastOutputGuiFunctions blastpout = new BlastOutputGui(fileList, headerList);
 							blastpout.setLocationRelativeTo(null);
-						    blastpout.setVisible(true);
+							blastpout.setVisible(true);
 						} catch (Exception ex) {
-							JOptionPane.showMessageDialog(BlastnGui.this,
-								"SSEARCH36 failed: " + ex.getMessage(),
-								"Search Error", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(BlastnGui.this, "SSEARCH36 failed: " + ex.getMessage(),
+									"Search Error", JOptionPane.ERROR_MESSAGE);
 							dialog.dispose();
+						}
+						return;
+					} else {
+						JOptionPane.showMessageDialog(BlastnGui.this, "Please upload a database file", "Database Error",
+								JOptionPane.WARNING_MESSAGE);
+						dialog.dispose();
 					}
-					return;
+
 				}
-				else {
-					JOptionPane.showMessageDialog(BlastnGui.this,
-							"Please upload a database file",
-							"Database Error", JOptionPane.WARNING_MESSAGE);
-					dialog.dispose();
-				}
-				
-			}}});
+			}
+		});
 
 		GridBagConstraints gbc_btnBLAST = new GridBagConstraints();
 		gbc_btnBLAST.anchor = GridBagConstraints.WEST; // ── CHANGED: fits to text width
