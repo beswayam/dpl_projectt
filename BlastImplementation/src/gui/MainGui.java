@@ -91,11 +91,7 @@ public class MainGui extends JFrame {
 		contentPane.add(lblAppTitle, gbc_lblAppTitle);
 
 		// ── Header label ─────────────────────────────────────────────────────
-		
-//		JLabel lblPageHeader = new JLabel("Welcome! Please pick a tool to use:");
-//		lblPageHeader.setFont(new Font("Monospaced", Font.PLAIN, 13)); // ── CHANGED: font
-//		lblPageHeader.setForeground(new Color(100, 116, 139)); // ── CHANGED: muted grey
-		
+
 		JLabel lblPageHeader = ui.label("Welcome! Please pick a tool to use:");
 		GridBagConstraints gbc_lblPageHeader = new GridBagConstraints();
 		gbc_lblPageHeader.anchor = GridBagConstraints.WEST;
@@ -117,10 +113,7 @@ public class MainGui extends JFrame {
 
 		// ── BLASTP button label ───────────────────────────────────────────────		
 		// ── ADDED: label above button acts as the button title ───────────────
-//		JLabel lblBlastp = new JLabel("Run a protein sequence alignment");
-//		lblBlastp.setFont(new Font("Monospaced", Font.PLAIN, 12)); // ── ADDED
-//		lblBlastp.setForeground(new Color(100, 116, 139)); // ── CHANGED: muted text
-		
+
 		JLabel lblBlastp = ui.label("Run a protein sequence alignment");
 
 		GridBagConstraints gbc_lblBlast = new GridBagConstraints();
@@ -133,26 +126,6 @@ public class MainGui extends JFrame {
 		// ── BLASTP button ─────────────────────────────────────────────────────
 		JButton btnBlastpInterface = new JButton("BLASTP");
 		ui.applyRoundedStyle(btnBlastpInterface, new Color(56, 189, 248), new Color(13, 17, 28));
-		
-//			@Override
-//			protected void paintComponent(Graphics g) {
-//				// RenderingHints makes the edges smooth and not jagged
-//				Graphics2D g2 = (Graphics2D) g;
-//				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//				g2.setColor(new Color(56, 189, 248)); // ── blue fill
-//				g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20); // ── 20 = roundness of corners
-//				super.paintComponent(g);
-//			}
-//		};
-//
-//		btnBlastpInterface.setFont(new Font("Monospaced", Font.BOLD, 12));
-//		btnBlastpInterface.setForeground(Color.WHITE);
-//		btnBlastpInterface.setContentAreaFilled(false); // ── lets our custom paint show
-//		btnBlastpInterface.setBorderPainted(false); // ── removes default border
-//		btnBlastpInterface.setFocusPainted(false);
-//		btnBlastpInterface.setCursor(new Cursor(Cursor.HAND_CURSOR));
-//		btnBlastpInterface.setBorder(new EmptyBorder(8, 18, 8, 18)); // ── padding inside button
-		
 		btnBlastpInterface.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				BlastpGui blastp = new BlastpGui();
@@ -175,10 +148,6 @@ public class MainGui extends JFrame {
 		contentPane.add(lblBlastp, gbc_lblBlastp);
 
 		// ── BLASTN label ─────────────────────────────────────────────
-		
-//		JLabel lblBlastn = new JLabel("Run a nucleotide sequence alignment");
-//		lblBlastn.setFont(new Font("Monospaced", Font.PLAIN, 12)); // ── ADDED
-//		lblBlastn.setForeground(new Color(100, 116, 139)); // ── CHANGED: muted text
 
 		JLabel lblBlastn = ui.label("Run a nucleotide sequence alignment");
 		GridBagConstraints gbc_lblBlastn = new GridBagConstraints();
@@ -192,26 +161,6 @@ public class MainGui extends JFrame {
 		
 		JButton btnBlastnInterface = new JButton("BLASTN");
 		ui.applyRoundedStyle(btnBlastnInterface, new Color(56, 189, 248), new Color(13, 17, 28));
-		
-//			@Override
-//			protected void paintComponent(Graphics g) {
-//				// RenderingHints makes the edges smooth and not jagged
-//				Graphics2D g2 = (Graphics2D) g;
-//				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//				g2.setColor(new Color(56, 189, 248)); // ── blue fill
-//				g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20); // ── 20 = roundness of corners
-//				super.paintComponent(g);
-//			}
-//		};
-//
-//		btnBlastnInterface.setFont(new Font("Monospaced", Font.BOLD, 12));
-//		btnBlastnInterface.setForeground(Color.WHITE);
-//		btnBlastnInterface.setContentAreaFilled(false); // ── lets our custom paint show
-//		btnBlastnInterface.setBorderPainted(false); // ── removes default border
-//		btnBlastnInterface.setFocusPainted(false);
-//		btnBlastnInterface.setCursor(new Cursor(Cursor.HAND_CURSOR));
-//		btnBlastnInterface.setBorder(new EmptyBorder(8, 18, 8, 18)); // ── padding inside button
-		
 		btnBlastnInterface.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				BlastnGui blastn = new BlastnGui();
@@ -227,10 +176,6 @@ public class MainGui extends JFrame {
 		contentPane.add(btnBlastnInterface, gbc_btnBlastnInterface);
 
 		// ── File Statistics label ─────────────────────────────────────────────
-		
-//		JLabel lblStats = new JLabel("Analyse a FASTA file and view sequence statistics");
-//		lblStats.setFont(new Font("Monospaced", Font.PLAIN, 12)); // ── ADDED
-//		lblStats.setForeground(new Color(100, 116, 139)); // ── CHANGED: muted text
 
 		JLabel lblStats = ui.label("Analyse a FASTA file and view sequence statistics");
 		GridBagConstraints gbc_lblStats = new GridBagConstraints();
@@ -244,24 +189,6 @@ public class MainGui extends JFrame {
 		
 		JButton btnInputStatistics = new JButton("File Statistics");
 		ui.applyRoundedStyle(btnInputStatistics, new Color(52, 211, 153), new Color(13, 17, 28));
-		
-//			@Override
-//			protected void paintComponent(Graphics g) {
-//				Graphics2D g2 = (Graphics2D) g;
-//				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//				g2.setColor(new Color(52, 211, 153)); // ── teal fill
-//				g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-//				super.paintComponent(g);
-//			}
-//		};
-//		btnInputStatistics.setFont(new Font("Monospaced", Font.BOLD, 12));
-//		btnInputStatistics.setForeground(Color.WHITE);
-//		btnInputStatistics.setContentAreaFilled(false);
-//		btnInputStatistics.setBorderPainted(false);
-//		btnInputStatistics.setFocusPainted(false);
-//		btnInputStatistics.setCursor(new Cursor(Cursor.HAND_CURSOR));
-//		btnInputStatistics.setBorder(new EmptyBorder(8, 18, 8, 18));
-		
 		btnInputStatistics.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
@@ -292,10 +219,6 @@ public class MainGui extends JFrame {
 		
 		// ── Upload .tsv Label ────────────────────────────────────────────
 
-//		JLabel lblUpload = new JLabel("Upload your .tsv result file to visualise results");
-//		lblUpload.setFont(new Font("Monospaced", Font.PLAIN, 12)); // ── ADDED
-//		lblUpload.setForeground(new Color(100, 116, 139)); // ── CHANGED: muted text
-		
 		JLabel lblUpload = ui.label("Upload your .tsv result file to visualise results");
 		GridBagConstraints gbc_lblUpload = new GridBagConstraints();
 		gbc_lblUpload.anchor = GridBagConstraints.WEST;
@@ -308,24 +231,6 @@ public class MainGui extends JFrame {
 
 		JButton btnUploadtsv = new JButton("Upload .tsv file");
 		ui.applyRoundedStyle(btnUploadtsv, new Color(52, 211, 153), new Color(13, 17, 28));
-		
-//			@Override
-//			protected void paintComponent(Graphics g) {
-//				Graphics2D g2 = (Graphics2D) g;
-//				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//				g2.setColor(new Color(52, 211, 153)); // ── teal fill
-//				g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-//				super.paintComponent(g);
-//			}
-//		};
-//		btnUploadtsv.setFont(new Font("Monospaced", Font.BOLD, 12));
-//		btnUploadtsv.setForeground(Color.WHITE);
-//		btnUploadtsv.setContentAreaFilled(false);
-//		btnUploadtsv.setBorderPainted(false);
-//		btnUploadtsv.setFocusPainted(false);
-//		btnUploadtsv.setCursor(new Cursor(Cursor.HAND_CURSOR));
-//		btnUploadtsv.setBorder(new EmptyBorder(8, 18, 8, 18));
-		
 		btnUploadtsv.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
