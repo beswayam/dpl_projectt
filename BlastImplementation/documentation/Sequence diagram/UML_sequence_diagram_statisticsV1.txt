@@ -1,0 +1,170 @@
+@startuml StatisticsGui Sequence Diagram
+
+actor User
+participant "StatisticsGui" as GUI
+participant "GUIutilities" as Utils
+participant "Sequence" as Seq
+participant "ProteinStatistics" as ProtStats
+participant "NucleotideStatistics" as NucStats
+participant "BlastpGui" as Blastp
+participant "BlastnGui" as Blastn
+
+== Initialization ==
+
+User -> GUI : new StatisticsGui(inputFile)
+activate GUI
+
+GUI -> Utils : new GUIutilities()
+activate Utils
+Utils --> GUI
+deactivate Utils
+
+GUI -> GUI : setBounds(), setTitle()
+GUI -> GUI : create contentPane with GridBagLayout
+GUI -> GUI : add page title, separator, column headers
+
+== Input File Display ==
+
+GUI -> GUI : textForOverviewInput()
+activate GUI #LightBlue
+
+GUI -> Seq : new Sequence(file)
+activate Seq
+Seq --> GUI : seq
+deactivate Seq
+
+GUI -> Seq : getSequence()
+Seq --> GUI : sequenceString
+
+GUI -> GUI : create JTextArea, JScrollPane
+GUI -> GUI : append sequence to textArea
+
+deactivate GUI
+
+== Statistics Display ==
+
+GUI -> GUI : textForStatistics()
+activate GUI #LightGreen
+
+GUI -> Seq : new Sequence(file)
+activate Seq
+Seq --> GUI : unknownSeq
+deactivate Seq
+
+GUI -> Seq : isProtein()
+Seq --> GUI : boolean
+
+alt isProtein == true
+    GUI -> GUI : textForStatisticsIfProtein()
+    activate GUI #Pink
+    
+    GUI -> ProtStats : new ProteinStatistics(unknownSeq)
+    activate ProtStats
+    ProtStats --> GUI : seqStat
+    deactivate ProtStats
+    
+    GUI -> ProtStats : proteinWeight()
+    ProtStats --> GUI : protWeight
+    
+    GUI -> ProtStats : seqLength()
+    ProtStats --> GUI : length
+    
+    GUI -> GUI : seqContents(seqStat, textStatistics)
+    GUI -> ProtStats : seqContents()
+    ProtStats --> GUI : moleculeDict (HashMap)
+    
+    deactivate GUI
+
+else isProtein == false
+    GUI -> GUI : textForStatisticsIfNucleotide()
+    activate GUI #LightYellow
+    
+    GUI -> NucStats : new NucleotideStatistics(unknownSeq)
+    activate NucStats
+    NucStats --> GUI : seqStat
+    deactivate NucStats
+    
+    GUI -> NucStats : seqLength()
+    NucStats --> GUI : length
+    
+    GUI -> GUI : seqContents(seqStat, textStatistics)
+    GUI -> NucStats : seqContents()
+    NucStats --> GUI : moleculeDict (HashMap)
+    
+    GUI -> NucStats : gcContent()
+    NucStats --> GUI : gcContent
+    
+    GUI -> NucStats : getCodonFrequency()
+    NucStats --> GUI : codonFreq (HashMap)
+    
+    deactivate GUI
+end
+
+deactivate GUI
+
+== Tool Suggestions Display ==
+
+GUI -> GUI : textForTools()
+activate GUI #Lavender
+
+GUI -> Seq : new Sequence(file)
+activate Seq
+Seq --> GUI : unknownSeq
+deactivate Seq
+
+GUI -> Seq : isProtein()
+Seq --> GUI : boolean
+
+alt isProtein == true
+    GUI -> GUI : append "Use BLASTP" message
+else
+    GUI -> GUI : append "Use BLASTN" message
+end
+
+GUI -> GUI : create btnGoToTool
+GUI -> GUI : btnTool(btnGoToTool, gbc)
+
+GUI -> Seq : new Sequence(file)
+Seq --> GUI : seq
+
+GUI -> Seq : isProtein()
+Seq --> GUI : boolean
+
+alt isProtein == true
+    GUI -> GUI : btnGoToTool.setText("BLASTP")
+else
+    GUI -> GUI : btnGoToTool.setText("BLASTN")
+end
+
+deactivate GUI
+
+GUI --> User : frame displayed
+deactivate GUI
+
+== User Clicks Tool Button ==
+
+User -> GUI : click btnGoToTool
+activate GUI
+
+GUI -> Seq : isProtein()
+Seq --> GUI : boolean
+
+alt isProtein == true
+    GUI -> Blastp : new BlastpGui()
+    activate Blastp
+    GUI -> Blastp : setLocationRelativeTo(null)
+    GUI -> Blastp : setVisible(true)
+    Blastp --> User : BlastpGui displayed
+    deactivate Blastp
+else
+    GUI -> Blastn : new BlastnGui()
+    activate Blastn
+    GUI -> Blastn : setLocationRelativeTo(null)
+    GUI -> Blastn : setVisible(true)
+    Blastn --> User : BlastnGui displayed
+    deactivate Blastn
+end
+
+deactivate GUI
+
+@enduml
