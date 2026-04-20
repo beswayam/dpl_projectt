@@ -49,14 +49,28 @@ import java.awt.Cursor;
 
 import javax.swing.JSeparator;
 
+/**
+ * GUI window for displaying sequence statistics and suggesting a suitable tool.
+ * <p>
+ * This window reads a FASTA file, determines whether the sequence is protein
+ * or nucleotide, displays basic statistics, and suggests BLASTP or BLASTN
+ * based on the input type.
+ * </p>
+ */
 public class StatisticsGui extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** Main content panel for the window. */
 	private JPanel contentPane;
+	
+	/** Input FASTA file used to generate statistics. */
 	private File file;
 
 	/**
-	 * Launch the application.
+	 * Launches the statistics window.
+	 *
+	 * @param args command-line arguments, not used
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -72,7 +86,13 @@ public class StatisticsGui extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Creates the statistics window for the provided file.
+	 * <p>
+	 * The constructor sets up the interface, loads the input sequence, displays
+	 * file statistics, and generates a tool suggestion based on the sequence type.
+	 * </p>
+	 *
+	 * @param inputFile FASTA file to analyse
 	 */
 	public StatisticsGui(File inputFile) {
 		
@@ -168,7 +188,13 @@ public class StatisticsGui extends JFrame {
 		textForTools(textTools, gbc_textTools);
 	}
 
-	// Method to apply same style of button from Main GUI
+	/**
+	 * Applies the shared rounded-button style used throughout the application.
+	 *
+	 * @param btn button to style
+	 * @param fillColor inner button color
+	 * @param outerColor surrounding background color
+	 */
 	public static void applyRoundedStyle(JButton btn, Color fillColor, Color outerColor) {
 		btn.setUI(new javax.swing.plaf.basic.BasicButtonUI() {
 			@Override
@@ -194,6 +220,16 @@ public class StatisticsGui extends JFrame {
 		btn.setBorder(new EmptyBorder(8, 18, 8, 18));
 	}
 
+	/**
+	 * Configures the button that opens the recommended BLAST tool.
+	 * <p>
+	 * The button text and action depend on whether the loaded sequence is
+	 * protein or nucleotide.
+	 * </p>
+	 *
+	 * @param btnGoToTool button used to navigate to the suggested tool
+	 * @param gbc_btnGoToTool layout constraints for the button
+	 */
 	private void btnTool(JButton btnGoToTool, GridBagConstraints gbc_btnGoToTool) {
 		Sequence seq = new Sequence(this.file);
 
@@ -229,6 +265,12 @@ public class StatisticsGui extends JFrame {
 		});
 	}
 
+	/**
+	 * Builds the left panel showing the loaded input sequence.
+	 *
+	 * @param textOverviewInput text area used to display the sequence
+	 * @param gbc_textOverviewInput layout constraints for the sequence panel
+	 */
 	private void textForOverviewInput(JTextArea textOverviewInput, GridBagConstraints gbc_textOverviewInput) {
 		Sequence seq = new Sequence(this.file);
 
@@ -267,6 +309,12 @@ public class StatisticsGui extends JFrame {
 		contentPane.add(scrollPane, gbc_textOverviewInput);
 	}
 
+	/**
+	 * Builds the middle panel containing sequence statistics.
+	 *
+	 * @param textStatistics text area used to display calculated statistics
+	 * @param gbc_textStatistics layout constraints for the statistics panel
+	 */
 	private void textForStatistics(JTextArea textStatistics, GridBagConstraints gbc_textStatistics) {
 		Sequence unknownSeq = new Sequence(this.file);
 
@@ -299,6 +347,12 @@ public class StatisticsGui extends JFrame {
 		contentPane.add(scrollPaneStats, gbc_textStatistics);
 	}
 
+	/**
+	 * Builds the right panel describing the recommended tool.
+	 *
+	 * @param textTools text area used to display the tool recommendation
+	 * @param gbc_textTools layout constraints for the tool panel
+	 */
 	private void textForTools(JTextArea textTools, GridBagConstraints gbc_textTools) {
 		Sequence unknownSeq = new Sequence(this.file);
 
@@ -339,6 +393,12 @@ public class StatisticsGui extends JFrame {
 
 	}
 
+	/**
+	 * Displays statistics for a protein sequence.
+	 *
+	 * @param unknownSeq sequence to analyse
+	 * @param textStatistics text area to populate
+	 */
 	private void textForStatisticsIfProtein(Sequence unknownSeq, JTextArea textStatistics) {
 		StatisticsInterface seqStat = new ProteinStatistics(unknownSeq);
 
@@ -356,6 +416,12 @@ public class StatisticsGui extends JFrame {
 		textStatistics.append("\n\nProtein weight; " + protWeight + " Da");
 	}
 
+	/**
+	 * Displays statistics for a nucleotide sequence.
+	 *
+	 * @param unknownSeq sequence to analyse
+	 * @param textStatistics text area to populate
+	 */
 	private void textForStatisticsIfNucleotide(Sequence unknownSeq, JTextArea textStatistics) {
 		StatisticsInterface seqStat = new NucleotideStatistics(unknownSeq);
 
@@ -388,6 +454,12 @@ public class StatisticsGui extends JFrame {
 
 	}
 
+	/**
+	 * Appends per-symbol sequence counts to the statistics text area.
+	 *
+	 * @param seqStat statistics object containing sequence counts
+	 * @param textStatistics text area to populate
+	 */
 	private void seqContents(StatisticsInterface seqStat, JTextArea textStatistics) {
 		HashMap<Character, Integer> moleculeDict = seqStat.seqContents();
 
