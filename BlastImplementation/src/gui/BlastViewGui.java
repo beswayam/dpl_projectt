@@ -36,15 +36,41 @@ import java.awt.RenderingHints;//added
 import javax.swing.JSeparator; //added
 import javax.swing.border.EmptyBorder; //added
 
+/**
+ * GUI window for viewing BLAST results from a single TSV file.
+ *
+ * <p>This class extends {@link BlastOutputGuiFunctions} and provides a
+ * Swing interface to:
+ * <ul>
+ *   <li>Load BLAST results from a TSV file</li>
+ *   <li>Select individual BLAST hits via a dropdown menu</li>
+ *   <li>Display alignment details such as UniProt ID, description,
+ *       E-value, bit score, identity, and sequence alignment</li>
+ * </ul>
+ *
+ * <p>The interface automatically parses the provided file when the window
+ * is opened and populates the selection dropdown. Selecting a hit updates
+ * all displayed fields dynamically.
+ *
+ * <p>This class is intended for viewing the output of a single query sequence, unlike
+ * {@code BlastOutputGui}, which supports multiple files and export features.
+ */
 public class BlastViewGui extends BlastOutputGuiFunctions {
 	
+	/** Utility class for consistent GUI styling. */
 	GUIutilities ui = new GUIutilities();
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
+    /**
+     * Constructs a GUI window for displaying BLAST results from a single file.
+     *
+     * <p>The constructor initializes all UI components, including labels,
+     * and dropdown menus. When the window is opened,
+     * the BLAST TSV file is parsed and the results are loaded into the GUI.
+     *
+     * @param file the BLAST result file in TSV format to be displayed
+     */
 	public BlastViewGui(File file) {
 		
 		super();
@@ -131,22 +157,22 @@ public class BlastViewGui extends BlastOutputGuiFunctions {
 
 		// ── Data labels — helper method keeps it clean ────────────────────────
 		// UniProt ID
-		JLabel UniprotIDLabel = dataLabel("UniProt ID", 1, 7);
-		JLabel UniprotIDValueLabel = valueLabel("-", 2, 7);
+		JLabel UniprotIDLabel = ui.label("UniProt ID");
+		JLabel UniprotIDValueLabel = ui.boldLabel("-");
 		getContentPane().add(UniprotIDLabel, constraintsFor(1, 7));
 		getContentPane().add(UniprotIDValueLabel, constraintsFor(2, 7));
 
 		// Description
-		JLabel ProteinDescLabel = dataLabel("Description", 1, 8);
-		JLabel ProteinDescValueLabel = valueLabel("-", 2, 8);
+		JLabel ProteinDescLabel = ui.label("Description");
+		JLabel ProteinDescValueLabel = ui.boldLabel("-");
 		GridBagConstraints gbc_desc = constraintsFor(2, 8);
 		gbc_desc.gridwidth = 2;
 		getContentPane().add(ProteinDescLabel, constraintsFor(1, 8));
 		getContentPane().add(ProteinDescValueLabel, gbc_desc);
 
 		// Query / Match sequence
-		JLabel QuerySeqLabel = dataLabel("<html>Query Sequence<br><br>Match Sequence</html>", 1, 11);
-		JLabel SeqValueLabel = valueLabel("-", 2, 11);
+		JLabel QuerySeqLabel = ui.label("<html>Query Sequence<br><br>Match Sequence</html>");
+		JLabel SeqValueLabel = ui.boldLabel("-");
 		JLabel SeqAlignLenLabel = new JLabel("<html>(-:-)<br><br>(-:-)</html>");
 		SeqAlignLenLabel.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		SeqAlignLenLabel.setForeground(new Color(100, 116, 139)); // ── CHANGED
@@ -157,20 +183,20 @@ public class BlastViewGui extends BlastOutputGuiFunctions {
 		getContentPane().add(SeqAlignLenLabel, gbc_align);
 
 		// E-value
-		JLabel EvalueLabel = dataLabel("E-value", 1, 14);
-		JLabel EvalueAnnotLabel = valueLabel("-", 2, 14);
+		JLabel EvalueLabel = ui.label("E-value");
+		JLabel EvalueAnnotLabel = ui.boldLabel("-");
 		getContentPane().add(EvalueLabel, constraintsFor(1, 14));
 		getContentPane().add(EvalueAnnotLabel, constraintsFor(2, 14));
 
 		// Bit Score
-		JLabel BitScoreLabel = dataLabel("Bit Score", 1, 16);
-		JLabel BitScoreAnnotLabel = valueLabel("-", 2, 16);
+		JLabel BitScoreLabel = ui.label("Bit Score");
+		JLabel BitScoreAnnotLabel = ui.boldLabel("-");
 		getContentPane().add(BitScoreLabel, constraintsFor(1, 16));
 		getContentPane().add(BitScoreAnnotLabel, constraintsFor(2, 16));
 
 		// Identity
-		JLabel IdentityLabel = dataLabel("Identity", 1, 18);
-		JLabel IdentityValueLabel = valueLabel("-", 2, 18);
+		JLabel IdentityLabel = ui.label("Identity");
+		JLabel IdentityValueLabel = ui.boldLabel("-");
 		getContentPane().add(IdentityLabel, constraintsFor(1, 18));
 		getContentPane().add(IdentityValueLabel, constraintsFor(2, 18));
 
@@ -254,21 +280,14 @@ public class BlastViewGui extends BlastOutputGuiFunctions {
 		this.addWindowListener(taskStarterWindowListener);
 	}
 
-	// ── Helper: creates a muted grey data label ───────────────────────────────
-	private JLabel dataLabel(String text, int col, int row) {
-	
-		JLabel lbl = ui.label(text);
-		return lbl;
-	}
-
-	// ── Helper: creates a bright value label ─────────────────────────────────
-	private JLabel valueLabel(String text, int col, int row) {
-
-		JLabel lbl = ui.boldLabel(text);
-		return lbl;
-	}
-
-	// ── Helper: standard GridBagConstraints for data rows ────────────────────
+	/**
+     * Generates standard {@link GridBagConstraints} for placing components
+     * in the layout.
+     *
+     * @param col the grid column index
+     * @param row the grid row index
+     * @return configured {@link GridBagConstraints} object
+     */
 	private GridBagConstraints constraintsFor(int col, int row) {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.anchor = GridBagConstraints.WEST;

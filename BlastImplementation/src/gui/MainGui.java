@@ -35,14 +35,36 @@ import javax.swing.Timer;
 import utilities.Time;
 import javax.swing.SwingConstants;
 
+/**
+ * Main application window for EzBLAST.
+ * 
+ * <p>This GUI provides access to the main tools in the application:
+ * BLASTP, BLASTN, file statistics, and BLAST result visualization.
+ * It also displays the current date and application runtime at the bottom
+ * of the window.
+ * </p>
+ *
+ * <p>The class extends {@link JFrame} and initializes all interface elements
+ * in the constructor.</p>
+ */
 public class MainGui extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** Main content panel for the window. */
 	private JPanel contentPane;
+	
+	/** The selected input file for sequence statistics. */
 	public File inputFile;
+	
+	/** The selected TSV file for BLAST result visualization. */
 	public File inputTsv;
-	public Sequence inputSeq;
 
+	/**
+	 * Launches the EzBLAST GUI application.
+	 *
+	 * @param args command-line arguments, not used
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -56,6 +78,14 @@ public class MainGui extends JFrame {
 		});
 	}
 
+	/**
+	 * Creates the main application window and initializes all components.
+	 * <p>
+	 * The GUI includes buttons for BLASTP, BLASTN, file statistics,
+	 * TSV upload, and help information. It also sets up live date and time
+	 * displays using a Swing {@link Timer}.
+	 * </p>
+	 */
 	public MainGui() {
 		
 		GUIutilities ui = new GUIutilities();
