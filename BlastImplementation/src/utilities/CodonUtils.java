@@ -3,8 +3,19 @@ package utilities;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Utility class for working with codons and amino acids.
+ * 
+ * <p>Provides functionality to:
+ * <ul>
+ * 	<li>Translate DNA codons into amino acids</li>
+ * <li>Retrieve molecular weights of amino acids</li>
+ * <li>Validate codons</li>
+ * </ul>
+ * The codon table and amino acid masses are based on standard biological data.
+ */
 public class CodonUtils {
-
+	
 	private static final Map<String, Character> CODON_TABLE = new HashMap<>();
 	private static final Map<Character, Double> AMINO_MASS = new HashMap<>();
 
@@ -102,9 +113,19 @@ public class CodonUtils {
 		AMINO_MASS.put('*', 0.0); // Stop codon
 	}
 
+	/**
+	 * Constructs a CodonUtils object.
+	 */
 	public CodonUtils() {
 	}
-
+	
+	/**
+	 * Returns the molecular weight of a given amino acid.
+	 * 
+	 * @param amino_acid the amino acid character (e.g. "A", "C", "D")
+	 * @return the molecular weight in Dalton
+	 * @throws IllegalArgumentException if an invalid amino acid is entered
+	 */
 	public double baseWeight(char amino_acid) {
 		double molar_weight;
 
@@ -117,6 +138,13 @@ public class CodonUtils {
 		return molar_weight;
 	}
 
+	/**
+	 * Translates a DNA codon into its corresponding amino acid.
+	 * 
+	 * @param codon a three-letter DNA codon (e.g. "ATG")
+	 * @return the corresponding amino acid character
+	 * @throws IllegalArgumentException if the codon is not found
+	 */
 	public char getBase(String codon) {
 		char amino_acid;
 		if (CODON_TABLE.get(codon) != null) {
@@ -128,6 +156,12 @@ public class CodonUtils {
 		return amino_acid;
 	}
 
+	/**
+	 * Checks whether a given codon is valid according to the codon table.
+	 * 
+	 * @param codon a three-letter DNA codon
+	 * @return true if the codon exists in the codon table, false otherwise
+	 */
 	public boolean checkCodon(String codon) {
 		boolean valid;
 		if (CODON_TABLE.containsKey(codon)) {

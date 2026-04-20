@@ -22,6 +22,9 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.ArrayUtils;
+
+import utilities.GUIutilities;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -34,6 +37,8 @@ import javax.swing.JSeparator; //added
 import javax.swing.border.EmptyBorder; //added
 
 public class BlastViewGui extends BlastOutputGuiFunctions {
+	
+	GUIutilities ui = new GUIutilities();
 
 	/**
 	 * 
@@ -41,7 +46,9 @@ public class BlastViewGui extends BlastOutputGuiFunctions {
 	private static final long serialVersionUID = 1L;
 
 	public BlastViewGui(File file) {
+		
 		super();
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -54,9 +61,11 @@ public class BlastViewGui extends BlastOutputGuiFunctions {
 		getContentPane().setBackground(new Color(13, 17, 28)); // ── CHANGED: dark navy
 
 		// ── Title ────────────────────────────────────────────────────────────
+		
 		JLabel OutTitleLabel = new JLabel("BLAST Output");
 		OutTitleLabel.setFont(new Font("Monospaced", Font.BOLD, 20)); // ── CHANGED
 		OutTitleLabel.setForeground(new Color(56, 189, 248)); // ── CHANGED: sky blue
+		
 		GridBagConstraints gbc_OutTitleLabel = new GridBagConstraints();
 		gbc_OutTitleLabel.anchor = GridBagConstraints.WEST;
 		gbc_OutTitleLabel.insets = new Insets(15, 15, 5, 5);
@@ -65,14 +74,17 @@ public class BlastViewGui extends BlastOutputGuiFunctions {
 		getContentPane().add(OutTitleLabel, gbc_OutTitleLabel);
 
 		// ── Help button ───────────────────────────────────────────────────────
+		
 		JButton OutHelpButton = new JButton("Help");
-		OutHelpButton.setFont(new Font("Monospaced", Font.BOLD, 11));
-		OutHelpButton.setBackground(new Color(22, 28, 45)); // ── CHANGED
-		OutHelpButton.setForeground(new Color(100, 116, 139)); // ── CHANGED
-		OutHelpButton.setFocusPainted(false);
-		OutHelpButton.setBorder(new javax.swing.border.CompoundBorder(
-				new javax.swing.border.LineBorder(new Color(30, 41, 59), 1), new EmptyBorder(6, 14, 6, 14)));
-		OutHelpButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED
+//		OutHelpButton.setFont(new Font("Monospaced", Font.BOLD, 11));
+//		OutHelpButton.setBackground(new Color(22, 28, 45)); // ── CHANGED
+//		OutHelpButton.setForeground(new Color(100, 116, 139)); // ── CHANGED
+//		OutHelpButton.setFocusPainted(false);
+//		OutHelpButton.setBorder(new javax.swing.border.CompoundBorder(
+//				new javax.swing.border.LineBorder(new Color(30, 41, 59), 1), new EmptyBorder(6, 14, 6, 14)));
+//		OutHelpButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED
+		
+		ui.applyRoundedStyle(OutHelpButton, new Color(22, 28, 45), new Color(100, 116, 139));
 		OutHelpButton.addActionListener(e -> {
 			JFrame helpFrame = new JFrame("BLASTP Output Help");
 			helpFrame.setSize(600, 600);
@@ -117,9 +129,12 @@ public class BlastViewGui extends BlastOutputGuiFunctions {
 		getContentPane().add(sep, gbc_sep);
 
 		// ── Select blast hit label ────────────────────────────────────────────
-		JLabel BlastHitLabel = new JLabel("Select Blast Hit");
-		BlastHitLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		BlastHitLabel.setForeground(new Color(100, 116, 139)); // ── CHANGED
+		
+//		JLabel BlastHitLabel = new JLabel("Select Blast Hit");
+//		BlastHitLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
+//		BlastHitLabel.setForeground(new Color(100, 116, 139)); // ── CHANGED
+		
+		JLabel BlastHitLabel = ui.label("Select Blast Hit");
 		GridBagConstraints gbc_BlastHitLabel = new GridBagConstraints();
 		gbc_BlastHitLabel.insets = new Insets(0, 15, 12, 10);
 		gbc_BlastHitLabel.gridx = 1;
@@ -253,17 +268,21 @@ public class BlastViewGui extends BlastOutputGuiFunctions {
 
 	// ── Helper: creates a muted grey data label ───────────────────────────────
 	private JLabel dataLabel(String text, int col, int row) {
-		JLabel lbl = new JLabel(text);
-		lbl.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		lbl.setForeground(new Color(100, 116, 139)); // ── CHANGED: muted grey
+//		JLabel lbl = new JLabel(text);
+//		lbl.setFont(new Font("Monospaced", Font.PLAIN, 12));
+//		lbl.setForeground(new Color(100, 116, 139)); // ── CHANGED: muted grey
+		
+		JLabel lbl = ui.label(text);
 		return lbl;
 	}
 
 	// ── Helper: creates a bright value label ─────────────────────────────────
 	private JLabel valueLabel(String text, int col, int row) {
-		JLabel lbl = new JLabel(text);
-		lbl.setFont(new Font("Monospaced", Font.BOLD, 12));
-		lbl.setForeground(new Color(226, 232, 240)); // ── CHANGED: near white
+//		JLabel lbl = new JLabel(text);
+//		lbl.setFont(new Font("Monospaced", Font.BOLD, 12));
+//		lbl.setForeground(new Color(226, 232, 240)); // ── CHANGED: near white
+		
+		JLabel lbl = ui.boldLabel(text);
 		return lbl;
 	}
 

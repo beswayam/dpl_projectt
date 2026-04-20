@@ -12,7 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import interfaces.StatisticsInterface;
-
+import utilities.GUIutilities;
 import utilities.NucleotideStatistics;
 import utilities.ProteinStatistics;
 import java.awt.GridBagLayout;
@@ -75,6 +75,9 @@ public class StatisticsGui extends JFrame {
 	 * Create the frame.
 	 */
 	public StatisticsGui(File inputFile) {
+		
+		GUIutilities ui = new GUIutilities();
+		
 		this.file = inputFile;
 		setBounds(100, 100, 900, 580);
 		setTitle("EzBLAST — File Statistics"); // ── CHANGED: window title
@@ -92,6 +95,7 @@ public class StatisticsGui extends JFrame {
 		contentPane.setLayout(gbl_contentPane);
 
 		// ── ADDED: Page title at the top ─────────────────────────────────────
+		
 		JLabel lblPageTitle = new JLabel("File Statistics");
 		lblPageTitle.setFont(new Font("Monospaced", Font.BOLD, 22)); // ── ADDED
 		lblPageTitle.setForeground(new Color(56, 189, 248)); // ── ADDED: sky blue
@@ -104,6 +108,7 @@ public class StatisticsGui extends JFrame {
 		contentPane.add(lblPageTitle, gbc_lblPageTitle);
 
 		// ── ADDED: Separator below title ─────────────────────────────────────
+		
 		JSeparator sep = new JSeparator();
 		sep.setForeground(new Color(30, 41, 59));
 		GridBagConstraints gbc_sep = new GridBagConstraints();
@@ -115,6 +120,7 @@ public class StatisticsGui extends JFrame {
 		contentPane.add(sep, gbc_sep);
 
 		// ── Column headers ────────────────────────────────────────────────────
+		
 		JLabel lblInputFile = new JLabel("Input File");
 		lblInputFile.setFont(new Font("Monospaced", Font.BOLD, 13)); // ── CHANGED: font
 		lblInputFile.setForeground(new Color(52, 211, 153)); // ── CHANGED: teal

@@ -22,6 +22,8 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import utilities.GUIutilities;
 import utilities.MultipleSequenceParser;
 import utilities.Sequence;
 import utilities.Ssearch36Search;
@@ -41,6 +43,8 @@ public class BlastnGui extends JFrame {
 	// Variables to store the selected files
 	public File queryFile = null;
 	public File dbFile = null;
+	
+	GUIutilities ui = new GUIutilities();
 
 	public BlastnGui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,27 +76,29 @@ public class BlastnGui extends JFrame {
 		contentPane.add(txtBlastpAlgorithm, gbc_txtBlastpAlgorithm);
 
 		// Help button
-		JButton btnHelp = new JButton("Help") {
-			@Override
-			protected void paintComponent(Graphics g) {
-				Graphics2D g2 = (Graphics2D) g;
-				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				g2.setColor(new Color(52, 211, 153)); // ── teal fill
-				g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-				super.paintComponent(g);
-			}
-		};
-
-		btnHelp.setContentAreaFilled(false);
-		btnHelp.setBorderPainted(false);
-		btnHelp.setFocusPainted(false);
-		btnHelp.setFont(new Font("Monospaced", Font.BOLD, 11));
-		btnHelp.setBackground(new Color(22, 28, 45)); // ── CHANGED: dark card
-		btnHelp.setForeground(Color.WHITE);
-		btnHelp.setFocusPainted(false);
-		btnHelp.setBorder(new javax.swing.border.CompoundBorder(
-				new javax.swing.border.LineBorder(new Color(30, 41, 59), 1), new EmptyBorder(6, 14, 6, 14)));
-		btnHelp.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED: hand cursor
+		JButton btnHelp = new JButton("Help");
+//			@Override
+//			protected void paintComponent(Graphics g) {
+//				Graphics2D g2 = (Graphics2D) g;
+//				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//				g2.setColor(new Color(52, 211, 153)); // ── teal fill
+//				g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+//				super.paintComponent(g);
+//			}
+//		};
+//
+//		btnHelp.setContentAreaFilled(false);
+//		btnHelp.setBorderPainted(false);
+//		btnHelp.setFocusPainted(false);
+//		btnHelp.setFont(new Font("Monospaced", Font.BOLD, 11));
+//		btnHelp.setBackground(new Color(22, 28, 45)); // ── CHANGED: dark card
+//		btnHelp.setForeground(Color.WHITE);
+//		btnHelp.setFocusPainted(false);
+//		btnHelp.setBorder(new javax.swing.border.CompoundBorder(
+//				new javax.swing.border.LineBorder(new Color(30, 41, 59), 1), new EmptyBorder(6, 14, 6, 14)));
+//		btnHelp.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED: hand cursor
+		
+		ui.applyRoundedStyle(btnHelp, new Color(52, 211, 153), new Color(13, 17, 28));
 		btnHelp.addActionListener(e -> {
 			JFrame helpFrame = new JFrame("BLASTN Help");
 			helpFrame.setSize(400, 300);
@@ -130,9 +136,11 @@ public class BlastnGui extends JFrame {
 		contentPane.add(sep, gbc_sep);
 
 		// Label for text box
-		JLabel lblEnterSeqeuence = new JLabel("Enter sequence in FASTA format:");
-		lblEnterSeqeuence.setFont(new Font("Monospaced", Font.PLAIN, 12)); // ── CHANGED: font
-		lblEnterSeqeuence.setForeground(new Color(100, 116, 139)); // ── CHANGED: muted
+//		JLabel lblEnterSeqeuence = new JLabel("Enter sequence in FASTA format:");
+//		lblEnterSeqeuence.setFont(new Font("Monospaced", Font.PLAIN, 12)); // ── CHANGED: font
+//		lblEnterSeqeuence.setForeground(new Color(100, 116, 139)); // ── CHANGED: muted
+		
+		JLabel lblEnterSeqeuence = ui.label("Enter sequence in FASTA format");
 		GridBagConstraints gbc_lblEnterSeqeuence = new GridBagConstraints();
 		gbc_lblEnterSeqeuence.insets = new Insets(0, 0, 4, 5);
 		gbc_lblEnterSeqeuence.fill = GridBagConstraints.BOTH;
@@ -166,13 +174,15 @@ public class BlastnGui extends JFrame {
 
 		// Button for upload input sequence (FASTA file)
 		final JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
-		btnInputSequenceUpload.setFont(new Font("Monospaced", Font.PLAIN, 11)); // ── CHANGED
-		btnInputSequenceUpload.setBackground(new Color(22, 28, 45)); // ── CHANGED
-		btnInputSequenceUpload.setForeground(Color.WHITE); // ── CHANGED
-		btnInputSequenceUpload.setFocusPainted(false);
-		btnInputSequenceUpload.setBorder(new javax.swing.border.CompoundBorder(
-				new javax.swing.border.LineBorder(new Color(30, 41, 59), 1), new EmptyBorder(6, 12, 6, 12)));
-		btnInputSequenceUpload.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED
+//		btnInputSequenceUpload.setFont(new Font("Monospaced", Font.PLAIN, 11)); // ── CHANGED
+//		btnInputSequenceUpload.setBackground(new Color(22, 28, 45)); // ── CHANGED
+//		btnInputSequenceUpload.setForeground(Color.WHITE); // ── CHANGED
+//		btnInputSequenceUpload.setFocusPainted(false);
+//		btnInputSequenceUpload.setBorder(new javax.swing.border.CompoundBorder(
+//				new javax.swing.border.LineBorder(new Color(30, 41, 59), 1), new EmptyBorder(6, 12, 6, 12)));
+//		btnInputSequenceUpload.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED
+		
+		ui.applyRoundedStyle(btnInputSequenceUpload, new Color(22, 28, 45), new Color(13, 17, 28));
 		btnInputSequenceUpload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!txtrInputsequence.getText().trim().isEmpty()) {
@@ -203,13 +213,15 @@ public class BlastnGui extends JFrame {
 
 		// ── Upload database button ───────────────────────────────────────────
 		final JButton btnUploadDatabase = new JButton("Upload Database (FASTA file)");
-		btnUploadDatabase.setFont(new Font("Monospaced", Font.PLAIN, 11)); // ── CHANGED
-		btnUploadDatabase.setBackground(new Color(22, 28, 45)); // ── CHANGED
-		btnUploadDatabase.setForeground(Color.WHITE); // ── CHANGED
-		btnUploadDatabase.setFocusPainted(false);
-		btnUploadDatabase.setBorder(new javax.swing.border.CompoundBorder(
-				new javax.swing.border.LineBorder(new Color(30, 41, 59), 1), new EmptyBorder(6, 12, 6, 12)));
-		btnUploadDatabase.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED
+//		btnUploadDatabase.setFont(new Font("Monospaced", Font.PLAIN, 11)); // ── CHANGED
+//		btnUploadDatabase.setBackground(new Color(22, 28, 45)); // ── CHANGED
+//		btnUploadDatabase.setForeground(Color.WHITE); // ── CHANGED
+//		btnUploadDatabase.setFocusPainted(false);
+//		btnUploadDatabase.setBorder(new javax.swing.border.CompoundBorder(
+//				new javax.swing.border.LineBorder(new Color(30, 41, 59), 1), new EmptyBorder(6, 12, 6, 12)));
+//		btnUploadDatabase.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED
+		
+		ui.applyRoundedStyle(btnUploadDatabase, new Color(22, 28, 45), new Color(13, 17, 28));
 		btnUploadDatabase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
@@ -237,9 +249,11 @@ public class BlastnGui extends JFrame {
 		contentPane.add(lblUploadDatabaseFastaFile, gbc_lblUploadDatabaseFastaFile);
 
 		// ── E-value label and dropdown ───────────────────────────────────────
-		JLabel lblEvalue = new JLabel("E-value Threshold:");
-		lblEvalue.setFont(new Font("Monospaced", Font.BOLD, 12)); // ── CHANGED: font
-		lblEvalue.setForeground(Color.WHITE); // ── CHANGED: muted
+//		JLabel lblEvalue = new JLabel("E-value Threshold:");
+//		lblEvalue.setFont(new Font("Monospaced", Font.BOLD, 12)); // ── CHANGED: font
+//		lblEvalue.setForeground(Color.WHITE); // ── CHANGED: muted
+		
+		JLabel lblEvalue = ui.boldLabel("E-value Threshold");
 		GridBagConstraints gbc_lblEvalue = new GridBagConstraints();
 		gbc_lblEvalue.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblEvalue.insets = new Insets(8, 0, 4, 5);
@@ -262,9 +276,11 @@ public class BlastnGui extends JFrame {
 		contentPane.add(Evalue, gbc_Evalue);
 
 		// ── Max sequences label and dropdown ─────────────────────────────────
-		JLabel lblMaxSeqs = new JLabel("Maximum Number of Sequences:");
-		lblMaxSeqs.setFont(new Font("Monospaced", Font.BOLD, 12)); // ── CHANGED
-		lblMaxSeqs.setForeground(Color.WHITE); // ── CHANGED
+//		JLabel lblMaxSeqs = new JLabel("Maximum Number of Sequences:");
+//		lblMaxSeqs.setFont(new Font("Monospaced", Font.BOLD, 12)); // ── CHANGED
+//		lblMaxSeqs.setForeground(Color.WHITE); // ── CHANGED
+		
+		JLabel lblMaxSeqs = ui.boldLabel("Maximum Number of Sequences:");
 		GridBagConstraints gbc_lblMaxSeqs = new GridBagConstraints();
 		gbc_lblMaxSeqs.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblMaxSeqs.insets = new Insets(0, 0, 4, 5);
@@ -287,9 +303,11 @@ public class BlastnGui extends JFrame {
 		contentPane.add(MaxSeqs, gbc_MaxSeqs);
 
 		// ── Scoring matrix label and dropdown ────────────────────────────────
-		JLabel lblScoringMatric = new JLabel("Scoring Matrix:");
-		lblScoringMatric.setFont(new Font("Monospaced", Font.BOLD, 12)); // ── CHANGED
-		lblScoringMatric.setForeground(Color.WHITE); // ── CHANGED
+//		JLabel lblScoringMatric = new JLabel("Scoring Matrix:");
+//		lblScoringMatric.setFont(new Font("Monospaced", Font.BOLD, 12)); // ── CHANGED
+//		lblScoringMatric.setForeground(Color.WHITE); // ── CHANGED
+		
+		JLabel lblScoringMatric = ui.boldLabel("Scoring Matrix");
 		GridBagConstraints gbc_lblScoringMatric = new GridBagConstraints();
 		gbc_lblScoringMatric.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblScoringMatric.insets = new Insets(0, 0, 4, 5);
@@ -314,24 +332,25 @@ public class BlastnGui extends JFrame {
 		contentPane.add(ScoringMatrix, gbc_ScoringMatrix);
 
 		// ── BLAST button — rounded filled blue ───────────────────────────────
-		JButton btnBLAST = new JButton("BLAST") {
-			@Override
-			protected void paintComponent(Graphics g) {
-				Graphics2D g2 = (Graphics2D) g;
-				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				g2.setColor(new Color(56, 189, 248)); // ── sky blue fill
-				g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-				super.paintComponent(g);
-			}
-		};
-		btnBLAST.setFont(new Font("Monospaced", Font.BOLD, 14)); // ── CHANGED
-		btnBLAST.setForeground(Color.WHITE); // ── CHANGED
-		btnBLAST.setContentAreaFilled(false);
-		btnBLAST.setBorderPainted(false);
-		btnBLAST.setFocusPainted(false);
-		btnBLAST.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED
-		btnBLAST.setBorder(new EmptyBorder(10, 30, 10, 30));
+		JButton btnBLAST = new JButton("BLAST");
+//			@Override
+//			protected void paintComponent(Graphics g) {
+//				Graphics2D g2 = (Graphics2D) g;
+//				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//				g2.setColor(new Color(56, 189, 248)); // ── sky blue fill
+//				g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+//				super.paintComponent(g);
+//			}
+//		};
+//		btnBLAST.setFont(new Font("Monospaced", Font.BOLD, 14)); // ── CHANGED
+//		btnBLAST.setForeground(Color.WHITE); // ── CHANGED
+//		btnBLAST.setContentAreaFilled(false);
+//		btnBLAST.setBorderPainted(false);
+//		btnBLAST.setFocusPainted(false);
+//		btnBLAST.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED
+//		btnBLAST.setBorder(new EmptyBorder(10, 30, 10, 30));
 
+		ui.applyRoundedStyle(btnBLAST, new Color(56, 189, 248), new Color(13, 17, 28));
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -430,24 +449,25 @@ public class BlastnGui extends JFrame {
 		gbc_btnBLAST.gridy = 8;
 		contentPane.add(btnBLAST, gbc_btnBLAST);
 
-		JButton btnCLEAR = new JButton("Clear") {
-			@Override
-			protected void paintComponent(Graphics g) {
-				Graphics2D g2 = (Graphics2D) g;
-				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				g2.setColor(new Color(220, 80, 80)); // ── red fill
-				g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-				super.paintComponent(g);
-			}
-		};
-		btnCLEAR.setFont(new Font("Monospaced", Font.BOLD, 14)); // ── CHANGED
-		btnCLEAR.setForeground(Color.WHITE); // ── CHANGED
-		btnCLEAR.setContentAreaFilled(false);
-		btnCLEAR.setBorderPainted(false);
-		btnCLEAR.setFocusPainted(false);
-		btnCLEAR.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED
-		btnCLEAR.setBorder(new EmptyBorder(10, 30, 10, 30));
+		JButton btnCLEAR = new JButton("Clear");
+//			@Override
+//			protected void paintComponent(Graphics g) {
+//				Graphics2D g2 = (Graphics2D) g;
+//				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//				g2.setColor(new Color(220, 80, 80)); // ── red fill
+//				g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+//				super.paintComponent(g);
+//			}
+//		};
+//		btnCLEAR.setFont(new Font("Monospaced", Font.BOLD, 14)); // ── CHANGED
+//		btnCLEAR.setForeground(Color.WHITE); // ── CHANGED
+//		btnCLEAR.setContentAreaFilled(false);
+//		btnCLEAR.setBorderPainted(false);
+//		btnCLEAR.setFocusPainted(false);
+//		btnCLEAR.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED
+//		btnCLEAR.setBorder(new EmptyBorder(10, 30, 10, 30));
 
+		ui.applyRoundedStyle(btnCLEAR, new Color(220, 80, 80), new Color(13, 17, 28));
 		btnCLEAR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtrInputsequence.setText(""); // maakt tekstbox leeg

@@ -7,8 +7,20 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+/**
+ * Utility class for parsing FASTA-formatted sequences into {@link Sequence} objects.
+ * 
+ * <p>Supports parsing from both a {@link File} and a raw {@link String} input.
+ * Multiple sequences in a single FASTA input are supported.
+ */
 public class MultipleSequenceParser {
 
+	/**
+	 * Reads a FASTA file and parses its contents into a list of {@link Sequence} objects.
+	 * 
+	 * @param sequencefile the FASTA file containing one or more sequences
+	 * @return a list of parsed {@link Sequence} objects
+	 */
 	public static ArrayList<Sequence> parseMultipleSeqs(File sequencefile) {
 		String sequences = "";
 		try {
@@ -22,6 +34,16 @@ public class MultipleSequenceParser {
 
 	}
 
+	/**
+	 * Parses a FASTA-formatted string into a list of {@link Sequence} objects.
+	 * 
+	 * <p>Each sequence is expected to start with a header line beginning with ">".
+	 * Sequences are split based on these headers.
+	 * 
+	 * @param sequences a string containing one or more FASTA-formatted sequences
+	 * @return a list of parsed {@link Sequence} objects
+	 * @throws IllegalArgumentException if the input FASTA format is invalid 
+	 */
 	public static ArrayList<Sequence> parseMultipleSeqs(String sequences) {
 		String[] lines = sequences.split("\\r?\\n");
 		ArrayList<Sequence> seqList = new ArrayList<Sequence>();
