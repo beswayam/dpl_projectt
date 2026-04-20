@@ -33,19 +33,52 @@ import java.awt.Graphics2D; // ── ADDED: for rounded buttons
 import java.awt.RenderingHints; // ── ADDED: for smooth edges
 import javax.swing.JSeparator; // ── ADDED: separator line
 
+/**
+ * Graphical user interface for running a BLASTN-like nucleotide sequence alignment tool.
+ *
+ * <p>This class provides a Swing-based interface that allows users to:
+ * <ul>
+ *   <li>Input nucleotide sequences in FASTA format</li>
+ *   <li>Upload query and database FASTA files</li>
+ *   <li>Configure BLAST parameters (E-value, max sequences, scoring matrix)</li>
+ *   <li>Run sequence similarity searches using Ssearch36</li>
+ * </ul>
+ *
+ * <p>The results are processed and displayed in a separate output GUI window.
+ */
 public class BlastnGui extends JFrame {
+	
+	/** Backend search engine used for sequence alignment (SSEARCH36 implementation). */
 	private static Ssearch36Search ssearch36search = new Ssearch36Search(false);
+	
+	/** List of parsed input sequences from user input or file. */
 	private ArrayList<Sequence> sequencelist;
+	
 	private static final long serialVersionUID = 1L;
+	
+	/** Main content panel of the GUI. */
 	private JPanel contentPane;
+	
+	/** Label displaying the BLASTN tool title. */
 	private JLabel txtBlastpAlgorithm;
 
-	// Variables to store the selected files
+	/** File selected as query input (FASTA). */
 	public File queryFile = null;
+	
+	/** File selected as database input (FASTA). */
 	public File dbFile = null;
 	
+	/** Utility class for styling and GUI helpers. */
 	GUIutilities ui = new GUIutilities();
 
+    /**
+     * Constructs the BLASTN GUI window and initializes all components,
+     * including input fields, file upload controls, and execution buttons.
+     *
+     * <p>The graphical user interface allows users to either paste sequences directly
+     * or upload FASTA files, configure alignment parameters, and execute
+     * a sequence similarity search.
+     */
 	public BlastnGui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 943, 676);
