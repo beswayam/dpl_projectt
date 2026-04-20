@@ -76,14 +76,6 @@ public class BlastViewGui extends BlastOutputGuiFunctions {
 		// ── Help button ───────────────────────────────────────────────────────
 		
 		JButton OutHelpButton = new JButton("Help");
-//		OutHelpButton.setFont(new Font("Monospaced", Font.BOLD, 11));
-//		OutHelpButton.setBackground(new Color(22, 28, 45)); // ── CHANGED
-//		OutHelpButton.setForeground(new Color(100, 116, 139)); // ── CHANGED
-//		OutHelpButton.setFocusPainted(false);
-//		OutHelpButton.setBorder(new javax.swing.border.CompoundBorder(
-//				new javax.swing.border.LineBorder(new Color(30, 41, 59), 1), new EmptyBorder(6, 14, 6, 14)));
-//		OutHelpButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED
-		
 		ui.applyRoundedStyle(OutHelpButton, new Color(22, 28, 45), new Color(100, 116, 139));
 		OutHelpButton.addActionListener(e -> {
 			JFrame helpFrame = new JFrame("BLASTP Output Help");
@@ -129,11 +121,7 @@ public class BlastViewGui extends BlastOutputGuiFunctions {
 		getContentPane().add(sep, gbc_sep);
 
 		// ── Select blast hit label ────────────────────────────────────────────
-		
-//		JLabel BlastHitLabel = new JLabel("Select Blast Hit");
-//		BlastHitLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
-//		BlastHitLabel.setForeground(new Color(100, 116, 139)); // ── CHANGED
-		
+
 		JLabel BlastHitLabel = ui.label("Select Blast Hit");
 		GridBagConstraints gbc_BlastHitLabel = new GridBagConstraints();
 		gbc_BlastHitLabel.insets = new Insets(0, 15, 12, 10);
@@ -268,20 +256,14 @@ public class BlastViewGui extends BlastOutputGuiFunctions {
 
 	// ── Helper: creates a muted grey data label ───────────────────────────────
 	private JLabel dataLabel(String text, int col, int row) {
-//		JLabel lbl = new JLabel(text);
-//		lbl.setFont(new Font("Monospaced", Font.PLAIN, 12));
-//		lbl.setForeground(new Color(100, 116, 139)); // ── CHANGED: muted grey
-		
+	
 		JLabel lbl = ui.label(text);
 		return lbl;
 	}
 
 	// ── Helper: creates a bright value label ─────────────────────────────────
 	private JLabel valueLabel(String text, int col, int row) {
-//		JLabel lbl = new JLabel(text);
-//		lbl.setFont(new Font("Monospaced", Font.BOLD, 12));
-//		lbl.setForeground(new Color(226, 232, 240)); // ── CHANGED: near white
-		
+
 		JLabel lbl = ui.boldLabel(text);
 		return lbl;
 	}

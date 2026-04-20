@@ -72,15 +72,6 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 		// ── Help button ───────────────────────────────────────────────────────
 		JButton OutHelpButton = new JButton("Help");
 		ui.applyRoundedStyle(OutHelpButton, new Color(56, 189, 248), new Color(13, 17, 28));
-		
-//		OutHelpButton.setFont(new Font("Monospaced", Font.BOLD, 11));
-//		OutHelpButton.setBackground(new Color(22, 28, 45)); // ── CHANGED
-//		OutHelpButton.setForeground(new Color(100, 116, 139)); // ── CHANGED
-//		OutHelpButton.setFocusPainted(false);
-//		OutHelpButton.setBorder(new javax.swing.border.CompoundBorder(
-//				new javax.swing.border.LineBorder(new Color(30, 41, 59), 1), new EmptyBorder(6, 14, 6, 14)));
-//		OutHelpButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED
-		
 		OutHelpButton.addActionListener(e -> {
 			JFrame helpFrame = new JFrame("BLASTP Output Help");
 			helpFrame.setSize(600, 600);
@@ -128,11 +119,6 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 		// ── Select blast hit label ────────────────────────────────────────────
 		
 		JLabel BlastHitLabel = ui.label("Select Blast Hit");
-		
-//		JLabel BlastHitLabel = new JLabel("Select Blast Hit");
-//		BlastHitLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
-//		BlastHitLabel.setForeground(new Color(100, 116, 139)); // ── CHANGED
-		
 		GridBagConstraints gbc_BlastHitLabel = new GridBagConstraints();
 		gbc_BlastHitLabel.insets = new Insets(0, 15, 12, 10);
 		gbc_BlastHitLabel.gridx = 1;
@@ -187,24 +173,6 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 		// ── Export button — rounded teal ──────────────────────────────────────
 		JButton ExportButton = new JButton("Export Results");
 		ui.applyRoundedStyle(ExportButton, new Color(52, 211, 153), new Color(13, 17, 28));
-		
-//			@Override
-//			protected void paintComponent(Graphics g) {
-//				Graphics2D g2 = (Graphics2D) g;
-//				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//				g2.setColor(new Color(52, 211, 153)); // ── teal fill
-//				g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-//				super.paintComponent(g);
-//			}
-//		};
-//		ExportButton.setFont(new Font("Monospaced", Font.BOLD, 12));
-//		ExportButton.setForeground(Color.WHITE);
-//		ExportButton.setContentAreaFilled(false);
-//		ExportButton.setBorderPainted(false);
-//		ExportButton.setFocusPainted(false);
-//		ExportButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED
-//		ExportButton.setBorder(new EmptyBorder(8, 20, 8, 20));
-			
 		ExportButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				File file = fileList.get(sequenceIndex);
@@ -258,11 +226,6 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 		// ── Select sequence label and combo ──────────────────────────────────
 		
 		JLabel SeqSelectLabel = ui.label("Select Sequence");
-		
-//		JLabel SeqSelectLabel = new JLabel("Select sequence");
-//		SeqSelectLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
-//		SeqSelectLabel.setForeground(new Color(100, 116, 139)); // ── CHANGED
-		
 		GridBagConstraints gbc_SeqSelectLabel = new GridBagConstraints();
 		gbc_SeqSelectLabel.anchor = GridBagConstraints.CENTER;
 		gbc_SeqSelectLabel.insets = new Insets(0, 10, 12, 10);
@@ -364,10 +327,6 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 	private JLabel dataLabel(String text, int col, int row) {
 		
 		JLabel lbl = ui.label(text);
-		
-//		JLabel lbl = new JLabel(text);
-//		lbl.setFont(new Font("Monospaced", Font.PLAIN, 12));
-//		lbl.setForeground(new Color(100, 116, 139)); // ── CHANGED: muted grey
 		return lbl;
 	}
 
@@ -375,10 +334,6 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 	private JLabel valueLabel(String text, int col, int row) {
 		
 		JLabel lbl = ui.boldLabel(text);
-		
-//		JLabel lbl = new JLabel(text);
-//		lbl.setFont(new Font("Monospaced", Font.BOLD, 12));
-//		lbl.setForeground(new Color(226, 232, 240)); // ── CHANGED: near white
 		return lbl;
 	}
 
