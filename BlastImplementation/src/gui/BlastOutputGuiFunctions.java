@@ -30,10 +30,10 @@ public class BlastOutputGuiFunctions extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	/** List of parsed BLAST hits, where each hit is represented as a String array. */
-	ArrayList<String[]> hits;
+	protected ArrayList<String[]> hits;
 	
 	/** List of labels used to display BLAST output values in the GUI. */
-	ArrayList<JLabel> labelList = new ArrayList<JLabel>();
+	protected ArrayList<JLabel> labelList = new ArrayList<JLabel>();
 
 	/**
 	 * Reads a BLAST output TSV file and extracts all hits.

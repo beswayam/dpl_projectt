@@ -20,7 +20,7 @@ public class Ssearch36Search {
 	private File ssearchresult;
 	private int errorCode;
 	private boolean protein;
-	private static String matrixFlag;
+	private String matrixFlag;
 	
 	/**
      * Mapping between full matrix names and SSEARCH short flags.

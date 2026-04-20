@@ -405,27 +405,6 @@ public class BlastpGui extends JFrame {
 							JOptionPane.showMessageDialog(BlastpGui.this, "SSEARCH36 failed: " + ex.getMessage(),
 									"Search Error", JOptionPane.ERROR_MESSAGE);
 						}
-						ArrayList<File> fileList = new ArrayList<File>();
-						ArrayList<String> headerList = new ArrayList<String>();
-
-						for (int i = 0; i < sequencelist.size(); i++) {
-							Sequence sequence = sequencelist.get(i);
-							Object[] fileData = performBlastP(sequence,
-									Float.valueOf(Evalue.getSelectedItem().toString()),
-									Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
-							File file = (File) fileData[0];
-							String header = (String) fileData[1];
-
-							fileList.add(file);
-							headerList.add(header);
-						}
-
-						// close BLAST running dialog
-						dialog.dispose();
-
-						BlastOutputGuiFunctions blastpout = new BlastOutputGui(fileList, headerList);
-						blastpout.setLocationRelativeTo(null);
-						blastpout.setVisible(true);
 					} else {
 						ArrayList<File> fileList = new ArrayList<File>();
 						ArrayList<String> headerList = new ArrayList<String>();
