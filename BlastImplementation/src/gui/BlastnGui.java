@@ -99,9 +99,8 @@ public class BlastnGui extends JFrame {
 			JTextArea textArea = new JTextArea();
 			textArea.setText(
 					"BLASTN Instructions:\n\n" + "1. Enter your sequence(s) in FASTA format in the text box or\n"
-							+ "   click Upload Input Sequence to upload a file.\n"
-							+ "2. Click Upload Database if you want a custom database,\n"
-							+ "   or leave blank to use default.\n"
+							+ "    click Upload Input Sequence to upload a file.\n"
+							+ "2. Click Upload Database (there is no default),\n"
 							+ "3. Adjust E-value, max sequences, and scoring matrix if needed.\n"
 							+ "4. Click BLAST.\n\n" + "Results will appear in your Downloads folder.");
 			textArea.setEditable(false);
