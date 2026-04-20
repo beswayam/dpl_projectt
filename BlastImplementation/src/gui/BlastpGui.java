@@ -33,20 +33,59 @@ import java.awt.Graphics2D; // ── ADDED: for rounded buttons
 import java.awt.RenderingHints; // ── ADDED: for smooth edges
 import javax.swing.JSeparator; // ── ADDED: separator line
 
+/**
+ * Graphical user interface for running BLASTP and SSEARCH36 searches.
+ *
+ * <p>This class provides a Swing-based graphical user interface that allows users to:
+ * <ul>
+ *   <li>Enter or upload protein sequences in FASTA format</li>
+ *   <li>Optionally upload a custom database</li>
+ *   <li>Select BLAST parameters such as E-value, scoring matrix, and max hits</li>
+ *   <li>Execute BLASTP or SSEARCH36 searches</li>
+ *   <li>View results in a separate output window</li>
+ * </ul>
+ *
+ * <p>The GUI supports both
+ * UniProt-based BLAST searches and custom database searches.
+ */
 public class BlastpGui extends JFrame {
+	
+    /** BLASTP search utility for default UniProt database. */
 	private static BlastpSearch blastpsearch = new BlastpSearch();
+	
+    /** SSEARCH36 search utility for custom database. */
 	private static Ssearch36Search ssearch36search = new Ssearch36Search(true);
+	
+    /** List of parsed sequences from user input or file. */
 	private ArrayList<Sequence> sequencelist;
 	private static final long serialVersionUID = 1L;
+	
+    /** Main content panel of the GUI. */
 	private JPanel contentPane;
+	
+    /** Header label displaying the application title. */
 	private JLabel txtBlastpAlgorithm;
 
-	// Variables to store the selected files
+    /** Selected query FASTA file (if uploaded). */
 	public File queryFile = null;
+	
+    /** Selected database FASTA file (if uploaded). */
 	public File dbFile = null;
 	
+    /** Utility class for consistent GUI styling. */
 	GUIutilities ui = new GUIutilities();
 
+	/**
+     * Constructs the BLASTP GUI window and initializes all components.
+     *
+     * <p>This includes:
+     * <ul>
+     *   <li>Text input area for FASTA sequences</li>
+     *   <li>Buttons for uploading query and database files</li>
+     *   <li>Dropdowns for selecting BLAST parameters</li>
+     *   <li>Execution button to run BLAST or SSEARCH</li>
+     * </ul>
+     */
 	public BlastpGui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 943, 676);
@@ -499,6 +538,25 @@ public class BlastpGui extends JFrame {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
+	/**
+	* Executes a BLASTP search using the UniProt database.
+	*
+	* <p>This method:
+	* <ul>
+	*   <li>Runs BLASTP using the provided sequence</li>
+	*   <li>Writes results to a TSV file</li>
+	*   <li>Generates a header based on the sequence identifier</li>
+	* </ul>
+	*
+	* @param sequence the protein sequence to search
+	* @param mineval  the minimum E-value threshold
+	* @param maxseq   the maximum number of sequences to return
+	* @return an {@code Object[]} containing:
+	*         <ul>
+	*           <li>Index 0: {@link File} containing BLAST output</li>
+ 	*           <li>Index 1: {@link String} header for the sequence</li>
+ 	*         </ul>
+ 	*/
 	private static Object[] performBlastP(Sequence sequence, float mineval, int maxseq) {
 		blastpsearch.setSequence(sequence);
 		blastpsearch.runUniprotBlast();
