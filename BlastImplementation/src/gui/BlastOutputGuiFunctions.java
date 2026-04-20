@@ -11,11 +11,39 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+
+/**
+ * Utility class providing helper methods for processing and displaying
+ * BLAST output data in a GUI.
+ *
+ * <p>This class is responsible for:
+ * <ul>
+ *   <li>Reading BLAST results from a TSV (tab-separated values) file</li>
+ *   <li>Parsing individual BLAST hits</li>
+ *   <li>Checking which parts of two given sequences align</li>
+ * </ul>
+ *
+ * <p>The parsed data is displayed through a list of {@link JLabel} components
+ * maintained in {@code labelList}.
+ */
 public class BlastOutputGuiFunctions extends JFrame {
 	private static final long serialVersionUID = 1L;
+	
+	/** List of parsed BLAST hits, where each hit is represented as a String array. */
 	ArrayList<String[]> hits;
+	
+	/** List of labels used to display BLAST output values in the GUI. */
 	ArrayList<JLabel> labelList = new ArrayList<JLabel>();
 
+	/**
+	 * Reads a BLAST output TSV file and extracts all hits.
+	 *
+	 * <p>The first line of the file is assumed to be a header and is skipped.
+	 * Each subsequent line is split on tab characters and stored as a String array.
+	 *
+	 * @param file the BLAST TSV file to read
+	 * @return a list of BLAST hits, each represented as a String array
+	 */
 	protected ArrayList<String[]> readBlastTsv(File file) {
 		ArrayList<String[]> hits = new ArrayList<String[]>();
 		try (Scanner myReader = new Scanner(file)) {
@@ -33,6 +61,30 @@ public class BlastOutputGuiFunctions extends JFrame {
 		return hits;
 	}
 
+	/**
+	 * Parses a single BLAST hit and updates the GUI labels with its data.
+	 *
+	 * <p>The expected format of {@code hitdata} is:
+	 * <pre>
+	 * [0] hit number
+	 * [1] UniProt ID
+	 * [2] description
+	 * [3] match sequence
+	 * [4] E-value
+	 * [5] bit score
+	 * [6] identity percentage
+	 * [7] query sequence
+	 * [8] query start
+	 * [9] query end
+	 * [10] match start
+	 * [11] match end
+	 * </pre>
+	 *
+	 * <p>The method updates the labels in {@code labelList} with formatted
+	 * alignment and metadata.
+	 *
+	 * @param hitdata String array containing BLAST hit information
+	 */
 	protected void parseHit(String[] hitdata) {
 		String hitnum = hitdata[0];
 		String id = hitdata[1];
@@ -59,6 +111,17 @@ public class BlastOutputGuiFunctions extends JFrame {
 
 	}
 
+	/**
+	 * Generates a visual alignment string indicating matching positions
+	 * between two sequences.
+	 *
+	 * <p>Matching characters are represented by {@code '|'}, while mismatches
+	 * are represented by non-breaking spaces ({@code &nbsp}) for HTML rendering.
+	 *
+	 * @param seq1 the query sequence
+	 * @param seq2 the matched sequence
+	 * @return a string representing alignment matches for HTML display
+	 */
 	private String findMatches(String seq1, String seq2) {
 		int seqlen = seq1.length();
 		String matches = "";
