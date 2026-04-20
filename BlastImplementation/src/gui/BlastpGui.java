@@ -409,8 +409,7 @@ public class BlastpGui extends JFrame {
 							Evalue.getSelectedItem().toString(),
 							MaxSeqs.getSelectedItem().toString(),
 							outPath);
-							
-							//close BLAST running dialog
+
 							
 						if (ssearch36search.getErrorCode() == 0) {
 							File file = new File("project_data"+File.separator+"temp_output.tsv");
@@ -419,6 +418,7 @@ public class BlastpGui extends JFrame {
 								file = new File("project_data"+File.separator+"temp_output_"+filenum+".tsv");
 								filenum++;
 							}
+							dialog.dispose();
 							ssearch36search.parseBlastCustomDatabase(file);
 							String header = "Sequence";
 							fileList.add(file);
@@ -431,7 +431,7 @@ public class BlastpGui extends JFrame {
 							dialog.dispose();
 						}
 						}
-						dialog.dispose();
+						
 						BlastOutputGuiFunctions blastpout = new BlastOutputGui(fileList, headerList);
 						blastpout.setLocationRelativeTo(null);
 					    blastpout.setVisible(true);
@@ -440,24 +440,7 @@ public class BlastpGui extends JFrame {
 							"SSEARCH36 failed: " + ex.getMessage(),
 							"Search Error", JOptionPane.ERROR_MESSAGE);
 					}
-					ArrayList<File> fileList = new ArrayList<File>();
-					ArrayList<String> headerList = new ArrayList<String>();
-					for (int i = 0; i < sequencelist.size(); i++) {
-						Sequence sequence = sequencelist.get(i);
-						Object[] fileData = performBlastP(sequence, Float.valueOf(Evalue.getSelectedItem().toString()),
-								Integer.parseInt(MaxSeqs.getSelectedItem().toString()));
-						File file = (File) fileData[0];
-						String header = (String) fileData[1];
-						fileList.add(file);
-						headerList.add(header);
-					}
 
-					// close BLAST running dialog
-					dialog.dispose();
-
-					BlastOutputGuiFunctions blastpout = new BlastOutputGui(fileList, headerList);
-					blastpout.setLocationRelativeTo(null);
-					blastpout.setVisible(true);
 				}
 				else {
 					ArrayList<File> fileList = new ArrayList<File>();
@@ -471,7 +454,7 @@ public class BlastpGui extends JFrame {
 						fileList.add(file);
 						headerList.add(header);
 					}
-					
+					dialog.dispose();
 					BlastOutputGui blastpout = new BlastOutputGui(fileList, headerList);
 					blastpout.setLocationRelativeTo(null);
 				    blastpout.setVisible(true);

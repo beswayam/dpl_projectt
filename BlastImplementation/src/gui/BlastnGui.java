@@ -372,19 +372,20 @@ public class BlastnGui extends JFrame {
 					JOptionPane.showMessageDialog(BlastnGui.this, "Please provide a sequence via textbox or file",
 							"Input Error", JOptionPane.WARNING_MESSAGE);
 				} else {
-					// show message that BLAST is running
-					JDialog dialog = new JDialog(BlastnGui.this, "Loading", false);
-					JLabel loadingLabel = new JLabel("BLAST is running, please wait...", JLabel.CENTER);
-					loadingLabel.setFont(new Font("Monospaced", Font.PLAIN, 13));
-					loadingLabel.setBorder(new EmptyBorder(20, 30, 20, 30));
-					dialog.getContentPane().add(loadingLabel);
-					dialog.pack();
-					dialog.setLocationRelativeTo(BlastnGui.this);
-					dialog.setVisible(true);
-					dialog.paintAll(dialog.getGraphics());
 					
 				if (dbFile != null) {
 					try {
+						// show message that BLAST is running
+						JDialog dialog = new JDialog(BlastnGui.this, "Loading", false);
+						JLabel loadingLabel = new JLabel("BLAST is running, please wait...", JLabel.CENTER);
+						loadingLabel.setFont(new Font("Monospaced", Font.PLAIN, 13));
+						loadingLabel.setBorder(new EmptyBorder(20, 30, 20, 30));
+						dialog.getContentPane().add(loadingLabel);
+						dialog.pack();
+						dialog.setLocationRelativeTo(BlastnGui.this);
+						dialog.setVisible(true);
+						dialog.paintAll(dialog.getGraphics());
+						
 						Sequence sequence = null;
 						ArrayList<File> fileList = new ArrayList<File>();
 						ArrayList<String> headerList = new ArrayList<String>();
@@ -405,8 +406,7 @@ public class BlastnGui extends JFrame {
 								Evalue.getSelectedItem().toString(),
 								MaxSeqs.getSelectedItem().toString(),
 								outPath);
-								//close BLAST running dialog
-								dialog.dispose();
+								
 								
 							if (ssearch36search.getErrorCode() == 0) {
 								File file = new File("project_data"+File.separator+"temp_output.tsv");
@@ -426,6 +426,9 @@ public class BlastnGui extends JFrame {
 									"Search Error", JOptionPane.ERROR_MESSAGE);
 							}
 							}
+							//close BLAST running dialog
+							dialog.dispose();
+							
 							BlastOutputGuiFunctions blastpout = new BlastOutputGui(fileList, headerList);
 							blastpout.setLocationRelativeTo(null);
 						    blastpout.setVisible(true);
@@ -433,15 +436,12 @@ public class BlastnGui extends JFrame {
 							JOptionPane.showMessageDialog(BlastnGui.this,
 								"SSEARCH36 failed: " + ex.getMessage(),
 								"Search Error", JOptionPane.ERROR_MESSAGE);
-							dialog.dispose();
 					}
-					return;
 				}
 				else {
 					JOptionPane.showMessageDialog(BlastnGui.this,
 							"Please upload a database file",
 							"Database Error", JOptionPane.WARNING_MESSAGE);
-					dialog.dispose();
 				}
 				
 			}}});
