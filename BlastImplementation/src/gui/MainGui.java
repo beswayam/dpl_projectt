@@ -111,11 +111,11 @@ public class MainGui extends JFrame {
 		gbc_sep.gridy = 2;
 		contentPane.add(separator, gbc_sep);
 
-		// ── BLASTP button label ───────────────────────────────────────────────
-		
+		// ── BLASTP button label ───────────────────────────────────────────────		
 		// ── ADDED: label above button acts as the button title ───────────────
 
 		JLabel lblBlastp = ui.label("Run a protein sequence alignment");
+
 		GridBagConstraints gbc_lblBlast = new GridBagConstraints();
 		gbc_lblBlast.anchor = GridBagConstraints.WEST;
 		gbc_lblBlast.insets = new Insets(0, 6, 8, 5); // ── CHANGED: bottom 2 → 8
