@@ -56,7 +56,7 @@ public class MultipleSequenceParser {
 			oneSeq += lines[i] + "\n";
 		}
 		seqList.add(new Sequence(oneSeq.trim()));
-
+		
 		return seqList;
 	}
 }
