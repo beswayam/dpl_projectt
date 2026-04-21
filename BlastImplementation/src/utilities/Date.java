@@ -2,6 +2,8 @@ package utilities;
 
 import java.time.LocalDate;
 
+import interfaces.Displayable;
+
 /**
  * The Date class represent a simple calendar date (day, month, year)
  * based on the current system date at the time of object creation.
