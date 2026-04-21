@@ -395,12 +395,13 @@ public class BlastpGui extends JFrame {
 													+ "Check that ssearch36.exe exists in the tools folder.",
 											"Search Error", JOptionPane.ERROR_MESSAGE);
 									dialog.dispose();
+									
 								}
 							}
-							dialog.dispose();
-							BlastOutputGuiFunctions blastpout = new BlastOutputGui(fileList, headerList);
+							BlastOutputGui blastpout = new BlastOutputGui(fileList, headerList);
 							blastpout.setLocationRelativeTo(null);
 							blastpout.setVisible(true);
+							
 						} catch (Exception ex) {
 							JOptionPane.showMessageDialog(BlastpGui.this, "SSEARCH36 failed: " + ex.getMessage(),
 									"Search Error", JOptionPane.ERROR_MESSAGE);

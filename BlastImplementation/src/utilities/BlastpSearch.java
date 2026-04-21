@@ -54,7 +54,6 @@ public class BlastpSearch {
 		UniProtBlastService uniProtBlastService = serviceFactoryInstance.getUniProtBlastService();
 		BlastInput input = new BlastInput.Builder(DatabaseOption.SWISSPROT, this.sequence.getSequence()).build();
 		CompletableFuture<BlastResult<UniProtHit>> resultFuture = uniProtBlastService.runBlast(input);
-
 		try {
 			this.blastResult = resultFuture.get();
 

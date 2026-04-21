@@ -320,6 +320,7 @@ public class BlastnGui extends JFrame {
 		ui.applyRoundedStyle(btnBLAST, new Color(56, 189, 248), new Color(13, 17, 28));
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (dbFile != null) {
 				try {
 					sequencelist = null;
 					String raw = txtrInputsequence.getText();
@@ -339,8 +340,7 @@ public class BlastnGui extends JFrame {
 							"Input Error", JOptionPane.WARNING_MESSAGE);
 				} else {
 
-					
-				if (dbFile != null) {
+				
 					try {
 						// show message that BLAST is running
 						JDialog dialog = new JDialog(BlastnGui.this, "Loading", false);
@@ -381,8 +381,19 @@ public class BlastnGui extends JFrame {
 								while(file.isFile()) {
 									file = new File("project_data"+File.separator+"temp_output_"+filenum+".tsv");
 									filenum++;
-
 								}
+								ssearch36search.parseBlastCustomDatabase(file);
+								String header = "Sequence";
+								fileList.add(file);
+								headerList.add(header);
+							}
+							else {
+								JOptionPane.showMessageDialog(BlastnGui.this,
+										"SSEARCH36 failed (exit code " + ssearch36search.getErrorCode() + ").\n"
+												+ "Check that ssearch36.exe exists in the tools folder.",
+										"Search Error", JOptionPane.ERROR_MESSAGE);
+								dialog.dispose();
+								
 							}
 							//close BLAST running dialog
 							dialog.dispose();
@@ -397,11 +408,12 @@ public class BlastnGui extends JFrame {
 								"Search Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
+				
+				}
 				else {
 					JOptionPane.showMessageDialog(BlastnGui.this,
 							"Please upload a database file",
 							"Database Error", JOptionPane.WARNING_MESSAGE);
-				}
 				
 			}}});
 
