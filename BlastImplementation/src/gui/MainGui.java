@@ -232,9 +232,9 @@ public class MainGui extends JFrame {
 				int file = fileChooser.showOpenDialog(MainGui.this);
 				if (file == JFileChooser.APPROVE_OPTION) {
 					inputFile = fileChooser.getSelectedFile();
-
+					Sequence statisticsSequence = new Sequence(inputFile);
 					// pass file to second GUI
-					StatisticsGui stats = new StatisticsGui(inputFile);
+					StatisticsGui stats = new StatisticsGui(statisticsSequence);
 					stats.setLocationRelativeTo(null);
 					stats.setVisible(true);
 				}

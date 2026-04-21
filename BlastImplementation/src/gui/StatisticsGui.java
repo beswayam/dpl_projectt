@@ -64,7 +64,7 @@ public class StatisticsGui extends JFrame {
 	private JPanel contentPane;
 	
 	/** Input FASTA file used to generate statistics. */
-	private File file;
+	private Sequence seq;
 
 	/**
 	 * Creates the statistics window for the provided file.
@@ -75,11 +75,11 @@ public class StatisticsGui extends JFrame {
 	 *
 	 * @param inputFile FASTA file to analyse
 	 */
-	public StatisticsGui(File inputFile) {
+	public StatisticsGui(Sequence inputSequence) {
 		
 		GUIutilities ui = new GUIutilities();
 		
-		this.file = inputFile;
+		this.seq = inputSequence;
 		setBounds(100, 100, 900, 580);
 		setTitle("EzBLAST — File Statistics"); // ── CHANGED: window title
 
@@ -212,7 +212,6 @@ public class StatisticsGui extends JFrame {
 	 * @param gbc_btnGoToTool layout constraints for the button
 	 */
 	private void btnTool(JButton btnGoToTool, GridBagConstraints gbc_btnGoToTool) {
-		Sequence seq = new Sequence(this.file);
 
 		applyRoundedStyle(btnGoToTool, new Color(56, 189, 248), new Color(22, 28, 45));
 
@@ -221,7 +220,7 @@ public class StatisticsGui extends JFrame {
 
 		String toolToReferTo;
 
-		if (seq.isProtein()) {
+		if (this.seq.isProtein()) {
 			toolToReferTo = "BLASTP";
 		} else {
 			toolToReferTo = "BLASTN";
@@ -253,7 +252,6 @@ public class StatisticsGui extends JFrame {
 	 * @param gbc_textOverviewInput layout constraints for the sequence panel
 	 */
 	private void textForOverviewInput(JTextArea textOverviewInput, GridBagConstraints gbc_textOverviewInput) {
-		Sequence seq = new Sequence(this.file);
 
 		textOverviewInput.setEditable(false);
 		textOverviewInput.setLineWrap(true);
@@ -297,7 +295,6 @@ public class StatisticsGui extends JFrame {
 	 * @param gbc_textStatistics layout constraints for the statistics panel
 	 */
 	private void textForStatistics(JTextArea textStatistics, GridBagConstraints gbc_textStatistics) {
-		Sequence unknownSeq = new Sequence(this.file);
 
 		gbc_textStatistics.insets = new Insets(0, 0, 0, 5);
 		gbc_textStatistics.gridx = 1;
@@ -311,10 +308,10 @@ public class StatisticsGui extends JFrame {
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-		if (unknownSeq.isProtein()) {
-			textForStatisticsIfProtein(unknownSeq, textStatistics);
+		if (this.seq.isProtein()) {
+			textForStatisticsIfProtein(textStatistics);
 		} else {
-			textForStatisticsIfNucleotide(unknownSeq, textStatistics);
+			textForStatisticsIfNucleotide(textStatistics);
 		}
 
 		textStatistics.setBackground(new Color(22, 28, 45)); // added
@@ -335,7 +332,6 @@ public class StatisticsGui extends JFrame {
 	 * @param gbc_textTools layout constraints for the tool panel
 	 */
 	private void textForTools(JTextArea textTools, GridBagConstraints gbc_textTools) {
-		Sequence unknownSeq = new Sequence(this.file);
 
 		JScrollPane scrollPaneTools = new JScrollPane(textTools);
 		scrollPaneTools.setBorder(new javax.swing.border.LineBorder(new Color(30, 41, 59), 1)); // added
@@ -350,7 +346,7 @@ public class StatisticsGui extends JFrame {
 		gbc_textTools.weighty = 1.0;
 		gbc_textTools.fill = GridBagConstraints.BOTH;
 
-		if (unknownSeq.isProtein()) {
+		if (this.seq.isProtein()) {
 			textTools.append("The sequence contains amino acids. Use BLASTP to find"
 					+ " which organism the sequence comes from.");
 		} else {
@@ -377,11 +373,10 @@ public class StatisticsGui extends JFrame {
 	/**
 	 * Displays statistics for a protein sequence.
 	 *
-	 * @param unknownSeq sequence to analyse
 	 * @param textStatistics text area to populate
 	 */
-	private void textForStatisticsIfProtein(Sequence unknownSeq, JTextArea textStatistics) {
-		ProteinStatistics seqStat = new ProteinStatistics(unknownSeq);
+	private void textForStatisticsIfProtein(JTextArea textStatistics) {
+		ProteinStatistics seqStat = new ProteinStatistics(this.seq);
 
 		// protein weight
 		double protWeight = ((ProteinStatistics) seqStat).proteinWeight();
@@ -401,11 +396,10 @@ public class StatisticsGui extends JFrame {
 	/**
 	 * Displays statistics for a nucleotide sequence.
 	 *
-	 * @param unknownSeq sequence to analyse
 	 * @param textStatistics text area to populate
 	 */
-	private void textForStatisticsIfNucleotide(Sequence unknownSeq, JTextArea textStatistics) {
-		NucleotideStatistics seqStat = new NucleotideStatistics(unknownSeq);
+	private void textForStatisticsIfNucleotide(JTextArea textStatistics) {
+		NucleotideStatistics seqStat = new NucleotideStatistics(this.seq);
 
 		// sequence length
 		int length = seqStat.seqLength();
