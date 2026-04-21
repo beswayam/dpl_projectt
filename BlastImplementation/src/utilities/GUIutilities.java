@@ -4,6 +4,16 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 
+/**
+ * Utility class for creating consistently styled GUI components.
+ * <p>
+ * This class provides helper methods to generate Swing components such as
+ * labels and combo boxes with predefined fonts, colors, and styling.
+ * It ensures a uniform look and feel across the application by centralizing
+ * visual configuration.
+ * </p>
+ */
+
 public class GUIutilities {
 	
 
@@ -11,14 +21,27 @@ public class GUIutilities {
 	    private final Color BORDER = new Color(30, 41, 59);
 	    private final Color TEXT_MUTED = new Color(100, 116, 139);
 	    private final Color TEXT_LIGHT = new Color(226, 232, 240);
-
+	    
+	    /**
+	     * Creates a standard label with muted text styling.
+	     *
+	     * @param text text to display inside the label
+	     * @return configured JLabel with muted appearance
+	     */
+	    
 	    public JLabel label(String text) {
 	        JLabel lbl = new JLabel(text);
 	        lbl.setFont(new Font("Monospaced", Font.PLAIN, 12));
 	        lbl.setForeground(TEXT_MUTED);
 	        return lbl;
 	    }
-
+	    
+	    /**
+	     * Creates a bold label with highlighted text styling.
+	     *
+	     * @param text text to display inside the label
+	     * @return configured JLabel with bold and light-colored appearance
+	     */
 	    public JLabel boldLabel(String text) {
 	        JLabel lbl = new JLabel(text);
 	        lbl.setFont(new Font("Monospaced", Font.BOLD, 12));
@@ -39,7 +62,13 @@ public class GUIutilities {
 //	        ));
 //	        return btn;
 //	    }
-
+	    
+	    /**
+	     * Creates a styled combo box with predefined color scheme.
+	     *
+	     * @param items array of items to populate the combo box
+	     * @return configured JComboBox with custom styling
+	     */
 	    public JComboBox<String> combo(String[] items) {
 	        JComboBox<String> box = new JComboBox<>(items);
 	        box.setBackground(CARD);
