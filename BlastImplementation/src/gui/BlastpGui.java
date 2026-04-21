@@ -398,6 +398,9 @@ public class BlastpGui extends JFrame {
 									
 								}
 							}
+							BlastOutputGui blastpout = new BlastOutputGui(fileList, headerList);
+							blastpout.setLocationRelativeTo(null);
+							blastpout.setVisible(true);
 							
 						} catch (Exception ex) {
 							JOptionPane.showMessageDialog(BlastpGui.this, "SSEARCH36 failed: " + ex.getMessage(),
