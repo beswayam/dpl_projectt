@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import interfaces.StatisticsInterface;
 import utilities.GUIutilities;
 import utilities.NucleotideStatistics;
 import utilities.ProteinStatistics;
@@ -66,24 +65,6 @@ public class StatisticsGui extends JFrame {
 	
 	/** Input FASTA file used to generate statistics. */
 	private File file;
-
-	/**
-	 * Launches the statistics window.
-	 *
-	 * @param args command-line arguments, not used
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					StatisticsGui frame = new StatisticsGui(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Creates the statistics window for the provided file.
@@ -400,7 +381,7 @@ public class StatisticsGui extends JFrame {
 	 * @param textStatistics text area to populate
 	 */
 	private void textForStatisticsIfProtein(Sequence unknownSeq, JTextArea textStatistics) {
-		StatisticsInterface seqStat = new ProteinStatistics(unknownSeq);
+		ProteinStatistics seqStat = new ProteinStatistics(unknownSeq);
 
 		// protein weight
 		double protWeight = ((ProteinStatistics) seqStat).proteinWeight();
@@ -410,8 +391,9 @@ public class StatisticsGui extends JFrame {
 		textStatistics.append("Protein length; " + length + " amino acids\n\n");
 
 		// sequence content counts
-		seqContents(seqStat, textStatistics);
-
+		textStatistics.append("Protein sequence contents;\n");
+		printSeqContents(seqStat, textStatistics);
+		
 		// protein weight
 		textStatistics.append("\n\nProtein weight; " + protWeight + " Da");
 	}
@@ -423,7 +405,7 @@ public class StatisticsGui extends JFrame {
 	 * @param textStatistics text area to populate
 	 */
 	private void textForStatisticsIfNucleotide(Sequence unknownSeq, JTextArea textStatistics) {
-		StatisticsInterface seqStat = new NucleotideStatistics(unknownSeq);
+		NucleotideStatistics seqStat = new NucleotideStatistics(unknownSeq);
 
 		// sequence length
 		int length = seqStat.seqLength();
@@ -431,7 +413,7 @@ public class StatisticsGui extends JFrame {
 
 		// sequence content counts
 		textStatistics.append("Nucleotide sequence contents;\n");
-		seqContents(seqStat, textStatistics);
+		printSeqContents(seqStat, textStatistics);
 
 		// nucleotide GC%
 		double gcContent = ((NucleotideStatistics) seqStat).gcContent();
@@ -460,7 +442,32 @@ public class StatisticsGui extends JFrame {
 	 * @param seqStat statistics object containing sequence counts
 	 * @param textStatistics text area to populate
 	 */
-	private void seqContents(StatisticsInterface seqStat, JTextArea textStatistics) {
+	private void printSeqContents(ProteinStatistics seqStat, JTextArea textStatistics) {
+		HashMap<Character, Integer> moleculeDict = seqStat.seqContents();
+
+		int count = 1;
+		for (Entry<Character, Integer> mol : moleculeDict.entrySet()) {
+			Character key = mol.getKey();
+			Integer value = mol.getValue();
+
+			textStatistics.append(key + " : " + value.toString());
+			if (count % 3 == 0) {
+				textStatistics.append("\n");
+			} else {
+				textStatistics.append("\t");
+			}
+			count++;
+		}
+
+	}
+	
+	/**
+	 * Appends per-symbol sequence counts to the statistics text area.
+	 *
+	 * @param seqStat statistics object containing sequence counts
+	 * @param textStatistics text area to populate
+	 */
+	private void printSeqContents(NucleotideStatistics seqStat, JTextArea textStatistics) {
 		HashMap<Character, Integer> moleculeDict = seqStat.seqContents();
 
 		int count = 1;
