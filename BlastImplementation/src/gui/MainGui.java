@@ -8,6 +8,9 @@ import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import interfaces.Displayable;
+
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
@@ -23,7 +26,6 @@ import javax.swing.JFileChooser;
 import java.awt.SystemColor;
 
 import utilities.Date;
-import utilities.Displayable;
 import utilities.GUIutilities;
 import utilities.Sequence;
 import java.awt.Cursor; // ── ADDED: for hand cursor
