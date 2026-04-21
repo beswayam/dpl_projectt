@@ -27,7 +27,6 @@ The repository contains six folders:
 
 Where `src/` contains:
 * `/gui/` - Contains all GUI classes.
-* `/interfaces/` - Contains all interfaces.
 * `/tests/` - Contains all test classes.
 * `/utilities/` - Contains all utility classes.
 
