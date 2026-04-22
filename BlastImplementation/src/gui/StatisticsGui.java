@@ -51,7 +51,9 @@ import javax.swing.JSeparator;
  * </p>
  */
 public class StatisticsGui extends JFrame {
-
+	
+	GUIutilities ui = new GUIutilities();
+	
 	private static final long serialVersionUID = 1L;
 	
 	/** Main content panel for the window. */
@@ -71,7 +73,7 @@ public class StatisticsGui extends JFrame {
 	 */
 	public StatisticsGui(Sequence inputSequence) {
 		
-		GUIutilities ui = new GUIutilities();
+		
 		
 		this.seq = inputSequence;
 		setBounds(100, 100, 900, 580);
@@ -163,37 +165,6 @@ public class StatisticsGui extends JFrame {
 		textForTools(textTools, gbc_textTools);
 	}
 
-	/**
-	 * Applies the shared rounded-button style used throughout the application.
-	 *
-	 * @param btn button to style
-	 * @param fillColor inner button color
-	 * @param outerColor surrounding background color
-	 */
-	public static void applyRoundedStyle(JButton btn, Color fillColor, Color outerColor) {
-		btn.setUI(new javax.swing.plaf.basic.BasicButtonUI() {
-			@Override
-			public void paint(Graphics g, JComponent c) {
-				Graphics2D g2 = (Graphics2D) g;
-				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				// Whole rectangle
-				g2.setColor(outerColor);
-				g2.fillRect(0, 0, c.getWidth(), c.getHeight());
-
-				// Rounded button on top
-				g2.setColor(fillColor);
-				g2.fillRoundRect(0, 0, c.getWidth(), c.getHeight(), 20, 20);
-				super.paint(g, c);
-			}
-		});
-
-		btn.setFont(new Font("Monospaced", Font.BOLD, 12));
-		btn.setForeground(Color.WHITE);
-		btn.setOpaque(false);
-		btn.setFocusPainted(false);
-		btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btn.setBorder(new EmptyBorder(8, 18, 8, 18));
-	}
 
 	/**
 	 * Configures the button that opens the recommended BLAST tool.
@@ -207,7 +178,7 @@ public class StatisticsGui extends JFrame {
 	 */
 	private void btnTool(JButton btnGoToTool, GridBagConstraints gbc_btnGoToTool) {
 
-		applyRoundedStyle(btnGoToTool, new Color(56, 189, 248), new Color(22, 28, 45));
+		ui.applyRoundedStyle(btnGoToTool, new Color(56, 189, 248), new Color(22, 28, 45));
 
 //		GridBagConstraints gbc_btnInputStatistics = new GridBagConstraints();
 //		gbc_btnInputStatistics.fill = GridBagConstraints.BOTH;
