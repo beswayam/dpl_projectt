@@ -13,9 +13,7 @@ import java.awt.*;
  * visual configuration.
  * </p>
  */
-
 public class GUIutilities {
-	
 
 	    private final Color CARD = new Color(22, 28, 45);
 	    private final Color BORDER = new Color(30, 41, 59);
@@ -48,20 +46,6 @@ public class GUIutilities {
 	        lbl.setForeground(TEXT_LIGHT);
 	        return lbl;
 	    }
-
-//	    public JButton button(String text) {
-//	        JButton btn = new JButton(text);
-//	        btn.setFont(new Font("Monospaced", Font.PLAIN, 11));
-//	        btn.setBackground(CARD);
-//	        btn.setForeground(Color.WHITE);
-//	        btn.setFocusPainted(false);
-//	        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-//	        btn.setBorder(new CompoundBorder(
-//	            new LineBorder(BORDER, 1),
-//	            new EmptyBorder(6, 12, 6, 12)
-//	        ));
-//	        return btn;
-//	    }
 	    
 	    /**
 	     * Creates a styled combo box with predefined color scheme.
@@ -85,7 +69,7 @@ public class GUIutilities {
 		 * @param fillColor inner button color
 		 * @param outerColor surrounding background color
 		 */
-		public static void applyRoundedStyle(JButton btn, Color fillColor, Color outerColor) {
+		public void applyRoundedStyle(JButton btn, Color fillColor, Color outerColor) {
 			btn.setUI(new javax.swing.plaf.basic.BasicButtonUI() {
 				@Override
 				public void paint(Graphics g, JComponent c) {
