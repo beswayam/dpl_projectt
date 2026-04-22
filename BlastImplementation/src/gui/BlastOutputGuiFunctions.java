@@ -45,7 +45,7 @@ public class BlastOutputGuiFunctions extends JFrame {
 	protected ArrayList<String[]> readBlastTsv(File file) {
 		ArrayList<String[]> hits = new ArrayList<String[]>();
 		try (Scanner myReader = new Scanner(file)) {
-			String fileheader = myReader.nextLine();
+			myReader.nextLine();
 			while (myReader.hasNextLine()) {
 				String data = myReader.nextLine();
 				String[] dataArray = data.split("\t");
@@ -84,7 +84,6 @@ public class BlastOutputGuiFunctions extends JFrame {
 	 * @param hitdata String array containing BLAST hit information
 	 */
 	protected void parseHit(String[] hitdata) {
-		String hitnum = hitdata[0];
 		String id = hitdata[1];
 		String description = hitdata[2];
 		String match_seq = hitdata[3];
