@@ -1,15 +1,12 @@
 package utilities;
 
-import interfaces.StatisticsInterface;
-
 /**
  * The ProteinStatistics class extends Statistics to provide
  * protein-specific analysis functionality.
  * 
  * <p>It calculates the molecular weight based on amino acid composition.
  */
-public class ProteinStatistics extends Statistics implements StatisticsInterface {
-	
+public class ProteinStatistics extends Statistics{
 	/** The original sequence used for protein statistics.*/
 	private Sequence initialValue;
 

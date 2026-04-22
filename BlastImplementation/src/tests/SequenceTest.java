@@ -2,7 +2,6 @@ package tests;
 
 import junit.framework.TestCase;
 import java.io.File;
-import java.util.Arrays;
 
 import utilities.Sequence;
 

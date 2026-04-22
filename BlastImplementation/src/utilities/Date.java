@@ -2,6 +2,8 @@ package utilities;
 
 import java.time.LocalDate;
 
+import interfaces.Displayable;
+
 /**
  * The Date class represent a simple calendar date (day, month, year)
  * based on the current system date at the time of object creation.
@@ -12,13 +14,13 @@ import java.time.LocalDate;
 public class Date implements Displayable {
 	
 	/** The day of the month (1-31). */
-	private int day;
+	private final int day;
 	
 	/** The month of the year (1-12). */
-	private int month;
+	private final int month;
 	
 	/** The year (e.g. 2026). */
-	private int year;
+	private final int year;
 	
 	/**
 	 * Constructs a Date object initialized to the current system date.

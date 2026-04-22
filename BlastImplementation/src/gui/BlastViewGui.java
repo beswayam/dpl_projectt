@@ -11,17 +11,11 @@ import java.awt.Insets;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.SwingConstants;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.ArrayUtils;
 
 import utilities.GUIutilities;
 
@@ -29,12 +23,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Cursor; //added
-import java.awt.Graphics; //added
-import java.awt.Graphics2D; //added
-import java.awt.RenderingHints;//added
 import javax.swing.JSeparator; //added
-import javax.swing.border.EmptyBorder; //added
 
 /**
  * GUI window for viewing BLAST results from a single TSV file.

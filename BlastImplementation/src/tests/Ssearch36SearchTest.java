@@ -1,11 +1,8 @@
 package tests;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.Scanner;
-
-import javax.swing.JOptionPane;
 
 import junit.framework.TestCase;
 import utilities.Sequence;

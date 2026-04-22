@@ -1,7 +1,5 @@
 package gui;
 
-import java.awt.GraphicsConfiguration;
-import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

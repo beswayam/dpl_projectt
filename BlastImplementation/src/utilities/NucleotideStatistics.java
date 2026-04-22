@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import interfaces.StatisticsInterface;
-
 /**
  * The NucleotideStatistics class extends Statistics and provides
  * analytical methods for DNA sequences.
@@ -13,7 +11,7 @@ import interfaces.StatisticsInterface;
  * <p>It supports computation of GC content, GC skew, translation,
  * codon usage, reverse compliment, and reading frame extraction.
  */
-public class NucleotideStatistics extends Statistics implements StatisticsInterface {
+public class NucleotideStatistics extends Statistics {
 	
 	/**
 	 * Constructs a NucleotideStatistics object for a given sequence.

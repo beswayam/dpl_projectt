@@ -8,6 +8,9 @@ import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import interfaces.Displayable;
+
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
@@ -17,20 +20,13 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.time.Instant;
 import java.awt.event.ActionEvent;
 import javax.swing.JFileChooser;
-import java.awt.SystemColor;
 
 import utilities.Date;
-import utilities.Displayable;
 import utilities.GUIutilities;
 import utilities.Sequence;
 import java.awt.Cursor; // ── ADDED: for hand cursor
-import javax.swing.border.Border; // ── ADDED
-import java.awt.Graphics; // ── ADDED
-import java.awt.Graphics2D; // ── ADDED
-import java.awt.RenderingHints; // ── ADDED
 import javax.swing.Timer;
 import utilities.Time;
 import javax.swing.SwingConstants;
@@ -232,9 +228,9 @@ public class MainGui extends JFrame {
 				int file = fileChooser.showOpenDialog(MainGui.this);
 				if (file == JFileChooser.APPROVE_OPTION) {
 					inputFile = fileChooser.getSelectedFile();
-
+					Sequence statisticsSequence = new Sequence(inputFile);
 					// pass file to second GUI
-					StatisticsGui stats = new StatisticsGui(inputFile);
+					StatisticsGui stats = new StatisticsGui(statisticsSequence);
 					stats.setLocationRelativeTo(null);
 					stats.setVisible(true);
 				}
