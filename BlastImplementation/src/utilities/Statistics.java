@@ -77,4 +77,16 @@ public class Statistics {
 		// return the base - count map.
 		return baseCounts;
 	}
+	
+	public void validateProteinSequence(String sequence) {
+	    if (sequence == null) {
+	        throw new IllegalArgumentException("Protein sequence cannot be null.");
+	    }
+
+	    if (!sequence.matches("[a-zA-Z]+")) {
+	        throw new IllegalArgumentException(
+	            "Invalid protein sequence: only alphabetical characters (A–Z) are allowed."
+	        );
+	    }
+	}
 }

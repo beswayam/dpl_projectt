@@ -21,7 +21,12 @@ public class MultipleSequenceParser {
 	 * @param sequencefile the FASTA file containing one or more sequences
 	 * @return a list of parsed {@link Sequence} objects
 	 */
-	public static ArrayList<Sequence> parseMultipleSeqs(File sequencefile) {
+	
+	public MultipleSequenceParser() {
+		
+	}
+	
+	public ArrayList<Sequence> parseMultipleSeqs(File sequencefile) {
 		String sequences = "";
 		try {
 			sequences = Files.readString(sequencefile.toPath());
@@ -44,7 +49,7 @@ public class MultipleSequenceParser {
 	 * @return a list of parsed {@link Sequence} objects
 	 * @throws IllegalArgumentException if the input FASTA format is invalid 
 	 */
-	public static ArrayList<Sequence> parseMultipleSeqs(String sequences) {
+	public ArrayList<Sequence> parseMultipleSeqs(String sequences) {
 		String[] lines = sequences.split("\\r?\\n");
 		ArrayList<Sequence> seqList = new ArrayList<Sequence>();
 		String oneSeq = "";

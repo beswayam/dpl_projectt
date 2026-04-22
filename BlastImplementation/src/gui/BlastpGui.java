@@ -329,13 +329,15 @@ public class BlastpGui extends JFrame {
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					MultipleSequenceParser multSeqs = new MultipleSequenceParser();
 					sequencelist = null;
 					String raw = txtrInputsequence.getText();
+					
 					if (raw != null && !raw.trim().isEmpty()) {
-						sequencelist = MultipleSequenceParser.parseMultipleSeqs(raw);
+						sequencelist = multSeqs.parseMultipleSeqs(raw);
 					}
 					if (queryFile != null) {
-						sequencelist = MultipleSequenceParser.parseMultipleSeqs(queryFile);
+						sequencelist = multSeqs.parseMultipleSeqs(queryFile);
 					}
 				} catch (IllegalArgumentException ex) {
 

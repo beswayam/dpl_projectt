@@ -318,13 +318,15 @@ public class BlastnGui extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (dbFile != null) {
 				try {
+					MultipleSequenceParser multSeqs = new MultipleSequenceParser();
 					sequencelist = null;
 					String raw = txtrInputsequence.getText();
+					
 					if (raw != null && !raw.trim().isEmpty()) {
-						sequencelist = MultipleSequenceParser.parseMultipleSeqs(raw);
+						sequencelist = multSeqs.parseMultipleSeqs(raw);
 					}
 					if (queryFile != null) {
-						sequencelist = MultipleSequenceParser.parseMultipleSeqs(queryFile);
+						sequencelist = multSeqs.parseMultipleSeqs(queryFile);
 					}
 				} catch (IllegalArgumentException ex) {
 					JOptionPane.showMessageDialog(BlastnGui.this, ex.getMessage(), "Input Error",

@@ -40,4 +40,5 @@ public class StatisticsTest extends TestCase {
 		int count = seq.seqContents().get(base);
 		assertEquals(3, count);
 	}
+	
 }

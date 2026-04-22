@@ -15,7 +15,7 @@ public class MultipleSequenceParserTest extends TestCase {
 				+ "APAPDGKTKGAQALSMRISGNFAAFYNCKF\r\n" + "YGFQDTICDDTGNHFFKDCYVEGTFDFIFG\r\n" + "SGTSMYLGTQ\r\n"
 				+ ">unknown_pectinesterase_pt_3\r\n" + "LHVVGDGIRVIAAHAGKSAEEKSGYSFVHC\r\n" + "KVTGTGGGIYLGRAWMSH";
 
-		ArrayList<Sequence> parsedSeqList = MultipleSequenceParser.parseMultipleSeqs(sequences);
+		ArrayList<Sequence> parsedSeqList = new MultipleSequenceParser().parseMultipleSeqs(sequences);
 		assertEquals(
 				">unknown_pectinesterase_pt_2\nAPAPDGKTKGAQALSMRISGNFAAFYNCKFYGFQDTICDDTGNHFFKDCYVEGTFDFIFGSGTSMYLGTQ",
 				parsedSeqList.get(1).getSequence());
@@ -24,7 +24,7 @@ public class MultipleSequenceParserTest extends TestCase {
 	public void testReadFromFile() {
 		File sequenceFile = new File("project_data" + File.separator + "pectinesterases.fasta");
 
-		ArrayList<Sequence> parsedSeqList = MultipleSequenceParser.parseMultipleSeqs(sequenceFile);
+		ArrayList<Sequence> parsedSeqList = new MultipleSequenceParser().parseMultipleSeqs(sequenceFile);
 		assertEquals(
 				">unknown_pectinesterase_pt_2\nAPAPDGKTKGAQALSMRISGNFAAFYNCKFYGFQDTICDDTGNHFFKDCYVEGTFDFIFGSGTSMYLGTQ",
 				parsedSeqList.get(1).getSequence());
