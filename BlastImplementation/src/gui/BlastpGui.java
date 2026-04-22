@@ -27,10 +27,6 @@ import utilities.GUIutilities;
 import utilities.MultipleSequenceParser;
 import utilities.Sequence;
 import utilities.Ssearch36Search;
-import java.awt.Cursor; // ── ADDED: hand cursor
-import java.awt.Graphics; // ── ADDED: for rounded buttons
-import java.awt.Graphics2D; // ── ADDED: for rounded buttons
-import java.awt.RenderingHints; // ── ADDED: for smooth edges
 import javax.swing.JSeparator; // ── ADDED: separator line
 
 /**

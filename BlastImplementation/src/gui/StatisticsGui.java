@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -19,22 +18,17 @@ import java.awt.GridBagLayout;
 import javax.swing.JTextArea;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.SystemColor;
 
 import javax.swing.SwingConstants;
 import utilities.Sequence;
-import utilities.Statistics;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;

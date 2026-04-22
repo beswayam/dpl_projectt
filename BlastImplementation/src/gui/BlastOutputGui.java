@@ -19,9 +19,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.SwingConstants;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.ArrayUtils;
 
 import utilities.GUIutilities;
 
@@ -29,13 +27,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Cursor; //added
 import java.awt.Dimension;
-import java.awt.Graphics; //added
-import java.awt.Graphics2D; //added
-import java.awt.RenderingHints;//added
 import javax.swing.JSeparator; //added
-import javax.swing.border.EmptyBorder; //added
 
 /**
  * GUI window for displaying BLAST search results.

@@ -20,19 +20,13 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.time.Instant;
 import java.awt.event.ActionEvent;
 import javax.swing.JFileChooser;
-import java.awt.SystemColor;
 
 import utilities.Date;
 import utilities.GUIutilities;
 import utilities.Sequence;
 import java.awt.Cursor; // ── ADDED: for hand cursor
-import javax.swing.border.Border; // ── ADDED
-import java.awt.Graphics; // ── ADDED
-import java.awt.Graphics2D; // ── ADDED
-import java.awt.RenderingHints; // ── ADDED
 import javax.swing.Timer;
 import utilities.Time;
 import javax.swing.SwingConstants;
