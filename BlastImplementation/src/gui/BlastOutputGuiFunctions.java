@@ -34,6 +34,12 @@ public class BlastOutputGuiFunctions extends JFrame {
 	protected ArrayList<JLabel> labelList = new ArrayList<JLabel>();
 
 	/**
+	 * Constructs a BlastOutputGuiFunctions object.
+	 */
+	public BlastOutputGuiFunctions( ) {
+	}
+	
+	/**
 	 * Reads a BLAST output TSV file and extracts all hits.
 	 *
 	 * <p>The first line of the file is assumed to be a header and is skipped.
@@ -42,10 +48,10 @@ public class BlastOutputGuiFunctions extends JFrame {
 	 * @param file the BLAST TSV file to read
 	 * @return a list of BLAST hits, each represented as a String array
 	 */
-	protected ArrayList<String[]> readBlastTsv(File file) {
+	public ArrayList<String[]> readBlastTsv(File file) {
 		ArrayList<String[]> hits = new ArrayList<String[]>();
 		try (Scanner myReader = new Scanner(file)) {
-			String fileheader = myReader.nextLine();
+			myReader.nextLine();
 			while (myReader.hasNextLine()) {
 				String data = myReader.nextLine();
 				String[] dataArray = data.split("\t");
@@ -83,8 +89,7 @@ public class BlastOutputGuiFunctions extends JFrame {
 	 *
 	 * @param hitdata String array containing BLAST hit information
 	 */
-	protected void parseHit(String[] hitdata) {
-		String hitnum = hitdata[0];
+	public void parseHit(String[] hitdata) {
 		String id = hitdata[1];
 		String description = hitdata[2];
 		String match_seq = hitdata[3];

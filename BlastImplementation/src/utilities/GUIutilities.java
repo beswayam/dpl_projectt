@@ -16,7 +16,6 @@ import java.awt.*;
 public class GUIutilities {
 
 	    private final Color CARD = new Color(22, 28, 45);
-	    private final Color BORDER = new Color(30, 41, 59);
 	    private final Color TEXT_MUTED = new Color(100, 116, 139);
 	    private final Color TEXT_LIGHT = new Color(226, 232, 240);
 	    

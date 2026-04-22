@@ -2,8 +2,6 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,13 +23,10 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import javax.swing.JLabel;
 
-import java.awt.RenderingHints;
-
 import javax.swing.SwingConstants;
 import utilities.Sequence;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 
 import java.awt.event.ActionListener;
 
