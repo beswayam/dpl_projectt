@@ -17,7 +17,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 
-import utilities.GUIutilities;
+import utilities.UIHelper;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -47,7 +47,7 @@ import javax.swing.JSeparator; //added
 public class BlastViewGui extends BlastOutputGuiFunctions {
 	
 	/** Utility class for consistent GUI styling. */
-	GUIutilities ui = new GUIutilities();
+	UIHelper ui = new UIHelper();
 
 	private static final long serialVersionUID = 1L;
 

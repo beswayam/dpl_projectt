@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import utilities.GUIutilities;
+import utilities.UIHelper;
 import utilities.NucleotideStatistics;
 import utilities.ProteinStatistics;
 import java.awt.GridBagLayout;
@@ -47,7 +47,7 @@ import javax.swing.JSeparator;
  */
 public class StatisticsGui extends JFrame {
 	
-	GUIutilities ui = new GUIutilities();
+	UIHelper ui = new UIHelper();
 	
 	private static final long serialVersionUID = 1L;
 	

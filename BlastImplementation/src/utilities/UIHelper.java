@@ -13,7 +13,7 @@ import java.awt.*;
  * visual configuration.
  * </p>
  */
-public class GUIutilities {
+public class UIHelper {
 
 	    private final Color CARD = new Color(22, 28, 45);
 	    private final Color TEXT_MUTED = new Color(100, 116, 139);

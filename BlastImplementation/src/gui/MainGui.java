@@ -27,7 +27,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFileChooser;
 
 import utilities.Date;
-import utilities.GUIutilities;
+import utilities.UIHelper;
 import utilities.Sequence;
 import java.awt.Cursor; // ── ADDED: for hand cursor
 import javax.swing.Timer;
@@ -87,7 +87,7 @@ public class MainGui extends JFrame {
 	 */
 	public MainGui() {
 		
-		GUIutilities ui = new GUIutilities();
+		UIHelper ui = new UIHelper();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 769, 559);

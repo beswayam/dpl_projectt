@@ -21,7 +21,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import org.apache.commons.io.FileUtils;
 
-import utilities.GUIutilities;
+import utilities.UIHelper;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -51,7 +51,7 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 	private int sequenceIndex;
 	
     /** Utility class for styling GUI components. */
-	GUIutilities ui = new GUIutilities();
+	UIHelper ui = new UIHelper();
 
 	/**
      * Constructs the BLAST output GUI window.

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import utilities.GUIutilities;
+import utilities.UIHelper;
 import utilities.MultipleSequenceParser;
 import utilities.Sequence;
 import utilities.Ssearch36Search;
@@ -65,7 +65,7 @@ public class BlastnGui extends JFrame {
 	public File dbFile = null;
 	
 	/** Utility class for styling and GUI helpers. */
-	GUIutilities ui = new GUIutilities();
+	UIHelper ui = new UIHelper();
 
     /**
      * Constructs the BLASTN GUI window and initializes all components,
