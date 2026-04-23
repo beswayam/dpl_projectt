@@ -13,7 +13,7 @@ import java.awt.*;
  * visual configuration.
  * </p>
  */
-public class GUIutilities {
+public class UIHelper {
 
 	    private static final Color CARD = new Color(22, 28, 45);
 	    private static final Color TEXT_MUTED = new Color(100, 116, 139);
@@ -68,7 +68,7 @@ public class GUIutilities {
 		 * @param fillColor inner button color
 		 * @param outerColor surrounding background color
 		 */
-		public void applyRoundedStyle(JButton btn, Color fillColor, Color outerColor) {
+		public void roundStyle(JButton btn, Color fillColor, Color outerColor) {
 			btn.setUI(new javax.swing.plaf.basic.BasicButtonUI() {
 				@Override
 				public void paint(Graphics g, JComponent c) {

@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import utilities.GUIutilities;
+import utilities.UIHelper;
 import utilities.NucleotideStatistics;
 import utilities.ProteinStatistics;
 import java.awt.GridBagLayout;
@@ -47,7 +47,7 @@ import javax.swing.JSeparator;
  */
 public class StatisticsGui extends JFrame {
 	
-	GUIutilities ui = new GUIutilities();
+	UIHelper ui = new UIHelper();
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -173,7 +173,7 @@ public class StatisticsGui extends JFrame {
 	 */
 	private void btnTool(JButton btnGoToTool, GridBagConstraints gbc_btnGoToTool) {
 
-		ui.applyRoundedStyle(btnGoToTool, new Color(56, 189, 248), new Color(22, 28, 45));
+		ui.roundStyle(btnGoToTool, new Color(56, 189, 248), new Color(22, 28, 45));
 
 //		GridBagConstraints gbc_btnInputStatistics = new GridBagConstraints();
 //		gbc_btnInputStatistics.fill = GridBagConstraints.BOTH;
