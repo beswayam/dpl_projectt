@@ -17,104 +17,108 @@ import java.util.Map;
  */
 public class CodonUtils {
 
-	private Map<String, Character> codonTable = new HashMap<>();
-	private Map<Character, Double> aminoAcidTable = new HashMap<>();
+	private static final Map<String, Character> CODON_TABLE = new HashMap<>();
+
+	private static final Map<Character, Double> AMINOACID_TABLE = new HashMap<>();
+
+	static {
+		// --- codon table ---
+		CODON_TABLE.put("TTT", 'F');
+		CODON_TABLE.put("TTC", 'F');
+		CODON_TABLE.put("TTA", 'L');
+		CODON_TABLE.put("TTG", 'L');
+		CODON_TABLE.put("CTT", 'L');
+		CODON_TABLE.put("CTC", 'L');
+		CODON_TABLE.put("CTA", 'L');
+		CODON_TABLE.put("CTG", 'L');
+		CODON_TABLE.put("ATT", 'I');
+		CODON_TABLE.put("ATC", 'I');
+		CODON_TABLE.put("ATA", 'I');
+		CODON_TABLE.put("ATG", 'M');
+		CODON_TABLE.put("GTT", 'V');
+		CODON_TABLE.put("GTC", 'V');
+		CODON_TABLE.put("GTA", 'V');
+		CODON_TABLE.put("GTG", 'V');
+
+		CODON_TABLE.put("TCT", 'S');
+		CODON_TABLE.put("TCC", 'S');
+		CODON_TABLE.put("TCA", 'S');
+		CODON_TABLE.put("TCG", 'S');
+		CODON_TABLE.put("CCT", 'P');
+		CODON_TABLE.put("CCC", 'P');
+		CODON_TABLE.put("CCA", 'P');
+		CODON_TABLE.put("CCG", 'P');
+		CODON_TABLE.put("ACT", 'T');
+		CODON_TABLE.put("ACC", 'T');
+		CODON_TABLE.put("ACA", 'T');
+		CODON_TABLE.put("ACG", 'T');
+		CODON_TABLE.put("GCT", 'A');
+		CODON_TABLE.put("GCC", 'A');
+		CODON_TABLE.put("GCA", 'A');
+		CODON_TABLE.put("GCG", 'A');
+
+		CODON_TABLE.put("TAT", 'Y');
+		CODON_TABLE.put("TAC", 'Y');
+		CODON_TABLE.put("TAA", '*');
+		CODON_TABLE.put("TAG", '*');
+		CODON_TABLE.put("CAT", 'H');
+		CODON_TABLE.put("CAC", 'H');
+		CODON_TABLE.put("CAA", 'Q');
+		CODON_TABLE.put("CAG", 'Q');
+		CODON_TABLE.put("AAT", 'N');
+		CODON_TABLE.put("AAC", 'N');
+		CODON_TABLE.put("AAA", 'K');
+		CODON_TABLE.put("AAG", 'K');
+		CODON_TABLE.put("GAT", 'D');
+		CODON_TABLE.put("GAC", 'D');
+		CODON_TABLE.put("GAA", 'E');
+		CODON_TABLE.put("GAG", 'E');
+
+		CODON_TABLE.put("TGT", 'C');
+		CODON_TABLE.put("TGC", 'C');
+		CODON_TABLE.put("TGA", '*');
+		CODON_TABLE.put("TGG", 'W');
+		CODON_TABLE.put("CGT", 'R');
+		CODON_TABLE.put("CGC", 'R');
+		CODON_TABLE.put("CGA", 'R');
+		CODON_TABLE.put("CGG", 'R');
+		CODON_TABLE.put("AGT", 'S');
+		CODON_TABLE.put("AGC", 'S');
+		CODON_TABLE.put("AGA", 'R');
+		CODON_TABLE.put("AGG", 'R');
+		CODON_TABLE.put("GGT", 'G');
+		CODON_TABLE.put("GGC", 'G');
+		CODON_TABLE.put("GGA", 'G');
+		CODON_TABLE.put("GGG", 'G');
+
+		// --- amino acid molecular weights (Dalton) ---
+		AMINOACID_TABLE.put('A', 89.09);
+		AMINOACID_TABLE.put('R', 174.20);
+		AMINOACID_TABLE.put('N', 132.12);
+		AMINOACID_TABLE.put('D', 133.10);
+		AMINOACID_TABLE.put('C', 121.15);
+		AMINOACID_TABLE.put('Q', 146.15);
+		AMINOACID_TABLE.put('E', 147.13);
+		AMINOACID_TABLE.put('G', 75.07);
+		AMINOACID_TABLE.put('H', 155.16);
+		AMINOACID_TABLE.put('I', 131.17);
+		AMINOACID_TABLE.put('L', 131.17);
+		AMINOACID_TABLE.put('K', 146.19);
+		AMINOACID_TABLE.put('M', 149.21);
+		AMINOACID_TABLE.put('F', 165.19);
+		AMINOACID_TABLE.put('P', 115.13);
+		AMINOACID_TABLE.put('S', 105.09);
+		AMINOACID_TABLE.put('T', 119.12);
+		AMINOACID_TABLE.put('W', 204.23);
+		AMINOACID_TABLE.put('Y', 181.19);
+		AMINOACID_TABLE.put('V', 117.15);
+		AMINOACID_TABLE.put('*', 0.0); // Stop codon
+	}
 
 	/**
 	 * Constructs a CodonUtils object.
 	 */
 	public CodonUtils() {
-		// --- codon table ---
-		codonTable.put("TTT", 'F');
-		codonTable.put("TTC", 'F');
-		codonTable.put("TTA", 'L');
-		codonTable.put("TTG", 'L');
-		codonTable.put("CTT", 'L');
-		codonTable.put("CTC", 'L');
-		codonTable.put("CTA", 'L');
-		codonTable.put("CTG", 'L');
-		codonTable.put("ATT", 'I');
-		codonTable.put("ATC", 'I');
-		codonTable.put("ATA", 'I');
-		codonTable.put("ATG", 'M');
-		codonTable.put("GTT", 'V');
-		codonTable.put("GTC", 'V');
-		codonTable.put("GTA", 'V');
-		codonTable.put("GTG", 'V');
-
-		codonTable.put("TCT", 'S');
-		codonTable.put("TCC", 'S');
-		codonTable.put("TCA", 'S');
-		codonTable.put("TCG", 'S');
-		codonTable.put("CCT", 'P');
-		codonTable.put("CCC", 'P');
-		codonTable.put("CCA", 'P');
-		codonTable.put("CCG", 'P');
-		codonTable.put("ACT", 'T');
-		codonTable.put("ACC", 'T');
-		codonTable.put("ACA", 'T');
-		codonTable.put("ACG", 'T');
-		codonTable.put("GCT", 'A');
-		codonTable.put("GCC", 'A');
-		codonTable.put("GCA", 'A');
-		codonTable.put("GCG", 'A');
-
-		codonTable.put("TAT", 'Y');
-		codonTable.put("TAC", 'Y');
-		codonTable.put("TAA", '*');
-		codonTable.put("TAG", '*');
-		codonTable.put("CAT", 'H');
-		codonTable.put("CAC", 'H');
-		codonTable.put("CAA", 'Q');
-		codonTable.put("CAG", 'Q');
-		codonTable.put("AAT", 'N');
-		codonTable.put("AAC", 'N');
-		codonTable.put("AAA", 'K');
-		codonTable.put("AAG", 'K');
-		codonTable.put("GAT", 'D');
-		codonTable.put("GAC", 'D');
-		codonTable.put("GAA", 'E');
-		codonTable.put("GAG", 'E');
-
-		codonTable.put("TGT", 'C');
-		codonTable.put("TGC", 'C');
-		codonTable.put("TGA", '*');
-		codonTable.put("TGG", 'W');
-		codonTable.put("CGT", 'R');
-		codonTable.put("CGC", 'R');
-		codonTable.put("CGA", 'R');
-		codonTable.put("CGG", 'R');
-		codonTable.put("AGT", 'S');
-		codonTable.put("AGC", 'S');
-		codonTable.put("AGA", 'R');
-		codonTable.put("AGG", 'R');
-		codonTable.put("GGT", 'G');
-		codonTable.put("GGC", 'G');
-		codonTable.put("GGA", 'G');
-		codonTable.put("GGG", 'G');
-
-		// --- amino acid molecular weights (Dalton) ---
-		aminoAcidTable.put('A', 89.09);
-		aminoAcidTable.put('R', 174.20);
-		aminoAcidTable.put('N', 132.12);
-		aminoAcidTable.put('D', 133.10);
-		aminoAcidTable.put('C', 121.15);
-		aminoAcidTable.put('Q', 146.15);
-		aminoAcidTable.put('E', 147.13);
-		aminoAcidTable.put('G', 75.07);
-		aminoAcidTable.put('H', 155.16);
-		aminoAcidTable.put('I', 131.17);
-		aminoAcidTable.put('L', 131.17);
-		aminoAcidTable.put('K', 146.19);
-		aminoAcidTable.put('M', 149.21);
-		aminoAcidTable.put('F', 165.19);
-		aminoAcidTable.put('P', 115.13);
-		aminoAcidTable.put('S', 105.09);
-		aminoAcidTable.put('T', 119.12);
-		aminoAcidTable.put('W', 204.23);
-		aminoAcidTable.put('Y', 181.19);
-		aminoAcidTable.put('V', 117.15);
-		aminoAcidTable.put('*', 0.0); // Stop codon
 	}
 
 	/**
@@ -127,8 +131,8 @@ public class CodonUtils {
 	public double baseWeight(char aminoAcid) {
 		double molarWeight;
 
-		if (aminoAcidTable.get(aminoAcid) != null) {
-			molarWeight = aminoAcidTable.get(aminoAcid);
+		if (AMINOACID_TABLE.get(aminoAcid) != null) {
+			molarWeight = AMINOACID_TABLE.get(aminoAcid);
 
 		} else {
 			throw new IllegalArgumentException("Invalid base used:\"" + aminoAcid + "\"-remaining sentence");
@@ -145,8 +149,8 @@ public class CodonUtils {
 	 */
 	public char getBase(String codon) {
 		char aminoAcid;
-		if (codonTable.get(codon) != null) {
-			aminoAcid = codonTable.get(codon);
+		if (CODON_TABLE.get(codon) != null) {
+			aminoAcid = CODON_TABLE.get(codon);
 		} else {
 			throw new IllegalArgumentException("Invalid codon used:  \"" + codon + "\"");
 		}
@@ -162,7 +166,7 @@ public class CodonUtils {
 	 */
 	public boolean checkCodon(String codon) {
 		boolean valid;
-		if (codonTable.containsKey(codon)) {
+		if (CODON_TABLE.containsKey(codon)) {
 			valid = true;
 		} else {
 			valid = false;

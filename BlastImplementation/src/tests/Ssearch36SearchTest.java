@@ -10,7 +10,7 @@ import utilities.Ssearch36Search;
 
 // JUnit 3 test class for the ssearch36 utility
 public class Ssearch36SearchTest extends TestCase {
-	private static Ssearch36Search ssearch36search = new Ssearch36Search(true);
+	private Ssearch36Search ssearch36search = new Ssearch36Search(true);
 	
     public void testRunReturnsZeroForValidInput() throws Exception {
         File dbFile = File.createTempFile("ssearch_db", ".fasta");

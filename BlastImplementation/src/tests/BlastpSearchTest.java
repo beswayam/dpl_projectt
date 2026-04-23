@@ -14,7 +14,7 @@ import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.BlastResult;
 import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.UniProtHit;
 
 public class BlastpSearchTest extends TestCase {
-	private static BlastpSearch blastpsearch = new BlastpSearch();
+	private BlastpSearch blastpsearch = new BlastpSearch();
 
 	public void testBlastP() {
 		Sequence sequence = new Sequence(">seq1\nnQktalhdPITtiAMtGdeGeIkIMlelypnkVHIyKQPETqqqHysaIitWYGtGldAf\r\n"
@@ -25,7 +25,7 @@ public class BlastpSearchTest extends TestCase {
 
 		blastpsearch.setSequence(sequence);
 		blastpsearch.runUniprotBlast();
-		BlastResult<UniProtHit> uniprotBlastResult = blastpsearch.getblastResult();
+		BlastResult<UniProtHit> uniprotBlastResult = blastpsearch.getBlastResult();
 		assertNotNull(uniprotBlastResult);
 	}
 
