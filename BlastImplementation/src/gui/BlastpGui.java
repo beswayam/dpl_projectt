@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import utilities.BlastpSearch;
-import utilities.GUIutilities;
+import utilities.UIHelper;
 import utilities.MultipleSequenceParser;
 import utilities.Sequence;
 import utilities.Ssearch36Search;
@@ -66,6 +66,7 @@ public class BlastpGui extends JFrame {
 	/** Header label displaying the application title. */
 	private JLabel txtBlastpAlgorithm;
 
+<<<<<<< HEAD
 	/** Selected query FASTA file (if uploaded). */
 	private File queryFile = null;
 
@@ -74,6 +75,16 @@ public class BlastpGui extends JFrame {
 
 	/** Utility class for consistent GUI styling. */
 	private GUIutilities ui = new GUIutilities();
+=======
+    /** Selected query FASTA file (if uploaded). */
+	public File queryFile = null;
+	
+    /** Selected database FASTA file (if uploaded). */
+	public File dbFile = null;
+	
+    /** Utility class for consistent GUI styling. */
+	UIHelper ui = new UIHelper();
+>>>>>>> 7a9f90afe7eb87bfd7c7e64c2497ae7b1f71e5c1
 
 	/**
 	 * Constructs the BLASTP GUI window and initializes all components.
@@ -119,7 +130,7 @@ public class BlastpGui extends JFrame {
 		// Help button
 
 		JButton btnHelp = new JButton("Help");
-		ui.applyRoundedStyle(btnHelp, new Color(52, 211, 153), new Color(13, 17, 28));
+		ui.roundStyle(btnHelp, new Color(52, 211, 153), new Color(13, 17, 28));
 		btnHelp.addActionListener(e -> {
 			JFrame helpFrame = new JFrame("BLASTP Help");
 			helpFrame.setSize(400, 300);
@@ -185,9 +196,15 @@ public class BlastpGui extends JFrame {
 		contentPane.add(scrollPane, gbc_scrollPane);
 
 		// Button for upload input sequence (FASTA file)
+<<<<<<< HEAD
 		final JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
 		ui.applyRoundedStyle(btnInputSequenceUpload, new Color(22, 28, 45), new Color(13, 17, 28));
 
+=======
+        final JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
+        ui.roundStyle(btnInputSequenceUpload, new Color(22, 28, 45), new Color(13, 17, 28));
+        
+>>>>>>> 7a9f90afe7eb87bfd7c7e64c2497ae7b1f71e5c1
 		// ── Upload sequence button ───────────────────────────────────────────
 		GridBagConstraints gbc_btnInputSequenceUpload = new GridBagConstraints();
 		gbc_btnInputSequenceUpload.fill = GridBagConstraints.BOTH;
@@ -224,6 +241,7 @@ public class BlastpGui extends JFrame {
 		gbc_lblUploadInputFastaFile.gridy = 3;
 		contentPane.add(lblUploadInputFastaFile, gbc_lblUploadInputFastaFile);
 
+<<<<<<< HEAD
 		// ── Upload database button ───────────────────────────────────────────
 		final JButton btnUploadDatabase = new JButton("Upload Database (FASTA file)");
 		ui.applyRoundedStyle(btnUploadDatabase, new Color(22, 28, 45), new Color(13, 17, 28));
@@ -244,6 +262,28 @@ public class BlastpGui extends JFrame {
 		gbc_btnUploadDatabase.gridx = 0;
 		gbc_btnUploadDatabase.gridy = 4;
 		contentPane.add(btnUploadDatabase, gbc_btnUploadDatabase);
+=======
+        // ── Upload database button ───────────────────────────────────────────
+        final JButton btnUploadDatabase = new JButton("Upload Database (FASTA file)");
+        ui.roundStyle(btnUploadDatabase, new Color(22, 28, 45), new Color(13, 17, 28));
+        btnUploadDatabase.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle("Select Database FASTA File");
+                if (fileChooser.showOpenDialog(BlastpGui.this) == JFileChooser.APPROVE_OPTION) {
+                    dbFile = fileChooser.getSelectedFile();
+                    btnUploadDatabase.setText("Database: " + dbFile.getName());
+                    btnUploadDatabase.setForeground(new Color(52, 211, 153)); // ── ADDED: green on select
+                }
+            }
+        });
+        GridBagConstraints gbc_btnUploadDatabase = new GridBagConstraints();
+        gbc_btnUploadDatabase.fill   = GridBagConstraints.BOTH;
+        gbc_btnUploadDatabase.insets = new Insets(0, 0, 8, 5);
+        gbc_btnUploadDatabase.gridx  = 0;
+        gbc_btnUploadDatabase.gridy  = 4;
+        contentPane.add(btnUploadDatabase, gbc_btnUploadDatabase);
+>>>>>>> 7a9f90afe7eb87bfd7c7e64c2497ae7b1f71e5c1
 
 		// Label for Database button
 		JLabel lblUploadDatabaseFastaFile = new JLabel("");
@@ -329,7 +369,7 @@ public class BlastpGui extends JFrame {
 
 		// ── BLAST button — rounded filled blue ───────────────────────────────
 		JButton btnBLAST = new JButton("BLAST");
-		ui.applyRoundedStyle(btnBLAST, new Color(56, 189, 248), new Color(13, 17, 28));
+		ui.roundStyle(btnBLAST, new Color(56, 189, 248), new Color(13, 17, 28));
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -442,7 +482,7 @@ public class BlastpGui extends JFrame {
 		contentPane.add(btnBLAST, gbc_btnBLAST);
 
 		JButton btnCLEAR = new JButton("Clear");
-		ui.applyRoundedStyle(btnCLEAR, new Color(220, 80, 80), new Color(13, 17, 28));
+		ui.roundStyle(btnCLEAR, new Color(220, 80, 80), new Color(13, 17, 28));
 		btnCLEAR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtrInputsequence.setText(""); // maakt tekstbox leeg

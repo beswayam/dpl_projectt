@@ -28,11 +28,16 @@ public class MultipleSequenceParser {
 	public MultipleSequenceParser() {
 
 	}
+<<<<<<< HEAD
 
 	public ArrayList<Sequence> parseMultipleSeqs(File sequencefile) {
+=======
+	
+	public ArrayList<Sequence> parseMultipleSeqs(File sequenceFile) {
+>>>>>>> 7a9f90afe7eb87bfd7c7e64c2497ae7b1f71e5c1
 		String sequences = "";
 		try {
-			sequences = Files.readString(sequencefile.toPath());
+			sequences = Files.readString(sequenceFile.toPath());
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(new JOptionPane(), "Failed to find input fasta file", "input Error",
 					JOptionPane.ERROR_MESSAGE);

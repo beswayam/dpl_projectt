@@ -17,15 +17,21 @@ import javax.swing.JOptionPane;
  */
 public class Ssearch36Search {
 	private Sequence sequence;
-	private File ssearchresult;
+	private File ssearchResult;
 	private int errorCode;
 	private boolean protein;
 	private String matrixFlag;
 
 	/**
+<<<<<<< HEAD
 	 * Mapping between full matrix names and SSEARCH short flags.
 	 */
 	private String[][] matrixMap = { { "BLOSUM45", "BL45" }, { "BLOSUM50", "BL50" }, { "BLOSUM62", "BL62" },
+=======
+     * Mapping between full matrix names and SSEARCH short flags.
+     */
+	private static final String[][] MATRIX_MAP = { { "BLOSUM45", "BL45" }, { "BLOSUM50", "BL50" }, { "BLOSUM62", "BL62" },
+>>>>>>> 7a9f90afe7eb87bfd7c7e64c2497ae7b1f71e5c1
 			{ "BLOSUM80", "BL80" }, { "BLOSUM90", "BL90" }, { "PAM30", "P30" }, { "PAM70", "P70" },
 			{ "PAM250", "P250" } };
 
@@ -46,7 +52,7 @@ public class Ssearch36Search {
 	 * @param displayName the full name of the matrix (e.g. BLOSUM62)
 	 */
 	public void setMatrixFlag(String displayName) {
-		for (String[] mapping : matrixMap) {
+		for (String[] mapping : MATRIX_MAP) {
 			if (mapping[0].equals(displayName)) {
 				matrixFlag = mapping[1];
 			}
@@ -58,6 +64,7 @@ public class Ssearch36Search {
 	 */
 
 	/**
+<<<<<<< HEAD
 	 * Sets the query sequence to be used in the search.
 	 *
 	 * @param sequence the Sequence object containing the query data
@@ -121,6 +128,83 @@ public class Ssearch36Search {
 	 *
 	 * @param outfile the file where TSV results will be written
 	 */
+=======
+     * Sets the query sequence to be used in the search.
+     *
+     * @param sequence the Sequence object containing the query data
+     */
+    public void setSequence(Sequence sequence) {
+    	this.sequence = sequence;
+    } 
+    
+    /**
+     * Returns the exit/error code from the SSEARCH execution.
+     *
+     * @return the process exit code
+     */
+    public int getErrorCode() {
+    	return this.errorCode;
+    }
+    
+    /**
+     * Executes the SSEARCH36 alignment tool with the specified parameters.
+     *
+     * <p>The method selects the correct executable based on the operating system,
+     * builds the command, runs the process, and stores the output file.</p>
+     *
+     * @param dbFile the database file to search against
+     * @param evalue the E-value threshold
+     * @param maxSeqs maximum number of sequences to report
+     * @param outputPath path where the output file will be written
+     * @throws Exception if the process fails or cannot be executed
+     */
+    public void run(File dbFile, String evalue,
+        String maxSeqs, String outputPath) 
+        throws Exception {
+        String osName = System.getProperty("os.name");
+        String exeName = osName != null && osName.toLowerCase().contains("win") ? "ssearch36.exe" : "ssearch36";
+        String ssearchExe = "tools" + File.separator + exeName;
+        File queryFile = this.sequence.getFastaFile();
+        ProcessBuilder pb;
+        if(this.protein) {
+        	pb = new ProcessBuilder(
+                ssearchExe,
+                "-p",
+                "-s", matrixFlag,
+                "-E", evalue,
+                "-b", maxSeqs,
+                "-d", maxSeqs,
+                queryFile.getPath(),
+                dbFile.getPath());
+        pb.redirectErrorStream(true);
+        pb.redirectOutput(new File(outputPath));}
+        else {
+        	pb = new ProcessBuilder(
+                    ssearchExe,
+                    "-n",
+                    "-E", evalue,
+                    "-b", maxSeqs,
+                    "-d", maxSeqs,
+                    queryFile.getPath(),
+                    dbFile.getPath());
+            pb.redirectErrorStream(true);
+            pb.redirectOutput(new File(outputPath));}
+        
+        Process p = pb.start();
+        this.errorCode = p.waitFor();
+        this.ssearchResult = new File(outputPath);
+    }
+    
+    /**
+     * Parses the SSEARCH output file and converts it into a TSV file.
+     *
+     * <p>The output includes hit information such as ID, description,
+     * alignment sequences, E-value, bit score, identity, and alignment
+     * coordinates.
+     *
+     * @param outfile the file where TSV results will be written
+     */
+>>>>>>> 7a9f90afe7eb87bfd7c7e64c2497ae7b1f71e5c1
 
 	public void parseBlastCustomDatabase(File outfile) {
 		// Claude generated this parser code for us based on a non functional template
@@ -128,7 +212,7 @@ public class Ssearch36Search {
 		// We checked that the code works correctly.
 		// Part of the code was not written by Claude, this segment is labelled as such
 
-		File blastOutputCustomDatabase = this.ssearchresult;
+		File blastOutputCustomDatabase = this.ssearchResult;
 		String pathBlastFile = blastOutputCustomDatabase.getPath();
 		try (Scanner blastOutput = new Scanner(blastOutputCustomDatabase)) {
 

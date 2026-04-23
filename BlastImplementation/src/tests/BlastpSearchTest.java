@@ -25,7 +25,7 @@ public class BlastpSearchTest extends TestCase {
 
 		blastpsearch.setSequence(sequence);
 		blastpsearch.runUniprotBlast();
-		BlastResult<UniProtHit> uniprotBlastResult = blastpsearch.getblastResult();
+		BlastResult<UniProtHit> uniprotBlastResult = blastpsearch.getBlastResult();
 		assertNotNull(uniprotBlastResult);
 	}
 

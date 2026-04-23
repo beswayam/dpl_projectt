@@ -103,11 +103,11 @@ public class Sequence {
 	 * If a file already exists, a new numbered file is created.
 	 */
 	private void sequenceToFile() {
-		int filenum = 2;
+		int fileNum = 2;
 		File file = new File("project_data" + File.separator + "blast_input.fa");
 		while (file.isFile()) {
-			file = new File("project_data" + File.separator + "blast_input_" + filenum + ".fa");
-			filenum++;
+			file = new File("project_data" + File.separator + "blast_input_" + fileNum + ".fa");
+			fileNum++;
 		}
 		try (FileWriter writer = new FileWriter(file)) {
 			writer.write(this.sequence);
@@ -148,8 +148,8 @@ public class Sequence {
 	 * If no header is present, a default header is added.
 	 */
 	private void checkHeader() {
-		char first_char = this.sequence.charAt(0);
-		if (first_char != '>') {
+		char firstChar = this.sequence.charAt(0);
+		if (firstChar != '>') {
 			this.sequence = ">sequence\n" + this.sequence; // add header if no header present
 		}
 	}

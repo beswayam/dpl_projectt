@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import utilities.GUIutilities;
+import utilities.UIHelper;
 import utilities.MultipleSequenceParser;
 import utilities.Sequence;
 import utilities.Ssearch36Search;
@@ -64,7 +64,17 @@ public class BlastnGui extends JFrame {
 	private JLabel txtBlastpAlgorithm;
 
 	/** File selected as query input (FASTA). */
+<<<<<<< HEAD
 	private File queryFile = null;
+=======
+	public File queryFile = null;
+	
+	/** File selected as database input (FASTA). */
+	public File dbFile = null;
+	
+	/** Utility class for styling and GUI helpers. */
+	UIHelper ui = new UIHelper();
+>>>>>>> 7a9f90afe7eb87bfd7c7e64c2497ae7b1f71e5c1
 
 	/** File selected as database input (FASTA). */
 	private File dbFile = null;
@@ -112,7 +122,7 @@ public class BlastnGui extends JFrame {
 
 		// Help button
 		JButton btnHelp = new JButton("Help");
-		ui.applyRoundedStyle(btnHelp, new Color(52, 211, 153), new Color(13, 17, 28));
+		ui.roundStyle(btnHelp, new Color(52, 211, 153), new Color(13, 17, 28));
 		btnHelp.addActionListener(e -> {
 			JFrame helpFrame = new JFrame("BLASTN Help");
 			helpFrame.setSize(400, 300);
@@ -185,7 +195,7 @@ public class BlastnGui extends JFrame {
 
 		// Button for upload input sequence (FASTA file)
 		final JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
-		ui.applyRoundedStyle(btnInputSequenceUpload, new Color(22, 28, 45), new Color(13, 17, 28));
+		ui.roundStyle(btnInputSequenceUpload, new Color(22, 28, 45), new Color(13, 17, 28));
 		btnInputSequenceUpload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!txtrInputsequence.getText().trim().isEmpty()) {
@@ -216,7 +226,7 @@ public class BlastnGui extends JFrame {
 
 		// ── Upload database button ───────────────────────────────────────────
 		final JButton btnUploadDatabase = new JButton("Upload Database (FASTA file)");
-		ui.applyRoundedStyle(btnUploadDatabase, new Color(22, 28, 45), new Color(13, 17, 28));
+		ui.roundStyle(btnUploadDatabase, new Color(22, 28, 45), new Color(13, 17, 28));
 		btnUploadDatabase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
@@ -319,7 +329,7 @@ public class BlastnGui extends JFrame {
 
 		// ── BLAST button — rounded filled blue ───────────────────────────────
 		JButton btnBLAST = new JButton("BLAST");
-		ui.applyRoundedStyle(btnBLAST, new Color(56, 189, 248), new Color(13, 17, 28));
+		ui.roundStyle(btnBLAST, new Color(56, 189, 248), new Color(13, 17, 28));
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (dbFile != null) {
@@ -424,7 +434,7 @@ public class BlastnGui extends JFrame {
 		contentPane.add(btnBLAST, gbc_btnBLAST);
 
 		JButton btnCLEAR = new JButton("Clear");
-		ui.applyRoundedStyle(btnCLEAR, new Color(220, 80, 80), new Color(13, 17, 28));
+		ui.roundStyle(btnCLEAR, new Color(220, 80, 80), new Color(13, 17, 28));
 		btnCLEAR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtrInputsequence.setText(""); // maakt tekstbox leeg

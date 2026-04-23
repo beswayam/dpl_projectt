@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class Statistics {
 
 	/** The sequence to compute statistics of. */
-	private Sequence seq;
+	private Sequence sequence;
 
 	/**
 	 * Constructs a Statistics object for a given sequence.
@@ -28,7 +28,7 @@ public class Statistics {
 	 * @return the raw sequence string
 	 */
 	public String getSeq() {
-		return this.seq.getSequenceNoHeader();
+		return this.sequence.getSequenceNoHeader();
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class Statistics {
 	 * @param seq the Sequence object to store
 	 */
 	public void setSeq(Sequence seq) {
-		this.seq = seq;
+		this.sequence = seq;
 	}
 
 	/**

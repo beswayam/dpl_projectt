@@ -124,20 +124,20 @@ public class CodonUtils {
 	/**
 	 * Returns the molecular weight of a given amino acid.
 	 * 
-	 * @param amino_acid the amino acid character (e.g. "A", "C", "D")
+	 * @param aminoAcid the amino acid character (e.g. "A", "C", "D")
 	 * @return the molecular weight in Dalton
 	 * @throws IllegalArgumentException if an invalid amino acid is entered
 	 */
-	public double baseWeight(char amino_acid) {
-		double molar_weight;
+	public double baseWeight(char aminoAcid) {
+		double molarWeight;
 
-		if (AMINOACID_TABLE.get(amino_acid) != null) {
-			molar_weight = AMINOACID_TABLE.get(amino_acid);
+		if (AMINOACID_TABLE.get(aminoAcid) != null) {
+			molarWeight = AMINOACID_TABLE.get(aminoAcid);
 
 		} else {
-			throw new IllegalArgumentException("Invalid base used:\"" + amino_acid + "\"-remaining sentence");
+			throw new IllegalArgumentException("Invalid base used:\"" + aminoAcid + "\"-remaining sentence");
 		}
-		return molar_weight;
+		return molarWeight;
 	}
 
 	/**
@@ -148,14 +148,14 @@ public class CodonUtils {
 	 * @throws IllegalArgumentException if the codon is not found
 	 */
 	public char getBase(String codon) {
-		char amino_acid;
+		char aminoAcid;
 		if (CODON_TABLE.get(codon) != null) {
-			amino_acid = CODON_TABLE.get(codon);
+			aminoAcid = CODON_TABLE.get(codon);
 		} else {
 			throw new IllegalArgumentException("Invalid codon used:  \"" + codon + "\"");
 		}
 
-		return amino_acid;
+		return aminoAcid;
 	}
 
 	/**

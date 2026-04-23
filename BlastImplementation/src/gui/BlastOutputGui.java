@@ -21,7 +21,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import org.apache.commons.io.FileUtils;
 
-import utilities.GUIutilities;
+import utilities.UIHelper;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -52,9 +52,15 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 
 	/** Index of the currently selected query sequence in the results list. */
 	private int sequenceIndex;
+<<<<<<< HEAD
 
 	/** Utility class for styling GUI components. */
 	private GUIutilities ui = new GUIutilities();
+=======
+	
+    /** Utility class for styling GUI components. */
+	UIHelper ui = new UIHelper();
+>>>>>>> 7a9f90afe7eb87bfd7c7e64c2497ae7b1f71e5c1
 
 	/**
 	 * Constructs the BLAST output GUI window.
@@ -98,7 +104,7 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 
 		// ── Help button ───────────────────────────────────────────────────────
 		JButton OutHelpButton = new JButton("Help");
-		ui.applyRoundedStyle(OutHelpButton, new Color(56, 189, 248), new Color(13, 17, 28));
+		ui.roundStyle(OutHelpButton, new Color(56, 189, 248), new Color(13, 17, 28));
 		OutHelpButton.addActionListener(e -> {
 			JFrame helpFrame = new JFrame("BLASTP Output Help");
 			helpFrame.setSize(600, 600);
@@ -199,7 +205,7 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 
 		// ── Export button — rounded teal ──────────────────────────────────────
 		JButton ExportButton = new JButton("Export Results");
-		ui.applyRoundedStyle(ExportButton, new Color(52, 211, 153), new Color(13, 17, 28));
+		ui.roundStyle(ExportButton, new Color(52, 211, 153), new Color(13, 17, 28));
 		ExportButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				File file = fileList.get(sequenceIndex);
