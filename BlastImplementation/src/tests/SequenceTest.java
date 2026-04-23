@@ -17,8 +17,8 @@ public class SequenceTest extends TestCase {
 	public void testInstantiateSequenceString() {
 
 		// Input without fasta header
-		String without_header = "atcgatcg";
-		Sequence check1 = new Sequence(without_header);
+		String withoutHeader = "atcgatcg";
+		Sequence check1 = new Sequence(withoutHeader);
 		assertEquals(">sequence\nATCGATCG", check1.getSequence());
 		assertEquals("project_data" + File.separator + "blast_input.fa", check1.getFastaFile().getPath());
 

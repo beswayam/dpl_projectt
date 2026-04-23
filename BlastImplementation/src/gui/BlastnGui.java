@@ -324,6 +324,7 @@ public class BlastnGui extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (dbFile != null) {
 					try {
+<<<<<<< HEAD
 						MultipleSequenceParser multSeqs = new MultipleSequenceParser();
 						sequencelist = null;
 						String raw = txtrInputsequence.getText();
@@ -369,6 +370,34 @@ public class BlastnGui extends JFrame {
 									dialog.dispose();
 									return;
 								}
+=======
+						// show message that BLAST is running
+						JDialog dialog = new JDialog(BlastnGui.this, "Loading", false);
+						JLabel loadingLabel = new JLabel("BLAST is running, please wait...", JLabel.CENTER);
+						loadingLabel.setFont(new Font("Monospaced", Font.PLAIN, 13));
+						loadingLabel.setBorder(new EmptyBorder(20, 30, 20, 30));
+						dialog.getContentPane().add(loadingLabel);
+						dialog.pack();
+						dialog.setLocationRelativeTo(BlastnGui.this);
+						dialog.setVisible(true);
+						dialog.paintAll(dialog.getGraphics());
+						
+						Sequence sequence = null;
+						ArrayList<File> fileList = new ArrayList<File>();
+						ArrayList<String> headerList = new ArrayList<String>();
+						for(int i = 0; i < sequencelist.size(); i++) {
+							sequence = sequencelist.get(i);
+							if(sequence.isProtein()==true) {
+								JOptionPane.showMessageDialog(BlastnGui.this,
+										"File contains protein sequences.\n"
+										+ "Please fix the sequence or use BLASTP instead.",
+										"Search Error", JOptionPane.ERROR_MESSAGE);
+								dialog.dispose();
+								//If the list contains both protein and nucleotide sequences, stop the blast
+								//This is because it's not possible to easily tell the user which sequences are ignored
+								break;
+							}
+>>>>>>> 9a76b1ef1d643abb49ff014063b77596066ee41e
 								String outPath = "project_data" + File.separator + "ssearch_results.txt";
 								ssearch36search.setSequence(sequence);
 								ssearch36search.run(dbFile, Evalue.getSelectedItem().toString(),
