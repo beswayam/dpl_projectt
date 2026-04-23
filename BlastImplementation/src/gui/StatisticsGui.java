@@ -173,7 +173,7 @@ public class StatisticsGui extends JFrame {
 	 */
 	private void btnTool(JButton btnGoToTool, GridBagConstraints gbc_btnGoToTool) {
 
-		ui.applyRoundedStyle(btnGoToTool, new Color(56, 189, 248), new Color(22, 28, 45));
+		ui.roundStyle(btnGoToTool, new Color(56, 189, 248), new Color(22, 28, 45));
 
 //		GridBagConstraints gbc_btnInputStatistics = new GridBagConstraints();
 //		gbc_btnInputStatistics.fill = GridBagConstraints.BOTH;

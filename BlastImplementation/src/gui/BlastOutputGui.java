@@ -94,7 +94,7 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 
 		// ── Help button ───────────────────────────────────────────────────────
 		JButton OutHelpButton = new JButton("Help");
-		ui.applyRoundedStyle(OutHelpButton, new Color(56, 189, 248), new Color(13, 17, 28));
+		ui.roundStyle(OutHelpButton, new Color(56, 189, 248), new Color(13, 17, 28));
 		OutHelpButton.addActionListener(e -> {
 			JFrame helpFrame = new JFrame("BLASTP Output Help");
 			helpFrame.setSize(600, 600);
@@ -195,7 +195,7 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 
 		// ── Export button — rounded teal ──────────────────────────────────────
 		JButton ExportButton = new JButton("Export Results");
-		ui.applyRoundedStyle(ExportButton, new Color(52, 211, 153), new Color(13, 17, 28));
+		ui.roundStyle(ExportButton, new Color(52, 211, 153), new Color(13, 17, 28));
 		ExportButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				File file = fileList.get(sequenceIndex);

@@ -114,7 +114,7 @@ public class BlastpGui extends JFrame {
 		// Help button
 
 		JButton btnHelp = new JButton("Help");
-		ui.applyRoundedStyle(btnHelp, new Color(52, 211, 153), new Color(13, 17, 28));
+		ui.roundStyle(btnHelp, new Color(52, 211, 153), new Color(13, 17, 28));
 		btnHelp.addActionListener(e -> {
 			JFrame helpFrame = new JFrame("BLASTP Help");
 			helpFrame.setSize(400, 300);
@@ -181,7 +181,7 @@ public class BlastpGui extends JFrame {
 
 		// Button for upload input sequence (FASTA file)
         final JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
-        ui.applyRoundedStyle(btnInputSequenceUpload, new Color(22, 28, 45), new Color(13, 17, 28));
+        ui.roundStyle(btnInputSequenceUpload, new Color(22, 28, 45), new Color(13, 17, 28));
         
 		// ── Upload sequence button ───────────────────────────────────────────
 		GridBagConstraints gbc_btnInputSequenceUpload = new GridBagConstraints();
@@ -222,7 +222,7 @@ public class BlastpGui extends JFrame {
 
         // ── Upload database button ───────────────────────────────────────────
         final JButton btnUploadDatabase = new JButton("Upload Database (FASTA file)");
-        ui.applyRoundedStyle(btnUploadDatabase, new Color(22, 28, 45), new Color(13, 17, 28));
+        ui.roundStyle(btnUploadDatabase, new Color(22, 28, 45), new Color(13, 17, 28));
         btnUploadDatabase.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
@@ -325,7 +325,7 @@ public class BlastpGui extends JFrame {
 
 		// ── BLAST button — rounded filled blue ───────────────────────────────
 		JButton btnBLAST = new JButton("BLAST");
-		ui.applyRoundedStyle(btnBLAST, new Color(56, 189, 248), new Color(13, 17, 28));
+		ui.roundStyle(btnBLAST, new Color(56, 189, 248), new Color(13, 17, 28));
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -439,7 +439,7 @@ public class BlastpGui extends JFrame {
 		contentPane.add(btnBLAST, gbc_btnBLAST);
 
 		JButton btnCLEAR = new JButton("Clear");
-		ui.applyRoundedStyle(btnCLEAR, new Color(220, 80, 80), new Color(13, 17, 28));
+		ui.roundStyle(btnCLEAR, new Color(220, 80, 80), new Color(13, 17, 28));
 		btnCLEAR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtrInputsequence.setText(""); // maakt tekstbox leeg

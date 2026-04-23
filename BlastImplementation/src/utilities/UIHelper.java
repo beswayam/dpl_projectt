@@ -68,7 +68,7 @@ public class UIHelper {
 		 * @param fillColor inner button color
 		 * @param outerColor surrounding background color
 		 */
-		public void applyRoundedStyle(JButton btn, Color fillColor, Color outerColor) {
+		public void roundStyle(JButton btn, Color fillColor, Color outerColor) {
 			btn.setUI(new javax.swing.plaf.basic.BasicButtonUI() {
 				@Override
 				public void paint(Graphics g, JComponent c) {
