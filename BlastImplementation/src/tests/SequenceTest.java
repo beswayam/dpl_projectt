@@ -7,36 +7,39 @@ import utilities.Sequence;
 
 public class SequenceTest extends TestCase {
 
+	// Remove any pre-existing files
 	public void setUp() {
 		new File("project_data/blast_input.fa").delete();
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 1; i <= 1000; i++) {
 			new File("project_data/blast_input_" + i + ".fa").delete();
 		}
 	}
 
-	public void testInstantiateSequenceString() {
-
+	public void testCheckHeader() {
 		// Input without fasta header
 		String withoutHeader = "atcgatcg";
 		Sequence check1 = new Sequence(withoutHeader);
 		assertEquals(">sequence\nATCGATCG", check1.getSequence());
+	}
+
+	public void testSequenceToFile() {
+		String withoutHeader = "atcgatcg";
+		Sequence check1 = new Sequence(withoutHeader);
 		assertEquals("project_data" + File.separator + "blast_input.fa", check1.getFastaFile().getPath());
 
+	}
+
+	public void testSequenceToUpperCase() {
 		// Input with fasta header
-		String with_header = ">sequence\natcgatcg";
-		Sequence check2 = new Sequence(with_header);
+		String withHeader = ">sequence\natcgatcg";
+		String mixedCase = ">sequence\nAtCgAtCg";
+		Sequence check2 = new Sequence(withHeader);
+		Sequence check3 = new Sequence(mixedCase);
 		assertEquals(">sequence\nATCGATCG", check2.getSequence());
-
-		// Input all lowercase
-		String all_lowercase = "atcgatcg";
-		Sequence check3 = new Sequence(all_lowercase);
 		assertEquals(">sequence\nATCGATCG", check3.getSequence());
+	}
 
-		// Input lower and upper
-		String mixed_case = "AtCgAtCg";
-		Sequence check4 = new Sequence(mixed_case);
-		assertEquals(">sequence\nATCGATCG", check4.getSequence());
-
+	public void testCheckSequenceElements() {
 		// Input with fasta header but no sequence
 		String header_no_newline = ">mysequence";
 		try {
@@ -44,7 +47,9 @@ public class SequenceTest extends TestCase {
 			fail();
 		} catch (IllegalArgumentException e) {
 		}
+	}
 
+	public void testIsNotEmpty() {
 		// No input
 		String no_input = "";
 		try {
@@ -52,7 +57,9 @@ public class SequenceTest extends TestCase {
 			fail();
 		} catch (IllegalArgumentException e) {
 		}
+	}
 
+	public void testIsProtein() {
 		// Input with invalid amino acid
 		String wrong_res = ">mysequence\nMRzkMou7b";
 		try {
@@ -60,10 +67,9 @@ public class SequenceTest extends TestCase {
 			fail();
 		} catch (IllegalArgumentException e) {
 		}
-
 	}
 
-	public void testInstantiateSequenceFile() {
+	public void testFileToSequence() {
 		// Check constructor that takes a File argument
 		File fileName = new File("project_data/test_fa.txt");
 		Sequence check8 = new Sequence(fileName);
