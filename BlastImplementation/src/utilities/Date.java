@@ -5,23 +5,23 @@ import java.time.LocalDate;
 import interfaces.Displayable;
 
 /**
- * The Date class represent a simple calendar date (day, month, year)
- * based on the current system date at the time of object creation.
+ * The Date class represent a simple calendar date (day, month, year) based on
+ * the current system date at the time of object creation.
  * 
- * It provides a formatted display of the date and access to individual date 
+ * It provides a formatted display of the date and access to individual date
  * components.
  */
 public class Date implements Displayable {
-	
+
 	/** The day of the month (1-31). */
 	private final int day;
-	
+
 	/** The month of the year (1-12). */
 	private final int month;
-	
+
 	/** The year (e.g. 2026). */
 	private final int year;
-	
+
 	/**
 	 * Constructs a Date object initialized to the current system date.
 	 */
@@ -60,7 +60,8 @@ public class Date implements Displayable {
 		return this.month;
 	}
 
-	/** Returns the year.
+	/**
+	 * Returns the year.
 	 * 
 	 * @return the year (e.g. 2026)
 	 */

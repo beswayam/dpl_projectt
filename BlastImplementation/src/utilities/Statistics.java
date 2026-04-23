@@ -5,18 +5,18 @@ import java.util.HashMap;
 /**
  * The Statistics class provides basic statistics of a protein or DNA sequence.
  * 
- * It can compute sequence length and count the occurrences of each base 
- * in the sequence.
+ * It can compute sequence length and count the occurrences of each base in the
+ * sequence.
  */
 public class Statistics {
-	
+
 	/** The sequence to compute statistics of. */
 	private Sequence sequence;
 
 	/**
 	 * Constructs a Statistics object for a given sequence.
 	 * 
-	 * @param sequence the sequence to compute statistics of 
+	 * @param sequence the sequence to compute statistics of
 	 */
 	public Statistics(Sequence sequence) {
 		setSeq(sequence);
@@ -53,10 +53,11 @@ public class Statistics {
 	/**
 	 * Counts the occurrences of each character in the sequence.
 	 * 
-	 * <p> The result is stored in a map where each key is a character
-	 * and the value is the number of times it appears.
+	 * <p>
+	 * The result is stored in a map where each key is a character and the value is
+	 * the number of times it appears.
 	 * 
-	 * @return a map containing the character counts 
+	 * @return a map containing the character counts
 	 */
 	public HashMap<Character, Integer> seqContents() {
 		// initiate a map (dictionary in Python)
@@ -77,16 +78,15 @@ public class Statistics {
 		// return the base - count map.
 		return baseCounts;
 	}
-	
-	public void validateProteinSequence(String sequence) {
-	    if (sequence == null) {
-	        throw new IllegalArgumentException("Protein sequence cannot be null.");
-	    }
 
-	    if (!sequence.matches("[a-zA-Z]+")) {
-	        throw new IllegalArgumentException(
-	            "Invalid protein sequence: only alphabetical characters (A–Z) are allowed."
-	        );
-	    }
+	public void validateProteinSequence(String sequence) {
+		if (sequence == null) {
+			throw new IllegalArgumentException("Protein sequence cannot be null.");
+		}
+
+		if (!sequence.matches("[a-zA-Z]+")) {
+			throw new IllegalArgumentException(
+					"Invalid protein sequence: only alphabetical characters (A–Z) are allowed.");
+		}
 	}
 }

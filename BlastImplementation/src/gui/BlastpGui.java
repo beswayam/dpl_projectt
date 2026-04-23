@@ -32,56 +32,61 @@ import javax.swing.JSeparator; // ── ADDED: separator line
 /**
  * Graphical user interface for running BLASTP and SSEARCH36 searches.
  *
- * <p>This class provides a Swing-based graphical user interface that allows users to:
+ * <p>
+ * This class provides a Swing-based graphical user interface that allows users
+ * to:
  * <ul>
- *   <li>Enter or upload protein sequences in FASTA format</li>
- *   <li>Optionally upload a custom database</li>
- *   <li>Select BLAST parameters such as E-value, scoring matrix, and max hits</li>
- *   <li>Execute BLASTP or SSEARCH36 searches</li>
- *   <li>View results in a separate output window</li>
+ * <li>Enter or upload protein sequences in FASTA format</li>
+ * <li>Optionally upload a custom database</li>
+ * <li>Select BLAST parameters such as E-value, scoring matrix, and max
+ * hits</li>
+ * <li>Execute BLASTP or SSEARCH36 searches</li>
+ * <li>View results in a separate output window</li>
  * </ul>
  *
- * <p>The GUI supports both
- * UniProt-based BLAST searches and custom database searches.
+ * <p>
+ * The GUI supports both UniProt-based BLAST searches and custom database
+ * searches.
  */
 public class BlastpGui extends JFrame {
-	
-    /** BLASTP search utility for default UniProt database. */
+
+	/** BLASTP search utility for default UniProt database. */
 	private static BlastpSearch blastpsearch = new BlastpSearch();
-	
-    /** SSEARCH36 search utility for custom database. */
+
+	/** SSEARCH36 search utility for custom database. */
 	private static Ssearch36Search ssearch36search = new Ssearch36Search(true);
-	
-    /** List of parsed sequences from user input or file. */
+
+	/** List of parsed sequences from user input or file. */
 	private ArrayList<Sequence> sequencelist;
 	private static final long serialVersionUID = 1L;
-	
-    /** Main content panel of the GUI. */
+
+	/** Main content panel of the GUI. */
 	private JPanel contentPane;
-	
-    /** Header label displaying the application title. */
+
+	/** Header label displaying the application title. */
 	private JLabel txtBlastpAlgorithm;
 
-    /** Selected query FASTA file (if uploaded). */
+	/** Selected query FASTA file (if uploaded). */
 	public File queryFile = null;
-	
-    /** Selected database FASTA file (if uploaded). */
+
+	/** Selected database FASTA file (if uploaded). */
 	public File dbFile = null;
-	
-    /** Utility class for consistent GUI styling. */
-	UIHelper ui = new UIHelper();
+
+	/** Utility class for consistent GUI styling. */
+	private UIHelper ui = new UIHelper();
 
 	/**
-     * Constructs the BLASTP GUI window and initializes all components.
-     *
-     * <p>This includes:
-     * <ul>
-     *   <li>Text input area for FASTA sequences</li>
-     *   <li>Buttons for uploading query and database files</li>
-     *   <li>Dropdowns for selecting BLAST parameters</li>
-     *   <li>Execution button to run BLAST or SSEARCH</li>
-     * </ul>
-     */
+	 * Constructs the BLASTP GUI window and initializes all components.
+	 *
+	 * <p>
+	 * This includes:
+	 * <ul>
+	 * <li>Text input area for FASTA sequences</li>
+	 * <li>Buttons for uploading query and database files</li>
+	 * <li>Dropdowns for selecting BLAST parameters</li>
+	 * <li>Execution button to run BLAST or SSEARCH</li>
+	 * </ul>
+	 */
 	public BlastpGui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 943, 676);
@@ -114,7 +119,7 @@ public class BlastpGui extends JFrame {
 		// Help button
 
 		JButton btnHelp = new JButton("Help");
-		ui.roundStyle(btnHelp, new Color(52, 211, 153), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnHelp, new Color(52, 211, 153), new Color(13, 17, 28));
 		btnHelp.addActionListener(e -> {
 			JFrame helpFrame = new JFrame("BLASTP Help");
 			helpFrame.setSize(400, 300);
@@ -180,37 +185,37 @@ public class BlastpGui extends JFrame {
 		contentPane.add(scrollPane, gbc_scrollPane);
 
 		// Button for upload input sequence (FASTA file)
-        final JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
-        ui.roundStyle(btnInputSequenceUpload, new Color(22, 28, 45), new Color(13, 17, 28));
-        
+
+		final JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
+		ui.applyRoundedStyle(btnInputSequenceUpload, new Color(22, 28, 45), new Color(13, 17, 28));
+
 		// ── Upload sequence button ───────────────────────────────────────────
 		GridBagConstraints gbc_btnInputSequenceUpload = new GridBagConstraints();
 		gbc_btnInputSequenceUpload.fill = GridBagConstraints.BOTH;
 		gbc_btnInputSequenceUpload.insets = new Insets(0, 0, 8, 5);
 		gbc_btnInputSequenceUpload.gridx = 0;
 		gbc_btnInputSequenceUpload.gridy = 3;
-		
+
 //        btnInputSequenceUpload.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ── ADDED
-        btnInputSequenceUpload.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                if (!txtrInputsequence.getText().trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(BlastpGui.this,
-                        "Please clear the text area before uploading a file.",
-                        "Input Error", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-                JFileChooser fileChooser = new JFileChooser();
-                FileNameExtensionFilter fasta_filter = new FileNameExtensionFilter("Fasta file", "fasta");
-                fileChooser.setDialogTitle("Select Query FASTA File");
-                fileChooser.setFileFilter(fasta_filter);
-                if (fileChooser.showOpenDialog(BlastpGui.this) == JFileChooser.APPROVE_OPTION) {
-                    queryFile = fileChooser.getSelectedFile();
-                    btnInputSequenceUpload.setText("Selected: " + queryFile.getName());
-                    btnInputSequenceUpload.setForeground(new Color(52, 211, 153)); // ── ADDED: green on select
-                }
-            }
-        });
-        contentPane.add(btnInputSequenceUpload, gbc_btnInputSequenceUpload);
+		btnInputSequenceUpload.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (!txtrInputsequence.getText().trim().isEmpty()) {
+					JOptionPane.showMessageDialog(BlastpGui.this, "Please clear the text area before uploading a file.",
+							"Input Error", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				JFileChooser fileChooser = new JFileChooser();
+				FileNameExtensionFilter fasta_filter = new FileNameExtensionFilter("Fasta file", "fasta");
+				fileChooser.setDialogTitle("Select Query FASTA File");
+				fileChooser.setFileFilter(fasta_filter);
+				if (fileChooser.showOpenDialog(BlastpGui.this) == JFileChooser.APPROVE_OPTION) {
+					queryFile = fileChooser.getSelectedFile();
+					btnInputSequenceUpload.setText("Selected: " + queryFile.getName());
+					btnInputSequenceUpload.setForeground(new Color(52, 211, 153)); // ── ADDED: green on select
+				}
+			}
+		});
+		contentPane.add(btnInputSequenceUpload, gbc_btnInputSequenceUpload);
 
 		// Label to show if file is actually FASTA
 		JLabel lblUploadInputFastaFile = new JLabel("");
@@ -220,26 +225,26 @@ public class BlastpGui extends JFrame {
 		gbc_lblUploadInputFastaFile.gridy = 3;
 		contentPane.add(lblUploadInputFastaFile, gbc_lblUploadInputFastaFile);
 
-        // ── Upload database button ───────────────────────────────────────────
-        final JButton btnUploadDatabase = new JButton("Upload Database (FASTA file)");
-        ui.roundStyle(btnUploadDatabase, new Color(22, 28, 45), new Color(13, 17, 28));
-        btnUploadDatabase.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setDialogTitle("Select Database FASTA File");
-                if (fileChooser.showOpenDialog(BlastpGui.this) == JFileChooser.APPROVE_OPTION) {
-                    dbFile = fileChooser.getSelectedFile();
-                    btnUploadDatabase.setText("Database: " + dbFile.getName());
-                    btnUploadDatabase.setForeground(new Color(52, 211, 153)); // ── ADDED: green on select
-                }
-            }
-        });
-        GridBagConstraints gbc_btnUploadDatabase = new GridBagConstraints();
-        gbc_btnUploadDatabase.fill   = GridBagConstraints.BOTH;
-        gbc_btnUploadDatabase.insets = new Insets(0, 0, 8, 5);
-        gbc_btnUploadDatabase.gridx  = 0;
-        gbc_btnUploadDatabase.gridy  = 4;
-        contentPane.add(btnUploadDatabase, gbc_btnUploadDatabase);
+		// ── Upload database button ───────────────────────────────────────────
+		final JButton btnUploadDatabase = new JButton("Upload Database (FASTA file)");
+		ui.applyRoundedStyle(btnUploadDatabase, new Color(22, 28, 45), new Color(13, 17, 28));
+		btnUploadDatabase.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setDialogTitle("Select Database FASTA File");
+				if (fileChooser.showOpenDialog(BlastpGui.this) == JFileChooser.APPROVE_OPTION) {
+					dbFile = fileChooser.getSelectedFile();
+					btnUploadDatabase.setText("Database: " + dbFile.getName());
+					btnUploadDatabase.setForeground(new Color(52, 211, 153)); // ── ADDED: green on select
+				}
+			}
+		});
+		GridBagConstraints gbc_btnUploadDatabase = new GridBagConstraints();
+		gbc_btnUploadDatabase.fill = GridBagConstraints.BOTH;
+		gbc_btnUploadDatabase.insets = new Insets(0, 0, 8, 5);
+		gbc_btnUploadDatabase.gridx = 0;
+		gbc_btnUploadDatabase.gridy = 4;
+		contentPane.add(btnUploadDatabase, gbc_btnUploadDatabase);
 
 		// Label for Database button
 		JLabel lblUploadDatabaseFastaFile = new JLabel("");
@@ -250,7 +255,7 @@ public class BlastpGui extends JFrame {
 		contentPane.add(lblUploadDatabaseFastaFile, gbc_lblUploadDatabaseFastaFile);
 
 		// ── E-value label and dropdown ───────────────────────────────────────
-		
+
 		JLabel lblEvalue = ui.boldLabel("E-value Threshold");
 		GridBagConstraints gbc_lblEvalue = new GridBagConstraints();
 		gbc_lblEvalue.fill = GridBagConstraints.HORIZONTAL;
@@ -325,14 +330,14 @@ public class BlastpGui extends JFrame {
 
 		// ── BLAST button — rounded filled blue ───────────────────────────────
 		JButton btnBLAST = new JButton("BLAST");
-		ui.roundStyle(btnBLAST, new Color(56, 189, 248), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnBLAST, new Color(56, 189, 248), new Color(13, 17, 28));
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					MultipleSequenceParser multSeqs = new MultipleSequenceParser();
 					sequencelist = null;
 					String raw = txtrInputsequence.getText();
-					
+
 					if (raw != null && !raw.trim().isEmpty()) {
 						sequencelist = multSeqs.parseMultipleSeqs(raw);
 					}
@@ -393,13 +398,13 @@ public class BlastpGui extends JFrame {
 													+ "Check that ssearch36.exe exists in the tools folder.",
 											"Search Error", JOptionPane.ERROR_MESSAGE);
 									dialog.dispose();
-									
+
 								}
 							}
 							BlastOutputGui blastpout = new BlastOutputGui(fileList, headerList);
 							blastpout.setLocationRelativeTo(null);
 							blastpout.setVisible(true);
-							
+
 						} catch (Exception ex) {
 							JOptionPane.showMessageDialog(BlastpGui.this, "SSEARCH36 failed: " + ex.getMessage(),
 									"Search Error", JOptionPane.ERROR_MESSAGE);
@@ -428,7 +433,6 @@ public class BlastpGui extends JFrame {
 
 			}
 
-
 		});
 
 		GridBagConstraints gbc_btnBLAST = new GridBagConstraints();
@@ -439,7 +443,7 @@ public class BlastpGui extends JFrame {
 		contentPane.add(btnBLAST, gbc_btnBLAST);
 
 		JButton btnCLEAR = new JButton("Clear");
-		ui.roundStyle(btnCLEAR, new Color(220, 80, 80), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnCLEAR, new Color(220, 80, 80), new Color(13, 17, 28));
 		btnCLEAR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtrInputsequence.setText(""); // maakt tekstbox leeg
@@ -467,24 +471,25 @@ public class BlastpGui extends JFrame {
 	}
 
 	/**
-	* Executes a BLASTP search using the UniProt database.
-	*
-	* <p>This method:
-	* <ul>
-	*   <li>Runs BLASTP using the provided sequence</li>
-	*   <li>Writes results to a TSV file</li>
-	*   <li>Generates a header based on the sequence identifier</li>
-	* </ul>
-	*
-	* @param sequence the protein sequence to search
-	* @param mineval  the minimum E-value threshold
-	* @param maxseq   the maximum number of sequences to return
-	* @return an {@code Object[]} containing:
-	*         <ul>
-	*           <li>Index 0: {@link File} containing BLAST output</li>
- 	*           <li>Index 1: {@link String} header for the sequence</li>
- 	*         </ul>
- 	*/
+	 * Executes a BLASTP search using the UniProt database.
+	 *
+	 * <p>
+	 * This method:
+	 * <ul>
+	 * <li>Runs BLASTP using the provided sequence</li>
+	 * <li>Writes results to a TSV file</li>
+	 * <li>Generates a header based on the sequence identifier</li>
+	 * </ul>
+	 *
+	 * @param sequence the protein sequence to search
+	 * @param mineval  the minimum E-value threshold
+	 * @param maxseq   the maximum number of sequences to return
+	 * @return an {@code Object[]} containing:
+	 *         <ul>
+	 *         <li>Index 0: {@link File} containing BLAST output</li>
+	 *         <li>Index 1: {@link String} header for the sequence</li>
+	 *         </ul>
+	 */
 	private static Object[] performBlastP(Sequence sequence, float mineval, int maxseq) {
 		blastpsearch.setSequence(sequence);
 		blastpsearch.runUniprotBlast();

@@ -5,27 +5,26 @@ import java.time.Instant;
 
 import interfaces.Displayable;
 
-
 /**
- * The Time class represent a simple timer that tracks the elapsed time 
- * since its instantiation.
+ * The Time class represent a simple timer that tracks the elapsed time since
+ * its instantiation.
  * 
- * It provides formatted output of the elapsed time in hours, minutes
- * and seconds.
+ * It provides formatted output of the elapsed time in hours, minutes and
+ * seconds.
  */
 public class Time implements Displayable {
-	
+
 	/** The moment this Time object was created. */
 	private final Instant startTime;
 
-	/** 
-	 * Constructs a Time object initialized to the current time. 
+	/**
+	 * Constructs a Time object initialized to the current time.
 	 */
 	public Time() {
 		this.startTime = Instant.now();
 	}
-	
-	/** 
+
+	/**
 	 * Returns the start time of this timer.
 	 * 
 	 * @return the {@link Instant} when this object was created
@@ -35,13 +34,13 @@ public class Time implements Displayable {
 	}
 
 	/**
-	 * Returns a formatted string representing the time elapsed since
-	 * this object was created.
+	 * Returns a formatted string representing the time elapsed since this object
+	 * was created.
 	 * 
 	 * <p>
 	 * Format:
 	 * <ul>
-	 * 	<li>hh:mm:ss if hours are present</li>
+	 * <li>hh:mm:ss if hours are present</li>
 	 * <li>mm:ss if minutes are present</li>
 	 * <li>ss if seconds are present</li>
 	 * </ul>
@@ -68,10 +67,13 @@ public class Time implements Displayable {
 		return output;
 	}
 
-	/** Returns a formatted string representing the time elapsed between 
-	 * a given {@link Instant} and the current time.
+	/**
+	 * Returns a formatted string representing the time elapsed between a given
+	 * {@link Instant} and the current time.
 	 * 
-	 * <p><b>Note:</b> This method is intended for testing purposes.
+	 * <p>
+	 * <b>Note:</b> This method is intended for testing purposes.
+	 * 
 	 * @param previousTime
 	 * @return a formatted string of elapsed time
 	 */
@@ -93,7 +95,7 @@ public class Time implements Displayable {
 		}
 		return output;
 	}
-	
+
 	/**
 	 * Indicates whether the displayed time needs to be updated.
 	 * 

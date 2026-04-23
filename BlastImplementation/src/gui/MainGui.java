@@ -37,27 +37,29 @@ import javax.swing.SwingConstants;
 /**
  * Main application window for EzBLAST.
  * 
- * <p>This GUI provides access to the main tools in the application:
- * BLASTP, BLASTN, file statistics, and BLAST result visualization.
- * It also displays the current date and application runtime at the bottom
- * of the window.
+ * <p>
+ * This GUI provides access to the main tools in the application: BLASTP,
+ * BLASTN, file statistics, and BLAST result visualization. It also displays the
+ * current date and application runtime at the bottom of the window.
  * </p>
  *
- * <p>The class extends {@link JFrame} and initializes all interface elements
- * in the constructor.</p>
+ * <p>
+ * The class extends {@link JFrame} and initializes all interface elements in
+ * the constructor.
+ * </p>
  */
 public class MainGui extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	/** Main content panel for the window. */
 	private JPanel contentPane;
-	
+
 	/** The selected input file for sequence statistics. */
-	public File inputFile;
-	
+	private File inputFile;
+
 	/** The selected TSV file for BLAST result visualization. */
-	public File inputTsv;
+	private File inputTsv;
 
 	/**
 	 * Launches the EzBLAST GUI application.
@@ -80,13 +82,12 @@ public class MainGui extends JFrame {
 	/**
 	 * Creates the main application window and initializes all components.
 	 * <p>
-	 * The GUI includes buttons for BLASTP, BLASTN, file statistics,
-	 * TSV upload, and help information. It also sets up live date and time
-	 * displays using a Swing {@link Timer}.
+	 * The GUI includes buttons for BLASTP, BLASTN, file statistics, TSV upload, and
+	 * help information. It also sets up live date and time displays using a Swing
+	 * {@link Timer}.
 	 * </p>
 	 */
-	public MainGui() {
-		
+	public MainGui() {	
 		UIHelper ui = new UIHelper();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -108,7 +109,7 @@ public class MainGui extends JFrame {
 		contentPane.setLayout(gbl_contentPane);
 
 		// ── ADDED: App title ─────────────────────────────────────────────────
-		
+
 		JLabel lblAppTitle = new JLabel("EzBLAST");
 		lblAppTitle.setFont(new Font("Monospaced", Font.BOLD, 26)); // ── CHANGED: font
 		lblAppTitle.setForeground(new Color(56, 189, 248)); // ── CHANGED: sky blue
@@ -130,7 +131,7 @@ public class MainGui extends JFrame {
 		contentPane.add(lblPageHeader, gbc_lblPageHeader);
 
 		// ── ADDED: Separator line ─────────────────────────────────────────────
-		
+
 		JSeparator separator = new JSeparator();
 		separator.setForeground(new Color(30, 41, 59));
 		GridBagConstraints gbc_sep = new GridBagConstraints();
@@ -140,7 +141,7 @@ public class MainGui extends JFrame {
 		gbc_sep.gridy = 2;
 		contentPane.add(separator, gbc_sep);
 
-		// ── BLASTP button label ───────────────────────────────────────────────		
+		// ── BLASTP button label ───────────────────────────────────────────────
 		// ── ADDED: label above button acts as the button title ───────────────
 
 		JLabel lblBlastp = ui.label("Run a protein sequence alignment");
@@ -154,7 +155,7 @@ public class MainGui extends JFrame {
 
 		// ── BLASTP button ─────────────────────────────────────────────────────
 		JButton btnBlastpInterface = new JButton("BLASTP");
-		ui.roundStyle(btnBlastpInterface, new Color(56, 189, 248), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnBlastpInterface, new Color(56, 189, 248), new Color(13, 17, 28));
 		btnBlastpInterface.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				BlastpGui blastp = new BlastpGui();
@@ -187,9 +188,9 @@ public class MainGui extends JFrame {
 		contentPane.add(lblBlastn, gbc_lblBlastn);
 
 		// ── BLASTN button ─────────────────────────────────────────────────────
-		
+
 		JButton btnBlastnInterface = new JButton("BLASTN");
-		ui.roundStyle(btnBlastnInterface, new Color(56, 189, 248), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnBlastnInterface, new Color(56, 189, 248), new Color(13, 17, 28));
 		btnBlastnInterface.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				BlastnGui blastn = new BlastnGui();
@@ -215,9 +216,9 @@ public class MainGui extends JFrame {
 		contentPane.add(lblStats, gbc_lblStats);
 
 		// ── File Statistics button ────────────────────────────────────────────
-		
+
 		JButton btnInputStatistics = new JButton("File Statistics");
-		ui.roundStyle(btnInputStatistics, new Color(52, 211, 153), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnInputStatistics, new Color(52, 211, 153), new Color(13, 17, 28));
 		btnInputStatistics.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
@@ -230,29 +231,31 @@ public class MainGui extends JFrame {
 				fileChooser.setFileFilter(fasta_filter);
 				int file = fileChooser.showOpenDialog(MainGui.this);
 				if (file == JFileChooser.APPROVE_OPTION) {
-					
+
 					try {
 						inputFile = fileChooser.getSelectedFile();
-			
+
 						Sequence statisticsSequence = new Sequence(inputFile);
-						
+
 						// pass file to second GUI
 						StatisticsGui stats = new StatisticsGui(statisticsSequence);
 						stats.setLocationRelativeTo(null);
 						stats.setVisible(true);
 					} catch (IllegalArgumentException error) {
-						JOptionPane.showMessageDialog(new JOptionPane(), error.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-						error.printStackTrace();					
+						JOptionPane.showMessageDialog(new JOptionPane(), error.getMessage(), "Error",
+								JOptionPane.ERROR_MESSAGE);
+						error.printStackTrace();
+					}
 				}
 			}
-			}});
+		});
 		GridBagConstraints gbc_btnInputStatistics = new GridBagConstraints();
 		gbc_btnInputStatistics.anchor = GridBagConstraints.WEST; // ── CHANGED: fits to text size
 		gbc_btnInputStatistics.insets = new Insets(0, 0, 16, 5);
 		gbc_btnInputStatistics.gridx = 1;
 		gbc_btnInputStatistics.gridy = 8;
 		contentPane.add(btnInputStatistics, gbc_btnInputStatistics);
-		
+
 		// ── Upload .tsv Label ────────────────────────────────────────────
 
 		JLabel lblUpload = ui.label("Upload your .tsv result file to visualise results");
@@ -262,11 +265,11 @@ public class MainGui extends JFrame {
 		gbc_lblUpload.gridx = 1;
 		gbc_lblUpload.gridy = 9;
 		contentPane.add(lblUpload, gbc_lblUpload);
-		
+
 		// ── Upload .tsv Button ────────────────────────────────────────────
 
 		JButton btnUploadtsv = new JButton("Upload .tsv file");
-		ui.roundStyle(btnUploadtsv, new Color(52, 211, 153), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnUploadtsv, new Color(52, 211, 153), new Color(13, 17, 28));
 		btnUploadtsv.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -293,9 +296,9 @@ public class MainGui extends JFrame {
 		contentPane.add(btnUploadtsv, gbc_btnUploadtsv);
 
 		// ── Help statistics Button ────────────────────────────────────────────
-		
+
 		JButton btnHelpFileStatistics = new JButton("Help");
-		ui.roundStyle(btnHelpFileStatistics, new Color(56, 189, 248), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnHelpFileStatistics, new Color(56, 189, 248), new Color(13, 17, 28));
 		btnHelpFileStatistics.setVerticalAlignment(SwingConstants.TOP);
 		btnHelpFileStatistics.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints gbc_btnHelpFileStatistics = new GridBagConstraints();
@@ -327,7 +330,7 @@ public class MainGui extends JFrame {
 			helpFrame.setLocationRelativeTo(null);
 			helpFrame.setVisible(true);
 		});
-		
+
 		// ── Date Label ────────────────────────────────────────────
 
 		JLabel lblShowCurrDate = new JLabel("");
