@@ -96,7 +96,7 @@ public class BlastViewGui extends BlastOutputGuiFunctions {
 		// ── Help button ───────────────────────────────────────────────────────
 
 		JButton OutHelpButton = new JButton("Help");
-		ui.roundStyle(OutHelpButton, new Color(22, 28, 45), new Color(100, 116, 139));
+		ui.applyRoundedStyle(OutHelpButton, new Color(22, 28, 45), new Color(100, 116, 139));
 		OutHelpButton.addActionListener(e -> {
 			JFrame helpFrame = new JFrame("BLASTP Output Help");
 			helpFrame.setSize(600, 600);

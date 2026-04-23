@@ -155,7 +155,7 @@ public class MainGui extends JFrame {
 
 		// ── BLASTP button ─────────────────────────────────────────────────────
 		JButton btnBlastpInterface = new JButton("BLASTP");
-		ui.roundStyle(btnBlastpInterface, new Color(56, 189, 248), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnBlastpInterface, new Color(56, 189, 248), new Color(13, 17, 28));
 		btnBlastpInterface.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				BlastpGui blastp = new BlastpGui();
@@ -190,7 +190,7 @@ public class MainGui extends JFrame {
 		// ── BLASTN button ─────────────────────────────────────────────────────
 
 		JButton btnBlastnInterface = new JButton("BLASTN");
-		ui.roundStyle(btnBlastnInterface, new Color(56, 189, 248), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnBlastnInterface, new Color(56, 189, 248), new Color(13, 17, 28));
 		btnBlastnInterface.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				BlastnGui blastn = new BlastnGui();
@@ -218,7 +218,7 @@ public class MainGui extends JFrame {
 		// ── File Statistics button ────────────────────────────────────────────
 
 		JButton btnInputStatistics = new JButton("File Statistics");
-		ui.roundStyle(btnInputStatistics, new Color(52, 211, 153), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnInputStatistics, new Color(52, 211, 153), new Color(13, 17, 28));
 		btnInputStatistics.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
@@ -269,7 +269,7 @@ public class MainGui extends JFrame {
 		// ── Upload .tsv Button ────────────────────────────────────────────
 
 		JButton btnUploadtsv = new JButton("Upload .tsv file");
-		ui.roundStyle(btnUploadtsv, new Color(52, 211, 153), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnUploadtsv, new Color(52, 211, 153), new Color(13, 17, 28));
 		btnUploadtsv.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -298,7 +298,7 @@ public class MainGui extends JFrame {
 		// ── Help statistics Button ────────────────────────────────────────────
 
 		JButton btnHelpFileStatistics = new JButton("Help");
-		ui.roundStyle(btnHelpFileStatistics, new Color(56, 189, 248), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnHelpFileStatistics, new Color(56, 189, 248), new Color(13, 17, 28));
 		btnHelpFileStatistics.setVerticalAlignment(SwingConstants.TOP);
 		btnHelpFileStatistics.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints gbc_btnHelpFileStatistics = new GridBagConstraints();

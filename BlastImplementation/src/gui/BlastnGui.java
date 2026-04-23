@@ -112,7 +112,7 @@ public class BlastnGui extends JFrame {
 
 		// Help button
 		JButton btnHelp = new JButton("Help");
-		ui.roundStyle(btnHelp, new Color(52, 211, 153), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnHelp, new Color(52, 211, 153), new Color(13, 17, 28));
 		btnHelp.addActionListener(e -> {
 			JFrame helpFrame = new JFrame("BLASTN Help");
 			helpFrame.setSize(400, 300);
@@ -185,7 +185,7 @@ public class BlastnGui extends JFrame {
 
 		// Button for upload input sequence (FASTA file)
 		final JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
-		ui.roundStyle(btnInputSequenceUpload, new Color(22, 28, 45), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnInputSequenceUpload, new Color(22, 28, 45), new Color(13, 17, 28));
 		btnInputSequenceUpload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!txtrInputsequence.getText().trim().isEmpty()) {
@@ -216,7 +216,7 @@ public class BlastnGui extends JFrame {
 
 		// ── Upload database button ───────────────────────────────────────────
 		final JButton btnUploadDatabase = new JButton("Upload Database (FASTA file)");
-		ui.roundStyle(btnUploadDatabase, new Color(22, 28, 45), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnUploadDatabase, new Color(22, 28, 45), new Color(13, 17, 28));
 		btnUploadDatabase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
@@ -319,12 +319,11 @@ public class BlastnGui extends JFrame {
 
 		// ── BLAST button — rounded filled blue ───────────────────────────────
 		JButton btnBLAST = new JButton("BLAST");
-		ui.roundStyle(btnBLAST, new Color(56, 189, 248), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnBLAST, new Color(56, 189, 248), new Color(13, 17, 28));
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (dbFile != null) {
 					try {
-<<<<<<< HEAD
 						MultipleSequenceParser multSeqs = new MultipleSequenceParser();
 						sequencelist = null;
 						String raw = txtrInputsequence.getText();
@@ -370,34 +369,7 @@ public class BlastnGui extends JFrame {
 									dialog.dispose();
 									return;
 								}
-=======
-						// show message that BLAST is running
-						JDialog dialog = new JDialog(BlastnGui.this, "Loading", false);
-						JLabel loadingLabel = new JLabel("BLAST is running, please wait...", JLabel.CENTER);
-						loadingLabel.setFont(new Font("Monospaced", Font.PLAIN, 13));
-						loadingLabel.setBorder(new EmptyBorder(20, 30, 20, 30));
-						dialog.getContentPane().add(loadingLabel);
-						dialog.pack();
-						dialog.setLocationRelativeTo(BlastnGui.this);
-						dialog.setVisible(true);
-						dialog.paintAll(dialog.getGraphics());
-						
-						Sequence sequence = null;
-						ArrayList<File> fileList = new ArrayList<File>();
-						ArrayList<String> headerList = new ArrayList<String>();
-						for(int i = 0; i < sequencelist.size(); i++) {
-							sequence = sequencelist.get(i);
-							if(sequence.isProtein()==true) {
-								JOptionPane.showMessageDialog(BlastnGui.this,
-										"File contains protein sequences.\n"
-										+ "Please fix the sequence or use BLASTP instead.",
-										"Search Error", JOptionPane.ERROR_MESSAGE);
-								dialog.dispose();
-								//If the list contains both protein and nucleotide sequences, stop the blast
-								//This is because it's not possible to easily tell the user which sequences are ignored
-								break;
-							}
->>>>>>> 9a76b1ef1d643abb49ff014063b77596066ee41e
+
 								String outPath = "project_data" + File.separator + "ssearch_results.txt";
 								ssearch36search.setSequence(sequence);
 								ssearch36search.run(dbFile, Evalue.getSelectedItem().toString(),
@@ -453,7 +425,7 @@ public class BlastnGui extends JFrame {
 		contentPane.add(btnBLAST, gbc_btnBLAST);
 
 		JButton btnCLEAR = new JButton("Clear");
-		ui.roundStyle(btnCLEAR, new Color(220, 80, 80), new Color(13, 17, 28));
+		ui.applyRoundedStyle(btnCLEAR, new Color(220, 80, 80), new Color(13, 17, 28));
 		btnCLEAR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtrInputsequence.setText(""); // maakt tekstbox leeg
