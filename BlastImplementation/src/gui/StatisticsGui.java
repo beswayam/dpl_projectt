@@ -1,17 +1,14 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import utilities.GUIutilities;
+import utilities.UIHelper;
 import utilities.NucleotideStatistics;
 import utilities.ProteinStatistics;
 import java.awt.GridBagLayout;
@@ -19,25 +16,17 @@ import java.awt.GridBagLayout;
 import javax.swing.JTextArea;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.SystemColor;
 
 import javax.swing.SwingConstants;
 import utilities.Sequence;
-import utilities.Statistics;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 
 import java.awt.event.ActionListener;
 
@@ -51,18 +40,19 @@ import javax.swing.JSeparator;
 /**
  * GUI window for displaying sequence statistics and suggesting a suitable tool.
  * <p>
- * This window reads a FASTA file, determines whether the sequence is protein
- * or nucleotide, displays basic statistics, and suggests BLASTP or BLASTN
- * based on the input type.
+ * This window reads a FASTA file, determines whether the sequence is protein or
+ * nucleotide, displays basic statistics, and suggests BLASTP or BLASTN based on
+ * the input type.
  * </p>
  */
 public class StatisticsGui extends JFrame {
-
-	private static final long serialVersionUID = 1L;
+	private UIHelper ui = new UIHelper();
 	
+	private static final long serialVersionUID = 1L;
+
 	/** Main content panel for the window. */
 	private JPanel contentPane;
-	
+
 	/** Input FASTA file used to generate statistics. */
 	private Sequence seq;
 
@@ -76,9 +66,7 @@ public class StatisticsGui extends JFrame {
 	 * @param inputFile FASTA file to analyse
 	 */
 	public StatisticsGui(Sequence inputSequence) {
-		
-		GUIutilities ui = new GUIutilities();
-		
+
 		this.seq = inputSequence;
 		setBounds(100, 100, 900, 580);
 		setTitle("EzBLAST — File Statistics"); // ── CHANGED: window title
@@ -96,7 +84,7 @@ public class StatisticsGui extends JFrame {
 		contentPane.setLayout(gbl_contentPane);
 
 		// ── ADDED: Page title at the top ─────────────────────────────────────
-		
+
 		JLabel lblPageTitle = new JLabel("File Statistics");
 		lblPageTitle.setFont(new Font("Monospaced", Font.BOLD, 22)); // ── ADDED
 		lblPageTitle.setForeground(new Color(56, 189, 248)); // ── ADDED: sky blue
@@ -109,7 +97,7 @@ public class StatisticsGui extends JFrame {
 		contentPane.add(lblPageTitle, gbc_lblPageTitle);
 
 		// ── ADDED: Separator below title ─────────────────────────────────────
-		
+
 		JSeparator sep = new JSeparator();
 		sep.setForeground(new Color(30, 41, 59));
 		GridBagConstraints gbc_sep = new GridBagConstraints();
@@ -121,7 +109,7 @@ public class StatisticsGui extends JFrame {
 		contentPane.add(sep, gbc_sep);
 
 		// ── Column headers ────────────────────────────────────────────────────
-		
+
 		JLabel lblInputFile = new JLabel("Input File");
 		lblInputFile.setFont(new Font("Monospaced", Font.BOLD, 13)); // ── CHANGED: font
 		lblInputFile.setForeground(new Color(52, 211, 153)); // ── CHANGED: teal
@@ -170,50 +158,18 @@ public class StatisticsGui extends JFrame {
 	}
 
 	/**
-	 * Applies the shared rounded-button style used throughout the application.
-	 *
-	 * @param btn button to style
-	 * @param fillColor inner button color
-	 * @param outerColor surrounding background color
-	 */
-	public static void applyRoundedStyle(JButton btn, Color fillColor, Color outerColor) {
-		btn.setUI(new javax.swing.plaf.basic.BasicButtonUI() {
-			@Override
-			public void paint(Graphics g, JComponent c) {
-				Graphics2D g2 = (Graphics2D) g;
-				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				// Whole rectangle
-				g2.setColor(outerColor);
-				g2.fillRect(0, 0, c.getWidth(), c.getHeight());
-
-				// Rounded button on top
-				g2.setColor(fillColor);
-				g2.fillRoundRect(0, 0, c.getWidth(), c.getHeight(), 20, 20);
-				super.paint(g, c);
-			}
-		});
-
-		btn.setFont(new Font("Monospaced", Font.BOLD, 12));
-		btn.setForeground(Color.WHITE);
-		btn.setOpaque(false);
-		btn.setFocusPainted(false);
-		btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btn.setBorder(new EmptyBorder(8, 18, 8, 18));
-	}
-
-	/**
 	 * Configures the button that opens the recommended BLAST tool.
 	 * <p>
-	 * The button text and action depend on whether the loaded sequence is
-	 * protein or nucleotide.
+	 * The button text and action depend on whether the loaded sequence is protein
+	 * or nucleotide.
 	 * </p>
 	 *
-	 * @param btnGoToTool button used to navigate to the suggested tool
+	 * @param btnGoToTool     button used to navigate to the suggested tool
 	 * @param gbc_btnGoToTool layout constraints for the button
 	 */
 	private void btnTool(JButton btnGoToTool, GridBagConstraints gbc_btnGoToTool) {
 
-		applyRoundedStyle(btnGoToTool, new Color(56, 189, 248), new Color(22, 28, 45));
+		ui.roundStyle(btnGoToTool, new Color(56, 189, 248), new Color(22, 28, 45));
 
 //		GridBagConstraints gbc_btnInputStatistics = new GridBagConstraints();
 //		gbc_btnInputStatistics.fill = GridBagConstraints.BOTH;
@@ -248,7 +204,7 @@ public class StatisticsGui extends JFrame {
 	/**
 	 * Builds the left panel showing the loaded input sequence.
 	 *
-	 * @param textOverviewInput text area used to display the sequence
+	 * @param textOverviewInput     text area used to display the sequence
 	 * @param gbc_textOverviewInput layout constraints for the sequence panel
 	 */
 	private void textForOverviewInput(JTextArea textOverviewInput, GridBagConstraints gbc_textOverviewInput) {
@@ -291,7 +247,7 @@ public class StatisticsGui extends JFrame {
 	/**
 	 * Builds the middle panel containing sequence statistics.
 	 *
-	 * @param textStatistics text area used to display calculated statistics
+	 * @param textStatistics     text area used to display calculated statistics
 	 * @param gbc_textStatistics layout constraints for the statistics panel
 	 */
 	private void textForStatistics(JTextArea textStatistics, GridBagConstraints gbc_textStatistics) {
@@ -328,7 +284,7 @@ public class StatisticsGui extends JFrame {
 	/**
 	 * Builds the right panel describing the recommended tool.
 	 *
-	 * @param textTools text area used to display the tool recommendation
+	 * @param textTools     text area used to display the tool recommendation
 	 * @param gbc_textTools layout constraints for the tool panel
 	 */
 	private void textForTools(JTextArea textTools, GridBagConstraints gbc_textTools) {
@@ -388,7 +344,7 @@ public class StatisticsGui extends JFrame {
 		// sequence content counts
 		textStatistics.append("Protein sequence contents;\n");
 		printSeqContents(seqStat, textStatistics);
-		
+
 		// protein weight
 		textStatistics.append("\n\nProtein weight; " + protWeight + " Da");
 	}
@@ -423,7 +379,7 @@ public class StatisticsGui extends JFrame {
 			if (count % 3 == 0) {
 				textStatistics.append("\n");
 			} else {
-				textStatistics.append("\t");
+				textStatistics.append(" ");
 			}
 			count++;
 		}
@@ -433,7 +389,7 @@ public class StatisticsGui extends JFrame {
 	/**
 	 * Appends per-symbol sequence counts to the statistics text area.
 	 *
-	 * @param seqStat statistics object containing sequence counts
+	 * @param seqStat        statistics object containing sequence counts
 	 * @param textStatistics text area to populate
 	 */
 	private void printSeqContents(ProteinStatistics seqStat, JTextArea textStatistics) {
@@ -448,17 +404,17 @@ public class StatisticsGui extends JFrame {
 			if (count % 3 == 0) {
 				textStatistics.append("\n");
 			} else {
-				textStatistics.append("\t");
+				textStatistics.append(" ");
 			}
 			count++;
 		}
 
 	}
-	
+
 	/**
 	 * Appends per-symbol sequence counts to the statistics text area.
 	 *
-	 * @param seqStat statistics object containing sequence counts
+	 * @param seqStat        statistics object containing sequence counts
 	 * @param textStatistics text area to populate
 	 */
 	private void printSeqContents(NucleotideStatistics seqStat, JTextArea textStatistics) {

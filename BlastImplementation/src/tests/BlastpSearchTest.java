@@ -14,18 +14,18 @@ import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.BlastResult;
 import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.UniProtHit;
 
 public class BlastpSearchTest extends TestCase {
-	private static BlastpSearch blastpsearch = new BlastpSearch();
+	private BlastpSearch blastpSearch = new BlastpSearch();
 
-	public void testBlastP() {
+	public void testBlastp() {
 		Sequence sequence = new Sequence(">seq1\nnQktalhdPITtiAMtGdeGeIkIMlelypnkVHIyKQPETqqqHysaIitWYGtGldAf\r\n"
 				+ "TAedLdSriENLLekDqFTVePLSVdtdCnPHqKNkFrCnGvgIDHRllNNesnqgKIwA\r\n"
 				+ "WwCsaFNCATNPDDQvkCKKvGaadQsAnfTtvLeWvPWvirikKgYykEMvNvpkkkPV\r\n"
 				+ "TmMTYRQrIttKiEasTnvSgQttfhFQtvaDFgeCfNCrWitCqntEgLKkQqHWKlrR\r\n"
 				+ "SCdGsafyncFEGayELtlQyLQnnrqffScHCagPvdfPfCGDaSvFCPQdiGArrQWs\r\n" + "FqknPvtaq");
 
-		blastpsearch.setSequence(sequence);
-		blastpsearch.runUniprotBlast();
-		BlastResult<UniProtHit> uniprotBlastResult = blastpsearch.getblastResult();
+		blastpSearch.setSequence(sequence);
+		blastpSearch.runUniprotBlast();
+		BlastResult<UniProtHit> uniprotBlastResult = blastpSearch.getBlastResult();
 		assertNotNull(uniprotBlastResult);
 	}
 
@@ -37,12 +37,12 @@ public class BlastpSearchTest extends TestCase {
 				+ "TmMTYRQrIttKiEasTnvSgQttfhFQtvaDFgeCfNCrWitCqntEgLKkQqHWKlrR\r\n"
 				+ "SCdGsafyncFEGayELtlQyLQnnrqffScHCagPvdfPfCGDaSvFCPQdiGArrQWs\r\n" + "FqknPvtaq");
 
-		blastpsearch.setSequence(sequence);
-		blastpsearch.runUniprotBlast();
+		blastpSearch.setSequence(sequence);
+		blastpSearch.runUniprotBlast();
 		float mineval = 0.00000000000000000001f;
 		int maxseq = 10;
 		File file = new File("project_data" + File.separator + "temp_output.tsv");
-		blastpsearch.writeUniprotBlastOutput(mineval, maxseq, file);
+		blastpSearch.writeUniprotBlastOutput(mineval, maxseq, file);
 
 		try (Scanner blastOutputTsv = new Scanner(file)) {
 			String header;
@@ -51,10 +51,10 @@ public class BlastpSearchTest extends TestCase {
 					"hit_num\tuniprot_ID\tdescription\tsequence\te-value\tbit-score\tidentity\tquery_seq\tquery_start\tquery_end\tmatch_start\tmatch_end",
 					header);
 
-		} catch (FileNotFoundException fe) {
+		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(new JOptionPane(), "Failed to open output file", "Output Error",
 					JOptionPane.ERROR_MESSAGE);
-			fe.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 }

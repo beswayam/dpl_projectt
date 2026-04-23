@@ -5,14 +5,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * The NucleotideStatistics class extends Statistics and provides
- * analytical methods for DNA sequences.
+ * The NucleotideStatistics class extends Statistics and provides analytical
+ * methods for DNA sequences.
  * 
- * <p>It supports computation of GC content, GC skew, translation,
- * codon usage, reverse compliment, and reading frame extraction.
+ * <p>
+ * It supports computation of GC content, GC skew, translation, codon usage,
+ * reverse compliment, and reading frame extraction.
  */
 public class NucleotideStatistics extends Statistics {
-	
+
 	/**
 	 * Constructs a NucleotideStatistics object for a given sequence.
 	 * 
@@ -22,18 +23,18 @@ public class NucleotideStatistics extends Statistics {
 		super(Sequence);
 	}
 
-	
 	/**
 	 * Calculates GC skew: (G - C) / (G + C).
 	 * 
-	 * <p>Returns 0.0 if no G or C bases are present.
+	 * <p>
+	 * Returns 0.0 if no G or C bases are present.
 	 * 
 	 * @return the GC skew value
 	 */
 	public double gcSkew() {
-		HashMap<Character, Integer> nuc_counts = seqContents();
-		int gCount = nuc_counts.get('G');
-		int cCount = nuc_counts.get('C');
+		HashMap<Character, Integer> nucCounts = seqContents();
+		int gCount = nucCounts.get('G');
+		int cCount = nucCounts.get('C');
 		int denominator = gCount + cCount;
 		if (denominator == 0) {
 			return 0.0;
@@ -64,13 +65,14 @@ public class NucleotideStatistics extends Statistics {
 	/**
 	 * Extracts the coding sequence from a given reading frame.
 	 * 
-	 * <p>Starts translation at the specified frame and continues
-	 * until a stop codon is encountered
+	 * <p>
+	 * Starts translation at the specified frame and continues until a stop codon is
+	 * encountered
 	 * 
-	 * @param kframe the reading frame offset (0, 1, 2)
+	 * @param kFrame the reading frame offset (0, 1, 2)
 	 * @return the extracted coding DNA sequence
 	 */
-	public String readingFrame(int kframe) {
+	public String readingFrame(int kFrame) {
 		String seq = getSeq();
 		StringBuilder codon = new StringBuilder();
 		StringBuilder codingSeq = new StringBuilder();
@@ -79,7 +81,7 @@ public class NucleotideStatistics extends Statistics {
 		int seqLen = seqLength();
 		boolean endSequence = false;
 
-		for (int i = kframe; i < seqLen; i++) {
+		for (int i = kFrame; i < seqLen; i++) {
 
 			char nuc = seq.charAt(i);
 			codon.append(nuc);
@@ -106,13 +108,13 @@ public class NucleotideStatistics extends Statistics {
 	/**
 	 * Computes all reading frames for the given frame indices.
 	 * 
-	 * @param rframe_idxs list of reading frame start positions
+	 * @param rFrameIdxs list of reading frame start positions
 	 * @return list of extracted coding sequences
 	 */
-	public ArrayList<String> allReadingFrames(ArrayList<Integer> rframe_idxs) {
+	public ArrayList<String> allReadingFrames(ArrayList<Integer> rFrameIdxs) {
 		ArrayList<String> rFrames = new ArrayList<>();
 
-		for (int k : rframe_idxs) {
+		for (int k : rFrameIdxs) {
 			rFrames.add(readingFrame(k));
 		}
 		return rFrames;
@@ -121,7 +123,8 @@ public class NucleotideStatistics extends Statistics {
 	/**
 	 * Translates the DNA sequence into a protein sequence.
 	 * 
-	 * <p>Codons are translated using codonUtils.
+	 * <p>
+	 * Codons are translated using codonUtils.
 	 * 
 	 * @return amino acid sequence as a string
 	 */

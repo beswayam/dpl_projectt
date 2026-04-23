@@ -2,7 +2,6 @@ package tests;
 
 import junit.framework.TestCase;
 import java.io.File;
-import java.util.Arrays;
 
 import utilities.Sequence;
 
@@ -18,9 +17,8 @@ public class SequenceTest extends TestCase {
 	public void testInstantiateSequenceString() {
 
 		// Input without fasta header
-		String without_header = "atcgatcg";
-		Sequence check1 = new Sequence(without_header);
-		String path = check1.getFastaFile().getPath();
+		String withoutHeader = "atcgatcg";
+		Sequence check1 = new Sequence(withoutHeader);
 		assertEquals(">sequence\nATCGATCG", check1.getSequence());
 		assertEquals("project_data" + File.separator + "blast_input.fa", check1.getFastaFile().getPath());
 

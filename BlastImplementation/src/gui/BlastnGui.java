@@ -23,62 +23,64 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import utilities.GUIutilities;
+import utilities.UIHelper;
 import utilities.MultipleSequenceParser;
 import utilities.Sequence;
 import utilities.Ssearch36Search;
-import java.awt.Cursor; // ── ADDED: hand cursor
-import java.awt.Graphics; // ── ADDED: for rounded buttons
-import java.awt.Graphics2D; // ── ADDED: for rounded buttons
-import java.awt.RenderingHints; // ── ADDED: for smooth edges
 import javax.swing.JSeparator; // ── ADDED: separator line
 
 /**
- * Graphical user interface for running a BLASTN-like nucleotide sequence alignment tool.
+ * Graphical user interface for running a BLASTN-like nucleotide sequence
+ * alignment tool.
  *
- * <p>This class provides a Swing-based interface that allows users to:
+ * <p>
+ * This class provides a Swing-based interface that allows users to:
  * <ul>
- *   <li>Input nucleotide sequences in FASTA format</li>
- *   <li>Upload query and database FASTA files</li>
- *   <li>Configure BLAST parameters (E-value, max sequences, scoring matrix)</li>
- *   <li>Run sequence similarity searches using Ssearch36</li>
+ * <li>Input nucleotide sequences in FASTA format</li>
+ * <li>Upload query and database FASTA files</li>
+ * <li>Configure BLAST parameters (E-value, max sequences, scoring matrix)</li>
+ * <li>Run sequence similarity searches using Ssearch36</li>
  * </ul>
  *
- * <p>The results are processed and displayed in a separate output GUI window.
+ * <p>
+ * The results are processed and displayed in a separate output GUI window.
  */
 public class BlastnGui extends JFrame {
-	
-	/** Backend search engine used for sequence alignment (SSEARCH36 implementation). */
+
+	/**
+	 * Backend search engine used for sequence alignment (SSEARCH36 implementation).
+	 */
 	private static Ssearch36Search ssearch36search = new Ssearch36Search(false);
-	
+
 	/** List of parsed input sequences from user input or file. */
 	private ArrayList<Sequence> sequencelist;
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	/** Main content panel of the GUI. */
 	private JPanel contentPane;
-	
+
 	/** Label displaying the BLASTN tool title. */
 	private JLabel txtBlastpAlgorithm;
 
 	/** File selected as query input (FASTA). */
-	public File queryFile = null;
-	
+	private File queryFile = null;
+
 	/** File selected as database input (FASTA). */
 	public File dbFile = null;
-	
-	/** Utility class for styling and GUI helpers. */
-	GUIutilities ui = new GUIutilities();
 
-    /**
-     * Constructs the BLASTN GUI window and initializes all components,
-     * including input fields, file upload controls, and execution buttons.
-     *
-     * <p>The graphical user interface allows users to either paste sequences directly
-     * or upload FASTA files, configure alignment parameters, and execute
-     * a sequence similarity search.
-     */
+	/** Utility class for styling and GUI helpers. */
+	UIHelper ui = new UIHelper();
+
+	/**
+	 * Constructs the BLASTN GUI window and initializes all components, including
+	 * input fields, file upload controls, and execution buttons.
+	 *
+	 * <p>
+	 * The graphical user interface allows users to either paste sequences directly
+	 * or upload FASTA files, configure alignment parameters, and execute a sequence
+	 * similarity search.
+	 */
 	public BlastnGui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 943, 676);
@@ -110,7 +112,7 @@ public class BlastnGui extends JFrame {
 
 		// Help button
 		JButton btnHelp = new JButton("Help");
-		ui.applyRoundedStyle(btnHelp, new Color(52, 211, 153), new Color(13, 17, 28));
+		ui.roundStyle(btnHelp, new Color(52, 211, 153), new Color(13, 17, 28));
 		btnHelp.addActionListener(e -> {
 			JFrame helpFrame = new JFrame("BLASTN Help");
 			helpFrame.setSize(400, 300);
@@ -148,7 +150,7 @@ public class BlastnGui extends JFrame {
 		contentPane.add(sep, gbc_sep);
 
 		// Label for text box
-		
+
 		JLabel lblEnterSeqeuence = ui.label("Enter sequence in FASTA format");
 		GridBagConstraints gbc_lblEnterSeqeuence = new GridBagConstraints();
 		gbc_lblEnterSeqeuence.insets = new Insets(0, 0, 4, 5);
@@ -183,7 +185,7 @@ public class BlastnGui extends JFrame {
 
 		// Button for upload input sequence (FASTA file)
 		final JButton btnInputSequenceUpload = new JButton("Upload Input Sequence (FASTA file)");
-		ui.applyRoundedStyle(btnInputSequenceUpload, new Color(22, 28, 45), new Color(13, 17, 28));
+		ui.roundStyle(btnInputSequenceUpload, new Color(22, 28, 45), new Color(13, 17, 28));
 		btnInputSequenceUpload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!txtrInputsequence.getText().trim().isEmpty()) {
@@ -214,7 +216,7 @@ public class BlastnGui extends JFrame {
 
 		// ── Upload database button ───────────────────────────────────────────
 		final JButton btnUploadDatabase = new JButton("Upload Database (FASTA file)");
-		ui.applyRoundedStyle(btnUploadDatabase, new Color(22, 28, 45), new Color(13, 17, 28));
+		ui.roundStyle(btnUploadDatabase, new Color(22, 28, 45), new Color(13, 17, 28));
 		btnUploadDatabase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
@@ -242,7 +244,7 @@ public class BlastnGui extends JFrame {
 		contentPane.add(lblUploadDatabaseFastaFile, gbc_lblUploadDatabaseFastaFile);
 
 		// ── E-value label and dropdown ───────────────────────────────────────
-		
+
 		JLabel lblEvalue = ui.boldLabel("E-value Threshold");
 		GridBagConstraints gbc_lblEvalue = new GridBagConstraints();
 		gbc_lblEvalue.fill = GridBagConstraints.HORIZONTAL;
@@ -266,7 +268,7 @@ public class BlastnGui extends JFrame {
 		contentPane.add(Evalue, gbc_Evalue);
 
 		// ── Max sequences label and dropdown ─────────────────────────────────
-		
+
 		JLabel lblMaxSeqs = ui.boldLabel("Maximum Number of Sequences:");
 		GridBagConstraints gbc_lblMaxSeqs = new GridBagConstraints();
 		gbc_lblMaxSeqs.fill = GridBagConstraints.HORIZONTAL;
@@ -290,7 +292,7 @@ public class BlastnGui extends JFrame {
 		contentPane.add(MaxSeqs, gbc_MaxSeqs);
 
 		// ── Scoring matrix label and dropdown ────────────────────────────────
-		
+
 		JLabel lblScoringMatric = ui.boldLabel("Scoring Matrix");
 		GridBagConstraints gbc_lblScoringMatric = new GridBagConstraints();
 		gbc_lblScoringMatric.fill = GridBagConstraints.HORIZONTAL;
@@ -317,31 +319,58 @@ public class BlastnGui extends JFrame {
 
 		// ── BLAST button — rounded filled blue ───────────────────────────────
 		JButton btnBLAST = new JButton("BLAST");
-		ui.applyRoundedStyle(btnBLAST, new Color(56, 189, 248), new Color(13, 17, 28));
+		ui.roundStyle(btnBLAST, new Color(56, 189, 248), new Color(13, 17, 28));
 		btnBLAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (dbFile != null) {
-				try {
-					sequencelist = null;
-					String raw = txtrInputsequence.getText();
-					if (raw != null && !raw.trim().isEmpty()) {
-						sequencelist = MultipleSequenceParser.parseMultipleSeqs(raw);
-					}
-					if (queryFile != null) {
-						sequencelist = MultipleSequenceParser.parseMultipleSeqs(queryFile);
-					}
-				} catch (IllegalArgumentException ex) {
-					JOptionPane.showMessageDialog(BlastnGui.this, ex.getMessage(), "Input Error",
-							JOptionPane.WARNING_MESSAGE);
-					return;
-				}
-				if (sequencelist == null) {
-					JOptionPane.showMessageDialog(BlastnGui.this, "Please provide a sequence via textbox or file",
-							"Input Error", JOptionPane.WARNING_MESSAGE);
-				} else {
-
-				
 					try {
+<<<<<<< HEAD
+						MultipleSequenceParser multSeqs = new MultipleSequenceParser();
+						sequencelist = null;
+						String raw = txtrInputsequence.getText();
+
+						if (raw != null && !raw.trim().isEmpty()) {
+							sequencelist = multSeqs.parseMultipleSeqs(raw);
+						}
+						if (queryFile != null) {
+							sequencelist = multSeqs.parseMultipleSeqs(queryFile);
+						}
+					} catch (IllegalArgumentException ex) {
+						JOptionPane.showMessageDialog(BlastnGui.this, ex.getMessage(), "Input Error",
+								JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+					if (sequencelist == null) {
+						JOptionPane.showMessageDialog(BlastnGui.this, "Please provide a sequence via textbox or file",
+								"Input Error", JOptionPane.WARNING_MESSAGE);
+					} else {
+
+						try {
+							// show message that BLAST is running
+							JDialog dialog = new JDialog(BlastnGui.this, "Loading", false);
+							JLabel loadingLabel = new JLabel("BLAST is running, please wait...", JLabel.CENTER);
+							loadingLabel.setFont(new Font("Monospaced", Font.PLAIN, 13));
+							loadingLabel.setBorder(new EmptyBorder(20, 30, 20, 30));
+							dialog.getContentPane().add(loadingLabel);
+							dialog.pack();
+							dialog.setLocationRelativeTo(BlastnGui.this);
+							dialog.setVisible(true);
+							dialog.paintAll(dialog.getGraphics());
+
+							Sequence sequence = null;
+							ArrayList<File> fileList = new ArrayList<File>();
+							ArrayList<String> headerList = new ArrayList<String>();
+							for (int i = 0; i < sequencelist.size(); i++) {
+								sequence = sequencelist.get(i);
+								if (sequence.isProtein() == true) {
+									JOptionPane.showMessageDialog(BlastnGui.this,
+											"File contains protein sequences.\n"
+													+ "Please fix the sequence or use BLASTP instead.",
+											"Search Error", JOptionPane.ERROR_MESSAGE);
+									dialog.dispose();
+									return;
+								}
+=======
 						// show message that BLAST is running
 						JDialog dialog = new JDialog(BlastnGui.this, "Loading", false);
 						JLabel loadingLabel = new JLabel("BLAST is running, please wait...", JLabel.CENTER);
@@ -364,59 +393,57 @@ public class BlastnGui extends JFrame {
 										+ "Please fix the sequence or use BLASTP instead.",
 										"Search Error", JOptionPane.ERROR_MESSAGE);
 								dialog.dispose();
-								return;
+								//If the list contains both protein and nucleotide sequences, stop the blast
+								//This is because it's not possible to easily tell the user which sequences are ignored
+								break;
 							}
+>>>>>>> 9a76b1ef1d643abb49ff014063b77596066ee41e
 								String outPath = "project_data" + File.separator + "ssearch_results.txt";
 								ssearch36search.setSequence(sequence);
-								ssearch36search.run(
-								dbFile,
-								Evalue.getSelectedItem().toString(),
-								MaxSeqs.getSelectedItem().toString(),
-								outPath);
-								
-								
-							if (ssearch36search.getErrorCode() == 0) {
-								File file = new File("project_data"+File.separator+"temp_output.tsv");
-								int filenum = 1;
-								while(file.isFile()) {
-									file = new File("project_data"+File.separator+"temp_output_"+filenum+".tsv");
-									filenum++;
+								ssearch36search.run(dbFile, Evalue.getSelectedItem().toString(),
+										MaxSeqs.getSelectedItem().toString(), outPath);
+
+								if (ssearch36search.getErrorCode() == 0) {
+									File file = new File("project_data" + File.separator + "temp_output.tsv");
+									int filenum = 1;
+									while (file.isFile()) {
+										file = new File(
+												"project_data" + File.separator + "temp_output_" + filenum + ".tsv");
+										filenum++;
+									}
+									ssearch36search.parseBlastCustomDatabase(file);
+									String header = "Sequence";
+									fileList.add(file);
+									headerList.add(header);
+								} else {
+									JOptionPane.showMessageDialog(BlastnGui.this,
+											"SSEARCH36 failed (exit code " + ssearch36search.getErrorCode() + ").\n"
+													+ "Check that ssearch36.exe exists in the tools folder.",
+											"Search Error", JOptionPane.ERROR_MESSAGE);
+									dialog.dispose();
+
 								}
-								ssearch36search.parseBlastCustomDatabase(file);
-								String header = "Sequence";
-								fileList.add(file);
-								headerList.add(header);
-							}
-							else {
-								JOptionPane.showMessageDialog(BlastnGui.this,
-										"SSEARCH36 failed (exit code " + ssearch36search.getErrorCode() + ").\n"
-												+ "Check that ssearch36.exe exists in the tools folder.",
-										"Search Error", JOptionPane.ERROR_MESSAGE);
+								// close BLAST running dialog
 								dialog.dispose();
-								
+
+								BlastOutputGuiFunctions blastpout = new BlastOutputGui(fileList, headerList);
+								blastpout.setLocationRelativeTo(null);
+								blastpout.setVisible(true);
 							}
-							//close BLAST running dialog
-							dialog.dispose();
-							
-							BlastOutputGuiFunctions blastpout = new BlastOutputGui(fileList, headerList);
-							blastpout.setLocationRelativeTo(null);
-							blastpout.setVisible(true);
-						}} catch (Exception ex) {
+						} catch (Exception ex) {
 
-							JOptionPane.showMessageDialog(BlastnGui.this,
-								"SSEARCH36 failed: " + ex.getMessage(),
-								"Search Error", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(BlastnGui.this, "SSEARCH36 failed: " + ex.getMessage(),
+									"Search Error", JOptionPane.ERROR_MESSAGE);
+						}
 					}
-				}
-				
-				}
-				else {
-					JOptionPane.showMessageDialog(BlastnGui.this,
-							"Please upload a database file",
-							"Database Error", JOptionPane.WARNING_MESSAGE);
-				
-			}}});
 
+				} else {
+					JOptionPane.showMessageDialog(BlastnGui.this, "Please upload a database file", "Database Error",
+							JOptionPane.WARNING_MESSAGE);
+
+				}
+			}
+		});
 
 		GridBagConstraints gbc_btnBLAST = new GridBagConstraints();
 		gbc_btnBLAST.anchor = GridBagConstraints.WEST; // ── CHANGED: fits to text width
@@ -426,7 +453,7 @@ public class BlastnGui extends JFrame {
 		contentPane.add(btnBLAST, gbc_btnBLAST);
 
 		JButton btnCLEAR = new JButton("Clear");
-		ui.applyRoundedStyle(btnCLEAR, new Color(220, 80, 80), new Color(13, 17, 28));
+		ui.roundStyle(btnCLEAR, new Color(220, 80, 80), new Color(13, 17, 28));
 		btnCLEAR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtrInputsequence.setText(""); // maakt tekstbox leeg

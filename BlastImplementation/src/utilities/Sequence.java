@@ -5,25 +5,27 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 
-/** 
+/**
  * The Sequence class represents a biological sequence (DNA or protein).
  * 
- * <p>It supports input either as a raw string or from a FASTA file.
- * The class automatically validates the entry and can exports/imports
- * it from a FASTA file.
+ * <p>
+ * It supports input either as a raw string or from a FASTA file. The class
+ * automatically validates the entry and can exports/imports it from a FASTA
+ * file.
  */
 public class Sequence {
 
 	/** The biological sequence as a string */
 	private String sequence;
-	
+
 	/** The FASTA file associated with this sequence. */
 	private File fastaFile;
 
 	/**
 	 * Constructs a Sequence object from a raw sequence string.
 	 * 
-	 * <p>The sequence is validated and written to a FASTA file.
+	 * <p>
+	 * The sequence is validated and written to a FASTA file.
 	 * 
 	 * @param sequence the raw biological sequence
 	 */
@@ -33,10 +35,11 @@ public class Sequence {
 		sequenceToFile();
 	}
 
-	/** 
+	/**
 	 * Constructs a sequence object from a FASTA file.
 	 * 
-	 * <p>The file is read, converted into a sequence string, and validated.
+	 * <p>
+	 * The file is read, converted into a sequence string, and validated.
 	 * 
 	 * @param fastaFile the FASTA file containing the sequence
 	 */
@@ -96,14 +99,15 @@ public class Sequence {
 	/**
 	 * Writes the current sequence to a uniquely named FASTA file.
 	 * 
-	 * <p>If a file already exists, a new numbered file is created.
+	 * <p>
+	 * If a file already exists, a new numbered file is created.
 	 */
 	private void sequenceToFile() {
-		int filenum = 2;
+		int fileNum = 2;
 		File file = new File("project_data" + File.separator + "blast_input.fa");
 		while (file.isFile()) {
-			file = new File("project_data" + File.separator + "blast_input_" + filenum + ".fa");
-			filenum++;
+			file = new File("project_data" + File.separator + "blast_input_" + fileNum + ".fa");
+			fileNum++;
 		}
 		try (FileWriter writer = new FileWriter(file)) {
 			writer.write(this.sequence);
@@ -140,11 +144,12 @@ public class Sequence {
 	/**
 	 * Ensures that the sequence has a FASTA header.
 	 * 
-	 * <p>If no header is present, a default header is added.
+	 * <p>
+	 * If no header is present, a default header is added.
 	 */
 	private void checkHeader() {
-		char first_char = this.sequence.charAt(0);
-		if (first_char != '>') {
+		char firstChar = this.sequence.charAt(0);
+		if (firstChar != '>') {
 			this.sequence = ">sequence\n" + this.sequence; // add header if no header present
 		}
 	}

@@ -17,7 +17,8 @@ import java.io.IOException;
 /**
  * Utility class for performing BLASTP searches using the UniProt web service.
  * 
- * <p>The class allows setting a query {@link Sequence}, running a BLASTP search
+ * <p>
+ * The class allows setting a query {@link Sequence}, running a BLASTP search
  * against the UniProt Swiss-Prot database, and writing results to a file.
  */
 public class BlastpSearch {
@@ -38,14 +39,14 @@ public class BlastpSearch {
 	 *
 	 * @return the {@link BlastResult} containing {@link UniProtHit} objects
 	 */
-	public BlastResult<UniProtHit> getblastResult() {
+	public BlastResult<UniProtHit> getBlastResult() {
 		return (this.blastResult);
 	}
 
 	/**
 	 * Executes a BLASTP search against the UniProt Swiss-Prot database.
 	 * <p>The query sequence must be set beforehand using {@link #setSequence(Sequence)}.
-	 * Results are stored internally and can be accessed via {@link #getblastResult()}.
+	 * Results are stored internally and can be accessed via {@link #getBlastResult()}.
 	 * <p>
 	 * Displays an error dialog if the search fails or is interrupted.
 	 */
@@ -70,14 +71,15 @@ public class BlastpSearch {
 
 	/**
 	 * Writes filtered BLASTP results to a tab-separated output file.
-	 * <p>Only hits with an E-value below the specified threshold are included,
-	 * up to a maximum number of sequences.
+	 * <p>
+	 * Only hits with an E-value below the specified threshold are included, up to a
+	 * maximum number of sequences.
 	 *
 	 * @param mineval the maximum E-value threshold for including hits
-	 * @param maxseq the maximum number of hits to write
-	 * @param file the output file to write results to
+	 * @param maxseq  the maximum number of hits to write
+	 * @param file    the output file to write results to
 	 */
-	public void writeUniprotBlastOutput(float mineval, int maxseq, File file) {
+	public void writeUniprotBlastOutput(float minEval, int maxSeq, File file) {
 		try {
 			FileWriter myWriter = new FileWriter(file);
 			myWriter.write(
@@ -93,8 +95,8 @@ public class BlastpSearch {
 			UniProtBlastSummary summary = hit.getSummary();
 			Alignment alignment = summary.getAlignments().get(0);
 			double eval = alignment.getExpectation();
-			if (eval < mineval) {
-				if (numseq != maxseq) {
+			if (eval < minEval) {
+				if (numseq != maxSeq) {
 					String accession = hit.getEntry().getPrimaryUniProtAccession().getValue();
 					String description = summary.getDescription();
 					String sequence = alignment.getMatchSeq();
