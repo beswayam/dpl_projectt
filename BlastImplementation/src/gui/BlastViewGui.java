@@ -51,7 +51,7 @@ import javax.swing.JSeparator; //added
 public class BlastViewGui extends BlastOutputGuiFunctions {
 
 	/** Utility class for consistent GUI styling. */
-	GUIutilities ui = new GUIutilities();
+	private GUIutilities ui = new GUIutilities();
 
 	private static final long serialVersionUID = 1L;
 

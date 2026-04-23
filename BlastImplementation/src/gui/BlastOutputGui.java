@@ -54,7 +54,7 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 	private int sequenceIndex;
 
 	/** Utility class for styling GUI components. */
-	GUIutilities ui = new GUIutilities();
+	private GUIutilities ui = new GUIutilities();
 
 	/**
 	 * Constructs the BLAST output GUI window.

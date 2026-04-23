@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 import utilities.NucleotideStatistics;
 
 public class NucleotideStatisticsTest extends TestCase {
-	NucleotideStatistics seq = new NucleotideStatistics(new Sequence("GGCCGA"));
+	private NucleotideStatistics seq = new NucleotideStatistics(new Sequence("GGCCGA"));
 
 	// Test GC skew calculation.
 	public void testGCSkew() {

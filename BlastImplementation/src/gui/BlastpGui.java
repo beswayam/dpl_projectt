@@ -67,13 +67,13 @@ public class BlastpGui extends JFrame {
 	private JLabel txtBlastpAlgorithm;
 
 	/** Selected query FASTA file (if uploaded). */
-	public File queryFile = null;
+	private File queryFile = null;
 
 	/** Selected database FASTA file (if uploaded). */
-	public File dbFile = null;
+	private File dbFile = null;
 
 	/** Utility class for consistent GUI styling. */
-	GUIutilities ui = new GUIutilities();
+	private GUIutilities ui = new GUIutilities();
 
 	/**
 	 * Constructs the BLASTP GUI window and initializes all components.

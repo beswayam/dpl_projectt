@@ -56,10 +56,10 @@ public class MainGui extends JFrame {
 	private JPanel contentPane;
 
 	/** The selected input file for sequence statistics. */
-	public File inputFile;
+	private File inputFile;
 
 	/** The selected TSV file for BLAST result visualization. */
-	public File inputTsv;
+	private File inputTsv;
 
 	/**
 	 * Launches the EzBLAST GUI application.

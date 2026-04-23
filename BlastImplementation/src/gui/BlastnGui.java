@@ -64,13 +64,13 @@ public class BlastnGui extends JFrame {
 	private JLabel txtBlastpAlgorithm;
 
 	/** File selected as query input (FASTA). */
-	public File queryFile = null;
+	private File queryFile = null;
 
 	/** File selected as database input (FASTA). */
-	public File dbFile = null;
+	private File dbFile = null;
 
 	/** Utility class for styling and GUI helpers. */
-	GUIutilities ui = new GUIutilities();
+	private GUIutilities ui = new GUIutilities();
 
 	/**
 	 * Constructs the BLASTN GUI window and initializes all components, including

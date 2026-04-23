@@ -47,7 +47,7 @@ import javax.swing.JSeparator;
  */
 public class StatisticsGui extends JFrame {
 
-	GUIutilities ui = new GUIutilities();
+	private GUIutilities ui = new GUIutilities();
 
 	private static final long serialVersionUID = 1L;
 
@@ -380,7 +380,7 @@ public class StatisticsGui extends JFrame {
 			if (count % 3 == 0) {
 				textStatistics.append("\n");
 			} else {
-				textStatistics.append("\t");
+				textStatistics.append(" ");
 			}
 			count++;
 		}
@@ -405,7 +405,7 @@ public class StatisticsGui extends JFrame {
 			if (count % 3 == 0) {
 				textStatistics.append("\n");
 			} else {
-				textStatistics.append("\t");
+				textStatistics.append(" ");
 			}
 			count++;
 		}
