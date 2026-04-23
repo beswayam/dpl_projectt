@@ -14,7 +14,7 @@ import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.BlastResult;
 import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.UniProtHit;
 
 public class BlastpSearchTest extends TestCase {
-	private static BlastpSearch blastpsearch = new BlastpSearch();
+	private BlastpSearch blastpsearch = new BlastpSearch();
 
 	public void testBlastP() {
 		Sequence sequence = new Sequence(">seq1\nnQktalhdPITtiAMtGdeGeIkIMlelypnkVHIyKQPETqqqHysaIitWYGtGldAf\r\n"
