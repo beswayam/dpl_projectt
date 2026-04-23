@@ -43,7 +43,6 @@ public class NucleotideStatisticsTest extends TestCase {
 		k.add(2);
 
 		ArrayList<String> readingFrames = seq.allReadingFrames(k);
-		int count = 0;
 		for (String rFrame : readingFrames) {
 
 			// check whether a reading frame has successfully retrieved coding sequence

@@ -5,7 +5,6 @@ package tests;
 import junit.framework.TestCase;
 import utilities.Sequence;
 import utilities.Statistics;
-import java.util.Set;
 
 // test all methods within Statistics
 public class StatisticsTest extends TestCase {
@@ -32,12 +31,10 @@ public class StatisticsTest extends TestCase {
 	}
 
 	public void testSeqContents() {
-		// isolate the bases from the map
-		Set<Character> allBases = seq.seqContents().keySet();
-
 		// check per base how many there are in the sequence
 		char base = 'G';
 		int count = seq.seqContents().get(base);
 		assertEquals(3, count);
 	}
+	
 }

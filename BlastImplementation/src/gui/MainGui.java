@@ -17,9 +17,12 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.concurrent.ExecutionException;
 import java.awt.event.ActionEvent;
 import javax.swing.JFileChooser;
 
@@ -227,15 +230,22 @@ public class MainGui extends JFrame {
 				fileChooser.setFileFilter(fasta_filter);
 				int file = fileChooser.showOpenDialog(MainGui.this);
 				if (file == JFileChooser.APPROVE_OPTION) {
-					inputFile = fileChooser.getSelectedFile();
-					Sequence statisticsSequence = new Sequence(inputFile);
-					// pass file to second GUI
-					StatisticsGui stats = new StatisticsGui(statisticsSequence);
-					stats.setLocationRelativeTo(null);
-					stats.setVisible(true);
+					
+					try {
+						inputFile = fileChooser.getSelectedFile();
+			
+						Sequence statisticsSequence = new Sequence(inputFile);
+						
+						// pass file to second GUI
+						StatisticsGui stats = new StatisticsGui(statisticsSequence);
+						stats.setLocationRelativeTo(null);
+						stats.setVisible(true);
+					} catch (IllegalArgumentException error) {
+						JOptionPane.showMessageDialog(new JOptionPane(), error.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+						error.printStackTrace();					
 				}
 			}
-		});
+			}});
 		GridBagConstraints gbc_btnInputStatistics = new GridBagConstraints();
 		gbc_btnInputStatistics.anchor = GridBagConstraints.WEST; // ── CHANGED: fits to text size
 		gbc_btnInputStatistics.insets = new Insets(0, 0, 16, 5);
