@@ -87,16 +87,9 @@ public class MainGui extends JFrame {
 	 * {@link Timer}.
 	 * </p>
 	 */
-	public MainGui() {
-<<<<<<< HEAD
-
-		GUIutilities ui = new GUIutilities();
-
-=======
-		
+	public MainGui() {	
 		UIHelper ui = new UIHelper();
 		
->>>>>>> 7a9f90afe7eb87bfd7c7e64c2497ae7b1f71e5c1
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 769, 559);
 		setTitle("EzBLAST"); // added

@@ -46,15 +46,8 @@ import javax.swing.JSeparator;
  * </p>
  */
 public class StatisticsGui extends JFrame {
-<<<<<<< HEAD
-
-	private GUIutilities ui = new GUIutilities();
-
-=======
+	private UIHelper ui = new UIHelper();
 	
-	UIHelper ui = new UIHelper();
-	
->>>>>>> 7a9f90afe7eb87bfd7c7e64c2497ae7b1f71e5c1
 	private static final long serialVersionUID = 1L;
 
 	/** Main content panel for the window. */

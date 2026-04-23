@@ -45,15 +45,8 @@ public class BlastpSearch {
 
 	/**
 	 * Executes a BLASTP search against the UniProt Swiss-Prot database.
-<<<<<<< HEAD
-	 * <p>
-	 * The query sequence must be set beforehand using
-	 * {@link #setSequence(Sequence)}. Results are stored internally and can be
-	 * accessed via {@link #getblastResult()}.
-=======
 	 * <p>The query sequence must be set beforehand using {@link #setSequence(Sequence)}.
 	 * Results are stored internally and can be accessed via {@link #getBlastResult()}.
->>>>>>> 7a9f90afe7eb87bfd7c7e64c2497ae7b1f71e5c1
 	 * <p>
 	 * Displays an error dialog if the search fails or is interrupted.
 	 */
@@ -82,15 +75,9 @@ public class BlastpSearch {
 	 * Only hits with an E-value below the specified threshold are included, up to a
 	 * maximum number of sequences.
 	 *
-<<<<<<< HEAD
 	 * @param mineval the maximum E-value threshold for including hits
 	 * @param maxseq  the maximum number of hits to write
 	 * @param file    the output file to write results to
-=======
-	 * @param minEval the maximum E-value threshold for including hits
-	 * @param maxSeq the maximum number of hits to write
-	 * @param file the output file to write results to
->>>>>>> 7a9f90afe7eb87bfd7c7e64c2497ae7b1f71e5c1
 	 */
 	public void writeUniprotBlastOutput(float minEval, int maxSeq, File file) {
 		try {

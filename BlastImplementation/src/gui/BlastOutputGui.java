@@ -52,15 +52,9 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 
 	/** Index of the currently selected query sequence in the results list. */
 	private int sequenceIndex;
-<<<<<<< HEAD
-
-	/** Utility class for styling GUI components. */
-	private GUIutilities ui = new GUIutilities();
-=======
 	
     /** Utility class for styling GUI components. */
 	UIHelper ui = new UIHelper();
->>>>>>> 7a9f90afe7eb87bfd7c7e64c2497ae7b1f71e5c1
 
 	/**
 	 * Constructs the BLAST output GUI window.

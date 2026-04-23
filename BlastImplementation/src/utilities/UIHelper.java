@@ -14,75 +14,9 @@ import java.awt.*;
  * </p>
  */
 public class UIHelper {
-
-<<<<<<< HEAD:BlastImplementation/src/utilities/GUIutilities.java
 	private final Color CARD = new Color(22, 28, 45);
 	private final Color TEXT_MUTED = new Color(100, 116, 139);
 	private final Color TEXT_LIGHT = new Color(226, 232, 240);
-=======
-	    private static final Color CARD = new Color(22, 28, 45);
-	    private static final Color TEXT_MUTED = new Color(100, 116, 139);
-	    private static final Color TEXT_LIGHT = new Color(226, 232, 240);
-	    
-	    /**
-	     * Creates a standard label with muted text styling.
-	     *
-	     * @param text text to display inside the label
-	     * @return configured JLabel with muted appearance
-	     */
-	    
-	    public JLabel label(String text) {
-	        JLabel lbl = new JLabel(text);
-	        lbl.setFont(new Font("Monospaced", Font.PLAIN, 12));
-	        lbl.setForeground(TEXT_MUTED);
-	        return lbl;
-	    }
-	    
-	    /**
-	     * Creates a bold label with highlighted text styling.
-	     *
-	     * @param text text to display inside the label
-	     * @return configured JLabel with bold and light-colored appearance
-	     */
-	    public JLabel boldLabel(String text) {
-	        JLabel lbl = new JLabel(text);
-	        lbl.setFont(new Font("Monospaced", Font.BOLD, 12));
-	        lbl.setForeground(TEXT_LIGHT);
-	        return lbl;
-	    }
-	    
-	    /**
-	     * Creates a styled combo box with predefined color scheme.
-	     *
-	     * @param items array of items to populate the combo box
-	     * @return configured JComboBox with custom styling
-	     */
-	    public JComboBox<String> combo(String[] items) {
-	        JComboBox<String> box = new JComboBox<>(items);
-	        box.setBackground(CARD);
-	        box.setForeground(TEXT_LIGHT);
-	        box.setFont(new Font("Monospaced", Font.PLAIN, 11));
-	        return box;
-	    }
-	    
-	    
-		/**
-		 * Applies the shared rounded-button style used throughout the application.
-		 *
-		 * @param btn button to style
-		 * @param fillColor inner button color
-		 * @param outerColor surrounding background color
-		 */
-		public void roundStyle(JButton btn, Color fillColor, Color outerColor) {
-			btn.setUI(new javax.swing.plaf.basic.BasicButtonUI() {
-				@Override
-				public void paint(Graphics g, JComponent c) {
-					Graphics2D g2 = (Graphics2D) g;
-					g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-					// Whole rectangle
-					g2.setColor(outerColor);
-					g2.fillRect(0, 0, c.getWidth(), c.getHeight());
->>>>>>> 7a9f90afe7eb87bfd7c7e64c2497ae7b1f71e5c1:BlastImplementation/src/utilities/UIHelper.java
 
 	/**
 	 * Creates a standard label with muted text styling.
