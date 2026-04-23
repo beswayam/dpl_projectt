@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import utilities.CodonUtils;
 
 public class CodonUtilsTest extends TestCase {
-	CodonUtils utils = new CodonUtils();
+	private CodonUtils utils = new CodonUtils();
 
 	public void testBaseWeight() {
 		char alanine = 'A';

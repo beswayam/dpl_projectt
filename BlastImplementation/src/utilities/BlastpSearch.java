@@ -17,7 +17,8 @@ import java.io.IOException;
 /**
  * Utility class for performing BLASTP searches using the UniProt web service.
  * 
- * <p>The class allows setting a query {@link Sequence}, running a BLASTP search
+ * <p>
+ * The class allows setting a query {@link Sequence}, running a BLASTP search
  * against the UniProt Swiss-Prot database, and writing results to a file.
  */
 public class BlastpSearch {
@@ -70,12 +71,13 @@ public class BlastpSearch {
 
 	/**
 	 * Writes filtered BLASTP results to a tab-separated output file.
-	 * <p>Only hits with an E-value below the specified threshold are included,
-	 * up to a maximum number of sequences.
+	 * <p>
+	 * Only hits with an E-value below the specified threshold are included, up to a
+	 * maximum number of sequences.
 	 *
-	 * @param minEval the maximum E-value threshold for including hits
-	 * @param maxSeq the maximum number of hits to write
-	 * @param file the output file to write results to
+	 * @param mineval the maximum E-value threshold for including hits
+	 * @param maxseq  the maximum number of hits to write
+	 * @param file    the output file to write results to
 	 */
 	public void writeUniprotBlastOutput(float minEval, int maxSeq, File file) {
 		try {

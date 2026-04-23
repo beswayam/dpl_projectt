@@ -28,42 +28,47 @@ import javax.swing.JSeparator; //added
 /**
  * GUI window for viewing BLAST results from a single TSV file.
  *
- * <p>This class extends {@link BlastOutputGuiFunctions} and provides a
- * Swing interface to:
+ * <p>
+ * This class extends {@link BlastOutputGuiFunctions} and provides a Swing
+ * interface to:
  * <ul>
- *   <li>Load BLAST results from a TSV file</li>
- *   <li>Select individual BLAST hits via a dropdown menu</li>
- *   <li>Display alignment details such as UniProt ID, description,
- *       E-value, bit score, identity, and sequence alignment</li>
+ * <li>Load BLAST results from a TSV file</li>
+ * <li>Select individual BLAST hits via a dropdown menu</li>
+ * <li>Display alignment details such as UniProt ID, description, E-value, bit
+ * score, identity, and sequence alignment</li>
  * </ul>
  *
- * <p>The interface automatically parses the provided file when the window
- * is opened and populates the selection dropdown. Selecting a hit updates
- * all displayed fields dynamically.
+ * <p>
+ * The interface automatically parses the provided file when the window is
+ * opened and populates the selection dropdown. Selecting a hit updates all
+ * displayed fields dynamically.
  *
- * <p>This class is intended for viewing the output of a single query sequence, unlike
- * {@code BlastOutputGui}, which supports multiple files and export features.
+ * <p>
+ * This class is intended for viewing the output of a single query sequence,
+ * unlike {@code BlastOutputGui}, which supports multiple files and export
+ * features.
  */
 public class BlastViewGui extends BlastOutputGuiFunctions {
-	
+
 	/** Utility class for consistent GUI styling. */
-	UIHelper ui = new UIHelper();
+	private UIHelper ui = new UIHelper();
 
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * Constructs a GUI window for displaying BLAST results from a single file.
-     *
-     * <p>The constructor initializes all UI components, including labels,
-     * and dropdown menus. When the window is opened,
-     * the BLAST TSV file is parsed and the results are loaded into the GUI.
-     *
-     * @param file the BLAST result file in TSV format to be displayed
-     */
+	/**
+	 * Constructs a GUI window for displaying BLAST results from a single file.
+	 *
+	 * <p>
+	 * The constructor initializes all UI components, including labels, and dropdown
+	 * menus. When the window is opened, the BLAST TSV file is parsed and the
+	 * results are loaded into the GUI.
+	 *
+	 * @param file the BLAST result file in TSV format to be displayed
+	 */
 	public BlastViewGui(File file) {
-		
+
 		super();
-		
+
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -76,11 +81,11 @@ public class BlastViewGui extends BlastOutputGuiFunctions {
 		getContentPane().setBackground(new Color(13, 17, 28)); // ── CHANGED: dark navy
 
 		// ── Title ────────────────────────────────────────────────────────────
-		
+
 		JLabel OutTitleLabel = new JLabel("BLAST Output");
 		OutTitleLabel.setFont(new Font("Monospaced", Font.BOLD, 20)); // ── CHANGED
 		OutTitleLabel.setForeground(new Color(56, 189, 248)); // ── CHANGED: sky blue
-		
+
 		GridBagConstraints gbc_OutTitleLabel = new GridBagConstraints();
 		gbc_OutTitleLabel.anchor = GridBagConstraints.WEST;
 		gbc_OutTitleLabel.insets = new Insets(15, 15, 5, 5);
@@ -89,7 +94,7 @@ public class BlastViewGui extends BlastOutputGuiFunctions {
 		getContentPane().add(OutTitleLabel, gbc_OutTitleLabel);
 
 		// ── Help button ───────────────────────────────────────────────────────
-		
+
 		JButton OutHelpButton = new JButton("Help");
 		ui.roundStyle(OutHelpButton, new Color(22, 28, 45), new Color(100, 116, 139));
 		OutHelpButton.addActionListener(e -> {
@@ -270,13 +275,13 @@ public class BlastViewGui extends BlastOutputGuiFunctions {
 	}
 
 	/**
-     * Generates standard {@link GridBagConstraints} for placing components
-     * in the layout.
-     *
-     * @param col the grid column index
-     * @param row the grid row index
-     * @return configured {@link GridBagConstraints} object
-     */
+	 * Generates standard {@link GridBagConstraints} for placing components in the
+	 * layout.
+	 *
+	 * @param col the grid column index
+	 * @param row the grid row index
+	 * @return configured {@link GridBagConstraints} object
+	 */
 	private GridBagConstraints constraintsFor(int col, int row) {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.anchor = GridBagConstraints.WEST;

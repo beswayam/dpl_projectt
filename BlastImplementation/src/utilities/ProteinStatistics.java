@@ -1,11 +1,13 @@
 package utilities;
 
 /**
- * The ProteinStatistics class extends Statistics to provide
- * protein-specific analysis functionality.
+ * The ProteinStatistics class extends Statistics to provide protein-specific
+ * analysis functionality.
  * 
- * <p>It calculates the molecular weight based on amino acid composition.
+ * <p>
+ * It calculates the molecular weight based on amino acid composition.
  */
+
 public class ProteinStatistics extends Statistics{
 	/** The original sequence used for protein statistics.*/
 	private Sequence sequence;
@@ -19,12 +21,13 @@ public class ProteinStatistics extends Statistics{
 		super(initialValue);
 		this.sequence = initialValue;
 	}
-	
+
 	/**
 	 * Calculates the total molecular weight of the protein sequence.
 	 * 
-	 * <p>The weight is computed by summing the individual weights
-	 * of each amino acid in the sequence.
+	 * <p>
+	 * The weight is computed by summing the individual weights of each amino acid
+	 * in the sequence.
 	 * 
 	 * @return the total protein molecular weight
 	 */
