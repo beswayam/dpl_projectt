@@ -98,7 +98,7 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 
 		// ── Help button ───────────────────────────────────────────────────────
 		JButton OutHelpButton = new JButton("Help");
-		ui.roundStyle(OutHelpButton, new Color(56, 189, 248), new Color(13, 17, 28));
+		ui.applyRoundedStyle(OutHelpButton, new Color(56, 189, 248), new Color(13, 17, 28));
 		OutHelpButton.addActionListener(e -> {
 			JFrame helpFrame = new JFrame("BLASTP Output Help");
 			helpFrame.setSize(600, 600);
@@ -154,10 +154,10 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 
 		// ── Data labels — helper method keeps it clean ────────────────────────
 		// UniProt ID
-		JLabel UniprotIDLabel = ui.label("UniProt ID");
-		JLabel UniprotIDValueLabel = ui.boldLabel("-");
-		getContentPane().add(UniprotIDLabel, constraintsFor(1, 7));
-		getContentPane().add(UniprotIDValueLabel, constraintsFor(2, 7));
+		JLabel IDLabel = ui.label("ID");
+		JLabel IDValueLabel = ui.boldLabel("-");
+		getContentPane().add(IDLabel, constraintsFor(1, 7));
+		getContentPane().add(IDValueLabel, constraintsFor(2, 7));
 
 		// Description
 		JLabel ProteinDescLabel = ui.label("Description");
@@ -199,7 +199,7 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 
 		// ── Export button — rounded teal ──────────────────────────────────────
 		JButton ExportButton = new JButton("Export Results");
-		ui.roundStyle(ExportButton, new Color(52, 211, 153), new Color(13, 17, 28));
+		ui.applyRoundedStyle(ExportButton, new Color(52, 211, 153), new Color(13, 17, 28));
 		ExportButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				File file = fileList.get(sequenceIndex);
@@ -305,7 +305,7 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 		WindowListener taskStarterWindowListener = new WindowListener() {
 			@Override
 			public void windowOpened(WindowEvent e) {
-				labelList.add(UniprotIDValueLabel);
+				labelList.add(IDValueLabel);
 				labelList.add(ProteinDescValueLabel);
 				labelList.add(SeqValueLabel);
 				labelList.add(SeqAlignLenLabel);
