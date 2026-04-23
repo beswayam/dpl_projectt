@@ -362,7 +362,9 @@ public class BlastnGui extends JFrame {
 										+ "Please fix the sequence or use BLASTP instead.",
 										"Search Error", JOptionPane.ERROR_MESSAGE);
 								dialog.dispose();
-								return;
+								//If the list contains both protein and nucleotide sequences, stop the blast
+								//This is because it's not possible to easily tell the user which sequences are ignored
+								break;
 							}
 								String outPath = "project_data" + File.separator + "ssearch_results.txt";
 								ssearch36search.setSequence(sequence);

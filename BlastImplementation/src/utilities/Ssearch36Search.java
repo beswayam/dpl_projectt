@@ -25,7 +25,7 @@ public class Ssearch36Search {
 	/**
      * Mapping between full matrix names and SSEARCH short flags.
      */
-	private static final String[][] matrixMap = { { "BLOSUM45", "BL45" }, { "BLOSUM50", "BL50" }, { "BLOSUM62", "BL62" },
+	private static final String[][] MATRIX_MAP = { { "BLOSUM45", "BL45" }, { "BLOSUM50", "BL50" }, { "BLOSUM62", "BL62" },
 			{ "BLOSUM80", "BL80" }, { "BLOSUM90", "BL90" }, { "PAM30", "P30" }, { "PAM70", "P70" },
 			{ "PAM250", "P250" } };
 
@@ -47,7 +47,7 @@ public class Ssearch36Search {
      * @param displayName the full name of the matrix (e.g. BLOSUM62)
      */
 	public void setMatrixFlag(String displayName) {
-		for (String[] mapping : matrixMap) {
+		for (String[] mapping : MATRIX_MAP) {
 			if (mapping[0].equals(displayName)) {
 				matrixFlag = mapping[1];
 			}
