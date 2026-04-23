@@ -150,10 +150,10 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 
 		// ── Data labels — helper method keeps it clean ────────────────────────
 		// UniProt ID
-		JLabel UniprotIDLabel = ui.label("UniProt ID");
-		JLabel UniprotIDValueLabel = ui.boldLabel("-");
-		getContentPane().add(UniprotIDLabel, constraintsFor(1, 7));
-		getContentPane().add(UniprotIDValueLabel, constraintsFor(2, 7));
+		JLabel IDLabel = ui.label("ID");
+		JLabel IDValueLabel = ui.boldLabel("-");
+		getContentPane().add(IDLabel, constraintsFor(1, 7));
+		getContentPane().add(IDValueLabel, constraintsFor(2, 7));
 
 		// Description
 		JLabel ProteinDescLabel = ui.label("Description");
@@ -301,7 +301,7 @@ public class BlastOutputGui extends BlastOutputGuiFunctions {
 		WindowListener taskStarterWindowListener = new WindowListener() {
 			@Override
 			public void windowOpened(WindowEvent e) {
-				labelList.add(UniprotIDValueLabel);
+				labelList.add(IDValueLabel);
 				labelList.add(ProteinDescValueLabel);
 				labelList.add(SeqValueLabel);
 				labelList.add(SeqAlignLenLabel);
