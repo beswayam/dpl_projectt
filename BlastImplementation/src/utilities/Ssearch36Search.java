@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class Ssearch36Search {
 	private Sequence sequence;
-	private File ssearchresult;
+	private File ssearchResult;
 	private int errorCode;
 	private boolean protein;
 	private String matrixFlag;
@@ -128,7 +128,7 @@ public class Ssearch36Search {
         
         Process p = pb.start();
         this.errorCode = p.waitFor();
-        this.ssearchresult = new File(outputPath);
+        this.ssearchResult = new File(outputPath);
     }
     
     /**
@@ -147,7 +147,7 @@ public class Ssearch36Search {
 		// We checked that the code works correctly.
 		// Part of the code was not written by Claude, this segment is labelled as such
 
-		File blastOutputCustomDatabase = this.ssearchresult;
+		File blastOutputCustomDatabase = this.ssearchResult;
 		String pathBlastFile = blastOutputCustomDatabase.getPath();
 		try (Scanner blastOutput = new Scanner(blastOutputCustomDatabase)) {
 

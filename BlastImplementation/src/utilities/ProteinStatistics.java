@@ -8,7 +8,7 @@ package utilities;
  */
 public class ProteinStatistics extends Statistics{
 	/** The original sequence used for protein statistics.*/
-	private Sequence initialValue;
+	private Sequence sequence;
 
 	/**
 	 * Constructs a ProteinStatistics object for a given sequence.
@@ -17,7 +17,7 @@ public class ProteinStatistics extends Statistics{
 	 */
 	public ProteinStatistics(Sequence initialValue) {
 		super(initialValue);
-		this.initialValue = initialValue;
+		this.sequence = initialValue;
 	}
 	
 	/**
@@ -29,7 +29,7 @@ public class ProteinStatistics extends Statistics{
 	 * @return the total protein molecular weight
 	 */
 	public double proteinWeight() {
-		String seq = this.initialValue.getSequenceNoHeader();
+		String seq = this.sequence.getSequenceNoHeader();
 		CodonUtils utils = new CodonUtils();
 		double totalWeight = 0;
 

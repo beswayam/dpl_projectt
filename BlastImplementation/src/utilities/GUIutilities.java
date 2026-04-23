@@ -15,9 +15,9 @@ import java.awt.*;
  */
 public class GUIutilities {
 
-	    private final Color CARD = new Color(22, 28, 45);
-	    private final Color TEXT_MUTED = new Color(100, 116, 139);
-	    private final Color TEXT_LIGHT = new Color(226, 232, 240);
+	    private static final Color CARD = new Color(22, 28, 45);
+	    private static final Color TEXT_MUTED = new Color(100, 116, 139);
+	    private static final Color TEXT_LIGHT = new Color(226, 232, 240);
 	    
 	    /**
 	     * Creates a standard label with muted text styling.
