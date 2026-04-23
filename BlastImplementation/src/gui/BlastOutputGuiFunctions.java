@@ -9,41 +9,45 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-
 /**
- * Utility class providing helper methods for processing and displaying
- * BLAST output data in a GUI.
+ * Utility class providing helper methods for processing and displaying BLAST
+ * output data in a GUI.
  *
- * <p>This class is responsible for:
+ * <p>
+ * This class is responsible for:
  * <ul>
- *   <li>Reading BLAST results from a TSV (tab-separated values) file</li>
- *   <li>Parsing individual BLAST hits</li>
- *   <li>Checking which parts of two given sequences align</li>
+ * <li>Reading BLAST results from a TSV (tab-separated values) file</li>
+ * <li>Parsing individual BLAST hits</li>
+ * <li>Checking which parts of two given sequences align</li>
  * </ul>
  *
- * <p>The parsed data is displayed through a list of {@link JLabel} components
+ * <p>
+ * The parsed data is displayed through a list of {@link JLabel} components
  * maintained in {@code labelList}.
  */
 public class BlastOutputGuiFunctions extends JFrame {
 	private static final long serialVersionUID = 1L;
-	
-	/** List of parsed BLAST hits, where each hit is represented as a String array. */
+
+	/**
+	 * List of parsed BLAST hits, where each hit is represented as a String array.
+	 */
 	protected ArrayList<String[]> hits;
-	
+
 	/** List of labels used to display BLAST output values in the GUI. */
 	protected ArrayList<JLabel> labelList = new ArrayList<JLabel>();
 
 	/**
 	 * Constructs a BlastOutputGuiFunctions object.
 	 */
-	public BlastOutputGuiFunctions( ) {
+	public BlastOutputGuiFunctions() {
 	}
-	
+
 	/**
 	 * Reads a BLAST output TSV file and extracts all hits.
 	 *
-	 * <p>The first line of the file is assumed to be a header and is skipped.
-	 * Each subsequent line is split on tab characters and stored as a String array.
+	 * <p>
+	 * The first line of the file is assumed to be a header and is skipped. Each
+	 * subsequent line is split on tab characters and stored as a String array.
 	 *
 	 * @param file the BLAST TSV file to read
 	 * @return a list of BLAST hits, each represented as a String array
@@ -68,7 +72,9 @@ public class BlastOutputGuiFunctions extends JFrame {
 	/**
 	 * Parses a single BLAST hit and updates the GUI labels with its data.
 	 *
-	 * <p>The expected format of {@code hitdata} is:
+	 * <p>
+	 * The expected format of {@code hitdata} is:
+	 * 
 	 * <pre>
 	 * [0] hit number
 	 * [1] UniProt ID
@@ -84,8 +90,9 @@ public class BlastOutputGuiFunctions extends JFrame {
 	 * [11] match end
 	 * </pre>
 	 *
-	 * <p>The method updates the labels in {@code labelList} with formatted
-	 * alignment and metadata.
+	 * <p>
+	 * The method updates the labels in {@code labelList} with formatted alignment
+	 * and metadata.
 	 *
 	 * @param hitdata String array containing BLAST hit information
 	 */
@@ -115,11 +122,12 @@ public class BlastOutputGuiFunctions extends JFrame {
 	}
 
 	/**
-	 * Generates a visual alignment string indicating matching positions
-	 * between two sequences.
+	 * Generates a visual alignment string indicating matching positions between two
+	 * sequences.
 	 *
-	 * <p>Matching characters are represented by {@code '|'}, while mismatches
-	 * are represented by non-breaking spaces ({@code &nbsp}) for HTML rendering.
+	 * <p>
+	 * Matching characters are represented by {@code '|'}, while mismatches are
+	 * represented by non-breaking spaces ({@code &nbsp}) for HTML rendering.
 	 *
 	 * @param seq1 the query sequence
 	 * @param seq2 the matched sequence

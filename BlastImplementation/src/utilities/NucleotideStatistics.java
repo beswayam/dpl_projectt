@@ -5,14 +5,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * The NucleotideStatistics class extends Statistics and provides
- * analytical methods for DNA sequences.
+ * The NucleotideStatistics class extends Statistics and provides analytical
+ * methods for DNA sequences.
  * 
- * <p>It supports computation of GC content, GC skew, translation,
- * codon usage, reverse compliment, and reading frame extraction.
+ * <p>
+ * It supports computation of GC content, GC skew, translation, codon usage,
+ * reverse compliment, and reading frame extraction.
  */
 public class NucleotideStatistics extends Statistics {
-	
+
 	/**
 	 * Constructs a NucleotideStatistics object for a given sequence.
 	 * 
@@ -22,11 +23,11 @@ public class NucleotideStatistics extends Statistics {
 		super(Sequence);
 	}
 
-	
 	/**
 	 * Calculates GC skew: (G - C) / (G + C).
 	 * 
-	 * <p>Returns 0.0 if no G or C bases are present.
+	 * <p>
+	 * Returns 0.0 if no G or C bases are present.
 	 * 
 	 * @return the GC skew value
 	 */
@@ -64,8 +65,9 @@ public class NucleotideStatistics extends Statistics {
 	/**
 	 * Extracts the coding sequence from a given reading frame.
 	 * 
-	 * <p>Starts translation at the specified frame and continues
-	 * until a stop codon is encountered
+	 * <p>
+	 * Starts translation at the specified frame and continues until a stop codon is
+	 * encountered
 	 * 
 	 * @param kframe the reading frame offset (0, 1, 2)
 	 * @return the extracted coding DNA sequence
@@ -121,7 +123,8 @@ public class NucleotideStatistics extends Statistics {
 	/**
 	 * Translates the DNA sequence into a protein sequence.
 	 * 
-	 * <p>Codons are translated using codonUtils.
+	 * <p>
+	 * Codons are translated using codonUtils.
 	 * 
 	 * @return amino acid sequence as a string
 	 */

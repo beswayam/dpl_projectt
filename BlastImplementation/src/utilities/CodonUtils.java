@@ -18,9 +18,9 @@ import java.util.Map;
 public class CodonUtils {
 
 	private static final Map<String, Character> CODON_TABLE = new HashMap<>();
-	
+
 	private static final Map<Character, Double> AMINOACID_TABLE = new HashMap<>();
-	
+
 	static {
 		// --- codon table ---
 		CODON_TABLE.put("TTT", 'F');

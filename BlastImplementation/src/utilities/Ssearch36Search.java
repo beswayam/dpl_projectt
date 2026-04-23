@@ -9,11 +9,11 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 /**
- * The Ssearch36Search class provides an interface for running the
- * SSEARCH36 sequence alignment tool and parsing its output.
+ * The Ssearch36Search class provides an interface for running the SSEARCH36
+ * sequence alignment tool and parsing its output.
  *
- * It supports both protein and nucleotide searches and converts
- * raw alignment output into a structured TSV format.
+ * It supports both protein and nucleotide searches and converts raw alignment
+ * output into a structured TSV format.
  */
 public class Ssearch36Search {
 	private Sequence sequence;
@@ -21,31 +21,30 @@ public class Ssearch36Search {
 	private int errorCode;
 	private boolean protein;
 	private String matrixFlag;
-	
+
 	/**
-     * Mapping between full matrix names and SSEARCH short flags.
-     */
+	 * Mapping between full matrix names and SSEARCH short flags.
+	 */
 	private String[][] matrixMap = { { "BLOSUM45", "BL45" }, { "BLOSUM50", "BL50" }, { "BLOSUM62", "BL62" },
 			{ "BLOSUM80", "BL80" }, { "BLOSUM90", "BL90" }, { "PAM30", "P30" }, { "PAM70", "P70" },
 			{ "PAM250", "P250" } };
 
-    /**
-     * Constructs an Ssearch36Search instance.
-     *
-     * @param protein true if the search is for protein sequences,
-     *                false for nucleotide sequences
-     */
-    public Ssearch36Search(boolean protein) {
-		this.protein=protein;
-		
+	/**
+	 * Constructs an Ssearch36Search instance.
+	 *
+	 * @param protein true if the search is for protein sequences, false for
+	 *                nucleotide sequences
+	 */
+	public Ssearch36Search(boolean protein) {
+		this.protein = protein;
 
 	}
-    
-    /**
-     * Sets the substitution matrix used for protein searches.
-     *
-     * @param displayName the full name of the matrix (e.g. BLOSUM62)
-     */
+
+	/**
+	 * Sets the substitution matrix used for protein searches.
+	 *
+	 * @param displayName the full name of the matrix (e.g. BLOSUM62)
+	 */
 	public void setMatrixFlag(String displayName) {
 		for (String[] mapping : matrixMap) {
 			if (mapping[0].equals(displayName)) {
@@ -59,81 +58,69 @@ public class Ssearch36Search {
 	 */
 
 	/**
-     * Sets the query sequence to be used in the search.
-     *
-     * @param sequence the Sequence object containing the query data
-     */
-    public void setSequence(Sequence sequence) {
-    	this.sequence = sequence;
-    } 
-    
-    /**
-     * Returns the exit/error code from the SSEARCH execution.
-     *
-     * @return the process exit code
-     */
-    public int getErrorCode() {
-    	return this.errorCode;
-    }
-    
-    /**
-     * Executes the SSEARCH36 alignment tool with the specified parameters.
-     *
-     * <p>The method selects the correct executable based on the operating system,
-     * builds the command, runs the process, and stores the output file.</p>
-     *
-     * @param dbFile the database file to search against
-     * @param evalue the E-value threshold
-     * @param maxSeqs maximum number of sequences to report
-     * @param outputPath path where the output file will be written
-     * @throws Exception if the process fails or cannot be executed
-     */
-    public void run(File dbFile, String evalue,
-        String maxSeqs, String outputPath) 
-        throws Exception {
-        String osName = System.getProperty("os.name");
-        String exeName = osName != null && osName.toLowerCase().contains("win") ? "ssearch36.exe" : "ssearch36";
-        String ssearchExe = "tools" + File.separator + exeName;
-        File queryFile = this.sequence.getFastaFile();
-        ProcessBuilder pb;
-        if(this.protein) {
-        	pb = new ProcessBuilder(
-                ssearchExe,
-                "-p",
-                "-s", matrixFlag,
-                "-E", evalue,
-                "-b", maxSeqs,
-                "-d", maxSeqs,
-                queryFile.getPath(),
-                dbFile.getPath());
-        pb.redirectErrorStream(true);
-        pb.redirectOutput(new File(outputPath));}
-        else {
-        	pb = new ProcessBuilder(
-                    ssearchExe,
-                    "-n",
-                    "-E", evalue,
-                    "-b", maxSeqs,
-                    "-d", maxSeqs,
-                    queryFile.getPath(),
-                    dbFile.getPath());
-            pb.redirectErrorStream(true);
-            pb.redirectOutput(new File(outputPath));}
-        
-        Process p = pb.start();
-        this.errorCode = p.waitFor();
-        this.ssearchresult = new File(outputPath);
-    }
-    
-    /**
-     * Parses the SSEARCH output file and converts it into a TSV file.
-     *
-     * <p>The output includes hit information such as ID, description,
-     * alignment sequences, E-value, bit score, identity, and alignment
-     * coordinates.
-     *
-     * @param outfile the file where TSV results will be written
-     */
+	 * Sets the query sequence to be used in the search.
+	 *
+	 * @param sequence the Sequence object containing the query data
+	 */
+	public void setSequence(Sequence sequence) {
+		this.sequence = sequence;
+	}
+
+	/**
+	 * Returns the exit/error code from the SSEARCH execution.
+	 *
+	 * @return the process exit code
+	 */
+	public int getErrorCode() {
+		return this.errorCode;
+	}
+
+	/**
+	 * Executes the SSEARCH36 alignment tool with the specified parameters.
+	 *
+	 * <p>
+	 * The method selects the correct executable based on the operating system,
+	 * builds the command, runs the process, and stores the output file.
+	 * </p>
+	 *
+	 * @param dbFile     the database file to search against
+	 * @param evalue     the E-value threshold
+	 * @param maxSeqs    maximum number of sequences to report
+	 * @param outputPath path where the output file will be written
+	 * @throws Exception if the process fails or cannot be executed
+	 */
+	public void run(File dbFile, String evalue, String maxSeqs, String outputPath) throws Exception {
+		String osName = System.getProperty("os.name");
+		String exeName = osName != null && osName.toLowerCase().contains("win") ? "ssearch36.exe" : "ssearch36";
+		String ssearchExe = "tools" + File.separator + exeName;
+		File queryFile = this.sequence.getFastaFile();
+		ProcessBuilder pb;
+		if (this.protein) {
+			pb = new ProcessBuilder(ssearchExe, "-p", "-s", matrixFlag, "-E", evalue, "-b", maxSeqs, "-d", maxSeqs,
+					queryFile.getPath(), dbFile.getPath());
+			pb.redirectErrorStream(true);
+			pb.redirectOutput(new File(outputPath));
+		} else {
+			pb = new ProcessBuilder(ssearchExe, "-n", "-E", evalue, "-b", maxSeqs, "-d", maxSeqs, queryFile.getPath(),
+					dbFile.getPath());
+			pb.redirectErrorStream(true);
+			pb.redirectOutput(new File(outputPath));
+		}
+
+		Process p = pb.start();
+		this.errorCode = p.waitFor();
+		this.ssearchresult = new File(outputPath);
+	}
+
+	/**
+	 * Parses the SSEARCH output file and converts it into a TSV file.
+	 *
+	 * <p>
+	 * The output includes hit information such as ID, description, alignment
+	 * sequences, E-value, bit score, identity, and alignment coordinates.
+	 *
+	 * @param outfile the file where TSV results will be written
+	 */
 
 	public void parseBlastCustomDatabase(File outfile) {
 		// Claude generated this parser code for us based on a non functional template
