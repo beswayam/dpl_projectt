@@ -7,34 +7,34 @@ import junit.framework.TestCase;
 import utilities.NucleotideStatistics;
 
 public class NucleotideStatisticsTest extends TestCase {
-	NucleotideStatistics seq = new NucleotideStatistics(new Sequence("GGCCGA"));
+	NucleotideStatistics sequence = new NucleotideStatistics(new Sequence("GGCCGA"));
 
 	// Test GC skew calculation.
-	public void testGCSkew() {
-		double gcSkew = seq.gcSkew();
+	public void testGcSkew() {
+		double gcSkew = sequence.gcSkew();
 		assertEquals(gcSkew, 0.2);
 	}
 
 	// calculate the GC content
-	public void testGCContent() {
-		double gcProportion = seq.gcContent();
+	public void testGcContent() {
+		double gcProportion = sequence.gcContent();
 		assertEquals(gcProportion, (double) 5 / 6);
 	}
 
 	// note: introns are not taken into account
 	public void testReadingFrame() {
 		// initiate a Statistics variable
-		seq.setSeq(new Sequence("GCGTACGTTAGCATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAACGTACGATGCTA"));
+		sequence.setSeq(new Sequence("GCGTACGTTAGCATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAACGTACGATGCTA"));
 		int k = 0;
 
 		// get the readingframe k
-		String rFrame = seq.readingFrame(k);
+		String rFrame = sequence.readingFrame(k);
 		assertEquals(rFrame, "ATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAA");
 	}
 
 	// note: introns are not taken into account
 	public void testAllReadingFrames() {
-		seq.setSeq(new Sequence("GCGTACGTTAGCATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAACGTACGATGCTA"));
+		sequence.setSeq(new Sequence("GCGTACGTTAGCATGGAATTCCGATTTGGCAACCCTGGATCAAGTTAACGTACGATGCTA"));
 
 		// make an array of all reading frames you want to find
 		ArrayList<Integer> k = new ArrayList<>();
@@ -42,7 +42,7 @@ public class NucleotideStatisticsTest extends TestCase {
 		k.add(1);
 		k.add(2);
 
-		ArrayList<String> readingFrames = seq.allReadingFrames(k);
+		ArrayList<String> readingFrames = sequence.allReadingFrames(k);
 		for (String rFrame : readingFrames) {
 
 			// check whether a reading frame has successfully retrieved coding sequence
@@ -54,23 +54,23 @@ public class NucleotideStatisticsTest extends TestCase {
 
 	// Test DNA translation using full codons.
 	public void testTranslate() {
-		seq.setSeq(new Sequence("ATGTTTTAA"));
-		String protein = seq.translate();
+		sequence.setSeq(new Sequence("ATGTTTTAA"));
+		String protein = sequence.translate();
 		assertEquals(protein, "MF*");
 	}
 
 	// get the reverse compliment sequence
 	public void testReverseCompliment() {
-		seq.setSeq(new Sequence("GGTCCA"));
+		sequence.setSeq(new Sequence("GGTCCA"));
 
-		String revCompSeq = seq.reverseCompliment();
+		String revCompSeq = sequence.reverseCompliment();
 		assertEquals(revCompSeq, "TGGACC");
 	}
 
 	// Test codon frequency counting.
 	public void testGetCodonFrequency() {
-		seq.setSeq(new Sequence("ATGATGTTTTAA"));
-		HashMap<String, Integer> codonFreq = seq.getCodonFrequency();
+		sequence.setSeq(new Sequence("ATGATGTTTTAA"));
+		HashMap<String, Integer> codonFreq = sequence.getCodonFrequency();
 
 		assertEquals((int) codonFreq.get("ATG"), 2);
 		assertEquals((int) codonFreq.get("TTT"), 1);
