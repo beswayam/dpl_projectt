@@ -19,9 +19,12 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.awt.Color;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.apache.commons.io.FileUtils;
 
 import utilities.UIHelper;
 import utilities.MultipleSequenceParser;
@@ -222,9 +225,18 @@ public class BlastnGui extends JFrame {
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setDialogTitle("Select Database FASTA File");
 				if (fileChooser.showOpenDialog(BlastnGui.this) == JFileChooser.APPROVE_OPTION) {
-					dbFile = fileChooser.getSelectedFile();
-					btnUploadDatabase.setText("Database: " + dbFile.getName());
-					btnUploadDatabase.setForeground(new Color(52, 211, 153)); // ── ADDED: green on select
+					dbFile = new File("project_data"+File.separator+"tempblastdb.fasta");
+					File userFile = fileChooser.getSelectedFile();
+					try {
+						FileUtils.copyFile(userFile,dbFile);
+						btnUploadDatabase.setText("Database: " + userFile.getName());
+						btnUploadDatabase.setForeground(new Color(52, 211, 153)); // ── ADDED: green on select
+					} catch (IOException e1) {
+						JOptionPane.showMessageDialog(BlastnGui.this, "Failed to find database file", "input Error",
+								JOptionPane.ERROR_MESSAGE);
+						dbFile = null;
+					}
+					
 				}
 			}
 		});
